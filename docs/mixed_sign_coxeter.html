@@ -56,7 +56,26 @@ div.sourceCode
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-</style>
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging-indent div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}</style>
 
 
 <script>/*!
@@ -2528,6 +2547,8 @@ window.Quarto = {
   <li><a href="#spectral-radius-counterexamples-example-3.29-example-3.33-theorem-1.7" id="toc-spectral-radius-counterexamples-example-3.29-example-3.33-theorem-1.7" class="nav-link" data-scroll-target="#spectral-radius-counterexamples-example-3.29-example-3.33-theorem-1.7"><span class="header-section-number">3.3</span> Spectral Radius Counterexamples (Example 3.29, Example 3.33, Theorem 1.7)</a></li>
   </ul></li>
   <li><a href="#summary-of-lean-4-modules" id="toc-summary-of-lean-4-modules" class="nav-link" data-scroll-target="#summary-of-lean-4-modules"><span class="header-section-number">4</span> Summary of Lean 4 Modules</a></li>
+  <li><a href="#lean-4-formalization-architecture" id="toc-lean-4-formalization-architecture" class="nav-link" data-scroll-target="#lean-4-formalization-architecture"><span class="header-section-number">5</span> Lean 4 Formalization Architecture</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="mixed_sign_coxeter.docx"><i class="bi bi-file-word"></i>MS Word</a></li><li><a href="..\mixed_sign_coxeter.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
@@ -2570,6 +2591,12 @@ window.Quarto = {
     
   </div>
   
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>We present a Lean 4 formalization and companion Python package (<code>mixed_sign_coxeter</code>) for the core theorems and counterexamples of Armstrong’s 2012 dissertation on <em>Principal Elements of Mixed-Sign Coxeter Systems</em>. Mixed-sign Coxeter systems generalize classical Coxeter groups by allowing diagonal entries <span class="math inline">\(B(e_i, e_i) \in \{+2, -2\}\)</span> in the symmetric bilinear form. Using Lean 4 (<code>v4.35.0</code>) and Mathlib, we formally verify Howlett’s matrix formula <span class="math inline">\(U(s_0 \cdots s_{n-1}) = -U^T\)</span>, bipartite sign-negation conjugacy (<span class="math inline">\(P^T B(\Gamma) P = -B(\Gamma_-)\)</span>), component splitting and tree leaf-insertion conjugacy, rank-2 Fibonacci matrix powers, failure of the Deletion Property in <span class="math inline">\(W(\widetilde{A_{-2}})\)</span>, strict negative definiteness of odd negative cycles <span class="math inline">\(\widetilde{A_{-n}}\)</span>, and the spectral-radius counterexamples in <span class="math inline">\(A_3(+,+,-)\)</span> and the 6-node bipartite graph of Example 3.33. All artifacts are available at <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems" class="uri">https://github.com/jkylearmstrong/mixed.sign.coxeter.systems</a>.</p>
+  </div>
+</div>
 
 
 </header>
@@ -2577,7 +2604,7 @@ window.Quarto = {
 
 <section id="overview" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="overview"><span class="header-section-number">1</span> Overview</h2>
-<p>This document is an executable mathematical writeup accompanying Johnathon Kyle Armstrong’s dissertation, <em>Principal Elements of Mixed-Sign Coxeter Systems</em> (FSU, 2012; <a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view">FSU Digital Library PDF</a> · <a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download">Download</a>). It brings together three layers:</p>
+<p>This document is an executable mathematical writeup accompanying Johnathon Kyle Armstrong’s dissertation, <em>Principal Elements of Mixed-Sign Coxeter Systems</em> <span class="citation" data-cites="armstrong2012">(<a href="#ref-armstrong2012" role="doc-biblioref">Armstrong 2012</a>)</span> (<a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view">FSU Digital Library PDF</a> · <a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download">Download</a>). Classical Coxeter theory is treated in <span class="citation" data-cites="humphreys1990">Humphreys (<a href="#ref-humphreys1990" role="doc-biblioref">1990</a>)</span>, and the upper-triangular matrix factorization of Coxeter elements is due to <span class="citation" data-cites="howlett1982">Howlett (<a href="#ref-howlett1982" role="doc-biblioref">1982</a>)</span>. The formalization is built in Lean 4 <span class="citation" data-cites="moura2021">(<a href="#ref-moura2021" role="doc-biblioref">Moura and Ullrich 2021</a>)</span> atop Mathlib <span class="citation" data-cites="mathlib2020">(<a href="#ref-mathlib2020" role="doc-biblioref">The mathlib Community 2020</a>)</span>, with full source code hosted at <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems" class="uri">https://github.com/jkylearmstrong/mixed.sign.coxeter.systems</a>. It brings together three layers:</p>
 <ol type="1">
 <li><strong>Python (<code>mixed_sign_coxeter</code>)</strong>: Exact symbolic computations of bilinear forms <span class="math inline">\(B(\Gamma)\)</span>, signatures, Howlett’s upper-triangular matrix <span class="math inline">\(U\)</span>, principal polynomials <span class="math inline">\(\chi_w(x)\)</span>, spectral radii <span class="math inline">\(\rho(w)\)</span>, and finite/infinite group enumeration.</li>
 <li><strong>Visualizations (<code>matplotlib</code>)</strong>: Signed Coxeter diagrams (<span class="math inline">\(+\)</span> vs. <span class="math inline">\(-\)</span> nodes) and complex-plane eigenvalue spectra relative to the unit circle.</li>
@@ -2992,6 +3019,36 @@ theorem pBpEx333_has_root_gt_four :
 </tr>
 </tbody>
 </table>
+</section>
+<section id="lean-4-formalization-architecture" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="lean-4-formalization-architecture"><span class="header-section-number">5</span> Lean 4 Formalization Architecture</h2>
+<p>Several design choices keep the Lean 4 (<code>v4.35.0</code>) formalization modular, <code>sorry</code>-free, and fast to verify (<code>lake build</code>, 3,148 jobs):</p>
+<ul>
+<li><strong>Coordinate-free matrix representation (<code>Basic.lean</code>)</strong>: Rather than fixing a basis-free inner product space early, <code>ReflectionSystem n</code> packages a symmetric matrix <span class="math inline">\(B \in \mathbb{R}^{n \times n}\)</span> with <span class="math inline">\(B_{ii} \neq 0\)</span>, allowing direct <code>ext</code>/<code>fin_cases</code>/<code>ring</code> proofs for reflections <span class="math inline">\(s_i = I - \frac{2}{B_{ii}} e_i e_i^T B\)</span>, form preservation, and <span class="math inline">\(\mathcal{O}\)</span>-conjugacy (<code>Conjugacy.lean</code>).</li>
+<li><strong>Inductive Howlett verification (<code>Howlett.lean</code>)</strong>: <code>howlett_U_mul_principalElement</code> establishes <span class="math inline">\(U(s_0 \cdots s_{n-1}) = -U^T\)</span> by induction over prefix products <code>prefixProd S k</code> for arbitrary dimension <span class="math inline">\(n\)</span>, avoiding case-by-case matrix inversion.</li>
+<li><strong>Exact integer reflection lifting (<code>CyclesAndDeletion.lean</code>, <code>SpectralRadius.lean</code>)</strong>: For systems whose edge weights are <span class="math inline">\(2\)</span> or <span class="math inline">\(3\)</span> (entries in <span class="math inline">\(\{0, -1, \pm 2\}\)</span>), reflections are defined over <span class="math inline">\(\mathbb{Z}\)</span> and mapped to <span class="math inline">\(\mathbb{R}\)</span> via <code>Int.cast</code>. This lets Lean’s <code>decide</code> tactic exhaustively verify the 10 two-letter deletions in <span class="math inline">\(\widetilde{A_{-2}}\)</span> (<code>tildeAminus2_fails_deletion</code>) and the degree-6 annihilating polynomials in Example 3.33 (<code>wLinEx333Z_annihilated</code>, <code>wBpEx333Z_annihilated</code>).</li>
+<li><strong>Algebraic spectral-radius separation (<code>SpectralRadius.lean</code>)</strong>: Instead of floating-point root approximation, Theorem 1.7 is proved rigorously by combining polynomial factorization bounds (<code>pLinEx333_no_root_ge_four</code>, <span class="math inline">\(|\lambda_{\mathrm{lin}}| &lt; 4\)</span>) with the Intermediate Value Theorem on <span class="math inline">\([-6, -4]\)</span> (<code>pBpEx333_has_root_gt_four</code>, <span class="math inline">\(|\lambda_{\mathrm{bp}}| \ge 4\)</span>).</li>
+</ul>
+</section>
+<section id="references" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="references"><span class="header-section-number">6</span> References</h2>
+<div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-armstrong2012" class="csl-entry" role="listitem">
+Armstrong, Johnathon Kyle. 2012. <span>“Principal Elements of Mixed-Sign Coxeter Systems.”</span> PhD thesis, Florida State University. <a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view">https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view</a>.
+</div>
+<div id="ref-howlett1982" class="csl-entry" role="listitem">
+Howlett, Robert B. 1982. <span>“Coxeter Groups and <span><span class="math inline">\(M\)</span></span>-Matrices.”</span> <em>Bulletin of the London Mathematical Society</em> 14 (2): 137–41.
+</div>
+<div id="ref-humphreys1990" class="csl-entry" role="listitem">
+Humphreys, James E. 1990. <em>Reflection Groups and Coxeter Groups</em>. Vol. 29. Cambridge Studies in Advanced Mathematics. Cambridge University Press.
+</div>
+<div id="ref-moura2021" class="csl-entry" role="listitem">
+Moura, Leonardo de, and Sebastian Ullrich. 2021. <span>“The <span>Lean 4</span> Theorem Prover and Programming Language.”</span> <em>Automated Deduction – CADE 28</em>, Lecture notes in computer science, vol. 12699: 625–35.
+</div>
+<div id="ref-mathlib2020" class="csl-entry" role="listitem">
+The mathlib Community. 2020. <span>“The <span>Lean</span> Mathematical Library.”</span> <em>Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs (CPP 2020)</em>, 367–81.
+</div>
+</div>
 </section>
 
 </main>

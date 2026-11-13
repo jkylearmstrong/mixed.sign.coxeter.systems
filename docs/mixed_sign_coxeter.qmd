@@ -11,6 +11,9 @@ author:
 date: today
 date-format: medium
 fontsize: 10pt
+bibliography: bib.bib
+abstract: |
+  We present a Lean 4 formalization and companion Python package (`mixed_sign_coxeter`) for the core theorems and counterexamples of Armstrong's 2012 dissertation on *Principal Elements of Mixed-Sign Coxeter Systems*. Mixed-sign Coxeter systems generalize classical Coxeter groups by allowing diagonal entries $B(e_i, e_i) \in \{+2, -2\}$ in the symmetric bilinear form. Using Lean 4 (`v4.35.0`) and Mathlib, we formally verify Howlett's matrix formula $U(s_0 \cdots s_{n-1}) = -U^T$, bipartite sign-negation conjugacy ($P^T B(\Gamma) P = -B(\Gamma_-)$), component splitting and tree leaf-insertion conjugacy, rank-2 Fibonacci matrix powers, failure of the Deletion Property in $W(\widetilde{A_{-2}})$, strict negative definiteness of odd negative cycles $\widetilde{A_{-n}}$, and the spectral-radius counterexamples in $A_3(+,+,-)$ and the 6-node bipartite graph of Example 3.33. All artifacts are available at <https://github.com/jkylearmstrong/mixed.sign.coxeter.systems>.
 execute:
   freeze: auto
 format:
@@ -57,7 +60,7 @@ jupyter: python3
 
 ## Overview
 
-This document is an executable mathematical writeup accompanying Johnathon Kyle Armstrong's dissertation, *Principal Elements of Mixed-Sign Coxeter Systems* (FSU, 2012; [FSU Digital Library PDF](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view) · [Download](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download)). It brings together three layers:
+This document is an executable mathematical writeup accompanying Johnathon Kyle Armstrong's dissertation, *Principal Elements of Mixed-Sign Coxeter Systems* [@armstrong2012] ([FSU Digital Library PDF](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view) · [Download](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download)). Classical Coxeter theory is treated in @humphreys1990, and the upper-triangular matrix factorization of Coxeter elements is due to @howlett1982. The formalization is built in Lean 4 [@moura2021] atop Mathlib [@mathlib2020], with full source code hosted at <https://github.com/jkylearmstrong/mixed.sign.coxeter.systems>. It brings together three layers:
 
 1. **Python (`mixed_sign_coxeter`)**: Exact symbolic computations of bilinear forms $B(\Gamma)$, signatures, Howlett's upper-triangular matrix $U$, principal polynomials $\chi_w(x)$, spectral radii $\rho(w)$, and finite/infinite group enumeration.
 2. **Visualizations (`matplotlib`)**: Signed Coxeter diagrams ($+$ vs. $-$ nodes) and complex-plane eigenvalue spectra relative to the unit circle.
@@ -404,4 +407,18 @@ theorem pBpEx333_has_root_gt_four :
 | `RankTwo.lean` | Ch. 3 (3.1) | `det_rank2_pm` (Lem. 3.17), `rank2_pm_infinite_order` (Lem. 3.14), `a2_pm_3_fibonacci_powers` (Ex. 3.16) |
 | `CyclesAndDeletion.lean` | Ch. 3 (3.2) | `tildeAminus2_fails_deletion` (Lem. 3.21 / Thm. 1.2), `oddCycleNegForm_negDef` (Thm. 1.6) |
 | `SpectralRadius.lean` | Ch. 3 (3.3–3.4) | `w_A3_ppm_add_one_cube` (Ex. 3.29), `wLinEx333Z_annihilated` & `pBpEx333_has_root_gt_four` (Ex. 3.33 / Thm. 1.7) |
+
+## Lean 4 Formalization Architecture
+
+Several design choices keep the Lean 4 (`v4.35.0`) formalization modular, `sorry`-free, and fast to verify (`lake build`, 3,148 jobs):
+
+- **Coordinate-free matrix representation (`Basic.lean`)**: Rather than fixing a basis-free inner product space early, `ReflectionSystem n` packages a symmetric matrix $B \in \mathbb{R}^{n \times n}$ with $B_{ii} \neq 0$, allowing direct `ext`/`fin_cases`/`ring` proofs for reflections $s_i = I - \frac{2}{B_{ii}} e_i e_i^T B$, form preservation, and $\mathcal{O}$-conjugacy (`Conjugacy.lean`).
+- **Inductive Howlett verification (`Howlett.lean`)**: `howlett_U_mul_principalElement` establishes $U(s_0 \cdots s_{n-1}) = -U^T$ by induction over prefix products `prefixProd S k` for arbitrary dimension $n$, avoiding case-by-case matrix inversion.
+- **Exact integer reflection lifting (`CyclesAndDeletion.lean`, `SpectralRadius.lean`)**: For systems whose edge weights are $2$ or $3$ (entries in $\{0, -1, \pm 2\}$), reflections are defined over $\mathbb{Z}$ and mapped to $\mathbb{R}$ via `Int.cast`. This lets Lean's `decide` tactic exhaustively verify the 10 two-letter deletions in $\widetilde{A_{-2}}$ (`tildeAminus2_fails_deletion`) and the degree-6 annihilating polynomials in Example 3.33 (`wLinEx333Z_annihilated`, `wBpEx333Z_annihilated`).
+- **Algebraic spectral-radius separation (`SpectralRadius.lean`)**: Instead of floating-point root approximation, Theorem 1.7 is proved rigorously by combining polynomial factorization bounds (`pLinEx333_no_root_ge_four`, $|\lambda_{\mathrm{lin}}| < 4$) with the Intermediate Value Theorem on $[-6, -4]$ (`pBpEx333_has_root_gt_four`, $|\lambda_{\mathrm{bp}}| \ge 4$).
+
+## References
+
+::: {#refs}
+:::
 
