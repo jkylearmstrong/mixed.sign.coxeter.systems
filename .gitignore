@@ -1,0 +1,18 @@
+# Original dissertation PDF (linked via FSU Digital Library instead)
+FSU_migr_etd-4697.pdf
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+
+# Lean 4 / Lake
+lean/.lake/
+
+# Quarto
+/.quarto/
+docs/.quarto/
+*_files/
+

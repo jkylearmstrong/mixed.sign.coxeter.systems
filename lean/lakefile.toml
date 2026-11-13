@@ -1,0 +1,11 @@
+name = "mixed_sign_coxeter"
+version = "0.1.0"
+defaultTargets = ["MixedSignCoxeter"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.35.0"
+
+[[lean_lib]]
+name = "MixedSignCoxeter"

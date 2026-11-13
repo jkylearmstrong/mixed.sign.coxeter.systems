@@ -1,0 +1,366 @@
+---
+title: "Principal Elements of Mixed-Sign Coxeter Systems"
+subtitle: "Executable Python Computations, Signed-Graph Visualizations, and Lean 4 Formalizations"
+author: "Johnathon Kyle Armstrong"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: false
+    theme: cosmo
+    embed-resources: true
+jupyter: python3
+---
+
+## Overview
+
+This document is an executable mathematical writeup accompanying Johnathon Kyle Armstrong's dissertation, *Principal Elements of Mixed-Sign Coxeter Systems* (FSU, 2012; [FSU Digital Library PDF](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view) · [Download](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download)). It brings together three layers:
+
+1. **Python (`mixed_sign_coxeter`)**: Exact symbolic computations of bilinear forms $B(\Gamma)$, signatures, Howlett's upper-triangular matrix $U$, principal polynomials $\chi_w(x)$, spectral radii $\rho(w)$, and finite/infinite group enumeration.
+2. **Visualizations (`matplotlib`)**: Signed Coxeter diagrams ($+$ vs. $-$ nodes) and complex-plane eigenvalue spectra relative to the unit circle.
+3. **Lean 4 Formalizations (`MixedSignCoxeter`)**: Machine-checked, `sorry`-free proofs of the core structural theorems and counterexamples across Chapters 1–3, built against Mathlib (`v4.35.0`).
+
+```{python}
+#| label: setup
+import os
+import sys
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import sympy as sp
+
+# Ensure local package is importable when rendering from docs/ or repo root
+repo_root = Path.cwd()
+if not (repo_root / "src").exists():
+    repo_root = repo_root.parent
+sys.path.insert(0, str(repo_root / "src"))
+
+from mixed_sign_coxeter import (
+    MixedSignCoxeterGraph,
+    ReflectionSystem,
+    element_order,
+    enumerate_group,
+    evaluate_word,
+    find_two_deletions,
+)
+
+
+def draw_signed_graph(g: MixedSignCoxeterGraph, coords, labels=None, title="", ax=None):
+    """Draw a mixed-sign Coxeter graph with '+' (blue) and '-' (red) nodes."""
+    if ax is None:
+        _, ax = plt.subplots(figsize=(4.5, 3.2))
+    coords = np.asarray(coords, dtype=float)
+
+    # Edges
+    edges = g.edges
+    for i in range(g.n):
+        for j in range(i + 1, g.n):
+            w = edges.get((i, j), 2)
+            if w != 2:
+                x0, y0 = coords[i]
+                x1, y1 = coords[j]
+                ax.plot([x0, x1], [y0, y1], color="#333333", lw=2.0, zorder=1)
+                if w == sp.oo or w > 3:
+                    lbl = "∞" if w == sp.oo else str(w)
+                    ax.text(
+                        (x0 + x1) / 2,
+                        (y0 + y1) / 2 + 0.08,
+                        lbl,
+                        ha="center",
+                        va="bottom",
+                        fontsize=10,
+                        fontweight="bold",
+                        bbox=dict(boxstyle="round,pad=0.15", fc="white", ec="none", alpha=0.85),
+                    )
+
+    # Nodes
+    for i in range(g.n):
+        x, y = coords[i]
+        is_pos = g.signs[i] == 1
+        sign_char = "+" if is_pos else "-"
+        color = "#1f77b4" if is_pos else "#d62728"
+        ax.scatter([x], [y], s=420, c=color, edgecolors="black", linewidths=1.5, zorder=3)
+        node_lbl = labels[i] if labels else f"{i+1}({sign_char})"
+        ax.text(
+            x,
+            y,
+            node_lbl,
+            ha="center",
+            va="center",
+            color="white",
+            fontsize=9.5,
+            fontweight="bold",
+            zorder=4,
+        )
+
+    ax.set_title(title, fontsize=11, pad=8)
+    ax.set_aspect("equal")
+    pad = 0.45
+    ax.set_xlim(coords[:, 0].min() - pad, coords[:, 0].max() + pad)
+    ax.set_ylim(coords[:, 1].min() - pad, coords[:, 1].max() + pad)
+    ax.axis("off")
+    return ax
+```
+
+---
+
+## Chapter 2: Reflection Systems, Conjugacy, Trees, and Howlett's Theorem
+
+### Reflection Systems and Howlett's Formula (Theorem 1.1 & Lemma 2.63)
+
+Given a symmetric $n \times n$ matrix $B$ with nonzero diagonal entries $B_{ii} \neq 0$, the generating reflections are
+$$s_i(v) = v - \frac{2 B(e_i, v)}{B(e_i, e_i)} e_i.$$
+Howlett's theorem expresses the principal element $w = s_0 s_1 \cdots s_{n-1}$ via the upper-triangular matrix $U$ with $U_{ii} = 1$ and $U_{ij} = \frac{2 B_{ij}}{B_{ii}}$ for $i < j$:
+$$U w = -U^T \quad \Longleftrightarrow \quad w = -U^{-1} U^T,$$
+so the principal polynomial is $\chi_w(x) = \det(x U + U^T)$.
+
+```{python}
+#| label: howlett-demo
+g_howlett = MixedSignCoxeterGraph(["+", "-", "+", "+"], [(0, 1, 3), (1, 2, 4), (2, 3, 6)])
+w_direct = evaluate_word(g_howlett, list(range(g_howlett.n)))
+w_howlett = g_howlett.principal_element()
+x = sp.Symbol("x")
+chi_howlett = g_howlett.principal_polynomial(var=x)
+
+print("B(Gamma) =")
+sp.pprint(g_howlett.B)
+print("\nTheorem 1.1 check (s0*s1*s2*s3 - (-U^{-1} U^T) == 0):",
+      sp.simplify(w_direct - w_howlett) == sp.zeros(4, 4))
+print("Principal polynomial:", sp.factor(chi_howlett.as_expr()))
+```
+
+**Lean 4 Verification** ([`Howlett.lean`](../lean/MixedSignCoxeter/Howlett.lean)):
+
+```lean
+theorem howlett_U_mul_principalElement (S : ReflectionSystem n) :
+    howlettU S * principalElement S = -(howlettU S)ᵀ
+
+theorem principal_charpoly_eq (S : ReflectionSystem n) (x : ℝ) :
+    Matrix.det (x • (1 : Matrix (Fin n) (Fin n) ℝ) - principalElement S) =
+      Matrix.det (x • howlettU S + (howlettU S)ᵀ)
+```
+
+### Bipartite Conjugation (Theorem 1.4 & Corollary 1.5)
+
+If $\Gamma$ is bipartite with bipartition $N_1 \sqcup N_2$, then the diagonal signed-permutation matrix $P \in \mathcal{O}$ negating $N_2$ satisfies $P^T B(\Gamma) P = -B(\Gamma_-)$. Because negating $B$ preserves every reflection matrix $s_i$ (Lemma 2.31), $\Gamma$ and $\Gamma_-$ have conjugate reflection groups and identical principal polynomials.
+
+```{python}
+#| label: bipartite-demo
+g_bp = MixedSignCoxeterGraph.A_n(["+", "-", "+", "+"])
+g_bp_neg = g_bp.negate_signs()
+P = g_bp.bipartite_conjugator()
+
+print("P^T B(Gamma) P + B(Gamma_-) == 0:",
+      sp.simplify(P.T * g_bp.B * P + g_bp_neg.B) == sp.zeros(g_bp.n, g_bp.n))
+print("Equal principal polynomials:",
+      g_bp.principal_polynomial(var=x) == g_bp_neg.principal_polynomial(var=x))
+```
+
+**Lean 4 Verification** ([`Bipartite.lean`](../lean/MixedSignCoxeter/Bipartite.lean) & [`MixedSign.lean`](../lean/MixedSignCoxeter/MixedSign.lean)):
+
+```lean
+theorem bipartite_conjugation_theorem (G : BipartiteReflectionSystem n) :
+    (bipartiteConjugator G.part)ᵀ * G.B * bipartiteConjugator G.part =
+      -negateDiag G.B
+
+theorem bipartite_mixed_sign_conjugation (Γ : MixedSignCoxeterGraph n)
+    (part : Fin n → Bool)
+    (hbp : ∀ i j : Fin n, part i = part j → i ≠ j → Γ.toBilinearForm i j = 0) :
+    (ReflectionSystem.bipartiteConjugator part)ᵀ * Γ.toBilinearForm *
+        ReflectionSystem.bipartiteConjugator part =
+      -Γ.negateSigns.toBilinearForm
+```
+
+### Components and Trees (Proposition 2.45 & Theorem 2.58)
+
+In [`ComponentsAndTrees.lean`](../lean/MixedSignCoxeter/ComponentsAndTrees.lean), any word splits across orthogonal components (`wordProd_split_components`), each component fixes the basis vectors of the other (`component_fixes_other`), and inserting a leaf generator $s_t$ anywhere in $u v$ yields an element conjugate to $u v s_t$ (`leaf_insert_conj`), proving that all principal elements of a tree are conjugate.
+
+---
+
+## Chapter 3: Mixed-Sign Coxeter Systems
+
+### Rank-2 Systems and Fibonacci Matrix Powers (Lemmas 3.14, 3.17 & Example 3.16)
+
+For $A_2(+, -)[m]$ with $B = \begin{pmatrix} 2 & c \\ c & -2 \end{pmatrix}$, we always have $\det B = -(4 + c^2) < 0$, so every mixed-sign rank-2 system is hyperbolic of signature $(1, 1, 0)$. For $m = 3$ ($c = -1$), powers of the principal element $s_0 s_1$ are governed by the Fibonacci sequence:
+$$(s_0 s_1)^k = (-1)^k \begin{pmatrix} F_{2k+1} & F_{2k} \\ F_{2k} & F_{2k-1} \end{pmatrix}.$$
+
+```{python}
+#| label: rank2-fibonacci
+g_fib = MixedSignCoxeterGraph.I_2(3, signs=("+", "-"))
+s0, s1 = g_fib.generators()
+
+fig, ax = plt.subplots(figsize=(4.0, 2.0))
+draw_signed_graph(g_fib, [(0, 0), (1.4, 0)], labels=["1(+)", "2(-)"],
+                  title="Example 3.16: $A_2(+, -)[3]$", ax=ax)
+plt.tight_layout()
+plt.show()
+
+for k in range(1, 5):
+    mat = sp.simplify((s0 * s1) ** k)
+    expected = ((-1) ** k) * sp.Matrix([
+        [sp.fibonacci(2 * k + 1), sp.fibonacci(2 * k)],
+        [sp.fibonacci(2 * k), sp.fibonacci(2 * k - 1)],
+    ])
+    assert mat == expected
+    print(f"k={k}: (s0*s1)^{k} = {mat.tolist()}")
+```
+
+**Lean 4 Verification** ([`RankTwo.lean`](../lean/MixedSignCoxeter/RankTwo.lean)):
+
+```lean
+theorem det_rank2_pm (c : ℝ) :
+    Matrix.det !![(2 : ℝ), c; c, -2] = -(4 + c ^ 2)
+
+theorem rank2_pm_infinite_order (c : ℝ) (hc : c ≠ 0) (k : ℕ) (hk : 1 ≤ k) :
+    (s0PM c * s1PM c) ^ k ≠ 1
+
+theorem a2_pm_3_fibonacci_powers (k : ℕ) (hk : 1 ≤ k) :
+    (s0A2PM * s1A2PM) ^ k =
+      ((-1 : ℝ) ^ k) •
+        !![(Nat.fib (2 * k + 1) : ℝ), (Nat.fib (2 * k) : ℝ);
+           (Nat.fib (2 * k) : ℝ),     (Nat.fib (2 * k - 1) : ℝ)]
+```
+
+### Odd Cycles and Failure of the Deletion Property (Lemma 3.21, Theorem 1.2, Theorem 1.6)
+
+In $W(\widetilde{A_{-2}})$, all three nodes are negative and all edges have weight $3$. The group is finite of order $24$ ($\cong S_4$) with $(s_1 s_2 s_3)^4 = 1$, yet the Deletion Property fails: $w = s_1 s_2 s_1 s_3 s_1$ (length $5$) equals $s_3 s_1 s_2$ (length $3$), so $w$ is not reduced, but no 2-letter deletion from $w$ equals $w$. More generally, for any odd cycle $\widetilde{A_{-n}}$ ($n$ even), $v^T B v = -\sum_i (v_i + v_{i+1})^2 < 0$ for all $v \neq 0$ (strictly negative definite), whereas $\widetilde{A_n}$ is positive semidefinite and degenerate.
+
+```{python}
+#| label: tilde-a-minus-2
+g_am2 = MixedSignCoxeterGraph.A_tilde(2, negative=True)
+elements, complete = enumerate_group(g_am2, max_elements=100)
+w_bad = [0, 1, 0, 2, 0]
+mat_bad = evaluate_word(g_am2, w_bad)
+mat_red = evaluate_word(g_am2, [2, 0, 1])
+
+fig, ax = plt.subplots(figsize=(3.8, 3.2))
+draw_signed_graph(g_am2, [(0, 0), (1.2, 0), (0.6, 1.04)],
+                  labels=["1(-)", "2(-)", "3(-)"],
+                  title=r"$\widetilde{A_{-2}}$ ($|W|=24$, fails Deletion)", ax=ax)
+plt.tight_layout()
+plt.show()
+
+print("Complete enumeration:", complete, "| Group order:", len(elements))
+print("s1 s2 s1 s3 s1 == s3 s1 s2:", mat_bad == mat_red)
+print("2-letter deletions of [0,1,0,2,0] yielding same element:",
+      find_two_deletions(g_am2, w_bad, mat_bad))
+```
+
+**Lean 4 Verification** ([`CyclesAndDeletion.lean`](../lean/MixedSignCoxeter/CyclesAndDeletion.lean)):
+
+```lean
+theorem tildeAminus2_fails_deletion :
+    let S := tildeAminus2Graph.toReflectionSystem
+    let w : List (Fin 3) := [0, 1, 0, 2, 0]
+    S.wordProd w = S.wordProd [2, 0, 1] ∧
+    ∀ i j : Fin 5, i < j → S.wordProd (deleteTwo w i.val j.val) ≠ S.wordProd w
+
+theorem oddCycleNegForm_negDef (m : ℕ) [NeZero m] (hm : Odd m) (v : Fin m → ℝ)
+    (hv : v ≠ 0) :
+    (∑ i : Fin m, ∑ j : Fin m, v i * cycleNegForm m i j * v j) < 0
+```
+
+### Spectral Radius Counterexamples (Example 3.29, Example 3.33, Theorem 1.7)
+
+Two classical spectral-radius phenomena fail in the mixed-sign setting:
+
+1. **Example 3.29**: $A_3(+, +, -)$ is hyperbolic ($\det B = -8 < 0$, signature $(2, 1, 0)$), yet its principal polynomial is $(x + 1)^3$, so its spectral radius is $\rho(w) = 1$ (and $(w + I)^3 = 0$ with $w + I \neq 0$).
+2. **Theorem 1.7 / Example 3.33**: In the 6-node bipartite graph `example_3_33`, the **bipartite** principal element $w_{\mathrm{bp}} = s_1 s_4 s_6 s_2 s_3 s_5$ has spectral radius $\rho(w_{\mathrm{bp}}) \approx 5.55193$, strictly *larger* than the linear principal element $w_{\mathrm{lin}} = s_1 s_2 s_3 s_4 s_5 s_6$ ($\rho(w_{\mathrm{lin}}) \approx 3.05128$).
+
+```{python}
+#| label: spectral-radius-plots
+#| fig-cap: "Signed Coxeter graphs and unit-circle eigenvalue spectra for Example 3.29 and Example 3.33."
+g_329 = MixedSignCoxeterGraph.A_n(["+", "+", "-"])
+g_333 = MixedSignCoxeterGraph.example_3_33()
+
+lin_order = [0, 1, 2, 3, 4, 5]
+bp_order = [0, 3, 5, 1, 2, 4]
+
+p_lin = g_333.principal_polynomial(lin_order, var=x)
+p_bp = g_333.principal_polynomial(bp_order, var=x)
+roots_lin = np.array([complex(r) for r in sp.nroots(p_lin, n=20)])
+roots_bp = np.array([complex(r) for r in sp.nroots(p_bp, n=20)])
+
+print("Example 3.29 factored charpoly:", g_329.factor_principal_polynomial(),
+      "| rho =", round(g_329.spectral_radius(), 6))
+print("Example 3.33 p_lin(x) =", p_lin.as_expr(),
+      "| rho =", round(g_333.spectral_radius(lin_order), 5))
+print("Example 3.33 p_bp(x)  =", p_bp.as_expr(),
+      "| rho =", round(g_333.spectral_radius(bp_order), 5))
+
+fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.0))
+
+draw_signed_graph(
+    g_329,
+    [(0, 0), (1.1, 0), (2.2, 0)],
+    labels=["1(+)", "2(+)", "3(-)"],
+    title=r"Ex. 3.29: $A_3(+,+,-)$ ($\rho = 1$)",
+    ax=axes[0],
+)
+
+coords_333 = [
+    (0.0, 1.0),   # 1 (+)
+    (1.2, 1.0),   # 2 (+)
+    (0.0, 0.0),   # 3 (+)
+    (1.2, 0.0),   # 4 (-)
+    (2.4, 0.0),   # 5 (+)
+    (2.4, 1.0),   # 6 (-)
+]
+draw_signed_graph(
+    g_333,
+    coords_333,
+    labels=["1(+)", "2(+)", "3(+)", "4(-)", "5(+)", "6(-)"],
+    title="Ex. 3.33: 6-Node Bipartite Graph",
+    ax=axes[1],
+)
+
+theta = np.linspace(0, 2 * np.pi, 300)
+axes[2].plot(np.cos(theta), np.sin(theta), "k--", lw=1.0, alpha=0.6, label="Unit circle")
+axes[2].scatter(roots_lin.real, roots_lin.imag, c="#1f77b4", s=70, marker="o",
+                label=rf"Linear ($\rho \approx {g_333.spectral_radius(lin_order):.3f}$)")
+axes[2].scatter(roots_bp.real, roots_bp.imag, c="#d62728", s=80, marker="x", linewidths=2,
+                label=rf"Bipartite ($\rho \approx {g_333.spectral_radius(bp_order):.3f}$)")
+axes[2].axhline(0, color="gray", lw=0.6)
+axes[2].axvline(0, color="gray", lw=0.6)
+axes[2].set_title("Example 3.33 Eigenvalues in $\\mathbb{C}$", fontsize=11)
+axes[2].set_xlabel("Re($\\lambda$)")
+axes[2].set_ylabel("Im($\\lambda$)")
+axes[2].legend(loc="upper left", fontsize=8.5)
+axes[2].grid(alpha=0.25)
+
+plt.tight_layout()
+plt.show()
+```
+
+**Lean 4 Verification** ([`SpectralRadius.lean`](../lean/MixedSignCoxeter/SpectralRadius.lean)):
+
+```lean
+theorem w_A3_ppm_eigenvalue_eq_neg_one (lam : ℝ) (v : Fin 3 → ℝ) (hv : v ≠ 0)
+    (heig : w_A3_ppm.mulVec v = lam • v) : lam = -1
+
+theorem pLinEx333_no_root_ge_four (lam : ℝ) (hlam : 4 ≤ |lam|) :
+    pLinEx333 lam ≠ 0
+
+theorem pBpEx333_has_root_gt_four :
+    ∃ lam : ℝ, lam ∈ Set.Icc (-6 : ℝ) (-4) ∧ pBpEx333 lam = 0
+```
+
+---
+
+## Summary of Lean 4 Modules
+
+| Module | Dissertation Coverage | Key Formalized Results |
+| :--- | :--- | :--- |
+| `Basic.lean` | Ch. 2 (2.1–2.2) | `reflectionMatrix_neg` (Lem. 2.31), `reflectionMatrix_preserves_B` (Prop. 2.17), `odd_word_ne_one` (Prop. 2.21), `reflectionMatrix_comm_of_orthogonal` (Prop. 2.22) |
+| `Conjugacy.lean` | Ch. 2 (2.3) | `conjugate_reflections_of_neg_form` (Lem. 2.32), `graphIso_conjugates_forms` (Lem. 2.37) |
+| `Bipartite.lean` | Ch. 2 (2.4) | `bipartite_conjugation_theorem` (Thm. 1.4) |
+| `ComponentsAndTrees.lean` | Ch. 2 (2.5–2.6) | `wordProd_split_components` & `component_fixes_other` (Prop. 2.45), `leaf_insert_conj` (Thm. 2.58) |
+| `Howlett.lean` | Ch. 2 (2.7) | `howlett_U_mul_principalElement` (Thm. 1.1), `principal_charpoly_eq` (Lem. 2.63) |
+| `MixedSign.lean` | Ch. 3 (intro) | `bipartite_mixed_sign_conjugation` (Cor. 1.5), `tildeAminus2_principal_order_four` (Eq. 3.21.2) |
+| `RankTwo.lean` | Ch. 3 (3.1) | `det_rank2_pm` (Lem. 3.17), `rank2_pm_infinite_order` (Lem. 3.14), `a2_pm_3_fibonacci_powers` (Ex. 3.16) |
+| `CyclesAndDeletion.lean` | Ch. 3 (3.2) | `tildeAminus2_fails_deletion` (Lem. 3.21 / Thm. 1.2), `oddCycleNegForm_negDef` (Thm. 1.6) |
+| `SpectralRadius.lean` | Ch. 3 (3.3–3.4) | `w_A3_ppm_add_one_cube` (Ex. 3.29), `wLinEx333Z_annihilated` & `pBpEx333_has_root_gt_four` (Ex. 3.33 / Thm. 1.7) |
+
