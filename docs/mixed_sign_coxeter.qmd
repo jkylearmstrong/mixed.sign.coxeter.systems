@@ -1,16 +1,57 @@
 ---
 title: "Principal Elements of Mixed-Sign Coxeter Systems"
 subtitle: "Executable Python Computations, Signed-Graph Visualizations, and Lean 4 Formalizations"
-author: "Johnathon Kyle Armstrong"
+geometry: margin=1in
+author:
+  - name: J Kyle Armstrong, PhD
+    orcid: 0000-0002-4269-0121
+    email: j.kyle.armstrong@temple.edu
+    affiliation: Lewis Katz School of Medicine at Temple University Center for Biostatistics & Epidemiology
+    roles: [methodology, software, visualization]
 date: today
+date-format: medium
+fontsize: 10pt
+execute:
+  freeze: auto
 format:
   html:
+    smooth-scroll: true
+    theme:
+      light: flatly
+      dark: darkly
     toc: true
-    toc-depth: 3
+    lot: true
+    lof: true
+    number-depth: 6
     number-sections: true
-    code-fold: false
-    theme: cosmo
+    section-divs: true
+    toc-location: left
+    toc-expand: true
     embed-resources: true
+  docx:
+    toc: true
+    lot: true
+    lof: true
+    number-depth: 6
+    number-sections: true
+  pdf:
+    toc: true
+    lot: true
+    lof: true
+    number-depth: 8
+    toc-depth: 4
+    standalone: true
+    number-sections: true
+    include-in-header:
+      text: |
+        \usepackage[noblocks]{authblk}
+        \renewcommand*{\Authsep}{, }
+        \renewcommand*{\Authand}{, }
+        \renewcommand*{\Authands}{, }
+        \renewcommand\Affilfont{\small}
+        \usepackage{lscape}
+        \newcommand{\blandscape}{\begin{landscape}}
+        \newcommand{\elandscape}{\end{landscape}}
 jupyter: python3
 ---
 
