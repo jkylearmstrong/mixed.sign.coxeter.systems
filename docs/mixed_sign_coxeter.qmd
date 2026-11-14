@@ -1,7 +1,7 @@
 ---
 title: "Principal Elements of Mixed-Sign Coxeter Systems"
 subtitle: "Executable Python Computations, Signed-Graph Visualizations, and Lean 4 Formalizations"
-geometry: margin=1in
+geometry: margin=1.4in
 author:
   - name: J Kyle Armstrong, PhD
     orcid: 0000-0002-4269-0121
@@ -12,13 +12,16 @@ date: today
 date-format: medium
 fontsize: 10pt
 bibliography: bib.bib
+filters:
+  - style-blocks.lua
 abstract: |
-  We present a Lean 4 formalization and companion Python package (`mixed_sign_coxeter`) for the core theorems and counterexamples of Armstrong's 2012 dissertation on *Principal Elements of Mixed-Sign Coxeter Systems*. Mixed-sign Coxeter systems generalize classical Coxeter groups by allowing diagonal entries $B(e_i, e_i) \in \{+2, -2\}$ in the symmetric bilinear form. Using Lean 4 (`v4.35.0`) and Mathlib, we formally verify Howlett's matrix formula $U(s_0 \cdots s_{n-1}) = -U^T$, bipartite sign-negation conjugacy ($P^T B(\Gamma) P = -B(\Gamma_-)$), component splitting and tree leaf-insertion conjugacy, rank-2 Fibonacci matrix powers, failure of the Deletion Property in $W(\widetilde{A_{-2}})$, strict negative definiteness of odd negative cycles $\widetilde{A_{-n}}$, and the spectral-radius counterexamples in $A_3(+,+,-)$ and the 6-node bipartite graph of Example 3.33. All artifacts are available at <https://github.com/jkylearmstrong/mixed.sign.coxeter.systems>.
+  We present a Lean 4 formalization and companion Python package (`mixed_sign_coxeter`) for the core theorems and counterexamples of Armstrong's 2012 dissertation on *Principal Elements of Mixed-Sign Coxeter Systems*. Mixed-sign Coxeter systems generalize classical Coxeter groups by allowing both positive and negative diagonal entries in the defining symmetric bilinear form, represented visually by signed Coxeter graphs. Using Lean 4 (`v4.35.0`) and Mathlib, we formally verify Howlett's upper-triangular matrix factorization for principal elements, establish graph-reduction conjugacy theorems (bipartite sign-negation, component splitting, and tree leaf-insertion), and construct machine-checked counterexamples showing that odd negative cycles violate the classical Deletion Property and break spectral-radius monotonicity. All source code and artifacts are available at <https://github.com/jkylearmstrong/mixed.sign.coxeter.systems>.
 execute:
   freeze: auto
   echo: true
 format:
   html:
+    css: styles.css
     smooth-scroll: true
     code-fold: true
     code-summary: "Show code"
@@ -45,7 +48,7 @@ format:
     lot: true
     lof: true
     number-depth: 8
-    toc-depth: 4
+    toc-depth: 3
     standalone: true
     number-sections: true
     include-in-header:
@@ -55,13 +58,73 @@ format:
         \renewcommand*{\Authand}{, }
         \renewcommand*{\Authands}{, }
         \renewcommand\Affilfont{\small}
+        \setkomafont{author}{\normalsize\vspace{0.6em}}
+        \setkomafont{subsubsection}{\normalfont\normalsize\bfseries\color[HTML]{1F4E79}}
         \usepackage{lscape}
         \newcommand{\blandscape}{\begin{landscape}}
         \newcommand{\elandscape}{\end{landscape}}
+        \renewcommand{\arraystretch}{1.35}
+        \usepackage[most]{tcolorbox}
+        \definecolor{leanblue}{HTML}{1F6FEB}
+        \definecolor{leanbg}{HTML}{F4F8FF}
+        \definecolor{pygreen}{HTML}{2DA44E}
+        \definecolor{pybg}{HTML}{F4FBF6}
+        \definecolor{resgray}{HTML}{57606A}
+        \definecolor{resbg}{HTML}{ECEFF2}
+        \newtcolorbox{leanbox}{
+          enhanced,
+          breakable,
+          colback=leanbg,
+          colframe=leanbg!85!black,
+          boxrule=0.4pt,
+          borderline west={3pt}{0pt}{leanblue},
+          arc=2pt,
+          left=6pt, right=6pt, top=4pt, bottom=4pt,
+          toptitle=3pt, bottomtitle=2pt,
+          colbacktitle=leanbg!92!leanblue,
+          coltitle=leanblue!80!black,
+          fonttitle=\sffamily\bfseries\scriptsize,
+          title={Lean 4},
+          title after break={Lean 4 (continued)}
+        }
+        \newtcolorbox{pythonbox}{
+          enhanced,
+          breakable,
+          colback=pybg,
+          colframe=pybg!85!black,
+          boxrule=0.4pt,
+          borderline west={3pt}{0pt}{pygreen},
+          arc=2pt,
+          left=6pt, right=6pt, top=4pt, bottom=4pt,
+          toptitle=3pt, bottomtitle=2pt,
+          colbacktitle=pybg!92!pygreen,
+          coltitle=pygreen!75!black,
+          fonttitle=\sffamily\bfseries\scriptsize,
+          title={Python},
+          title after break={Python (continued)}
+        }
+        \newtcolorbox{resultbox}{
+          enhanced,
+          breakable,
+          colback=resbg,
+          colframe=resbg!80!black,
+          boxrule=0.4pt,
+          borderline west={3pt}{0pt}{resgray},
+          arc=2pt,
+          left=6pt, right=6pt, top=4pt, bottom=4pt,
+          toptitle=3pt, bottomtitle=2pt,
+          colbacktitle=resbg!88!resgray,
+          coltitle=resgray!90!black,
+          fonttitle=\sffamily\bfseries\scriptsize,
+          title={Result},
+          title after break={Result (continued)}
+        }
 jupyter: python3
 ---
 
 ## Overview
+
+> **Reading Guide:** Readers primarily interested in the mathematical results and signed-graph examples can follow the prose and Python visualizations in Sections 2–3, while readers focused on the machine-checked proofs may jump directly to the Lean 4 module architecture in Section 4.
 
 This document is an executable mathematical writeup accompanying Johnathon Kyle Armstrong's dissertation, *Principal Elements of Mixed-Sign Coxeter Systems* [@armstrong2012] ([FSU Digital Library PDF](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view) · [Download](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download)). Classical Coxeter theory is treated in @humphreys1990, and the upper-triangular matrix factorization of Coxeter elements is due to @howlett1982. The formalization is built in Lean 4 [@moura2021] atop Mathlib [@mathlib2020], with full source code hosted at <https://github.com/jkylearmstrong/mixed.sign.coxeter.systems>. It brings together three layers:
 
@@ -80,6 +143,17 @@ import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp
 
+plt.rcParams.update({
+    "font.size": 11,
+    "axes.titlesize": 12,
+    "axes.labelsize": 11,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10,
+    "legend.fontsize": 11,
+    "pdf.fonttype": 42,
+    "ps.fonttype": 42,
+})
+
 # Ensure local package is importable when rendering from docs/ or repo root
 repo_root = Path.cwd()
 if not (repo_root / "src").exists():
@@ -95,8 +169,17 @@ from mixed_sign_coxeter import (
     find_two_deletions,
 )
 
-def draw_signed_graph(g: MixedSignCoxeterGraph, coords, labels=None, title="", ax=None):
+def draw_signed_graph(g: MixedSignCoxeterGraph, coords=None, labels=None, title="", ax=None):
     """Draw a mixed-sign Coxeter graph with '+' (blue) and '-' (red) nodes."""
+    if coords is None:
+        is_path = all(
+            (abs(u - v) == 1) for (u, v), w in g.edges.items() if w != 2
+        )
+        if is_path or g.n <= 2:
+            coords = [(i * 1.2, 0.0) for i in range(g.n)]
+        else:
+            angles = np.linspace(0, 2 * np.pi, g.n, endpoint=False)
+            coords = [(np.cos(a), np.sin(a)) for a in angles]
     if ax is None:
         _, ax = plt.subplots(figsize=(4.5, 3.2))
     coords = np.asarray(coords, dtype=float)
@@ -129,7 +212,7 @@ def draw_signed_graph(g: MixedSignCoxeterGraph, coords, labels=None, title="", a
         is_pos = g.signs[i] == 1
         sign_char = "+" if is_pos else "-"
         color = "#1f77b4" if is_pos else "#d62728"
-        ax.scatter([x], [y], s=420, c=color, edgecolors="black", linewidths=1.5, zorder=3)
+        ax.scatter([x], [y], s=520, c=color, edgecolors="black", linewidths=1.5, zorder=3)
         node_lbl = labels[i] if labels else f"{i+1}({sign_char})"
         ax.text(
             x,
@@ -138,12 +221,12 @@ def draw_signed_graph(g: MixedSignCoxeterGraph, coords, labels=None, title="", a
             ha="center",
             va="center",
             color="white",
-            fontsize=9.5,
+            fontsize=10.5,
             fontweight="bold",
             zorder=4,
         )
 
-    ax.set_title(title, fontsize=11, pad=8)
+    ax.set_title(title, fontsize=12, pad=8)
     ax.set_aspect("equal")
     pad = 0.45
     ax.set_xlim(coords[:, 0].min() - pad, coords[:, 0].max() + pad)
@@ -154,7 +237,10 @@ def draw_signed_graph(g: MixedSignCoxeterGraph, coords, labels=None, title="", a
 
 ## Reflection Systems, Conjugacy, Trees, and Howlett's Theorem
 
-### Reflection Systems and Howlett's Formula (Theorem 1.1 & Lemma 2.63)
+::: {#thm-Howlett}
+### Reflection Systems and Howlett's Formula
+
+*Results covered: Theorem 1.1 & Lemma 2.63.*
 
 A **reflection system** $(W, S, B)$ on $\mathbb{R}^n$ is determined by a symmetric $n \times n$ bilinear form $B$ with nonzero diagonal entries $B_{ii} \neq 0$. Each basis vector $e_i$ defines a generating reflection
 $$s_i(v) = v - \frac{2 B(e_i, v)}{B(e_i, e_i)} e_i,$$
@@ -163,9 +249,11 @@ which satisfies $s_i^2 = I$ ([`reflectionMatrix_mul_self`](https://github.com/jk
 To compute the **principal element** $w = s_0 s_1 \cdots s_{n-1}$ and its characteristic polynomial without multiplying $n$ reflection matrices directly, Howlett's theorem introduces the upper-triangular matrix $U$. In the dissertation, $U$ has diagonal entries $U_{ii} = \frac{1}{2} B_{ii}$ and upper-triangular entries $U_{ij} = B_{ij}$ ($i < j$). In [`Howlett.lean`](../lean/MixedSignCoxeter/Howlett.lean), we define `howlettU S.B` with $2\times$ scaling ($U_{ii} = B_{ii}$ and $U_{ij} = 2 B_{ij}$ for $i < j$); because scaling $U$ by $2$ leaves $U w = -U^T$ and $w = -U^{-1} U^T$ unchanged, the two definitions are mathematically equivalent. Since $\det U = \prod_{i=0}^{n-1} U_{ii} \neq 0$, $U$ is invertible, and:
 $$U w = -U^T \quad \Longleftrightarrow \quad w = -U^{-1} U^T,$$
 which immediately gives Lemma 2.63: $\chi_w(x) = \det(x I - w) = (\det U)^{-1} \det(x U + U^T)$.
+:::
 
-**How the Lean 4 Proof Works ([`Howlett.lean`](../lean/MixedSignCoxeter/Howlett.lean)):**
-Rather than inverting $U$ case by case, [`howlett_U_mul_principalElement`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L173) proves $U(s_0 \cdots s_{n-1}) = -U^T$ for *arbitrary* dimension $n$ by induction on the prefix product `prefixProd S k = s_0 ⋯ s_{k-1}`: multiplying by $s_k$ flips row $k$ of $U$ from its upper-triangular entries to its lower-triangular transpose entries while leaving rows $< k$ fixed. Invertibility of `howlettU S.B` ([`howlettU_det_ne_zero`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L191), proved via `Matrix.det_of_isUpperTriangular`) then yields [`howlett_principalElement_eq_neg_inv_mul_transpose`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L218) and [`principal_charpoly_eq`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L198):
+#### Lean 4 Proof {.unnumbered}
+
+Rather than inverting $U$ case by case ([`Howlett.lean`](../lean/MixedSignCoxeter/Howlett.lean)), [`howlett_U_mul_principalElement`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L173) proves $U(s_0 \cdots s_{n-1}) = -U^T$ for *arbitrary* dimension $n$ by induction on the prefix product `prefixProd S k = s_0 ⋯ s_{k-1}`: multiplying by $s_k$ flips row $k$ of $U$ from its upper-triangular entries to its lower-triangular transpose entries while leaving rows $< k$ fixed. Invertibility of `howlettU S.B` ([`howlettU_det_ne_zero`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L191), proved via `Matrix.det_of_isUpperTriangular`) then yields [`howlett_principalElement_eq_neg_inv_mul_transpose`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L218) and [`principal_charpoly_eq`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L198):
 
 ```lean
 theorem howlett_U_mul_principalElement (S : ReflectionSystem n) :
@@ -179,12 +267,19 @@ theorem principal_charpoly_eq (S : ReflectionSystem n) (x : ℝ) :
       (howlettU S.B).det⁻¹ * (x • howlettU S.B + (howlettU S.B)ᵀ).det
 ```
 
-**Concrete Python Verification:**
-To illustrate Theorem 1.1 and Lemma 2.63 on a non-trivial mixed-sign system where the reflections do not commute and irrational edge weights appear, consider the 4-node linear graph $\Gamma$ with node signs $(+, -, +, +)$ and edge weights $m(0,1)=3$, $m(1,2)=4$, $m(2,3)=6$. Below we construct $B(\Gamma)$, verify that the direct matrix product $s_0 s_1 s_2 s_3$ equals $-U^{-1} U^T$ identically, and factor its principal polynomial $\chi_w(x)$:
+#### Python Verification {.unnumbered}
+
+To illustrate Theorem 1.1 and Lemma 2.63 on a non-trivial mixed-sign system where the reflections do not commute and irrational edge weights appear, consider the 4-node linear graph $\Gamma$ with node signs $(+, -, +, +)$ and edge weights $m(0,1)=3$, $m(1,2)=4$, $m(2,3)=6$. Howlett's formula yields the principal polynomial
+$$\chi_w(x) = x^4 + 4x^3 + 3x^2 + 4x + 1,$$
+which we verify below alongside the direct matrix product $s_0 s_1 s_2 s_3 = -U^{-1} U^T$:
 
 ```{python}
 #| label: howlett-demo
 g_howlett = MixedSignCoxeterGraph(["+", "-", "+", "+"], [(0, 1, 3), (1, 2, 4), (2, 3, 6)])
+
+
+draw_signed_graph(g_howlett)
+
 w_direct = evaluate_word(g_howlett, list(range(g_howlett.n)))
 w_howlett = g_howlett.principal_element()
 x = sp.Symbol("x")
@@ -197,14 +292,17 @@ print("\nTheorem 1.1 check (s0*s1*s2*s3 - (-U^{-1} U^T) == 0):",
 print("Principal polynomial:", sp.factor(chi_howlett.as_expr()))
 ```
 
-### Bipartite Conjugation (Theorem 1.4 & Corollary 1.5)
+### Bipartite Conjugation
+
+*Results covered: Theorem 1.4 & Corollary 1.5.*
 
 If a reflection graph $\Gamma$ is **bipartite** with bipartition $N_1 \sqcup N_2$, let $P \in \mathcal{O}$ be the diagonal signed-permutation matrix ([`bipartiteConjugator`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L42)) that equals $+1$ on $N_1$ and $-1$ on $N_2$. Conjugating $B(\Gamma)$ by $P$ leaves all diagonal entries unchanged and negates every off-diagonal entry (since every edge connects $N_1$ to $N_2$). Equivalently, $P^T B(\Gamma) P = -B(\Gamma_-)$, where $\Gamma_-$ is obtained by flipping every node sign.
 
 Because negating a bilinear form leaves every reflection $s_i$ unchanged ([`reflectionMatrix_neg`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L60), Lemma 2.31), conjugation by $P$ sends every generator $s_i(\Gamma)$, every word product $w(\Gamma)$, and the characteristic polynomial $\chi_w(x)$ to those of $\Gamma_-$.
 
-**How the Lean 4 Proof Works ([`Bipartite.lean`](../lean/MixedSignCoxeter/Bipartite.lean) & [`MixedSign.lean`](../lean/MixedSignCoxeter/MixedSign.lean)):**
-`BipartiteReflectionSystem n` packages a `ReflectionSystem n` together with a partition `part : Fin n → Bool` and a proof that `B i j = 0` whenever `part i = part j` and `i ≠ j`. Entrywise computation proves [`bipartite_conjugation_theorem`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L65), which immediately lifts via [`conjugate_reflections_of_neg_form`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L127) (Lemma 2.32) to reflections, arbitrary word products, and characteristic polynomials; [`bipartite_mixed_sign_conjugation`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L122) specializes this to [`MixedSignCoxeterGraph`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L64) (Corollary 1.5):
+#### Lean 4 Proof {.unnumbered}
+
+In [`Bipartite.lean`](../lean/MixedSignCoxeter/Bipartite.lean) and [`MixedSign.lean`](../lean/MixedSignCoxeter/MixedSign.lean), `BipartiteReflectionSystem n` packages a `ReflectionSystem n` together with a partition `part : Fin n → Bool` and a proof that `B i j = 0` whenever `part i = part j` and `i ≠ j`. Entrywise computation proves [`bipartite_conjugation_theorem`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L65), which immediately lifts via [`conjugate_reflections_of_neg_form`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L127) (Lemma 2.32) to reflections, arbitrary word products, and characteristic polynomials; [`bipartite_mixed_sign_conjugation`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L122) specializes this to [`MixedSignCoxeterGraph`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L64) (Corollary 1.5):
 
 ```lean
 theorem bipartite_conjugation_theorem (G : BipartiteReflectionSystem n) :
@@ -224,7 +322,8 @@ theorem bipartite_mixed_sign_conjugation (Γ : MixedSignCoxeterGraph n)
       -Γ.negateSigns.toBilinearForm
 ```
 
-**Concrete Python Verification:**
+#### Python Verification {.unnumbered}
+
 On the 4-node path graph $A_4(+, -, +, +)$ (which is bipartite with $N_1 = \{0, 2\}$ and $N_2 = \{1, 3\}$), we verify that $P^T B(\Gamma) P = -B(\Gamma_-)$ and that $A_4(+, -, +, +)$ and $A_4(-, +, -, -)$ share the exact same principal polynomial:
 
 ```{python}
@@ -253,7 +352,9 @@ Chapter 2 establishes the structural invariants of reflection systems under sign
 
 A **mixed-sign Coxeter graph** $\Gamma$ assigns each node $i$ a sign $\sigma_i \in \{+, -\}$ ($B_{ii} = 2\sigma_i$) and each edge $(i, j)$ a weight $m(i, j) \in \{2, 3, \dots, \infty\}$ ($B_{ij} = -2\cos(\pi / m(i,j))$, or $-2$ when $m(i,j) = \infty$). When all nodes are positive (`Γ.IsClassical`), $B(\Gamma)$ recovers the standard classical Coxeter bilinear form ([`proposition_3_5_classical_form`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L182), Proposition 3.5).
 
-### Universal Quotients and Deletion $\leftrightarrow$ Exchange (Proposition 3.19, Proposition 3.8, Theorem 3.9)
+### Universal Quotients and Deletion--Exchange Equivalence
+
+*Results covered: Proposition 3.19, Proposition 3.8, Theorem 3.9.*
 
 In [`ClassicalDeletion.lean`](../lean/MixedSignCoxeter/ClassicalDeletion.lean), we connect reflection systems to Mathlib's `CoxeterMatrix`:
 
@@ -261,7 +362,9 @@ In [`ClassicalDeletion.lean`](../lean/MixedSignCoxeter/ClassicalDeletion.lean), 
 - **Deletion $\leftrightarrow$ Exchange Equivalence (Proposition 3.8 & Theorem 3.9)**: We define `SatisfiesDeletionProperty S` (any non-reduced word admits two indices whose deletion preserves the group element) and `SatisfiesExchangeProperty S` (if $w$ is reduced and $s \cdot w$ is non-reduced, deleting one letter from $w$ equals $s \cdot w$). Proving [`exchange_of_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L306) (by splitting on whether the first deleted index is $0$) and [`deletion_of_exchange`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L336) (by induction on word length) establishes [`deletion_iff_exchange`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L362):
   $$\text{Deletion Property} \iff \text{Exchange Property}.$$
 
-### Rank-2 Systems and Fibonacci Matrix Powers (Lemmas 3.14, 3.17, Example 3.13, Example 3.16)
+### Rank-2 Systems and Fibonacci Matrix Powers
+
+*Results covered: Lemmas 3.14 & 3.17, Examples 3.13 & 3.16.*
 
 For any mixed-sign rank-2 system $A_2(+, -)[m]$ with $B = \begin{pmatrix} 2 & c \\ c & -2 \end{pmatrix}$, we have $\det B = -(4 + c^2) < 0$ ([`det_rank2_pm`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L79), Lemma 3.17), so every such system is hyperbolic of signature $(1, 1, 0)$. While the classical systems $A_2[3]$ (order $6$, `(s0 * s1)^3 = 1`, [`example_3_13_A2_3_order_three`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L408)) and $A_2[\infty]$ (`(s0 * s1)^k = !![2k+1, -2k; 2k, 1-2k]`, [`example_3_13_A2_inf_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L434), Example 3.13 / Propositions 3.10–3.11) keep $(s_0 s_1)^k e_0$ in the positive cone, the mixed-sign system $A_2(+,-)[m]$ has infinite-order principal element whenever $c \neq 0$ ([`rank2_pm_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L143), Lemma 3.14; [`adjacent_pm_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L229), Corollary 3.18).
 
@@ -269,7 +372,8 @@ For $m = 3$ ($c = -1$), powers of the principal element $s_0 s_1$ are governed b
 $$(s_0 s_1)^k = (-1)^k \begin{pmatrix} F_{2k+1} & F_{2k} \\ F_{2k} & F_{2k-1} \end{pmatrix}.$$
 Consequently, the first coordinate of $(s_0 s_1)^k e_0$ is $(-1)^k F_{2k+1}$, strictly alternating in sign ([`prop_3_12_root_oscillation`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L374), Proposition 3.12).
 
-**Concrete Python Verification:**
+#### Python Verification {.unnumbered}
+
 Below we construct $A_2(+,-)[3]$ in Python, plot its 2-node signed diagram, and verify the Fibonacci matrix identity $(s_0 s_1)^k = (-1)^k \begin{pmatrix} F_{2k+1} & F_{2k} \\ F_{2k} & F_{2k-1} \end{pmatrix}$ symbolically for $k = 1, 2, 3, 4$:
 
 ```{python}
@@ -294,8 +398,9 @@ for k in range(1, 5):
     print(f"k={k}: (s0*s1)^{k} = {mat.tolist()}")
 ```
 
-**How the Lean 4 Proof Works ([`RankTwo.lean`](../lean/MixedSignCoxeter/RankTwo.lean)):**
-[`a2_pm_3_fibonacci_powers`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L187) proves the Fibonacci matrix formula by induction on $k$, using `Nat.fib_add_two` to match the matrix multiplication recurrence. [`rank2_pm_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L143) proves $(s_0 s_1)^k \neq I$ for all $c \neq 0$ and $k \ge 1$ by showing that the $(0,0)$ entry of $(-(s_0 s_1))^k$ strictly exceeds $1$:
+#### Lean 4 Proof {.unnumbered}
+
+In [`RankTwo.lean`](../lean/MixedSignCoxeter/RankTwo.lean), [`a2_pm_3_fibonacci_powers`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L187) proves the Fibonacci matrix formula by induction on $k$, using `Nat.fib_add_two` to match the matrix multiplication recurrence. [`rank2_pm_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L143) proves $(s_0 s_1)^k \neq I$ for all $c \neq 0$ and $k \ge 1$ by showing that the $(0,0)$ entry of $(-(s_0 s_1))^k$ strictly exceeds $1$:
 
 ```lean
 theorem det_rank2_pm (c : ℝ) :
@@ -311,14 +416,17 @@ theorem a2_pm_3_fibonacci_powers (k : ℕ) (hk : 1 ≤ k) :
            (Nat.fib (2 * k) : ℝ),     (Nat.fib (2 * k - 1) : ℝ)]
 ```
 
-### Odd Cycles, Deletion Failure, and Non-Classicality (Lemma 3.21, Theorem 1.2, Corollary 1.3, Theorem 1.6)
+### Odd Cycles, Deletion Failure, and Non-Classicality
+
+*Results covered: Lemma 3.21, Theorem 1.2, Corollary 1.3, Theorem 1.6.*
 
 Odd cycles expose two sharp separations between mixed-sign and classical Coxeter systems:
 
 1. **Failure of the Deletion Property (Lemma 3.21, Theorem 1.2, Corollary 1.3)**: In $W(\widetilde{A_{-2}})$, all three nodes are negative and all edges have weight $3$. The group is finite of order $24$ ($\cong S_4 \cong W(A_3)$, Remark 3.23) with $(s_1 s_2 s_3)^4 = 1$, yet the Deletion Property fails: $w = s_1 s_2 s_1 s_3 s_1$ (length $5$) equals $s_3 s_1 s_2$ (length $3$), so $w$ is not reduced, but no 2-letter deletion from $w$ equals $w$. Adjoining $k$ orthogonal negative nodes gives an infinite family of rank $3 + k$ systems (`tildeAminus2Extended k`) with the same obstruction (Theorem 1.2). Because the Deletion Property is invariant under $\mathcal{O}$-conjugacy ([`deletion_invariant_of_O_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L137)), none of these systems is $\mathcal{O}$-conjugate to any system satisfying the Deletion Property ([`corollary_1_3_not_conjugate_to_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L183), Corollary 1.3).
 2. **Signature Obstruction on Odd Cycles (Lemma 3.25 & Theorem 1.6)**: Whereas $W(\widetilde{A_2})$ is infinite ([`tildeA2_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L597), Lemma 3.25), for any odd cycle $\widetilde{A_{-n}}$ ($m = n+1$ odd, $n$ even), $v^T B v = -\sum_i (v_i + v_{i+1})^2 < 0$ for all $v \neq 0$ ([`oddCycleNegForm_negDef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L437), strictly negative definite, with $\det(-B(\widetilde{A_{-n}})) = 4$ and $|W(\widetilde{A_{-4}})| = 1920 = |W(D_5)|$, $|W(\widetilde{A_{-6}})| = 322560 = |W(D_7)|$, Remark 3.26). Meanwhile $\widetilde{A_n}$ is positive semidefinite and degenerate on $(1,\dots,1)^T$ ([`cyclePosForm_posSemidef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L381), [`cyclePosForm_degenerate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L386)), so the two systems cannot be $\mathcal{O}$-conjugate ([`oddCycle_not_O_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L479), Theorem 1.6).
 
-**Concrete Python Verification:**
+#### Python Verification {.unnumbered}
+
 Below we draw $\widetilde{A_{-2}}$, enumerate all $24$ elements of $W(\widetilde{A_{-2}})$, verify $s_1 s_2 s_1 s_3 s_1 = s_3 s_1 s_2$, and exhaustively check that all $\binom{5}{2} = 10$ two-letter deletions of `[0, 1, 0, 2, 0]` fail to reproduce $w$:
 
 ```{python}
@@ -343,8 +451,9 @@ print("2-letter deletions of [0,1,0,2,0] yielding same element:",
       find_two_deletions(g_am2, w_bad, mat_bad))
 ```
 
-**How the Lean 4 Proof Works ([`CyclesAndDeletion.lean`](../lean/MixedSignCoxeter/CyclesAndDeletion.lean) & [`ClassicalDeletion.lean`](../lean/MixedSignCoxeter/ClassicalDeletion.lean)):**
-Because all entries of the reflections of $\widetilde{A_{-2}}$ are integers in $\{0, \pm 1\}$, we define integer reflection matrices `sTildeAminus2Z` and lift them to $\mathbb{R}$ via `Int.cast`, allowing Lean's `decide` tactic to exhaustively check all $10$ two-letter deletions in [`tildeAminus2_fails_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L120). Embedding $\mathbb{R}^3$ into $\mathbb{R}^{3+k}$ ([`theorem_1_2_infinite_family`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L279)) then combines with [`deletion_invariant_of_O_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L137) to prove [`corollary_1_3_not_conjugate_to_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L183):
+#### Lean 4 Proof {.unnumbered}
+
+In [`CyclesAndDeletion.lean`](../lean/MixedSignCoxeter/CyclesAndDeletion.lean) and [`ClassicalDeletion.lean`](../lean/MixedSignCoxeter/ClassicalDeletion.lean), because all entries of the reflections of $\widetilde{A_{-2}}$ are integers in $\{0, \pm 1\}$, we define integer reflection matrices `sTildeAminus2Z` and lift them to $\mathbb{R}$ via `Int.cast`, allowing Lean's `decide` tactic to exhaustively check all $10$ two-letter deletions in [`tildeAminus2_fails_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L120). Embedding $\mathbb{R}^3$ into $\mathbb{R}^{3+k}$ ([`theorem_1_2_infinite_family`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L279)) then combines with [`deletion_invariant_of_O_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L137) to prove [`corollary_1_3_not_conjugate_to_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L183):
 
 ```lean
 theorem tildeAminus2_fails_deletion :
@@ -370,20 +479,23 @@ theorem oddCycle_not_O_conjugate (m : ℕ) [NeZero m] (hm : Odd m) :
       P.toMatrixᵀ * cyclePosForm m * P.toMatrix = -cycleNegForm m)
 ```
 
-### Spectral Radius Theory & Counterexamples (Theorems 3.27–3.28, Example 3.29, Example 3.33, Theorem 1.7)
+### Spectral Radius Theory and Counterexamples
+
+*Results covered: Theorems 3.27–3.28, Examples 3.29 & 3.33, Theorem 1.7.*
 
 In classical Coxeter theory, a bipartite Coxeter element $w = s_+ s_-$ has eigenvalues $\lambda$ determined by the graph adjacency singular values $\mu$ via $\lambda^2 - (\mu^2 - 2)\lambda + 1 = 0$ ([`theorem_3_27_bipartite_coxeter_eigenvalue`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L226), Theorem 3.27), so for $\mu > 2$ the spectral radius increases strictly with $\mu$ ([`theorem_3_28_spectral_radius_strict_mono`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L269), Theorem 3.28) and bipartite Coxeter elements minimize the spectral radius. Both phenomena break down in the mixed-sign setting:
 
 1. **Example 3.29 (Hyperbolic system with $\rho(w) = 1$)**: $A_3(+, +, -)$ is hyperbolic ($\det B = -8 < 0$, signature $(2, 1, 0)$), yet its principal polynomial is $(x + 1)^3$, so its spectral radius is $\rho(w) = 1$ and $(w + I)^3 = 0$ ([`w_A3_ppm_add_one_cube`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L72)).
 2. **Theorem 1.7 / Theorem 3.34 / Example 3.33 (Bipartite element is not minimal)**: In the 6-node bipartite graph `example_3_33`, the **bipartite** principal element $w_{\mathrm{bp}} = s_1 s_4 s_6 s_2 s_3 s_5$ has spectral radius $\rho(w_{\mathrm{bp}}) \approx 5.55193$, strictly *larger* than the linear principal element $w_{\mathrm{lin}} = s_1 s_2 s_3 s_4 s_5 s_6$ ($\rho(w_{\mathrm{lin}}) \approx 3.05128$). (Similarly, Remark 3.30 shows that minimal spectral radii $\Lambda$ oscillate non-monotonically along $A_2(+,-) \subset A_3(-,+,+) \subset A_4(-,+,+,+) \subset A_5(-,+,+,+,+)$.)
 
-**Concrete Python Verification:**
+#### Python Verification {.unnumbered}
+
 Below we plot the signed diagrams of $A_3(+, +, -)$ (Example 3.29) and the 6-node bipartite graph of Example 3.33 alongside the complex-plane eigenvalues of $w_{\mathrm{lin}}$ and $w_{\mathrm{bp}}$ relative to the unit circle, confirming $\rho(w_{\mathrm{bp}}) > 4 > \rho(w_{\mathrm{lin}})$:
 
 ```{python}
 #| label: spectral-radius-plots
 #| echo: false
-#| fig-cap: "Signed Coxeter graphs and unit-circle eigenvalue spectra for Example 3.29 and Example 3.33."
+#| fig-cap: "Signed Coxeter graphs for Example 3.29 and Example 3.33 (left, center) and complex-plane eigenvalues of Example 3.33 (right). Blue circles show eigenvalues of the linear element $w_{\\mathrm{lin}}$ ($\\rho \\approx 3.051$), red crosses show eigenvalues of the bipartite element $w_{\\mathrm{bp}}$ ($\\rho \\approx 5.552$), and the dashed circle marks the unit circle $|\\lambda| = 1$."
 g_329 = MixedSignCoxeterGraph.A_n(["+", "+", "-"])
 g_333 = MixedSignCoxeterGraph.example_3_33()
 
@@ -402,7 +514,7 @@ print("Example 3.33 p_lin(x) =", p_lin.as_expr(),
 print("Example 3.33 p_bp(x)  =", p_bp.as_expr(),
       "| rho =", round(g_333.spectral_radius(bp_order), 5))
 
-fig, axes = plt.subplots(1, 3, figsize=(13.5, 4.0))
+fig, axes = plt.subplots(1, 3, figsize=(10.5, 3.8))
 
 draw_signed_graph(
     g_329,
@@ -429,24 +541,24 @@ draw_signed_graph(
 )
 
 theta = np.linspace(0, 2 * np.pi, 300)
-axes[2].plot(np.cos(theta), np.sin(theta), "k--", lw=1.0, alpha=0.6, label="Unit circle")
+axes[2].plot(np.cos(theta), np.sin(theta), "k--", lw=1.0, alpha=0.6, label=r"Unit circle ($|\lambda|=1$)")
 axes[2].scatter(roots_lin.real, roots_lin.imag, c="#1f77b4", s=70, marker="o",
                 label=rf"Linear ($\rho \approx {g_333.spectral_radius(lin_order):.3f}$)")
 axes[2].scatter(roots_bp.real, roots_bp.imag, c="#d62728", s=80, marker="x", linewidths=2,
                 label=rf"Bipartite ($\rho \approx {g_333.spectral_radius(bp_order):.3f}$)")
 axes[2].axhline(0, color="gray", lw=0.6)
 axes[2].axvline(0, color="gray", lw=0.6)
-axes[2].set_title("Example 3.33 Eigenvalues in $\\mathbb{C}$", fontsize=11)
-axes[2].set_xlabel("Re($\\lambda$)")
-axes[2].set_ylabel("Im($\\lambda$)")
-axes[2].legend(loc="upper left", fontsize=8.5)
+axes[2].set_title(r"Example 3.33 Eigenvalues in $\mathbb{C}$", fontsize=12)
+axes[2].set_xlabel(r"$\mathrm{Re}(\lambda)$", fontsize=11)
+axes[2].set_ylabel(r"$\mathrm{Im}(\lambda)$", fontsize=11)
+axes[2].legend(loc="upper left", fontsize=10)
 axes[2].grid(alpha=0.25)
 
 plt.tight_layout()
 plt.show()
 ```
 
-**How the Lean 4 Proof Works ([`SpectralRadius.lean`](../lean/MixedSignCoxeter/SpectralRadius.lean)):**
+#### Lean 4 Proof {.unnumbered}
 For Example 3.29, [`w_A3_ppm_add_one_cube`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L72) verifies $(w + I)^3 = 0$, which forces every eigenvalue $\lambda$ to equal $-1$ ([`w_A3_ppm_eigenvalue_eq_neg_one`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L85)). For Example 3.33, we verify the degree-6 annihilating polynomials over $\mathbb{Z}$ via `decide` ([`wLinEx333Z_annihilated`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L196), [`wBpEx333Z_annihilated`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L202)), prove algebraically that $p_{\mathrm{lin}}(\lambda) \neq 0$ whenever $|\lambda| \ge 4$ ([`pLinEx333_no_root_ge_four`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L133)), and apply the Intermediate Value Theorem on $[-6, -4]$ to show $p_{\mathrm{bp}}$ has a root $\lambda \in [-6, -4]$ ([`pBpEx333_has_root_gt_four`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L120), [`theorem_3_34_bipartite_exceeds_linear`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211)):
 
 ```lean
@@ -463,30 +575,33 @@ theorem pBpEx333_has_root_gt_four :
 
 ## Summary of Lean 4 Modules
 
-| Module | Dissertation Coverage | Key Formalized Results |
+| **Module** | **Coverage** | **Key Formalized Results** |
 | :--- | :--- | :--- |
-| `Basic.lean` | Ch. 2 (2.1–2.2, 2.4) | [`reflectionMatrix_neg`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L60) (Lem. 2.31), [`reflectionMatrix_preserves_B`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L88) (Prop. 2.17), [`odd_word_ne_one`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L216) (Prop. 2.21), [`reflectionMatrix_comm_of_orthogonal`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L121) (Prop. 2.22), [`reflectionMatrix_comm_of_not_adjacent`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L225) (Prop. 2.28), [`IsPosDef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L237)/[`IsPosSemidefDegenerate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L242)/[`IsNegDef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L246)/[`IsIndefinite`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L251) (Defs. 2.47–2.51, Ex. 2.52) |
+| `Basic.lean` | Ch. 2 (2.1–2.2) | [`reflectionMatrix_neg`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L60) (Lem. 2.31), [`reflectionMatrix_preserves_B`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L88) (Prop. 2.17), [`odd_word_ne_one`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L216) (Prop. 2.21), [`reflectionMatrix_comm_of_orthogonal`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L121) (Prop. 2.22), [`reflectionMatrix_comm_of_not_adjacent`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L225) (Prop. 2.28) |
+| `Basic.lean` | Ch. 2 (2.4) | [`IsPosDef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L237), [`IsPosSemidefDegenerate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L242), [`IsNegDef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L246), [`IsIndefinite`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L251) (Defs. 2.47–2.51, Ex. 2.52) |
 | `Conjugacy.lean` | Ch. 2 (2.3–2.4) | [`conjugate_reflections_of_neg_form`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L127) (Lem. 2.32), [`example_2_36_form_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L261) (Ex. 2.36), [`graphIso_conjugates_forms`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L139) (Lem. 2.37), [`graphIso_iff_perm_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L152) & [`O_conjugate_preserves_diag_and_abs`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L168) (Cor. 2.38), [`O_conjugate_isPosDef_iff`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L216) (Cor. 2.46) |
-| `Bipartite.lean` | Ch. 2 (2.4), Ch. 3 (3.5) | [`bipartite_conjugation_theorem`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L65) (Thm. 1.4), [`bipartite_conjugates_reflections`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L83), [`bipartite_conjugates_wordProd`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L106), [`bipartite_conjugates_charpoly`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L134), [`bipartite_same_part_comm`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L156) & [`bipartite_principalElements_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L208) (Prop. 2.41 / Prop. 3.32) |
+| `Bipartite.lean` | Ch. 2 (2.4), 3 (3.5) | [`bipartite_conjugation_theorem`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L65) (Thm. 1.4), [`bipartite_conjugates_reflections`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L83), [`bipartite_conjugates_wordProd`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L106), [`bipartite_conjugates_charpoly`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L134), [`bipartite_same_part_comm`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L156) & [`bipartite_principalElements_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L208) (Prop. 2.41 / Prop. 3.32) |
 | `ComponentsAndTrees.lean` | Ch. 2 (2.5–2.6) | [`wordProd_split_components`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L60) & [`component_fixes_other`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L83) (Prop. 2.45), [`leaf_insert_conj`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L121) (Thm. 2.58) |
-| `Howlett.lean` | Ch. 2 (2.6.1–2.6.2) | [`howlett_U_mul_principalElement`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L173) & [`howlett_principalElement_eq_neg_inv_mul_transpose`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L218) (Thm. 1.1), [`principal_charpoly_eq`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L198) (Lem. 2.63) |
+| `Howlett.lean` | Ch. 2 (2.6) | [`howlett_U_mul_principalElement`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L173) & [`howlett_principalElement_eq_neg_inv_mul_transpose`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L218) (Thm. 1.1), [`principal_charpoly_eq`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L198) (Lem. 2.63) |
 | `MixedSign.lean` | Ch. 3 (intro) | [`bipartite_mixed_sign_conjugation`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L122) (Cor. 1.5), [`proposition_3_5_classical_form`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L182) (Prop. 3.5), [`tildeAminus2_principal_order_four`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L156) (Eq. 3.21.2) |
 | `RankTwo.lean` | Ch. 3 (3.1–3.2) | [`det_rank2_pm`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L79) (Lem. 3.17), [`rank2_pm_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L143) (Lem. 3.14), [`adjacent_pm_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L229) (Cor. 3.18), [`a2_pm_3_fibonacci_powers`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L187) (Ex. 3.16), [`prop_3_12_root_oscillation`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L374) (Prop. 3.12), [`example_3_13_A2_3_order_three`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L408) & [`example_3_13_A2_inf_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L434) (Ex. 3.13 / Prop. 3.10–3.11) |
 | `CyclesAndDeletion.lean` | Ch. 3 (3.3–3.4) | [`tildeAminus2_fails_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L120) (Lem. 3.21), [`theorem_1_2_infinite_family`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L279) (Thm. 1.2), [`tildeA2_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L597) (Lem. 3.25), [`oddCycleNegForm_negDef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L437) & [`oddCycle_not_O_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L479) (Thm. 1.6) |
 | `SpectralRadius.lean` | Ch. 3 (3.5.1–3.5.2) | [`w_A3_ppm_add_one_cube`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L72) (Ex. 3.29), [`wLinEx333Z_annihilated`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L196), [`pLinEx333_no_root_ge_four`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L133), [`pBpEx333_has_root_gt_four`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L120), [`theorem_3_34_bipartite_exceeds_linear`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211) (Ex. 3.33 / Thm. 1.7 / Thm. 3.34), [`theorem_3_27_bipartite_coxeter_eigenvalue`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L226) (Thm. 3.27), [`theorem_3_28_spectral_radius_strict_mono`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L269) (Thm. 3.28) |
 | `ClassicalDeletion.lean` | Ch. 1 & Ch. 3 | [`freeCoxeterQuotient`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L52) (Prop. 3.19), [`SatisfiesDeletionProperty`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L67), [`SatisfiesExchangeProperty`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L202), [`deletion_iff_exchange`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L362) & [`reflectionSystem_isLiftable_of_orders`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L369) (Prop. 3.8 / Thm. 3.9), [`deletion_invariant_of_O_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L137), [`corollary_1_3_not_conjugate_to_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L183) (Cor. 1.3) |
 
+: Lean 4 formalization modules in `lean/MixedSignCoxeter/` and their dissertation coverage. {tbl-colwidths="[22, 16, 62]"}
+
 ## Formalization Scope, Python Coverage, and Dissertation Omissions
 
 To maintain a transparent audit trail between the dissertation [@armstrong2012], the Python package, and the Lean 4 formalization:
 
-- **Formalized in Lean 4 (`lean/MixedSignCoxeter/`)**: All 10 modules compile `sorry`-free in Lean `v4.35.0`:
-  - *Chapter 1–2*: Theorems 1.1 & 1.4, Corollaries 1.5, 2.38 & 2.46, Propositions 2.17, 2.21, 2.22, 2.28, 2.41 & 2.45, Lemmas 2.31, 2.32, 2.37 & 2.63, Definitions 2.47–2.51, Examples 2.36 & 2.52, and Theorem 2.58.
-  - *Chapter 3*: Theorems 1.2, 1.6, 1.7 / 3.34, 3.9 ([`deletion_iff_exchange`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L362)), 3.27 & 3.28, Corollary 1.3 & 3.18, Propositions 3.5, 3.8, 3.10–3.12, 3.19 & 3.32, Lemmas 3.14, 3.17, 3.21 & 3.25, and Examples 3.13, 3.16 & 3.29.
-- **Verified computationally in Python (`src/mixed_sign_coxeter/`, `tests/test_dissertation.py`)**: Exact symbolic and numerical checks for Howlett's formula, principal polynomials, signatures, Mahler measures (`mahler_measure`), Appendix A finite catalogs (`table_a1`, `table_a2`), Appendix B $A_n$ sign tables (`A_n_sign_table`), Remark 3.23 ($|W(\widetilde{A_{-2}})| = 24$), Remark 3.26 ($\det(-B(\widetilde{A_{-n}})) = 4$ and $|W(\widetilde{A_{-4}})| = 1920 = |W(D_5)|$, $|W(\widetilde{A_{-6}})| = 322560 = |W(D_7)|$), Remark 3.30 ($\Lambda$ oscillation), and Example 3.33 spectral radii. Accompanying Manim presentation scenes live in `slides/dissertation_deck.py` (`pip install -e ".[manim]"`).
-- **Dissertation material remaining out of scope for Lean 4**:
-  - **Open questions (Questions 2.59 & 3.35)** and explanatory prose remarks.
-  - **Theorem 3.9 geometric presentation converse**: [`deletion_iff_exchange`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L362) proves the full equivalence `Deletion ↔ Exchange` and [`reflectionSystem_isLiftable_of_orders`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L369) lifts pairwise orders to `CoxeterMatrix.Group`; deriving the Coxeter presentation directly from the Exchange Property is cited from Björner–Brenti / Bahls.
+| **Layer / Status** | **Covered Results & Scope** |
+| :--- | :--- |
+| **Formalized in Lean 4** (`lean/MixedSignCoxeter/`, `sorry`-free in `v4.35.0`) | **Ch. 1–2:** Theorems 1.1, 1.4 & 2.58; Corollaries 1.5, 2.38 & 2.46; Propositions 2.17, 2.21, 2.22, 2.28, 2.41 & 2.45; Lemmas 2.31, 2.32, 2.37 & 2.63; Definitions 2.47–2.51; Examples 2.36 & 2.52. **Ch. 3:** Theorems 1.2, 1.6, 1.7 / 3.34, 3.9 ([`deletion_iff_exchange`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L362)), 3.27 & 3.28; Corollaries 1.3 & 3.18; Propositions 3.5, 3.8, 3.10–3.12, 3.19 & 3.32; Lemmas 3.14, 3.17, 3.21 & 3.25; Examples 3.13, 3.16 & 3.29. |
+| **Verified in Python** (`src/mixed_sign_coxeter/`, `tests/test_dissertation.py`) | Exact symbolic/numerical checks for Howlett's formula, principal polynomials, signatures, Mahler measures (`mahler_measure`), Appendix A finite catalogs (`table_a1`, `table_a2`), Appendix B $A_n$ sign tables (`A_n_sign_table`), Remark 3.23 ($|W(\widetilde{A_{-2}})| = 24$), Remark 3.26 ($\det(-B(\widetilde{A_{-n}})) = 4$, $|W(\widetilde{A_{-4}})| = 1920$, $|W(\widetilde{A_{-6}})| = 322560$), Remark 3.30 ($\Lambda$ oscillation), and Example 3.33 spectral radii. Manim scenes live in `slides/dissertation_deck.py`. |
+| **Out of Scope for Lean 4** | **Open questions** (Questions 2.59 & 3.35) and explanatory prose remarks. **Theorem 3.9 geometric presentation converse:** [`deletion_iff_exchange`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L362) proves `Deletion ↔ Exchange` and [`reflectionSystem_isLiftable_of_orders`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L369) lifts pairwise orders to `CoxeterMatrix.Group`; deriving the Coxeter presentation directly from the Exchange Property is cited from Björner–Brenti / Bahls. |
+
+: Formalization scope, Python verification coverage, and dissertation omissions. {tbl-colwidths="[28, 72]"}
 
 ## Lean 4 Formalization Architecture
 

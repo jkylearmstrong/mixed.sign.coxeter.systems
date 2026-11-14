@@ -1,0 +1,100 @@
+/* Comfortable reading measure */
+main.content {
+  max-width: 72ch;
+}
+
+/* Visual differentiation for Lean 4, Python, and Program Result blocks */
+div.sourceCode.lean {
+  border: 1px solid #d0d7de;
+  border-left: 4px solid #1f6feb;
+  border-radius: 4px;
+  position: relative;
+  padding-top: 1.5em;
+  background-color: #f6f8fa;
+}
+
+div.sourceCode.lean::before {
+  content: "Lean 4";
+  position: absolute;
+  top: 0.25em;
+  left: 0.75em;
+  font-size: 0.75em;
+  font-weight: 600;
+  color: #1f6feb;
+  font-family: system-ui, -apple-system, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+div.sourceCode.python {
+  border: 1px solid #d0d7de;
+  border-left: 4px solid #2da44e;
+  border-radius: 4px;
+  position: relative;
+  padding-top: 1.5em;
+  background-color: #f6f8fa;
+}
+
+div.sourceCode.python::before {
+  content: "Python";
+  position: absolute;
+  top: 0.25em;
+  left: 0.75em;
+  font-size: 0.75em;
+  font-weight: 600;
+  color: #2da44e;
+  font-family: system-ui, -apple-system, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+div.cell-output-stdout {
+  border: 1px solid #d0d7de;
+  border-left: 4px solid #6e7781;
+  border-radius: 4px;
+  background-color: #eef1f4;
+  padding: 1.6em 0.75em 0.5em 0.75em;
+  margin-top: 0.4em;
+  margin-bottom: 1em;
+  position: relative;
+}
+
+div.cell-output-stdout::before {
+  content: "Result";
+  position: absolute;
+  top: 0.25em;
+  left: 0.75em;
+  font-size: 0.75em;
+  font-weight: 600;
+  color: #57606a;
+  font-family: system-ui, -apple-system, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+div.cell-output-stdout pre {
+  background-color: transparent;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Subsubsection styling */
+h4 {
+  border-bottom: 1px solid #eaecef;
+  padding-bottom: 0.25em;
+  margin-top: 1.4em;
+  color: #24292f;
+}
+
+/* Clean table spacing */
+table {
+  border-collapse: collapse;
+  margin-top: 1em;
+  margin-bottom: 1.2em;
+}
+
+th, td {
+  padding: 0.55em 0.75em;
+  vertical-align: top;
+}
