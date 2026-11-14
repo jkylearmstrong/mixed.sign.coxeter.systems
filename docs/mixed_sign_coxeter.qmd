@@ -16,9 +16,12 @@ abstract: |
   We present a Lean 4 formalization and companion Python package (`mixed_sign_coxeter`) for the core theorems and counterexamples of Armstrong's 2012 dissertation on *Principal Elements of Mixed-Sign Coxeter Systems*. Mixed-sign Coxeter systems generalize classical Coxeter groups by allowing diagonal entries $B(e_i, e_i) \in \{+2, -2\}$ in the symmetric bilinear form. Using Lean 4 (`v4.35.0`) and Mathlib, we formally verify Howlett's matrix formula $U(s_0 \cdots s_{n-1}) = -U^T$, bipartite sign-negation conjugacy ($P^T B(\Gamma) P = -B(\Gamma_-)$), component splitting and tree leaf-insertion conjugacy, rank-2 Fibonacci matrix powers, failure of the Deletion Property in $W(\widetilde{A_{-2}})$, strict negative definiteness of odd negative cycles $\widetilde{A_{-n}}$, and the spectral-radius counterexamples in $A_3(+,+,-)$ and the 6-node bipartite graph of Example 3.33. All artifacts are available at <https://github.com/jkylearmstrong/mixed.sign.coxeter.systems>.
 execute:
   freeze: auto
+  echo: true
 format:
   html:
     smooth-scroll: true
+    code-fold: true
+    code-summary: "Show code"
     theme:
       light: flatly
       dark: darkly
@@ -68,6 +71,7 @@ This document is an executable mathematical writeup accompanying Johnathon Kyle 
 
 ```{python}
 #| label: setup
+#| echo: false
 import os
 import sys
 from pathlib import Path
@@ -249,6 +253,7 @@ $$(s_0 s_1)^k = (-1)^k \begin{pmatrix} F_{2k+1} & F_{2k} \\ F_{2k} & F_{2k-1} \e
 
 ```{python}
 #| label: rank2-fibonacci
+#| echo: false
 g_fib = MixedSignCoxeterGraph.I_2(3, signs=("+", "-"))
 s0, s1 = g_fib.generators()
 
@@ -288,12 +293,13 @@ theorem a2_pm_3_fibonacci_powers (k : ℕ) (hk : 1 ≤ k) :
 
 In $W(\widetilde{A_{-2}})$, all three nodes are negative and all edges have weight $3$. The group is finite of order $24$ ($\cong S_4$) with $(s_1 s_2 s_3)^4 = 1$, yet the Deletion Property fails: $w = s_1 s_2 s_1 s_3 s_1$ (length $5$) equals $s_3 s_1 s_2$ (length $3$), so $w$ is not reduced, but no 2-letter deletion from $w$ equals $w$ (`tildeAminus2_fails_deletion`, Lemma 3.21). Adjoining $k$ orthogonal negative nodes gives an infinite family of rank $3 + k$ mixed-sign Coxeter systems (`tildeAminus2Extended k`) in which the same word fails the Deletion Property (`theorem_1_2_infinite_family`, Theorem 1.2).
 
-*Note on Corollary 1.3*: The dissertation's Corollary 1.3—that there exists an infinite family of mixed-sign Coxeter systems not conjugate to classical Coxeter systems—follows from Theorem 1.2 together with Theorem 3.9 (the classical Deletion/Exchange characterization of classical Coxeter systems); Theorem 3.9 and Corollary 1.3 are not yet formalized in Lean 4.
+We also prove in [`ClassicalDeletion.lean`](../lean/MixedSignCoxeter/ClassicalDeletion.lean) that the Deletion Property is invariant under $\mathcal{O}$-conjugacy (`deletion_invariant_of_O_conjugate`) and logically equivalent to the Exchange Property (`deletion_iff_exchange`, Theorem 3.9). Combining this with Theorem 1.2 yields **Corollary 1.3** (`corollary_1_3_not_conjugate_to_deletion`): none of the rank $3 + k$ systems `tildeAminus2Extended k` is $\mathcal{O}$-conjugate to any reflection system satisfying the Deletion Property.
 
 For any odd cycle $\widetilde{A_{-n}}$ ($m = n+1$ odd, $n$ even), $v^T B v = -\sum_i (v_i + v_{i+1})^2 < 0$ for all $v \neq 0$ (strictly negative definite, `oddCycleNegForm_negDef`), whereas $\widetilde{A_n}$ is positive semidefinite and degenerate on $(1,\dots,1)^T$ (`cyclePosForm_posSemidef`, `cyclePosForm_degenerate`). Consequently, `cyclePosForm m` and `±cycleNegForm m` are not $\mathcal{O}$-conjugate (`oddCycle_not_O_conjugate`, Theorem 1.6).
 
 ```{python}
 #| label: tilde-a-minus-2
+#| echo: false
 g_am2 = MixedSignCoxeterGraph.A_tilde(2, negative=True)
 elements, complete = enumerate_group(g_am2, max_elements=100)
 w_bad = [0, 1, 0, 2, 0]
@@ -348,6 +354,7 @@ Two classical spectral-radius phenomena fail in the mixed-sign setting:
 
 ```{python}
 #| label: spectral-radius-plots
+#| echo: false
 #| fig-cap: "Signed Coxeter graphs and unit-circle eigenvalue spectra for Example 3.29 and Example 3.33."
 g_329 = MixedSignCoxeterGraph.A_n(["+", "+", "-"])
 g_333 = MixedSignCoxeterGraph.example_3_33()
@@ -445,8 +452,10 @@ theorem pBpEx333_has_root_gt_four :
 
 To maintain a transparent audit trail between the dissertation [@armstrong2012], the Python package, and the Lean 4 formalization:
 
-- **Formalized in Lean 4 (`lean/MixedSignCoxeter/`)**: All core algebraic and counterexample results above compile `sorry`-free in Lean `v4.35.0`, including Theorem 1.1 (`howlett_U_mul_principalElement`, `howlett_principalElement_eq_neg_inv_mul_transpose`), Lemma 2.63 (`principal_charpoly_eq`), Theorem 1.2 (`theorem_1_2_infinite_family`), Corollary 1.3 (`corollary_1_3_not_conjugate_to_deletion`, via `SatisfiesDeletionProperty` and $\mathcal{O}$-conjugacy invariance), Theorem 1.4 (`bipartite_conjugation_theorem`, `bipartite_conjugates_reflections`, `bipartite_conjugates_wordProd`, `bipartite_conjugates_charpoly`), Corollary 1.5 (`bipartite_mixed_sign_conjugation`), Theorem 1.6 (`oddCycleNegForm_negDef`, `oddCycle_not_O_conjugate`), Theorem 1.7 / 3.34 (`pLinEx333_no_root_ge_four`, `pBpEx333_has_root_gt_four`, `theorem_3_34_bipartite_exceeds_linear`), Propositions 2.28, 2.41, 2.45, 3.5, 3.8, 3.10–3.12, 3.19, and 3.32, Corollaries 2.38, 2.46, and 3.18, Definitions 2.47–2.51 & Examples 2.36, 2.52, 3.13, 3.16, and 3.29, Theorems 2.58, 3.9 (`deletion_iff_exchange`, `reflectionSystem_isLiftable_of_orders`), 3.27, and 3.28, and Lemmas 3.14, 3.17, 3.21, and 3.25.
-- **Verified computationally in Python (`src/mixed_sign_coxeter/`, `tests/test_dissertation.py`)**: Exact symbolic and numerical checks for Howlett's formula, principal polynomials, signatures, finite group enumeration (including Remark 3.26 $|W(\widetilde{A_{-4}})| = 1920 = |W(D_5)|$ and $|W(\widetilde{A_{-6}})| = 322560 = |W(D_7)|$ via `fast_integer_group_order`), root orbits, two-deletion testing, spectral radii, Mahler measures (`mahler_measure`), Appendix A finite catalogs (`table_a1`, `table_a2`), Appendix B $A_n$ sign tables (`A_n_sign_table`), and Remark 3.26 cycle determinant checks (`finite_even_odd_cycle_determinants`). Accompanying Manim presentation scenes live in `slides/dissertation_deck.py` (optional extra `pip install -e ".[manim]"`).
+- **Formalized in Lean 4 (`lean/MixedSignCoxeter/`)**: All 10 modules compile `sorry`-free in Lean `v4.35.0`:
+  - *Chapter 1–2*: Theorems 1.1 & 1.4, Corollaries 1.5, 2.38 & 2.46, Propositions 2.17, 2.21, 2.22, 2.28, 2.41 & 2.45, Lemmas 2.31, 2.32, 2.37 & 2.63, Definitions 2.47–2.51, Examples 2.36 & 2.52, and Theorem 2.58.
+  - *Chapter 3*: Theorems 1.2, 1.6, 1.7 / 3.34, 3.9 (`deletion_iff_exchange`), 3.27 & 3.28, Corollary 1.3 & 3.18, Propositions 3.5, 3.8, 3.10–3.12, 3.19 & 3.32, Lemmas 3.14, 3.17, 3.21 & 3.25, and Examples 3.13, 3.16 & 3.29.
+- **Verified computationally in Python (`src/mixed_sign_coxeter/`, `tests/test_dissertation.py`)**: Exact symbolic and numerical checks for Howlett's formula, principal polynomials, signatures, Mahler measures (`mahler_measure`), Appendix A finite catalogs (`table_a1`, `table_a2`), Appendix B $A_n$ sign tables (`A_n_sign_table`), Remark 3.23 ($|W(\widetilde{A_{-2}})| = 24$), Remark 3.26 ($\det(-B(\widetilde{A_{-n}})) = 4$ and $|W(\widetilde{A_{-4}})| = 1920 = |W(D_5)|$, $|W(\widetilde{A_{-6}})| = 322560 = |W(D_7)|$), Remark 3.30 ($\Lambda$ oscillation), and Example 3.33 spectral radii. Accompanying Manim presentation scenes live in `slides/dissertation_deck.py` (`pip install -e ".[manim]"`).
 - **Dissertation material remaining out of scope for Lean 4**:
   - **Open questions (Questions 2.59 & 3.35)** and explanatory prose remarks.
   - **Theorem 3.9 geometric presentation converse**: `deletion_iff_exchange` proves the full equivalence `Deletion ↔ Exchange` and `reflectionSystem_isLiftable_of_orders` lifts pairwise orders to `CoxeterMatrix.Group`; deriving the Coxeter presentation directly from the Exchange Property is cited from Björner–Brenti / Bahls.
