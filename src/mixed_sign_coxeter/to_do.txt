@@ -1,0 +1,5 @@
+build lean-toolchain python package with 
+
+https://github.com/ManimCommunity/manim/
+
+presentation to go along with the disseration 

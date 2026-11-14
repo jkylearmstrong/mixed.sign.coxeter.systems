@@ -17,6 +17,9 @@ dependencies = [
 dev = [
     "pytest>=7.0",
 ]
+manim = [
+    "manim>=0.18",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

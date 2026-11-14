@@ -206,3 +206,29 @@ def test_example_3_33_bipartite_not_minimal():
     assert math.isclose(g.spectral_radius(bp_order), 5.55193, abs_tol=1e-4)
     assert g.spectral_radius([0, 1, 2, 3, 4, 5]) < g.spectral_radius(bp_order)
 
+
+def test_catalog_mahler_signature_and_an_table():
+    from mixed_sign_coxeter import (
+        A_n_sign_table,
+        classify_signature,
+        finite_even_odd_cycle_determinants,
+        mahler_measure,
+    )
+
+    assert classify_signature(MixedSignCoxeterGraph.A_n(["+", "+"])) == "positive_definite"
+    assert classify_signature(MixedSignCoxeterGraph.A_n(["+", "-"])) == "hyperbolic"
+    assert classify_signature(MixedSignCoxeterGraph.A_tilde(2, negative=False)) == "positive_semidefinite_degenerate"
+    assert classify_signature(MixedSignCoxeterGraph.A_tilde(2, negative=True)) == "negative_definite"
+
+    # Example 3.29: A3(+, +, -) has (x+1)^3 -> Mahler measure 1.0
+    g329 = MixedSignCoxeterGraph.A_n(["+", "+", "-"])
+    assert math.isclose(mahler_measure(g329.principal_polynomial()), 1.0, abs_tol=1e-6)
+
+    # Appendix B table for n=3: 2^3 / 2 = 4 entries up to sign negation
+    table3 = A_n_sign_table(3, unique_up_to_negation=True)
+    assert len(table3) == 4
+
+    # Remark 3.26: det(-B(~A_{-n})) = 4 for n = 2, 4, 6
+    assert finite_even_odd_cycle_determinants((2, 4, 6)) == {2: 4, 4: 4, 6: 4}
+
+

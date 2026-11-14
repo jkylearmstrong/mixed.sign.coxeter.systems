@@ -30,6 +30,10 @@ Located in `src/mixed_sign_coxeter/`:
 - `group.py`: Word evaluation, element orders, finite group enumeration,
   two-deletion testing for the Deletion Property (Proposition 3.7 /
   Lemma 3.21), and root orbits $\Phi = W \Pi^+$.
+- `catalog.py`: Mahler measure `mahler_measure`, signature
+  classification `classify_signature`, Appendix B $A_n$ sign tables
+  `A_n_sign_table`, and Remark 3.26 cycle determinant checks
+  `finite_even_odd_cycle_determinants`.
 
 ### Quick Example (Theorem 1.7 / Example 3.33)
 
@@ -64,16 +68,25 @@ Mathlib `v4.35.0`):
 - `Basic.lean`: `ReflectionSystem`, `reflectionMatrix`, involutions
   (`reflectionMatrix_mul_self`), form preservation (Proposition 2.17),
   odd-word non-identity (`odd_word_ne_one`, Proposition 2.21),
-  orthogonal commutativity (Proposition 2.22), and $W(B) = W(-B)$ (Lemma
-  2.31).
+  orthogonal commutativity (`reflectionMatrix_comm_of_orthogonal`,
+  Proposition 2.22; `reflectionMatrix_comm_of_not_adjacent`, Proposition
+  2.28), $W(B) = W(-B)$ (Lemma 2.31), and quadratic-form signature
+  definitions (`IsPosDef`, `IsPosSemidefDegenerate`, `IsNegDef`,
+  `IsIndefinite`, Definitions 2.47–2.51 & Example 2.52).
 - `Conjugacy.lean`: `SignedPerm` ($\mathcal{O}$, Definition 2.8),
   $\mathcal{O}$-conjugacy of reflections
-  (`conjugate_reflections_of_neg_form`, Lemma 2.32), and graph
-  isomorphism conjugacy (`graphIso_conjugates_forms`, Lemma 2.37).
+  (`conjugate_reflections_of_neg_form`, Lemma 2.32), graph isomorphism
+  conjugacy (`graphIso_conjugates_forms`, Lemma 2.37;
+  `graphIso_iff_perm_conjugate`, `O_conjugate_preserves_diag_and_abs`,
+  Corollary 2.38), and signature invariance (`O_conjugate_isPosDef_iff`,
+  Corollary 2.46).
 - `Bipartite.lean`: `BipartiteReflectionSystem`, `bipartiteConjugator`,
   Theorem 1.4 (`bipartite_conjugation_theorem`,
   `bipartite_conjugates_reflections`, `bipartite_conjugates_wordProd`,
-  `bipartite_conjugates_charpoly`).
+  `bipartite_conjugates_charpoly`), and bipartite principal-element
+  conjugacy (`bipartite_same_part_comm`,
+  `bipartite_principalElements_conjugate`, Proposition 2.41 /
+  Proposition 3.32).
 - `ComponentsAndTrees.lean`: Component word decomposition and pointwise
   action (`wordProd_split_components`, `component_fixes_other`,
   Proposition 2.45) and leaf-insertion conjugacy for trees
@@ -88,19 +101,26 @@ Mathlib `v4.35.0`):
   `tildeAminus2_eq_3_21_3`).
 - `RankTwo.lean`: Rank-2 mixed-sign systems, Lemma 3.17
   (`det_rank2_pm`), Lemma 3.14 (`rank2_pm_order_two_of_zero`,
-  `rank2_pm_infinite_order`), and Example 3.16 Fibonacci matrix powers
-  (`a2_pm_3_fibonacci_powers`).
+  `rank2_pm_infinite_order`), Corollary 3.18
+  (`adjacent_pm_infinite_order`), and Example 3.16 Fibonacci matrix
+  powers (`a2_pm_3_fibonacci_powers`).
 - `CyclesAndDeletion.lean`: Failure of the Deletion Property in
   $W(\widetilde{A_{-2}})$ (`tildeAminus2_fails_deletion`, Lemma 3.21),
   the infinite family of Theorem 1.2 (`theorem_1_2_infinite_family`),
-  and odd-cycle definiteness and non-$\mathcal{O}$-conjugacy
-  (`cyclePosForm_posSemidef`, `oddCycleNegForm_negDef`,
-  `oddCycle_not_O_conjugate`, Theorem 1.6).
+  infinite order of $W(\widetilde{A_2})$ (`tildeA2_infinite_order`,
+  Lemma 3.25), and odd-cycle definiteness and
+  non-$\mathcal{O}$-conjugacy (`cyclePosForm_posSemidef`,
+  `oddCycleNegForm_negDef`, `oddCycle_not_O_conjugate`, Theorem 1.6).
 - `SpectralRadius.lean`: Hyperbolic system with spectral radius $1$
   (`det_B_A3_ppm`, `w_A3_ppm_add_one_cube`, Example 3.29) and Example
-  3.33 / Theorem 1.7 spectral radius comparison
+  3.33 / Theorem 1.7 / Theorem 3.34 spectral radius comparison
   (`wLinEx333Z_annihilated`, `pLinEx333_no_root_ge_four`,
-  `pBpEx333_has_root_gt_four`).
+  `pBpEx333_has_root_gt_four`, `theorem_3_34_bipartite_exceeds_linear`).
+- `ClassicalDeletion.lean`: Universal Coxeter quotient
+  (`freeCoxeterQuotient`, Proposition 3.19), abstract Deletion Property
+  (`SatisfiesDeletionProperty`), $\mathcal{O}$-conjugacy invariance
+  (`deletion_invariant_of_O_conjugate`), and Corollary 1.3
+  (`corollary_1_3_not_conjugate_to_deletion`).
 
 ### Building Lean
 
@@ -108,6 +128,17 @@ Mathlib `v4.35.0`):
 cd lean
 lake exe cache get
 lake build
+```
+
+## Manim Presentation (`slides/`)
+
+Interactive presentation scenes built on top of `mixed_sign_coxeter`
+live in [`slides/dissertation_deck.py`](slides/dissertation_deck.py). To
+render scenes locally:
+
+``` bash
+pip install -e ".[manim]"
+manim -pql slides/dissertation_deck.py TitleOverviewScene
 ```
 
 ## Quarto Writeup (`docs/` & `README.qmd`)

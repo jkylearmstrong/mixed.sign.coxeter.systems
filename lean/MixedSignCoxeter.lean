@@ -7,4 +7,5 @@ import MixedSignCoxeter.MixedSign
 import MixedSignCoxeter.RankTwo
 import MixedSignCoxeter.CyclesAndDeletion
 import MixedSignCoxeter.SpectralRadius
+import MixedSignCoxeter.ClassicalDeletion
 

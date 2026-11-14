@@ -220,4 +220,76 @@ theorem odd_word_ne_one (S : ReflectionSystem n) {w : List (Fin n)} (hw : Odd w.
   rw [det_wordProd, Matrix.det_one, hw.neg_one_pow] at hd
   norm_num at hd
 
+/-- **Proposition 2.28**: If nodes `i` and `j` are not connected in the reflection
+diagram `Γ(B)` (`B i j = 0`), then `s_i` and `s_j` commute. -/
+theorem reflectionMatrix_comm_of_not_adjacent (S : ReflectionSystem n) (i j : Fin n)
+    (hij : S.B i j = 0) :
+    reflectionMatrix S.B i * reflectionMatrix S.B j =
+      reflectionMatrix S.B j * reflectionMatrix S.B i :=
+  reflectionMatrix_comm_of_orthogonal S hij
+
+/-- Quadratic form `v ↦ vᵀ B v` associated to a symmetric matrix `B`. -/
+def quadForm (B : Matrix (Fin n) (Fin n) ℝ) (v : Fin n → ℝ) : ℝ :=
+  ∑ i : Fin n, ∑ j : Fin n, v i * B i j * v j
+
+/-- **Definition 2.47**: `S` is *positive definite* (spherical / finite type) if
+`vᵀ B v > 0` for all `v ≠ 0`. -/
+def IsPosDef (S : ReflectionSystem n) : Prop :=
+  ∀ v : Fin n → ℝ, v ≠ 0 → 0 < quadForm S.B v
+
+/-- **Definition 2.48**: `S` is *positive semidefinite degenerate* (affine type) if
+`vᵀ B v ≥ 0` for all `v` and `vᵀ B v = 0` for some `v ≠ 0`. -/
+def IsPosSemidefDegenerate (S : ReflectionSystem n) : Prop :=
+  (∀ v : Fin n → ℝ, 0 ≤ quadForm S.B v) ∧ ∃ v : Fin n → ℝ, v ≠ 0 ∧ quadForm S.B v = 0
+
+/-- **Definition 2.49**: `S` is *negative definite* if `vᵀ B v < 0` for all `v ≠ 0`. -/
+def IsNegDef (S : ReflectionSystem n) : Prop :=
+  ∀ v : Fin n → ℝ, v ≠ 0 → quadForm S.B v < 0
+
+/-- **Definition 2.50–2.51**: `S` is *indefinite* (hyperbolic / mixed signature) if
+`B` takes both strictly positive and strictly negative values. -/
+def IsIndefinite (S : ReflectionSystem n) : Prop :=
+  (∃ u : Fin n → ℝ, 0 < quadForm S.B u) ∧ (∃ v : Fin n → ℝ, quadForm S.B v < 0)
+
+theorem isPosDef_not_isNegDef [NeZero n] (S : ReflectionSystem n) (h : S.IsPosDef) :
+    ¬ S.IsNegDef := by
+  intro hn
+  have hne : (fun _ : Fin n => (1 : ℝ)) ≠ 0 := fun h0 => by
+    have := congr_fun h0 0; norm_num at this
+  have h1 := h _ hne
+  have h2 := hn _ hne
+  linarith
+
+theorem isPosDef_not_isIndefinite (S : ReflectionSystem n) (h : S.IsPosDef) :
+    ¬ S.IsIndefinite := by
+  rintro ⟨_, v, hv⟩
+  by_cases hv0 : v = 0
+  · subst hv0; simp [quadForm] at hv
+  · exact absurd (h v hv0) (not_lt_of_gt hv)
+
+/-- **Example 2.52 (a)**: `A₂(+, +)` is positive definite. -/
+theorem example_2_52_A2_pp_posDef :
+    let B : Matrix (Fin 2) (Fin 2) ℝ := !![2, -1; -1, 2]
+    ∀ v : Fin 2 → ℝ, v ≠ 0 → 0 < quadForm B v := by
+  intro B v hv
+  have hsum : quadForm B v = (v 0 - v 1) ^ 2 + v 0 ^ 2 + v 1 ^ 2 := by
+    simp [quadForm, B, Fin.sum_univ_two]
+    ring
+  rw [hsum]
+  by_contra hle
+  push Not at hle
+  have h0 : v 0 = 0 := by nlinarith [sq_nonneg (v 0 - v 1), sq_nonneg (v 0), sq_nonneg (v 1)]
+  have h1 : v 1 = 0 := by nlinarith [sq_nonneg (v 0 - v 1), sq_nonneg (v 0), sq_nonneg (v 1)]
+  apply hv
+  ext i; fin_cases i <;> assumption
+
+/-- **Example 2.52 (b)**: `A₂(+, -)` is indefinite (hyperbolic). -/
+theorem example_2_52_A2_pm_indefinite :
+    let B : Matrix (Fin 2) (Fin 2) ℝ := !![2, -1; -1, -2]
+    (∃ u : Fin 2 → ℝ, 0 < quadForm B u) ∧ (∃ v : Fin 2 → ℝ, quadForm B v < 0) := by
+  intro B
+  refine ⟨⟨![1, 0], ?_⟩, ⟨![0, 1], ?_⟩⟩
+  · simp [quadForm, B, Fin.sum_univ_two]
+  · simp [quadForm, B, Fin.sum_univ_two]
+
 end ReflectionSystem

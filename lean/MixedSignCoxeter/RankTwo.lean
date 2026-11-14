@@ -223,6 +223,150 @@ theorem a2_pm_3_fibonacci_powers (k : ℕ) (hk : 1 ≤ k) :
         push_cast [hfib0, hfib1, hfib2, hfib3] <;>
         ring
 
+/-- **Corollary 3.18**: If a mixed-sign Coxeter graph `Γ` contains an adjacent pair
+`(i, j)` with `Γ.signs i = .pos`, `Γ.signs j = .neg`, and `Γ.toBilinearForm i j ≠ 0`,
+then `s_i * s_j` has infinite order in `W(Γ)`. -/
+theorem adjacent_pm_infinite_order {n : ℕ} (Γ : MixedSignCoxeterGraph n) (i j : Fin n)
+    (hne : i ≠ j) (hi : Γ.sign i = Sign.pos) (hj : Γ.sign j = Sign.neg)
+    (hc : Γ.toBilinearForm i j ≠ 0) (k : ℕ) (hk : 1 ≤ k) :
+    (ReflectionSystem.reflectionMatrix Γ.toBilinearForm i *
+      ReflectionSystem.reflectionMatrix Γ.toBilinearForm j) ^ k ≠ 1 := by
+  let c : ℝ := Γ.toBilinearForm i j
+  let embed : (Fin 2 → ℝ) → (Fin n → ℝ) :=
+    fun u r => if r = i then u 0 else if r = j then u 1 else 0
+  have hembed_inj : ∀ u₁ u₂ : Fin 2 → ℝ, embed u₁ = embed u₂ → u₁ = u₂ := by
+    intro u₁ u₂ h
+    ext a
+    fin_cases a
+    · simpa [embed] using congr_fun h i
+    · simpa [embed, Ne.symm hne] using congr_fun h j
+  have hBii : Γ.toBilinearForm i i = 2 := by
+    simp [MixedSignCoxeterGraph.toBilinearForm, hi, Sign.toReal]
+  have hBjj : Γ.toBilinearForm j j = -2 := by
+    simp [MixedSignCoxeterGraph.toBilinearForm, hj, Sign.toReal]
+  have hBji : Γ.toBilinearForm j i = c :=
+    (Γ.toBilinearForm_symm.apply j i).symm
+  have hs_i : ∀ u : Fin 2 → ℝ,
+      (ReflectionSystem.reflectionMatrix Γ.toBilinearForm i).mulVec (embed u) =
+        embed ((s0PM c).mulVec u) := by
+    intro u
+    ext r
+    simp only [Matrix.mulVec, dotProduct, ReflectionSystem.reflectionMatrix_apply, embed]
+    have hc_def : Γ.toBilinearForm i j = c := rfl
+    have hsplit : ∀ x : Fin n,
+        ((if r = x then (1 : ℝ) else 0) -
+          if r = i then 2 * Γ.toBilinearForm i x / Γ.toBilinearForm i i else 0) *
+          (if x = i then u 0 else if x = j then u 1 else 0) =
+        (if r = x then (if x = i then u 0 else if x = j then u 1 else 0) else 0) -
+          (if r = i then (if x = i then 2 * u 0 else 0) + (if x = j then c * u 1 else 0) else 0) := by
+      intro x
+      by_cases hxi : x = i
+      · rw [hxi]
+        by_cases hri : r = i <;> simp [hri, hne, hBii] <;> ring
+      · by_cases hxj : x = j
+        · rw [hxj]
+          by_cases hrj : r = j <;> by_cases hri : r = i <;>
+            simp [hrj, hri, hxi, hne, Ne.symm hne, hBii, hc_def] <;> ring
+        · by_cases hrx : r = x <;> by_cases hri : r = i <;>
+            simp [hrx, hri, hxi, hxj]
+    rw [Finset.sum_congr rfl fun x _ => hsplit x, Finset.sum_sub_distrib]
+    have hsum1 : (∑ x : Fin n,
+        if r = x then (if x = i then u 0 else if x = j then u 1 else 0) else 0) =
+        if r = i then u 0 else if r = j then u 1 else 0 := by
+      have : (∑ x : Fin n,
+          if r = x then (if x = i then u 0 else if x = j then u 1 else 0) else 0) =
+          ∑ x : Fin n, if x = r then (if x = i then u 0 else if x = j then u 1 else 0) else 0 := by
+        refine Finset.sum_congr rfl fun x _ => by simp only [eq_comm]
+      rw [this, Finset.sum_ite_eq']
+      simp
+    have hsum2 : (∑ x : Fin n,
+        if r = i then (if x = i then 2 * u 0 else 0) + (if x = j then c * u 1 else 0) else 0) =
+        if r = i then 2 * u 0 + c * u 1 else 0 := by
+      by_cases hri : r = i
+      · subst hri; simp [Finset.sum_add_distrib]
+      · simp [hri]
+    rw [hsum1, hsum2]
+    by_cases hri : r = i
+    · subst hri
+      simp [s0PM, Fin.sum_univ_two, hne]
+      ring
+    · by_cases hrj : r = j
+      · subst hrj
+        simp [s0PM, Fin.sum_univ_two, hri]
+      · simp [hri, hrj]
+  have hs_j : ∀ u : Fin 2 → ℝ,
+      (ReflectionSystem.reflectionMatrix Γ.toBilinearForm j).mulVec (embed u) =
+        embed ((s1PM c).mulVec u) := by
+    intro u
+    ext r
+    simp only [Matrix.mulVec, dotProduct, ReflectionSystem.reflectionMatrix_apply, embed]
+    have hsplit : ∀ x : Fin n,
+        ((if r = x then (1 : ℝ) else 0) -
+          if r = j then 2 * Γ.toBilinearForm j x / Γ.toBilinearForm j j else 0) *
+          (if x = i then u 0 else if x = j then u 1 else 0) =
+        (if r = x then (if x = i then u 0 else if x = j then u 1 else 0) else 0) -
+          (if r = j then (if x = i then -(c * u 0) else 0) + (if x = j then 2 * u 1 else 0) else 0) := by
+      intro x
+      by_cases hxi : x = i
+      · rw [hxi]
+        by_cases hri : r = i <;> by_cases hrj : r = j <;>
+          simp [hri, hrj, hne, Ne.symm hne, hBjj, hBji] <;> ring
+      · by_cases hxj : x = j
+        · rw [hxj]
+          by_cases hrj : r = j <;> simp [hrj, Ne.symm hne, hBjj] <;> ring
+        · by_cases hrx : r = x <;> by_cases hrj : r = j <;>
+            simp [hrx, hrj, hxi, hxj]
+    rw [Finset.sum_congr rfl fun x _ => hsplit x, Finset.sum_sub_distrib]
+    have hsum1 : (∑ x : Fin n,
+        if r = x then (if x = i then u 0 else if x = j then u 1 else 0) else 0) =
+        if r = i then u 0 else if r = j then u 1 else 0 := by
+      have : (∑ x : Fin n,
+          if r = x then (if x = i then u 0 else if x = j then u 1 else 0) else 0) =
+          ∑ x : Fin n, if x = r then (if x = i then u 0 else if x = j then u 1 else 0) else 0 := by
+        refine Finset.sum_congr rfl fun x _ => by simp only [eq_comm]
+      rw [this, Finset.sum_ite_eq']
+      simp
+    have hsum2 : (∑ x : Fin n,
+        if r = j then (if x = i then -(c * u 0) else 0) + (if x = j then 2 * u 1 else 0) else 0) =
+        if r = j then -(c * u 0) + 2 * u 1 else 0 := by
+      by_cases hrj : r = j
+      · subst hrj; simp [Finset.sum_add_distrib]
+      · simp [hrj]
+    rw [hsum1, hsum2]
+    by_cases hri : r = i
+    · subst hri
+      simp [s1PM, Fin.sum_univ_two, hne]
+    · by_cases hrj : r = j
+      · subst hrj
+        simp [s1PM, Fin.sum_univ_two, Ne.symm hne]
+        ring
+      · simp [hri, hrj]
+  have hmulN : ∀ (A B : Matrix (Fin n) (Fin n) ℝ) (x : Fin n → ℝ),
+      (A * B).mulVec x = A.mulVec (B.mulVec x) := fun A B x => (Matrix.mulVec_mulVec x A B).symm
+  have hmul2 : ∀ (A B : Matrix (Fin 2) (Fin 2) ℝ) (x : Fin 2 → ℝ),
+      (A * B).mulVec x = A.mulVec (B.mulVec x) := fun A B x => (Matrix.mulVec_mulVec x A B).symm
+  have hpow : ∀ (m : ℕ) (u : Fin 2 → ℝ),
+      ((ReflectionSystem.reflectionMatrix Γ.toBilinearForm i *
+        ReflectionSystem.reflectionMatrix Γ.toBilinearForm j) ^ m).mulVec (embed u) =
+        embed (((s0PM c * s1PM c) ^ m).mulVec u) := by
+    intro m u
+    induction m with
+    | zero => simp
+    | succ m ih =>
+      rw [pow_succ', pow_succ', hmulN, hmul2, ih, hmulN, hmul2, hs_j, hs_i]
+  intro hpow1
+  have hmat1 : (s0PM c * s1PM c) ^ k = 1 := by
+    ext r col
+    have hcol := hembed_inj (((s0PM c * s1PM c) ^ k).mulVec (Pi.single col 1)) (Pi.single col 1) (by
+      rw [← hpow k (Pi.single col 1), hpow1, Matrix.one_mulVec])
+    have hr := congr_fun hcol r
+    fin_cases col <;>
+      simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.one_apply,
+        Pi.single_apply] at hr ⊢ <;>
+      simp at hr ⊢ <;>
+      exact hr
+  exact rank2_pm_infinite_order c hc k hk hmat1
+
 end RankTwo
 
 end MixedSignCoxeter

@@ -204,6 +204,15 @@ theorem wBpEx333Z_annihilated :
       24 • wBpEx333Z ^ 2 + 9 • wBpEx333Z + 1 = 0 := by
   decide
 
+/-- **Theorem 3.34 / Theorem 1.7**: Explicit body-theorem alias showing that in the
+6-node bipartite graph of Example 3.33, the bipartite principal element has a real
+eigenvalue `λ ∈ [-6, -4]` (`|λ| ≥ 4`), whereas all eigenvalues of the linear principal
+element satisfy `|λ| < 4`. -/
+theorem theorem_3_34_bipartite_exceeds_linear :
+    (∀ lam : ℝ, 4 ≤ |lam| → pLinEx333 lam ≠ 0) ∧
+    (∃ lam : ℝ, lam ∈ Set.Icc (-6 : ℝ) (-4) ∧ pBpEx333 lam = 0) :=
+  ⟨pLinEx333_no_root_ge_four, pBpEx333_has_root_gt_four⟩
+
 end Example3_33
 
 end MixedSignCoxeter

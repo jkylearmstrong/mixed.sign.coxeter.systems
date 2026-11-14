@@ -146,4 +146,114 @@ theorem graphIso_conjugates_forms {B₁ B₂ : Matrix (Fin n) (Fin n) ℝ}
   simp only [P, SignedPerm.signReal, Bool.false_eq_true, ↓reduceIte, one_mul]
   exact (hφ r c).symm
 
+/-- **Corollary 2.38 (permutation conjugacy)**: Two reflection diagrams `Γ(B₁)` and
+`Γ(B₂)` are isomorphic if and only if `B₂ = Pᵀ * B₁ * P` for a permutation matrix
+`P ∈ 𝒪` (`P.neg = fun _ => false`). -/
+theorem graphIso_iff_perm_conjugate (B₁ B₂ : Matrix (Fin n) (Fin n) ℝ) :
+    (∃ φ : Equiv.Perm (Fin n), IsGraphIso B₁ B₂ φ) ↔
+      ∃ P : SignedPerm n, (∀ i, P.neg i = false) ∧
+        B₂ = P.toMatrixᵀ * B₁ * P.toMatrix := by
+  constructor
+  · rintro ⟨φ, hφ⟩
+    exact ⟨⟨φ, fun _ => false⟩, fun _ => rfl, (graphIso_conjugates_forms hφ).symm⟩
+  · rintro ⟨P, hneg, hB⟩
+    refine ⟨P.perm, fun i j => ?_⟩
+    rw [hB, P.toMatrix_conj_apply]
+    have hsi : P.signReal i = 1 := by simp [SignedPerm.signReal, hneg i]
+    have hsj : P.signReal j = 1 := by simp [SignedPerm.signReal, hneg j]
+    rw [hsi, hsj, one_mul, one_mul]
+
+/-- **Corollary 2.38 (general `𝒪`-conjugacy)**: Any `𝒪`-conjugacy `B₂ = Pᵀ * B₁ * P`
+with `P : SignedPerm n` preserves diagonal weights and absolute values of edge weights. -/
+theorem O_conjugate_preserves_diag_and_abs {B₁ B₂ : Matrix (Fin n) (Fin n) ℝ}
+    (P : SignedPerm n) (hB : B₂ = P.toMatrixᵀ * B₁ * P.toMatrix) (i j : Fin n) :
+    B₂ i i = B₁ (P.perm i) (P.perm i) ∧ |B₂ i j| = |B₁ (P.perm i) (P.perm j)| := by
+  rw [hB, P.toMatrix_conj_apply, P.toMatrix_conj_apply]
+  have h1 : P.signReal i * P.signReal i = 1 := P.signReal_mul_self i
+  have habs : ∀ k, |P.signReal k| = 1 := by
+    intro k; unfold SignedPerm.signReal; cases P.neg k <;> norm_num
+  refine ⟨by rw [h1, one_mul], ?_⟩
+  rw [abs_mul, abs_mul, habs i, habs j, one_mul, one_mul]
+
+/-- **Corollary 2.46**: Conjugate reflection systems (`B₂ = Pᵀ * B₁ * P` with `P ∈ 𝒪`)
+have identical quadratic-form values under `v ↦ P.toMatrix.mulVec v`, and therefore
+the same signature classification. -/
+theorem O_conjugate_quadForm {B₁ B₂ : Matrix (Fin n) (Fin n) ℝ} (P : SignedPerm n)
+    (hB : B₂ = P.toMatrixᵀ * B₁ * P.toMatrix) (v : Fin n → ℝ) :
+    quadForm B₂ v = quadForm B₁ (P.toMatrix.mulVec v) := by
+  simp only [quadForm, hB, P.toMatrix_conj_apply]
+  have hmul : ∀ i : Fin n, P.toMatrix.mulVec v (P.perm i) = P.signReal i * v i := by
+    intro i
+    simp only [Matrix.mulVec, dotProduct, SignedPerm.toMatrix_apply]
+    have ht : ∀ k : Fin n,
+        (if P.perm i = P.perm k then P.signReal k else 0) * v k =
+        if k = i then P.signReal i * v i else 0 := by
+      intro k
+      by_cases hki : k = i
+      · subst hki; simp
+      · have hp : P.perm i ≠ P.perm k := fun h => hki (P.perm.injective h).symm
+        simp [hki, hp]
+    rw [Finset.sum_congr rfl fun k _ => ht k]
+    simp
+  have hsum_perm : ∀ f : Fin n → ℝ, (∑ i : Fin n, f (P.perm i)) = ∑ i : Fin n, f i :=
+    fun f => Equiv.sum_comp P.perm f
+  calc (∑ i : Fin n, ∑ j : Fin n,
+        v i * (P.signReal i * P.signReal j * B₁ (P.perm i) (P.perm j)) * v j)
+      = ∑ i : Fin n, ∑ j : Fin n,
+          (P.signReal i * v i) * B₁ (P.perm i) (P.perm j) * (P.signReal j * v j) := by
+            refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
+    _ = ∑ i : Fin n, ∑ j : Fin n,
+          P.toMatrix.mulVec v (P.perm i) * B₁ (P.perm i) (P.perm j) * P.toMatrix.mulVec v (P.perm j) := by
+            refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by
+              rw [hmul i, hmul j]
+    _ = ∑ i : Fin n, ∑ j : Fin n,
+          P.toMatrix.mulVec v i * B₁ i j * P.toMatrix.mulVec v j := by
+            rw [hsum_perm (fun i => ∑ j : Fin n,
+              P.toMatrix.mulVec v i * B₁ i (P.perm j) * P.toMatrix.mulVec v (P.perm j))]
+            refine Finset.sum_congr rfl fun i _ => hsum_perm (fun j =>
+              P.toMatrix.mulVec v i * B₁ i j * P.toMatrix.mulVec v j)
+
+theorem O_conjugate_isPosDef_iff (S₁ S₂ : ReflectionSystem n) (P : SignedPerm n)
+    (hB : S₂.B = P.toMatrixᵀ * S₁.B * P.toMatrix) :
+    S₁.IsPosDef ↔ S₂.IsPosDef := by
+  have hinj : ∀ v : Fin n → ℝ, P.toMatrix.mulVec v = 0 ↔ v = 0 := by
+    intro v
+    constructor
+    · intro h0
+      have h1 : P.toMatrixᵀ.mulVec (P.toMatrix.mulVec v) = 0 := by rw [h0, Matrix.mulVec_zero]
+      rw [Matrix.mulVec_mulVec, P.toMatrix_transpose_mul_self, Matrix.one_mulVec] at h1
+      exact h1
+    · intro h0; subst h0; simp
+  have hsurj : ∀ u : Fin n → ℝ, ∃ v : Fin n → ℝ, P.toMatrix.mulVec v = u := by
+    intro u
+    refine ⟨P.toMatrixᵀ.mulVec u, ?_⟩
+    rw [Matrix.mulVec_mulVec]
+    have hPP : P.toMatrix * P.toMatrixᵀ = 1 := by
+      ext r c
+      simp only [Matrix.mul_apply, Matrix.transpose_apply, SignedPerm.toMatrix_apply, Matrix.one_apply]
+      have hterm : ∀ k : Fin n,
+          (if r = P.perm k then P.signReal k else 0) *
+            (if c = P.perm k then P.signReal k else 0) =
+          if k = P.perm.symm r then (if r = c then 1 else 0) else 0 := by
+        intro k
+        by_cases hk : k = P.perm.symm r
+        · subst hk
+          have hpk : P.perm (P.perm.symm r) = r := P.perm.apply_symm_apply r
+          by_cases hrc : r = c
+          · subst hrc; simp [hpk, P.signReal_mul_self]
+          · simp [hpk, hrc, Ne.symm hrc]
+        · have hne : r ≠ P.perm k := fun h => hk (P.perm.eq_symm_apply.mpr h.symm)
+          simp [hk, hne]
+      rw [Finset.sum_congr rfl fun k _ => hterm k]
+      simp
+    rw [hPP, Matrix.one_mulVec]
+  constructor
+  · intro h1 v hv
+    rw [O_conjugate_quadForm P hB v]
+    exact h1 _ ((hinj v).not.mpr hv)
+  · intro h2 u hu
+    obtain ⟨v, rfl⟩ := hsurj u
+    rw [← O_conjugate_quadForm P hB v]
+    exact h2 v (fun hv => hu ((hinj v).mpr hv))
+
 end ReflectionSystem

@@ -101,7 +101,7 @@ lemma evalZ_cast (w : List (Fin 3)) :
     rw [tildeAminus2_generators a, hmul]
 
 /-- Delete the elements at indices `i` and `j` (`i < j`) from a list. -/
-private def deleteTwo {α : Type*} (w : List α) (i j : ℕ) : List α :=
+def deleteTwo {α : Type*} (w : List α) (i j : ℕ) : List α :=
   (w.zipIdx.filter fun p => p.2 ≠ i ∧ p.2 ≠ j).map Prod.fst
 
 private lemma evalZ_bad_eq_reduced :
@@ -559,6 +559,52 @@ theorem oddCycle_not_O_conjugate (m : ℕ) [NeZero m] (hm : Odd m) :
           (P.toMatrixᵀ.mulVec (fun _ => 1)) j) := by
       simp only [Matrix.neg_apply, mul_neg, neg_mul, Finset.sum_neg_distrib]
     linarith
+
+/-! ### Lemma 3.25: Infinite Order in `W(Ã₂)` vs. Finite Order in `W(Ã₋₂)` -/
+
+/-- Integer generating reflections for classical `Ã₂(+, +, +)`. -/
+def sA2TildeZ : Fin 3 → Matrix (Fin 3) (Fin 3) ℤ
+  | 0 => !![-1, 1, 1; 0, 1, 0; 0, 0, 1]
+  | 1 => !![1, 0, 0; 1, -1, 1; 0, 0, 1]
+  | 2 => !![1, 0, 0; 0, 1, 0; 1, 1, -1]
+
+def wA2TildeSqZ : Matrix (Fin 3) (Fin 3) ℤ :=
+  (sA2TildeZ 0 * sA2TildeZ 1 * sA2TildeZ 2) ^ 2
+
+def diffA2TildeZ : Matrix (Fin 3) (Fin 3) ℤ :=
+  wA2TildeSqZ - 1
+
+private lemma diffA2TildeZ_sq : diffA2TildeZ * diffA2TildeZ = 0 := by decide
+
+private lemma wA2TildeSqZ_eq : wA2TildeSqZ = 1 + diffA2TildeZ := by
+  simp [diffA2TildeZ]
+
+/-- **Lemma 3.25**: In `W(Ã₂)`, `((s₀ s₁ s₂)^2)^k = I + k • (w² - I)`, so `(s₀ s₁ s₂)^(2k) ≠ 1`
+for all `k ≥ 1`. Combined with `tildeAminus2_principal_order_four` (and `|W(Ã₋₂)| = 24`),
+`W(Ã₂)` has infinite order while `W(Ã₋₂)` is finite. -/
+theorem wA2TildeSqZ_pow (k : ℕ) :
+    wA2TildeSqZ ^ k = 1 + (k : ℤ) • diffA2TildeZ := by
+  induction k with
+  | zero => simp
+  | succ k ih =>
+    rw [pow_succ, ih, wA2TildeSqZ_eq]
+    simp only [add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm,
+      diffA2TildeZ_sq, smul_zero, add_zero]
+    push_cast
+    rw [add_smul, one_smul]
+    abel
+
+theorem tildeA2_infinite_order (k : ℕ) (hk : 1 ≤ k) :
+    (sA2TildeZ 0 * sA2TildeZ 1 * sA2TildeZ 2) ^ (2 * k) ≠ 1 := by
+  intro h
+  have hsq : wA2TildeSqZ ^ k = 1 := by
+    simpa [wA2TildeSqZ, pow_mul] using h
+  rw [wA2TildeSqZ_pow] at hsq
+  have h00 := congr_fun (congr_fun hsq 0) 0
+  have hd00 : diffA2TildeZ 0 0 = 3 := by decide
+  simp only [Matrix.add_apply, Matrix.one_apply, ↓reduceIte, Matrix.smul_apply, hd00,
+    smul_eq_mul] at h00
+  omega
 
 end OddCycles
 

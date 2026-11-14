@@ -151,5 +151,92 @@ theorem bipartite_conjugates_charpoly (G : BipartiteReflectionSystem n) (w : Lis
     mul_assoc, ← Matrix.det_mul, hP, Matrix.det_one, mul_one] at hdet
   exact hdet
 
+/-- **Proposition 2.41 / 3.32 (same-part commutativity)**: In a bipartite reflection
+system, any two generating reflections in the same part commute. -/
+theorem bipartite_same_part_comm (G : BipartiteReflectionSystem n) {i j : Fin n}
+    (hij : G.part i = G.part j) :
+    reflectionMatrix G.B i * reflectionMatrix G.B j =
+      reflectionMatrix G.B j * reflectionMatrix G.B i := by
+  by_cases h : i = j
+  · subst h; rfl
+  · exact reflectionMatrix_comm_of_orthogonal G.toReflectionSystem (G.bipartite_edges i j hij h)
+
+/-- Any permutation of a word whose letters all lie in the same part `b` produces the
+exact same group element. -/
+theorem bipartite_wordProd_perm (G : BipartiteReflectionSystem n) (b : Bool)
+    {l₁ l₂ : List (Fin n)} (hperm : l₁.Perm l₂) (hb : ∀ i ∈ l₁, G.part i = b) :
+    wordProd G.toReflectionSystem l₁ = wordProd G.toReflectionSystem l₂ := by
+  induction hperm with
+  | nil => rfl
+  | @cons x l₁ l₂ _ ih =>
+    simp only [wordProd, List.map_cons, List.prod_cons]
+    congr 1
+    exact ih (fun i hi => hb i (List.mem_cons_of_mem x hi))
+  | @swap x y l =>
+    simp only [wordProd, List.map_cons, List.prod_cons, ← mul_assoc]
+    have hx : G.part x = b := hb x (by simp)
+    have hy : G.part y = b := hb y (by simp)
+    have hcomm := bipartite_same_part_comm G (hx.trans hy.symm)
+    rw [hcomm]
+  | @trans l₁ l₂ l₃ h₁₂ _ ih₁ ih₂ =>
+    have hb₂ : ∀ i ∈ l₂, G.part i = b := fun i hi => hb i (h₁₂.symm.mem_iff.mp hi)
+    exact (ih₁ hb).trans (ih₂ hb₂)
+
+/-- Every word product has an explicit inverse `wordProd S w.reverse`. -/
+lemma wordProd_mul_reverse (S : ReflectionSystem n) (w : List (Fin n)) :
+    wordProd S w * wordProd S w.reverse = 1 := by
+  induction w with
+  | nil => simp [wordProd]
+  | cons a t ih =>
+    simp only [wordProd, List.reverse_cons, List.map_append, List.prod_append,
+      List.map_cons, List.prod_cons, List.map_nil, List.prod_nil, mul_one]
+    calc reflectionMatrix S.B a * (t.map (reflectionMatrix S.B)).prod *
+          ((t.reverse.map (reflectionMatrix S.B)).prod * reflectionMatrix S.B a)
+        = reflectionMatrix S.B a *
+            ((t.map (reflectionMatrix S.B)).prod * (t.reverse.map (reflectionMatrix S.B)).prod) *
+            reflectionMatrix S.B a := by simp only [mul_assoc]
+      _ = reflectionMatrix S.B a * 1 * reflectionMatrix S.B a := by
+            have h1 : (t.map (reflectionMatrix S.B)).prod *
+                (t.reverse.map (reflectionMatrix S.B)).prod = 1 := ih
+            rw [h1]
+      _ = 1 := by
+            rw [mul_one]
+            exact reflectionMatrix_mul_self S a
+
+/-- **Proposition 3.32**: All bipartite principal elements (any ordering of `N₁` followed
+by `N₂`, or `N₂` followed by `N₁`) are conjugate. -/
+theorem bipartite_principalElements_conjugate (G : BipartiteReflectionSystem n)
+    {a₁ a₂ b₁ b₂ : List (Fin n)} (ha : a₁.Perm a₂) (hb : b₁.Perm b₂)
+    (ha_part : ∀ i ∈ a₁, G.part i = true) (hb_part : ∀ i ∈ b₁, G.part i = false) :
+    (wordProd G.toReflectionSystem (a₁ ++ b₁) =
+      wordProd G.toReflectionSystem (a₂ ++ b₂)) ∧
+    (∃ g g_inv : Matrix (Fin n) (Fin n) ℝ, g * g_inv = 1 ∧ g_inv * g = 1 ∧
+      g_inv * wordProd G.toReflectionSystem (a₁ ++ b₁) * g =
+        wordProd G.toReflectionSystem (b₂ ++ a₂)) := by
+  have hA : wordProd G.toReflectionSystem a₁ = wordProd G.toReflectionSystem a₂ :=
+    bipartite_wordProd_perm G true ha ha_part
+  have hB : wordProd G.toReflectionSystem b₁ = wordProd G.toReflectionSystem b₂ :=
+    bipartite_wordProd_perm G false hb hb_part
+  have hsplit : ∀ u v : List (Fin n),
+      wordProd G.toReflectionSystem (u ++ v) =
+        wordProd G.toReflectionSystem u * wordProd G.toReflectionSystem v := by
+    intro u v; simp [wordProd]
+  constructor
+  · rw [hsplit, hsplit, hA, hB]
+  · refine ⟨wordProd G.toReflectionSystem a₁, wordProd G.toReflectionSystem a₁.reverse,
+      wordProd_mul_reverse G.toReflectionSystem a₁, ?_, ?_⟩
+    · simpa [List.reverse_reverse] using wordProd_mul_reverse G.toReflectionSystem a₁.reverse
+    · rw [hsplit, hsplit, ← hA, ← hB]
+      have hinv : wordProd G.toReflectionSystem a₁.reverse * wordProd G.toReflectionSystem a₁ = 1 := by
+        simpa [List.reverse_reverse] using wordProd_mul_reverse G.toReflectionSystem a₁.reverse
+      calc wordProd G.toReflectionSystem a₁.reverse *
+            (wordProd G.toReflectionSystem a₁ * wordProd G.toReflectionSystem b₁) *
+            wordProd G.toReflectionSystem a₁
+          = (wordProd G.toReflectionSystem a₁.reverse * wordProd G.toReflectionSystem a₁) *
+              wordProd G.toReflectionSystem b₁ * wordProd G.toReflectionSystem a₁ := by
+            simp only [mul_assoc]
+        _ = wordProd G.toReflectionSystem b₁ * wordProd G.toReflectionSystem a₁ := by
+            rw [hinv, one_mul]
+
 end ReflectionSystem
 
