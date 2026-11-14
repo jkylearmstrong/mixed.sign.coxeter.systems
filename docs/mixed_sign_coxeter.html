@@ -2547,8 +2547,9 @@ window.Quarto = {
   <li><a href="#spectral-radius-counterexamples-example-3.29-example-3.33-theorem-1.7" id="toc-spectral-radius-counterexamples-example-3.29-example-3.33-theorem-1.7" class="nav-link" data-scroll-target="#spectral-radius-counterexamples-example-3.29-example-3.33-theorem-1.7"><span class="header-section-number">3.3</span> Spectral Radius Counterexamples (Example 3.29, Example 3.33, Theorem 1.7)</a></li>
   </ul></li>
   <li><a href="#summary-of-lean-4-modules" id="toc-summary-of-lean-4-modules" class="nav-link" data-scroll-target="#summary-of-lean-4-modules"><span class="header-section-number">4</span> Summary of Lean 4 Modules</a></li>
-  <li><a href="#lean-4-formalization-architecture" id="toc-lean-4-formalization-architecture" class="nav-link" data-scroll-target="#lean-4-formalization-architecture"><span class="header-section-number">5</span> Lean 4 Formalization Architecture</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">6</span> References</a></li>
+  <li><a href="#formalization-scope-python-coverage-and-dissertation-omissions" id="toc-formalization-scope-python-coverage-and-dissertation-omissions" class="nav-link" data-scroll-target="#formalization-scope-python-coverage-and-dissertation-omissions"><span class="header-section-number">5</span> Formalization Scope, Python Coverage, and Dissertation Omissions</a></li>
+  <li><a href="#lean-4-formalization-architecture" id="toc-lean-4-formalization-architecture" class="nav-link" data-scroll-target="#lean-4-formalization-architecture"><span class="header-section-number">6</span> Lean 4 Formalization Architecture</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="mixed_sign_coxeter.docx"><i class="bi bi-file-word"></i>MS Word</a></li><li><a href="..\mixed_sign_coxeter.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
@@ -2697,7 +2698,7 @@ window.Quarto = {
 <h2 data-number="2" class="anchored" data-anchor-id="chapter-2-reflection-systems-conjugacy-trees-and-howletts-theorem"><span class="header-section-number">2</span> Chapter 2: Reflection Systems, Conjugacy, Trees, and Howlett’s Theorem</h2>
 <section id="reflection-systems-and-howletts-formula-theorem-1.1-lemma-2.63" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="reflection-systems-and-howletts-formula-theorem-1.1-lemma-2.63"><span class="header-section-number">2.1</span> Reflection Systems and Howlett’s Formula (Theorem 1.1 &amp; Lemma 2.63)</h3>
-<p>Given a symmetric <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(B\)</span> with nonzero diagonal entries <span class="math inline">\(B_{ii} \neq 0\)</span>, the generating reflections are <span class="math display">\[s_i(v) = v - \frac{2 B(e_i, v)}{B(e_i, e_i)} e_i.\]</span> Howlett’s theorem expresses the principal element <span class="math inline">\(w = s_0 s_1 \cdots s_{n-1}\)</span> via the upper-triangular matrix <span class="math inline">\(U\)</span> with <span class="math inline">\(U_{ii} = 1\)</span> and <span class="math inline">\(U_{ij} = \frac{2 B_{ij}}{B_{ii}}\)</span> for <span class="math inline">\(i &lt; j\)</span>: <span class="math display">\[U w = -U^T \quad \Longleftrightarrow \quad w = -U^{-1} U^T,\]</span> so the principal polynomial is <span class="math inline">\(\chi_w(x) = \det(x U + U^T)\)</span>.</p>
+<p>Given a symmetric <span class="math inline">\(n \times n\)</span> matrix <span class="math inline">\(B\)</span> with nonzero diagonal entries <span class="math inline">\(B_{ii} \neq 0\)</span>, the generating reflections are <span class="math display">\[s_i(v) = v - \frac{2 B(e_i, v)}{B(e_i, e_i)} e_i.\]</span> Following the dissertation’s normalization, Howlett’s upper-triangular matrix <span class="math inline">\(U\)</span> has diagonal entries <span class="math inline">\(U_{ii} = \frac{1}{2} B_{ii} \neq 0\)</span> and upper-triangular entries <span class="math inline">\(U_{ij} = B_{ij}\)</span> for <span class="math inline">\(i &lt; j\)</span> (with <span class="math inline">\(U_{ij} = 0\)</span> for <span class="math inline">\(i &gt; j\)</span>). Because <span class="math inline">\(\det U = \prod_{i=0}^{n-1} \frac{1}{2} B_{ii} \neq 0\)</span>, <span class="math inline">\(U\)</span> is invertible, and Howlett’s theorem expresses the principal element <span class="math inline">\(w = s_0 s_1 \cdots s_{n-1}\)</span> by <span class="math display">\[U w = -U^T \quad \Longleftrightarrow \quad w = -U^{-1} U^T,\]</span> so the principal polynomial is <span class="math inline">\(\chi_w(x) = (\det U)^{-1} \det(x U + U^T)\)</span> (which equals <span class="math inline">\(\det(x U + U^T)\)</span> up to the nonzero scalar <span class="math inline">\((\det U)^{-1}\)</span>).</p>
 <div id="howlett-demo" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>g_howlett <span class="op">=</span> MixedSignCoxeterGraph([<span class="st">&quot;+&quot;</span>, <span class="st">&quot;-&quot;</span>, <span class="st">&quot;+&quot;</span>, <span class="st">&quot;+&quot;</span>], [(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">3</span>), (<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>), (<span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">6</span>)])</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>w_direct <span class="op">=</span> evaluate_word(g_howlett, <span class="bu">list</span>(<span class="bu">range</span>(g_howlett.n)))</span>
@@ -2726,15 +2727,18 @@ Principal polynomial: x**4 + 4*x**3 + 3*x**2 + 4*x + 1</code></pre>
 </div>
 <p><strong>Lean 4 Verification</strong> (<a href="../lean/MixedSignCoxeter/Howlett.lean"><code>Howlett.lean</code></a>):</p>
 <pre class="lean"><code>theorem howlett_U_mul_principalElement (S : ReflectionSystem n) :
-    howlettU S * principalElement S = -(howlettU S)ᵀ
+    howlettU S.B * principalElement S = -(howlettU S.B)ᵀ
+
+theorem howlett_principalElement_eq_neg_inv_mul_transpose (S : ReflectionSystem n) :
+    principalElement S = -(howlettU S.B)⁻¹ * (howlettU S.B)ᵀ
 
 theorem principal_charpoly_eq (S : ReflectionSystem n) (x : ℝ) :
-    Matrix.det (x • (1 : Matrix (Fin n) (Fin n) ℝ) - principalElement S) =
-      Matrix.det (x • howlettU S + (howlettU S)ᵀ)</code></pre>
+    (x • (1 : Matrix (Fin n) (Fin n) ℝ) - principalElement S).det =
+      (howlettU S.B).det⁻¹ * (x • howlettU S.B + (howlettU S.B)ᵀ).det</code></pre>
 </section>
 <section id="bipartite-conjugation-theorem-1.4-corollary-1.5" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="bipartite-conjugation-theorem-1.4-corollary-1.5"><span class="header-section-number">2.2</span> Bipartite Conjugation (Theorem 1.4 &amp; Corollary 1.5)</h3>
-<p>If <span class="math inline">\(\Gamma\)</span> is bipartite with bipartition <span class="math inline">\(N_1 \sqcup N_2\)</span>, then the diagonal signed-permutation matrix <span class="math inline">\(P \in \mathcal{O}\)</span> negating <span class="math inline">\(N_2\)</span> satisfies <span class="math inline">\(P^T B(\Gamma) P = -B(\Gamma_-)\)</span>. Because negating <span class="math inline">\(B\)</span> preserves every reflection matrix <span class="math inline">\(s_i\)</span> (Lemma 2.31), <span class="math inline">\(\Gamma\)</span> and <span class="math inline">\(\Gamma_-\)</span> have conjugate reflection groups and identical principal polynomials.</p>
+<p>If <span class="math inline">\(\Gamma\)</span> is bipartite with bipartition <span class="math inline">\(N_1 \sqcup N_2\)</span>, then the diagonal signed-permutation matrix <span class="math inline">\(P \in \mathcal{O}\)</span> negating <span class="math inline">\(N_2\)</span> satisfies <span class="math inline">\(P^T B(\Gamma) P = -B(\Gamma_-)\)</span>. Because negating <span class="math inline">\(B\)</span> preserves every reflection matrix <span class="math inline">\(s_i\)</span> (Lemma 2.31), conjugation by <span class="math inline">\(P\)</span> sends every generator <span class="math inline">\(s_i(\Gamma)\)</span>, every word product <span class="math inline">\(w(\Gamma)\)</span>, and the characteristic polynomial <span class="math inline">\(\chi_w(x)\)</span> to those of <span class="math inline">\(\Gamma_-\)</span>. (The remaining packaging of this conjugation into a formal reflection-group isomorphism and root-system conjugacy is stated here as a direct consequence and is not separately formalized in Lean.)</p>
 <div id="bipartite-demo" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>g_bp <span class="op">=</span> MixedSignCoxeterGraph.A_n([<span class="st">&quot;+&quot;</span>, <span class="st">&quot;-&quot;</span>, <span class="st">&quot;+&quot;</span>, <span class="st">&quot;+&quot;</span>])</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>g_bp_neg <span class="op">=</span> g_bp.negate_signs()</span>
@@ -2753,6 +2757,19 @@ Equal principal polynomials: True</code></pre>
 <pre class="lean"><code>theorem bipartite_conjugation_theorem (G : BipartiteReflectionSystem n) :
     (bipartiteConjugator G.part)ᵀ * G.B * bipartiteConjugator G.part =
       -negateDiag G.B
+
+theorem bipartite_conjugates_reflections (G : BipartiteReflectionSystem n) (i : Fin n) :
+    (bipartiteConjugator G.part)ᵀ * reflectionMatrix G.B i * bipartiteConjugator G.part =
+      reflectionMatrix (negateDiag G.B) i
+
+theorem bipartite_conjugates_wordProd (G : BipartiteReflectionSystem n) (w : List (Fin n)) :
+    (bipartiteConjugator G.part)ᵀ * wordProd G.toReflectionSystem w * bipartiteConjugator G.part =
+      (w.map (reflectionMatrix (negateDiag G.B))).prod
+
+theorem bipartite_conjugates_charpoly (G : BipartiteReflectionSystem n) (w : List (Fin n)) (x : ℝ) :
+    (x • (1 : Matrix (Fin n) (Fin n) ℝ) - wordProd G.toReflectionSystem w).det =
+      (x • (1 : Matrix (Fin n) (Fin n) ℝ) -
+        (w.map (reflectionMatrix (negateDiag G.B))).prod).det
 
 theorem bipartite_mixed_sign_conjugation (Γ : MixedSignCoxeterGraph n)
     (part : Fin n → Bool)
@@ -2819,7 +2836,9 @@ theorem a2_pm_3_fibonacci_powers (k : ℕ) (hk : 1 ≤ k) :
 </section>
 <section id="odd-cycles-and-failure-of-the-deletion-property-lemma-3.21-theorem-1.2-theorem-1.6" class="level3" data-number="3.2">
 <h3 data-number="3.2" class="anchored" data-anchor-id="odd-cycles-and-failure-of-the-deletion-property-lemma-3.21-theorem-1.2-theorem-1.6"><span class="header-section-number">3.2</span> Odd Cycles and Failure of the Deletion Property (Lemma 3.21, Theorem 1.2, Theorem 1.6)</h3>
-<p>In <span class="math inline">\(W(\widetilde{A_{-2}})\)</span>, all three nodes are negative and all edges have weight <span class="math inline">\(3\)</span>. The group is finite of order <span class="math inline">\(24\)</span> (<span class="math inline">\(\cong S_4\)</span>) with <span class="math inline">\((s_1 s_2 s_3)^4 = 1\)</span>, yet the Deletion Property fails: <span class="math inline">\(w = s_1 s_2 s_1 s_3 s_1\)</span> (length <span class="math inline">\(5\)</span>) equals <span class="math inline">\(s_3 s_1 s_2\)</span> (length <span class="math inline">\(3\)</span>), so <span class="math inline">\(w\)</span> is not reduced, but no 2-letter deletion from <span class="math inline">\(w\)</span> equals <span class="math inline">\(w\)</span>. More generally, for any odd cycle <span class="math inline">\(\widetilde{A_{-n}}\)</span> (<span class="math inline">\(n\)</span> even), <span class="math inline">\(v^T B v = -\sum_i (v_i + v_{i+1})^2 &lt; 0\)</span> for all <span class="math inline">\(v \neq 0\)</span> (strictly negative definite), whereas <span class="math inline">\(\widetilde{A_n}\)</span> is positive semidefinite and degenerate.</p>
+<p>In <span class="math inline">\(W(\widetilde{A_{-2}})\)</span>, all three nodes are negative and all edges have weight <span class="math inline">\(3\)</span>. The group is finite of order <span class="math inline">\(24\)</span> (<span class="math inline">\(\cong S_4\)</span>) with <span class="math inline">\((s_1 s_2 s_3)^4 = 1\)</span>, yet the Deletion Property fails: <span class="math inline">\(w = s_1 s_2 s_1 s_3 s_1\)</span> (length <span class="math inline">\(5\)</span>) equals <span class="math inline">\(s_3 s_1 s_2\)</span> (length <span class="math inline">\(3\)</span>), so <span class="math inline">\(w\)</span> is not reduced, but no 2-letter deletion from <span class="math inline">\(w\)</span> equals <span class="math inline">\(w\)</span> (<code>tildeAminus2_fails_deletion</code>, Lemma 3.21). Adjoining <span class="math inline">\(k\)</span> orthogonal negative nodes gives an infinite family of rank <span class="math inline">\(3 + k\)</span> mixed-sign Coxeter systems (<code>tildeAminus2Extended k</code>) in which the same word fails the Deletion Property (<code>theorem_1_2_infinite_family</code>, Theorem 1.2).</p>
+<p><em>Note on Corollary 1.3</em>: The dissertation’s Corollary 1.3—that there exists an infinite family of mixed-sign Coxeter systems not conjugate to classical Coxeter systems—follows from Theorem 1.2 together with Theorem 3.9 (the classical Deletion/Exchange characterization of classical Coxeter systems); Theorem 3.9 and Corollary 1.3 are not yet formalized in Lean 4.</p>
+<p>For any odd cycle <span class="math inline">\(\widetilde{A_{-n}}\)</span> (<span class="math inline">\(m = n+1\)</span> odd, <span class="math inline">\(n\)</span> even), <span class="math inline">\(v^T B v = -\sum_i (v_i + v_{i+1})^2 &lt; 0\)</span> for all <span class="math inline">\(v \neq 0\)</span> (strictly negative definite, <code>oddCycleNegForm_negDef</code>), whereas <span class="math inline">\(\widetilde{A_n}\)</span> is positive semidefinite and degenerate on <span class="math inline">\((1,\dots,1)^T\)</span> (<code>cyclePosForm_posSemidef</code>, <code>cyclePosForm_degenerate</code>). Consequently, <code>cyclePosForm m</code> and <code>±cycleNegForm m</code> are not <span class="math inline">\(\mathcal{O}\)</span>-conjugate (<code>oddCycle_not_O_conjugate</code>, Theorem 1.6).</p>
 <div id="cell-tilde-a-minus-2" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>g_am2 <span class="op">=</span> MixedSignCoxeterGraph.A_tilde(<span class="dv">2</span>, negative<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>elements, complete <span class="op">=</span> enumerate_group(g_am2, max_elements<span class="op">=</span><span class="dv">100</span>)</span>
@@ -2858,9 +2877,21 @@ s1 s2 s1 s3 s1 == s3 s1 s2: True
     S.wordProd w = S.wordProd [2, 0, 1] ∧
     ∀ i j : Fin 5, i &lt; j → S.wordProd (deleteTwo w i.val j.val) ≠ S.wordProd w
 
+theorem theorem_1_2_infinite_family (k : ℕ) :
+    let S := (tildeAminus2Extended k).toReflectionSystem
+    let w : List (Fin (3 + k)) := [0, 1, 0, 2, 0].map (Fin.castAdd k)
+    S.wordProd w = S.wordProd ([2, 0, 1].map (Fin.castAdd k)) ∧
+    ∀ i j : Fin 5, i &lt; j → S.wordProd (deleteTwo w i.val j.val) ≠ S.wordProd w
+
 theorem oddCycleNegForm_negDef (m : ℕ) [NeZero m] (hm : Odd m) (v : Fin m → ℝ)
     (hv : v ≠ 0) :
-    (∑ i : Fin m, ∑ j : Fin m, v i * cycleNegForm m i j * v j) &lt; 0</code></pre>
+    (∑ i : Fin m, ∑ j : Fin m, v i * cycleNegForm m i j * v j) &lt; 0
+
+theorem oddCycle_not_O_conjugate (m : ℕ) [NeZero m] (hm : Odd m) :
+    (¬ ∃ P : ReflectionSystem.SignedPerm m,
+      P.toMatrixᵀ * cyclePosForm m * P.toMatrix = cycleNegForm m) ∧
+    (¬ ∃ P : ReflectionSystem.SignedPerm m,
+      P.toMatrixᵀ * cyclePosForm m * P.toMatrix = -cycleNegForm m)</code></pre>
 </section>
 <section id="spectral-radius-counterexamples-example-3.29-example-3.33-theorem-1.7" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="spectral-radius-counterexamples-example-3.29-example-3.33-theorem-1.7"><span class="header-section-number">3.3</span> Spectral Radius Counterexamples (Example 3.29, Example 3.33, Theorem 1.7)</h3>
@@ -2985,7 +3016,7 @@ theorem pBpEx333_has_root_gt_four :
 <tr class="odd">
 <td style="text-align: left;"><code>Bipartite.lean</code></td>
 <td style="text-align: left;">Ch. 2 (2.4)</td>
-<td style="text-align: left;"><code>bipartite_conjugation_theorem</code> (Thm. 1.4)</td>
+<td style="text-align: left;"><code>bipartite_conjugation_theorem</code> (Thm. 1.4), <code>bipartite_conjugates_reflections</code>, <code>bipartite_conjugates_wordProd</code>, <code>bipartite_conjugates_charpoly</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>ComponentsAndTrees.lean</code></td>
@@ -2994,8 +3025,8 @@ theorem pBpEx333_has_root_gt_four :
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>Howlett.lean</code></td>
-<td style="text-align: left;">Ch. 2 (2.7)</td>
-<td style="text-align: left;"><code>howlett_U_mul_principalElement</code> (Thm. 1.1), <code>principal_charpoly_eq</code> (Lem. 2.63)</td>
+<td style="text-align: left;">Ch. 2 (2.6.1–2.6.2)</td>
+<td style="text-align: left;"><code>howlett_U_mul_principalElement</code> &amp; <code>howlett_principalElement_eq_neg_inv_mul_transpose</code> (Thm. 1.1), <code>principal_charpoly_eq</code> (Lem. 2.63)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>MixedSign.lean</code></td>
@@ -3004,24 +3035,39 @@ theorem pBpEx333_has_root_gt_four :
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>RankTwo.lean</code></td>
-<td style="text-align: left;">Ch. 3 (3.1)</td>
+<td style="text-align: left;">Ch. 3 (3.1–3.2)</td>
 <td style="text-align: left;"><code>det_rank2_pm</code> (Lem. 3.17), <code>rank2_pm_infinite_order</code> (Lem. 3.14), <code>a2_pm_3_fibonacci_powers</code> (Ex. 3.16)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><code>CyclesAndDeletion.lean</code></td>
-<td style="text-align: left;">Ch. 3 (3.2)</td>
-<td style="text-align: left;"><code>tildeAminus2_fails_deletion</code> (Lem. 3.21 / Thm. 1.2), <code>oddCycleNegForm_negDef</code> (Thm. 1.6)</td>
+<td style="text-align: left;">Ch. 3 (3.3–3.4)</td>
+<td style="text-align: left;"><code>tildeAminus2_fails_deletion</code> (Lem. 3.21), <code>theorem_1_2_infinite_family</code> (Thm. 1.2), <code>oddCycleNegForm_negDef</code> &amp; <code>oddCycle_not_O_conjugate</code> (Thm. 1.6)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><code>SpectralRadius.lean</code></td>
-<td style="text-align: left;">Ch. 3 (3.3–3.4)</td>
-<td style="text-align: left;"><code>w_A3_ppm_add_one_cube</code> (Ex. 3.29), <code>wLinEx333Z_annihilated</code> &amp; <code>pBpEx333_has_root_gt_four</code> (Ex. 3.33 / Thm. 1.7)</td>
+<td style="text-align: left;">Ch. 3 (3.5.1–3.5.2)</td>
+<td style="text-align: left;"><code>w_A3_ppm_add_one_cube</code> (Ex. 3.29), <code>wLinEx333Z_annihilated</code>, <code>pLinEx333_no_root_ge_four</code>, <code>pBpEx333_has_root_gt_four</code> (Ex. 3.33 / Thm. 1.7)</td>
 </tr>
 </tbody>
 </table>
 </section>
-<section id="lean-4-formalization-architecture" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="lean-4-formalization-architecture"><span class="header-section-number">5</span> Lean 4 Formalization Architecture</h2>
+<section id="formalization-scope-python-coverage-and-dissertation-omissions" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="formalization-scope-python-coverage-and-dissertation-omissions"><span class="header-section-number">5</span> Formalization Scope, Python Coverage, and Dissertation Omissions</h2>
+<p>To maintain a transparent audit trail between the dissertation <span class="citation" data-cites="armstrong2012">(<a href="#ref-armstrong2012" role="doc-biblioref">Armstrong 2012</a>)</span>, the Python package, and the Lean 4 formalization:</p>
+<ul>
+<li><strong>Formalized in Lean 4 (<code>lean/MixedSignCoxeter/</code>)</strong>: All core algebraic and counterexample results above compile <code>sorry</code>-free in Lean <code>v4.35.0</code>, including Theorem 1.1 (<code>howlett_U_mul_principalElement</code>, <code>howlett_principalElement_eq_neg_inv_mul_transpose</code>), Lemma 2.63 (<code>principal_charpoly_eq</code>), Theorem 1.2 (<code>theorem_1_2_infinite_family</code>), Theorem 1.4 (<code>bipartite_conjugation_theorem</code>, <code>bipartite_conjugates_reflections</code>, <code>bipartite_conjugates_wordProd</code>, <code>bipartite_conjugates_charpoly</code>), Corollary 1.5 (<code>bipartite_mixed_sign_conjugation</code>), Theorem 1.6 (<code>oddCycleNegForm_negDef</code>, <code>oddCycle_not_O_conjugate</code>), Theorem 1.7 (<code>pLinEx333_no_root_ge_four</code>, <code>pBpEx333_has_root_gt_four</code>), Proposition 2.45, Theorem 2.58, Lemmas 3.14/3.17/3.21, Example 3.16, and Example 3.29.</li>
+<li><strong>Verified computationally in Python (<code>src/mixed_sign_coxeter/</code>, <code>tests/test_dissertation.py</code>)</strong>: Exact symbolic and numerical checks for Howlett’s formula, principal polynomials, signatures, finite group enumeration, root orbits, two-deletion testing, and spectral radii.</li>
+<li><strong>Dissertation material omitted or not yet formalized in Lean 4</strong>:
+<ul>
+<li><strong>Chapter 1 &amp; 3 (Theorem 3.9, Corollary 1.3)</strong>: The classical Deletion/Exchange characterization of classical Coxeter systems (Theorem 3.9) and the resulting non-conjugacy corollary for the infinite family (Corollary 1.3).</li>
+<li><strong>Chapter 2</strong>: Proposition 2.28 (spanning-tree / connectedness properties), Corollary 2.38, root-system / reflection-group isomorphism packaging beyond matrix conjugation in Theorem 1.4, Definitions 2.47–2.51, Mahler measure results, and Question 2.59.</li>
+<li><strong>Chapter 3</strong>: Proposition 3.12, Corollary 3.18, Proposition 3.19, Lemma 3.25, Proposition 3.32, and Question 3.35.</li>
+<li><strong>Appendices A–D</strong>: Exhaustive computational tables and classical/hyperbolic catalog listings.</li>
+</ul></li>
+</ul>
+</section>
+<section id="lean-4-formalization-architecture" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="lean-4-formalization-architecture"><span class="header-section-number">6</span> Lean 4 Formalization Architecture</h2>
 <p>Several design choices keep the Lean 4 (<code>v4.35.0</code>) formalization modular, <code>sorry</code>-free, and fast to verify (<code>lake build</code>, 3,148 jobs):</p>
 <ul>
 <li><strong>Coordinate-free matrix representation (<code>Basic.lean</code>)</strong>: Rather than fixing a basis-free inner product space early, <code>ReflectionSystem n</code> packages a symmetric matrix <span class="math inline">\(B \in \mathbb{R}^{n \times n}\)</span> with <span class="math inline">\(B_{ii} \neq 0\)</span>, allowing direct <code>ext</code>/<code>fin_cases</code>/<code>ring</code> proofs for reflections <span class="math inline">\(s_i = I - \frac{2}{B_{ii}} e_i e_i^T B\)</span>, form preservation, and <span class="math inline">\(\mathcal{O}\)</span>-conjugacy (<code>Conjugacy.lean</code>).</li>
@@ -3030,8 +3076,8 @@ theorem pBpEx333_has_root_gt_four :
 <li><strong>Algebraic spectral-radius separation (<code>SpectralRadius.lean</code>)</strong>: Instead of floating-point root approximation, Theorem 1.7 is proved rigorously by combining polynomial factorization bounds (<code>pLinEx333_no_root_ge_four</code>, <span class="math inline">\(|\lambda_{\mathrm{lin}}| &lt; 4\)</span>) with the Intermediate Value Theorem on <span class="math inline">\([-6, -4]\)</span> (<code>pBpEx333_has_root_gt_four</code>, <span class="math inline">\(|\lambda_{\mathrm{bp}}| \ge 4\)</span>).</li>
 </ul>
 </section>
-<section id="references" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="references"><span class="header-section-number">6</span> References</h2>
+<section id="references" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="references"><span class="header-section-number">7</span> References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-armstrong2012" class="csl-entry" role="listitem">
 Armstrong, Johnathon Kyle. 2012. <span>“Principal Elements of Mixed-Sign Coxeter Systems.”</span> PhD thesis, Florida State University. <a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view">https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view</a>.

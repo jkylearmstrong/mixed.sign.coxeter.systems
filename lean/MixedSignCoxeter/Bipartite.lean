@@ -102,5 +102,54 @@ theorem bipartite_conjugates_reflections (G : BipartiteReflectionSystem n) (i : 
       · cases hr : G.part r <;> cases hc : G.part c <;> simp_all [hne] <;> ring
     · cases hr : G.part r <;> cases hc : G.part c <;> simp [hrc, hri, hr, hc]
 
+/-- Conjugating any word product in `W(Γ)` by `P` yields the corresponding word product in `W(Γ_-)`. -/
+theorem bipartite_conjugates_wordProd (G : BipartiteReflectionSystem n) (w : List (Fin n)) :
+    (bipartiteConjugator G.part)ᵀ * wordProd G.toReflectionSystem w * bipartiteConjugator G.part =
+      (w.map (reflectionMatrix (negateDiag G.B))).prod := by
+  induction w with
+  | nil =>
+    simp [wordProd, bipartiteConjugator_transpose, bipartiteConjugator_mul_self]
+  | cons a t ih =>
+    simp only [wordProd, List.map_cons, List.prod_cons]
+    have ha := bipartite_conjugates_reflections G a
+    have hP : bipartiteConjugator G.part * (bipartiteConjugator G.part)ᵀ = 1 := by
+      rw [bipartiteConjugator_transpose]
+      exact bipartiteConjugator_mul_self G.part
+    calc
+      (bipartiteConjugator G.part)ᵀ *
+          (reflectionMatrix G.B a * (List.map (reflectionMatrix G.B) t).prod) *
+          bipartiteConjugator G.part
+          = ((bipartiteConjugator G.part)ᵀ * reflectionMatrix G.B a * bipartiteConjugator G.part) *
+              ((bipartiteConjugator G.part)ᵀ * (List.map (reflectionMatrix G.B) t).prod *
+                bipartiteConjugator G.part) := by
+            simp only [Matrix.mul_assoc]
+            rw [← Matrix.mul_assoc (bipartiteConjugator G.part) (bipartiteConjugator G.part)ᵀ, hP,
+              Matrix.one_mul]
+      _ = reflectionMatrix (negateDiag G.B) a * (List.map (reflectionMatrix (negateDiag G.B)) t).prod := by
+            simp only [wordProd] at ih
+            rw [ha, ih]
+
+/-- **Theorem 1.4 (principal polynomial equality)**: Conjugation by `P` preserves the
+characteristic polynomial of every word (and in particular every principal element). -/
+theorem bipartite_conjugates_charpoly (G : BipartiteReflectionSystem n) (w : List (Fin n)) (x : ℝ) :
+    (x • (1 : Matrix (Fin n) (Fin n) ℝ) - wordProd G.toReflectionSystem w).det =
+      (x • (1 : Matrix (Fin n) (Fin n) ℝ) -
+        (w.map (reflectionMatrix (negateDiag G.B))).prod).det := by
+  have hP : (bipartiteConjugator G.part)ᵀ * bipartiteConjugator G.part = 1 := by
+    rw [bipartiteConjugator_transpose]
+    exact bipartiteConjugator_mul_self G.part
+  have hconj :
+      (bipartiteConjugator G.part)ᵀ *
+          (x • (1 : Matrix (Fin n) (Fin n) ℝ) - wordProd G.toReflectionSystem w) *
+          bipartiteConjugator G.part =
+        x • (1 : Matrix (Fin n) (Fin n) ℝ) -
+          (w.map (reflectionMatrix (negateDiag G.B))).prod := by
+    rw [Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, hP,
+      bipartite_conjugates_wordProd]
+  have hdet := congr_arg Matrix.det hconj
+  rw [Matrix.det_mul, Matrix.det_mul, mul_comm _ (x • (1 : Matrix (Fin n) (Fin n) ℝ) - wordProd G.toReflectionSystem w).det,
+    mul_assoc, ← Matrix.det_mul, hP, Matrix.det_one, mul_one] at hdet
+  exact hdet
+
 end ReflectionSystem
 

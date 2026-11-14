@@ -213,5 +213,18 @@ theorem principal_charpoly_eq (S : ReflectionSystem n) (x : ℝ) :
     _ = (howlettU S.B).det⁻¹ * (x • howlettU S.B + (howlettU S.B)ᵀ).det := by
           rw [hdet]
 
+/-- **Theorem 1.1 (inverse form)**: Since `howlettU S.B` is invertible (`howlettU_det_ne_zero`),
+`principalElement S = -(howlettU S.B)⁻¹ * (howlettU S.B)ᵀ`. -/
+theorem howlett_principalElement_eq_neg_inv_mul_transpose (S : ReflectionSystem n) :
+    principalElement S = -(howlettU S.B)⁻¹ * (howlettU S.B)ᵀ := by
+  have hU : IsUnit (howlettU S.B).det := (howlettU_det_ne_zero S).isUnit
+  have hinv : (howlettU S.B)⁻¹ * howlettU S.B = 1 := Matrix.nonsing_inv_mul _ hU
+  calc
+    principalElement S = 1 * principalElement S := (Matrix.one_mul _).symm
+    _ = ((howlettU S.B)⁻¹ * howlettU S.B) * principalElement S := by rw [hinv]
+    _ = (howlettU S.B)⁻¹ * (howlettU S.B * principalElement S) := Matrix.mul_assoc _ _ _
+    _ = (howlettU S.B)⁻¹ * (-(howlettU S.B)ᵀ) := by rw [howlett_U_mul_principalElement]
+    _ = -(howlettU S.B)⁻¹ * (howlettU S.B)ᵀ := by rw [Matrix.mul_neg, Matrix.neg_mul]
+
 end ReflectionSystem
 

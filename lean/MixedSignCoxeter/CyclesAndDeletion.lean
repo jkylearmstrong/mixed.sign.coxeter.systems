@@ -3,6 +3,7 @@ Copyright (c) 2026 Johnathon Kyle Armstrong. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
 import Mathlib.Data.Fin.VecNotation
+import MixedSignCoxeter.Conjugacy
 import MixedSignCoxeter.MixedSign
 
 /-!
@@ -132,6 +133,179 @@ theorem tildeAminus2_fails_deletion :
     have hrc := congr_arg (fun M : Matrix (Fin 3) (Fin 3) ℝ => M r c) hEq
     simp only [Matrix.map_apply] at hrc
     exact Int.cast_injective hrc
+
+/-- Extend `~A_{-2}` by `k` isolated positive nodes, producing an infinite family of mixed-sign
+Coxeter graphs of rank `3 + k` (Theorem 1.2). -/
+def tildeAminus2Extended (k : ℕ) : MixedSignCoxeterGraph (3 + k) where
+  sign i := if i.val < 3 then Sign.neg else Sign.pos
+  weight i j := if i.val < 3 ∧ j.val < 3 then some 3 else some 2
+  weight_symm i j := by
+    by_cases h1 : i.val < 3 <;> by_cases h2 : j.val < 3 <;> simp [h1, h2]
+  weight_ge_two i j m h := by
+    split_ifs at h <;> cases h <;> omega
+
+private lemma tildeAminus2Extended_block (k : ℕ) (a : Fin 3) (r c : Fin 3) :
+    ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+        (Fin.castAdd k a) (Fin.castAdd k r) (Fin.castAdd k c) =
+      ReflectionSystem.reflectionMatrix tildeAminus2Graph.toBilinearForm a r c := by
+  simp [tildeAminus2Extended, tildeAminus2Graph, MixedSignCoxeterGraph.toBilinearForm,
+    ReflectionSystem.reflectionMatrix_apply, a.isLt, r.isLt, c.isLt]
+
+private lemma tildeAminus2Extended_offblock (k : ℕ) (a : Fin 3) (r : Fin 3) (c : Fin (3 + k))
+    (hc : 3 ≤ c.val) :
+    ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+        (Fin.castAdd k a) (Fin.castAdd k r) c = 0 := by
+  have hne : Fin.castAdd k r ≠ c := by
+    intro h; have := congr_arg Fin.val h; simp at this; omega
+  have hne2 : Fin.castAdd k a ≠ c := by
+    intro h; have := congr_arg Fin.val h; simp at this; omega
+  have hc_lt : ¬(c.val < 3) := by omega
+  simp [tildeAminus2Extended, MixedSignCoxeterGraph.toBilinearForm,
+    ReflectionSystem.reflectionMatrix_apply, hne, hne2, hc_lt, edgeEntry, Real.cos_pi_div_two]
+
+private lemma tildeAminus2Extended_wordProd_block (k : ℕ) (w : List (Fin 3)) (r c : Fin 3) :
+    (tildeAminus2Extended k).toReflectionSystem.wordProd (w.map (Fin.castAdd k))
+        (Fin.castAdd k r) (Fin.castAdd k c) =
+      tildeAminus2Graph.toReflectionSystem.wordProd w r c := by
+  induction w generalizing r with
+  | nil =>
+    simp [ReflectionSystem.wordProd, Matrix.one_apply]
+  | cons a t ih =>
+    simp only [ReflectionSystem.wordProd, List.map_cons, List.prod_cons, Matrix.mul_apply]
+    dsimp only [MixedSignCoxeterGraph.toReflectionSystem]
+    rw [Fin.sum_univ_add]
+    have hrest :
+        (∑ x : Fin k,
+          ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+              (Fin.castAdd k a) (Fin.castAdd k r) (Fin.natAdd 3 x) *
+            ((List.map (Fin.castAdd k) t).map
+              (ReflectionSystem.reflectionMatrix
+                (tildeAminus2Extended k).toBilinearForm)).prod
+              (Fin.natAdd 3 x) (Fin.castAdd k c)) = 0 := by
+      refine Finset.sum_eq_zero fun x _ => ?_
+      have h0 : ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+          (Fin.castAdd k a) (Fin.castAdd k r) (Fin.natAdd 3 x) = 0 :=
+        tildeAminus2Extended_offblock k a r (Fin.natAdd 3 x) (by simp)
+      rw [h0, zero_mul]
+    rw [hrest, add_zero]
+    refine Finset.sum_congr rfl fun x _ => ?_
+    have hih := ih x
+    simp only [ReflectionSystem.wordProd, MixedSignCoxeterGraph.toReflectionSystem] at hih
+    rw [tildeAminus2Extended_block, hih]
+
+private lemma tildeAminus2Extended_row_ge (k : ℕ) (a : Fin 3) (r c : Fin (3 + k))
+    (hr : 3 ≤ r.val) :
+    ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+        (Fin.castAdd k a) r c = if r = c then 1 else 0 := by
+  have hne : r ≠ Fin.castAdd k a := by
+    intro h; have := congr_arg Fin.val h; simp at this; omega
+  simp [ReflectionSystem.reflectionMatrix_apply, hne]
+
+private lemma tildeAminus2Extended_col_ge (k : ℕ) (a : Fin 3) (r c : Fin (3 + k))
+    (hc : 3 ≤ c.val) :
+    ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+        (Fin.castAdd k a) r c = if r = c then 1 else 0 := by
+  by_cases hrc : r = c
+  · subst hrc
+    have hne : r ≠ Fin.castAdd k a := by
+      intro h; have := congr_arg Fin.val h; simp at this; omega
+    simp [ReflectionSystem.reflectionMatrix_apply, hne]
+  · have hne_ac : Fin.castAdd k a ≠ c := by
+      intro h; have := congr_arg Fin.val h; simp at this; omega
+    have hnc : ¬(c.val < 3) := by omega
+    simp [tildeAminus2Extended, MixedSignCoxeterGraph.toBilinearForm,
+      ReflectionSystem.reflectionMatrix_apply, hrc, hne_ac, hnc, edgeEntry, Real.cos_pi_div_two]
+
+private lemma tildeAminus2Extended_wordProd_row_ge (k : ℕ) (w : List (Fin 3))
+    (r c : Fin (3 + k)) (hr : 3 ≤ r.val) :
+    (tildeAminus2Extended k).toReflectionSystem.wordProd (w.map (Fin.castAdd k)) r c =
+      if r = c then 1 else 0 := by
+  induction w generalizing r with
+  | nil => simp [ReflectionSystem.wordProd, Matrix.one_apply]
+  | cons a t ih =>
+    simp only [ReflectionSystem.wordProd, List.map_cons, List.prod_cons, Matrix.mul_apply]
+    dsimp only [MixedSignCoxeterGraph.toReflectionSystem]
+    have hrow : ∀ x : Fin (3 + k),
+        ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+            (Fin.castAdd k a) r x *
+          ((List.map (Fin.castAdd k) t).map
+            (ReflectionSystem.reflectionMatrix
+              (tildeAminus2Extended k).toBilinearForm)).prod x c =
+        if r = x then
+          ((List.map (Fin.castAdd k) t).map
+            (ReflectionSystem.reflectionMatrix
+              (tildeAminus2Extended k).toBilinearForm)).prod x c
+        else 0 := by
+      intro x
+      rw [tildeAminus2Extended_row_ge k a r x hr]
+      split_ifs <;> simp
+    rw [Finset.sum_congr rfl fun x _ => hrow x]
+    simp only [Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte]
+    exact ih r hr
+
+private lemma tildeAminus2Extended_wordProd_col_ge (k : ℕ) (w : List (Fin 3))
+    (r c : Fin (3 + k)) (hc : 3 ≤ c.val) :
+    (tildeAminus2Extended k).toReflectionSystem.wordProd (w.map (Fin.castAdd k)) r c =
+      if r = c then 1 else 0 := by
+  induction w generalizing r with
+  | nil => simp [ReflectionSystem.wordProd, Matrix.one_apply]
+  | cons a t ih =>
+    simp only [ReflectionSystem.wordProd, List.map_cons, List.prod_cons, Matrix.mul_apply]
+    dsimp only [MixedSignCoxeterGraph.toReflectionSystem]
+    have hcol : ∀ x : Fin (3 + k),
+        ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+            (Fin.castAdd k a) r x *
+          ((List.map (Fin.castAdd k) t).map
+            (ReflectionSystem.reflectionMatrix
+              (tildeAminus2Extended k).toBilinearForm)).prod x c =
+        if x = c then
+          ReflectionSystem.reflectionMatrix (tildeAminus2Extended k).toBilinearForm
+            (Fin.castAdd k a) r x
+        else 0 := by
+      intro x
+      have hx := ih x
+      simp only [ReflectionSystem.wordProd] at hx
+      dsimp only [MixedSignCoxeterGraph.toReflectionSystem] at hx
+      rw [hx]
+      split_ifs <;> simp
+    rw [Finset.sum_congr rfl fun x _ => hcol x]
+    simp only [Finset.sum_ite_eq', Finset.mem_univ, ↓reduceIte]
+    exact tildeAminus2Extended_col_ge k a r c hc
+
+/-- **Theorem 1.2**: There exists an infinite family of mixed-sign Coxeter systems
+(`tildeAminus2Extended k` for every `k : ℕ`, rank `3 + k`) that do not satisfy the Deletion Property:
+for each `k`, `w' = [0, 1, 0, 2, 0].map (Fin.castAdd k)` equals `[2, 0, 1].map (Fin.castAdd k)`,
+yet no two-letter deletion from `w'` equals `w'`. -/
+theorem theorem_1_2_infinite_family (k : ℕ) :
+    let S := (tildeAminus2Extended k).toReflectionSystem
+    let w : List (Fin (3 + k)) := [0, 1, 0, 2, 0].map (Fin.castAdd k)
+    S.wordProd w = S.wordProd ([2, 0, 1].map (Fin.castAdd k)) ∧
+    ∀ i j : Fin 5, i < j → S.wordProd (deleteTwo w i.val j.val) ≠ S.wordProd w := by
+  intro S w
+  have hbase := tildeAminus2_fails_deletion
+  constructor
+  · ext r c
+    by_cases hr : r.val < 3
+    · by_cases hc : c.val < 3
+      · have hr' : r = Fin.castAdd k ⟨r.val, hr⟩ := by ext; rfl
+        have hc' : c = Fin.castAdd k ⟨c.val, hc⟩ := by ext; rfl
+        rw [hr', hc']
+        simp only [S, w, tildeAminus2Extended_wordProd_block]
+        exact congr_fun (congr_fun hbase.1 ⟨r.val, hr⟩) ⟨c.val, hc⟩
+      · have hc' : 3 ≤ c.val := Nat.le_of_not_lt hc
+        simp only [S, w, tildeAminus2Extended_wordProd_col_ge k _ r c hc']
+    · have hr' : 3 ≤ r.val := Nat.le_of_not_lt hr
+      simp only [S, w, tildeAminus2Extended_wordProd_row_ge k _ r c hr']
+  · intro i j hij hEq
+    apply hbase.2 i j hij
+    ext r c
+    have hdel : deleteTwo (([0, 1, 0, 2, 0] : List (Fin 3)).map (Fin.castAdd k)) i.val j.val =
+        (deleteTwo ([0, 1, 0, 2, 0] : List (Fin 3)) i.val j.val).map (Fin.castAdd k) := by
+      fin_cases i <;> fin_cases j <;> simp [deleteTwo]
+    have hrc := congr_arg (fun M : Matrix (Fin (3 + k)) (Fin (3 + k)) ℝ =>
+      M (Fin.castAdd k r) (Fin.castAdd k c)) hEq
+    simp only [S, w, hdel, tildeAminus2Extended_wordProd_block] at hrc
+    exact hrc
 
 end DeletionFailure
 
@@ -299,6 +473,92 @@ theorem oddCycleNegForm_negDef (m : ℕ) [NeZero m] (hm : Odd m) (v : Fin m → 
   simp only [Fin.ofNat_eq_cast, Fin.cast_val_eq_self] at hi
   rw [hi, hv0, mul_zero]
   rfl
+
+/-- **Theorem 1.6 (non-conjugacy)**: For any odd cycle length `m` (`~A_{-n}` with `n = m - 1` even),
+`cyclePosForm m` and `± cycleNegForm m` are not `𝒪`-conjugate. -/
+theorem oddCycle_not_O_conjugate (m : ℕ) [NeZero m] (hm : Odd m) :
+    (¬ ∃ P : ReflectionSystem.SignedPerm m,
+      P.toMatrixᵀ * cyclePosForm m * P.toMatrix = cycleNegForm m) ∧
+    (¬ ∃ P : ReflectionSystem.SignedPerm m,
+      P.toMatrixᵀ * cyclePosForm m * P.toMatrix = -cycleNegForm m) := by
+  have hdot : ∀ (P : ReflectionSystem.SignedPerm m),
+      let v : Fin m → ℝ := P.toMatrixᵀ.mulVec (fun _ => 1)
+      v ≠ 0 ∧
+      (∑ i : Fin m, ∑ j : Fin m, v i * (P.toMatrixᵀ * cyclePosForm m * P.toMatrix) i j * v j) = 0 := by
+    intro P v
+    have hPv : P.toMatrix.mulVec v = (fun _ => 1) := by
+      dsimp only [v]
+      have hPP : P.toMatrix * P.toMatrixᵀ = 1 := by
+        ext r c
+        simp only [Matrix.mul_apply, Matrix.transpose_apply,
+          ReflectionSystem.SignedPerm.toMatrix_apply, Matrix.one_apply]
+        have hsum : ∀ x : Fin m,
+            (if r = P.perm x then P.signReal x else 0) *
+              (if c = P.perm x then P.signReal x else 0) =
+            if x = P.perm.symm r then (if r = c then 1 else 0) else 0 := by
+          intro x
+          by_cases hx : x = P.perm.symm r
+          · subst hx
+            simp only [Equiv.apply_symm_apply, ↓reduceIte]
+            by_cases hrc : r = c
+            · subst hrc; simp
+            · simp [hrc, Ne.symm hrc]
+          · have hne : r ≠ P.perm x := fun h => hx (P.perm.eq_symm_apply.mpr h.symm)
+            simp [hx, hne]
+        rw [Finset.sum_congr rfl fun x _ => hsum x]
+        simp
+      rw [Matrix.mulVec_mulVec, hPP, Matrix.one_mulVec]
+    have hv : v ≠ 0 := by
+      intro h0
+      have h1 : P.toMatrix.mulVec 0 = (fun _ => 1) := by rw [← h0, hPv]
+      rw [Matrix.mulVec_zero] at h1
+      have h00 := congr_fun h1 0
+      simp at h00
+    refine ⟨hv, ?_⟩
+    have hquad_dot : ∀ M : Matrix (Fin m) (Fin m) ℝ,
+        (∑ i : Fin m, ∑ j : Fin m, v i * M i j * v j) = dotProduct v (M.mulVec v) := by
+      intro M
+      simp only [dotProduct, Matrix.mulVec, Finset.mul_sum]
+      refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
+    have hdot_transpose : ∀ u : Fin m → ℝ,
+        dotProduct v (P.toMatrixᵀ.mulVec u) = dotProduct (P.toMatrix.mulVec v) u := by
+      intro u
+      simp only [dotProduct, Matrix.mulVec, Matrix.transpose_apply, Finset.mul_sum, Finset.sum_mul]
+      rw [Finset.sum_comm]
+      refine Finset.sum_congr rfl fun j _ => Finset.sum_congr rfl fun i _ => by ring
+    have hmul : ∀ (A B : Matrix (Fin m) (Fin m) ℝ) (x : Fin m → ℝ),
+        (A * B).mulVec x = A.mulVec (B.mulVec x) := fun A B x => (Matrix.mulVec_mulVec x A B).symm
+    have hquad_eq :
+        (∑ i : Fin m, ∑ j : Fin m, v i * (P.toMatrixᵀ * cyclePosForm m * P.toMatrix) i j * v j) =
+          dotProduct (P.toMatrix.mulVec v) ((cyclePosForm m).mulVec (P.toMatrix.mulVec v)) := by
+      calc (∑ i : Fin m, ∑ j : Fin m, v i * (P.toMatrixᵀ * cyclePosForm m * P.toMatrix) i j * v j)
+          = dotProduct v ((P.toMatrixᵀ * cyclePosForm m * P.toMatrix).mulVec v) := hquad_dot _
+        _ = dotProduct v (P.toMatrixᵀ.mulVec ((cyclePosForm m).mulVec (P.toMatrix.mulVec v))) := by
+              rw [Matrix.mul_assoc, hmul P.toMatrixᵀ (cyclePosForm m * P.toMatrix) v,
+                hmul (cyclePosForm m) P.toMatrix v]
+        _ = dotProduct (P.toMatrix.mulVec v) ((cyclePosForm m).mulVec (P.toMatrix.mulVec v)) :=
+              hdot_transpose _
+    rw [hquad_eq, hPv]
+    simp only [dotProduct, Matrix.mulVec, Finset.mul_sum]
+    simpa [one_mul, mul_one] using cyclePosForm_degenerate m
+  constructor
+  · rintro ⟨P, hP⟩
+    obtain ⟨hv, hzero⟩ := hdot P
+    rw [hP] at hzero
+    have hneg := oddCycleNegForm_negDef m hm (P.toMatrixᵀ.mulVec (fun _ => 1)) hv
+    linarith
+  · rintro ⟨P, hP⟩
+    obtain ⟨hv, hzero⟩ := hdot P
+    rw [hP] at hzero
+    have hneg := oddCycleNegForm_negDef m hm (P.toMatrixᵀ.mulVec (fun _ => 1)) hv
+    have hneg2 : (∑ i : Fin m, ∑ j : Fin m,
+        (P.toMatrixᵀ.mulVec (fun _ => 1)) i * (-cycleNegForm m) i j *
+          (P.toMatrixᵀ.mulVec (fun _ => 1)) j) =
+        -(∑ i : Fin m, ∑ j : Fin m,
+        (P.toMatrixᵀ.mulVec (fun _ => 1)) i * cycleNegForm m i j *
+          (P.toMatrixᵀ.mulVec (fun _ => 1)) j) := by
+      simp only [Matrix.neg_apply, mul_neg, neg_mul, Finset.sum_neg_distrib]
+    linarith
 
 end OddCycles
 

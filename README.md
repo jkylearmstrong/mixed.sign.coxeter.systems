@@ -71,15 +71,17 @@ Mathlib `v4.35.0`):
   (`conjugate_reflections_of_neg_form`, Lemma 2.32), and graph
   isomorphism conjugacy (`graphIso_conjugates_forms`, Lemma 2.37).
 - `Bipartite.lean`: `BipartiteReflectionSystem`, `bipartiteConjugator`,
-  Theorem 1.4 (`bipartite_conjugation_theorem`), and reflection
-  conjugation (`bipartite_conjugates_reflections`).
+  Theorem 1.4 (`bipartite_conjugation_theorem`,
+  `bipartite_conjugates_reflections`, `bipartite_conjugates_wordProd`,
+  `bipartite_conjugates_charpoly`).
 - `ComponentsAndTrees.lean`: Component word decomposition and pointwise
   action (`wordProd_split_components`, `component_fixes_other`,
   Proposition 2.45) and leaf-insertion conjugacy for trees
   (`leaf_insert_conj`, Theorem 2.58).
 - `Howlett.lean`: `howlettU`, `principalElement`, Theorem 1.1
-  (`howlett_U_mul_principalElement`: $U (s_0 \cdots s_{n-1}) = -U^T$),
-  and Lemma 2.63 (`principal_charpoly_eq`).
+  (`howlett_U_mul_principalElement`,
+  `howlett_principalElement_eq_neg_inv_mul_transpose`:
+  $w = -U^{-1} U^T$), and Lemma 2.63 (`principal_charpoly_eq`).
 - `MixedSign.lean`: `MixedSignCoxeterGraph`, Corollary 1.5
   (`bipartite_mixed_sign_conjugation`), and $\widetilde{A_{-2}}$ matrix
   relations (`tildeAminus2_principal_order_four`,
@@ -89,9 +91,11 @@ Mathlib `v4.35.0`):
   `rank2_pm_infinite_order`), and Example 3.16 Fibonacci matrix powers
   (`a2_pm_3_fibonacci_powers`).
 - `CyclesAndDeletion.lean`: Failure of the Deletion Property in
-  $W(\widetilde{A_{-2}})$ (`tildeAminus2_fails_deletion`, Lemma 3.21 /
-  Theorem 1.2) and odd-cycle definiteness (`cyclePosForm_posSemidef`,
-  `oddCycleNegForm_negDef`, Theorem 1.6).
+  $W(\widetilde{A_{-2}})$ (`tildeAminus2_fails_deletion`, Lemma 3.21),
+  the infinite family of Theorem 1.2 (`theorem_1_2_infinite_family`),
+  and odd-cycle definiteness and non-$\mathcal{O}$-conjugacy
+  (`cyclePosForm_posSemidef`, `oddCycleNegForm_negDef`,
+  `oddCycle_not_O_conjugate`, Theorem 1.6).
 - `SpectralRadius.lean`: Hyperbolic system with spectral radius $1$
   (`det_B_A3_ppm`, `w_A3_ppm_add_one_cube`, Example 3.29) and Example
   3.33 / Theorem 1.7 spectral radius comparison
