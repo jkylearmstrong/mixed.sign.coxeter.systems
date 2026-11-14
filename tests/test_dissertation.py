@@ -251,3 +251,21 @@ def test_appendix_a_tables_and_remark_3_26():
     assert fast_integer_group_order(MixedSignCoxeterGraph.D_n(7)) == 322560
 
 
+def test_remarks_3_23_and_3_30():
+    from mixed_sign_coxeter import fast_integer_group_order
+
+    # Remark 3.23: |W(~A_{-2})| = 24 = |W(A_3)| (= |S_4|)
+    assert fast_integer_group_order(MixedSignCoxeterGraph.A_tilde(2, negative=True)) == 24
+    assert fast_integer_group_order(MixedSignCoxeterGraph.A_n(3)) == 24
+
+    # Remark 3.30: non-monotonicity of minimal spectral radius Lambda along inclusions
+    # A2(+,-) < A3(-,+,+) < A4(-,+,+,+) < A5(-,+,+,+,+)
+    lam2, _ = MixedSignCoxeterGraph.A_n(["+", "-"]).minimal_spectral_radius()
+    lam3, _ = MixedSignCoxeterGraph.A_n(["-", "+", "+"]).minimal_spectral_radius()
+    lam4, _ = MixedSignCoxeterGraph.A_n(["-", "+", "+", "+"]).minimal_spectral_radius()
+    lam5, _ = MixedSignCoxeterGraph.A_n(["-", "+", "+", "+", "+"]).minimal_spectral_radius()
+    assert lam2 > 2.6 and lam2 > lam3
+    assert math.isclose(lam3, 1.0, abs_tol=1e-9)
+    assert lam3 < lam5 < lam4
+
+
