@@ -331,4 +331,45 @@ theorem exchange_of_deletion {n : ℕ} (S : ReflectionSystem n)
         simpa only [← mul_assoc, reflectionMatrix_mul_self, one_mul] using h2
       exact hwred (deleteTwo w i' j') hlen hprod.symm
 
+/-- **Theorem 3.9** (Exchange implies Deletion): Any `ReflectionSystem n` satisfying
+the Exchange Property also satisfies the Deletion Property. -/
+theorem deletion_of_exchange {n : ℕ} (S : ReflectionSystem n)
+    (hex : SatisfiesExchangeProperty S) :
+    SatisfiesDeletionProperty S := by
+  intro w
+  induction w with
+  | nil =>
+    rintro ⟨u, hu, _⟩
+    simp at hu
+  | cons s t ih =>
+    intro hshort
+    by_cases ht : IsReducedWord S t
+    · obtain ⟨k, hk, heq⟩ := hex s t ht hshort
+      refine ⟨0, k + 1, Nat.zero_lt_succ k, by simp only [List.length_cons]; omega, ?_⟩
+      rw [deleteTwo_cons_zero s t (k + 1) (Nat.zero_lt_succ k)]
+      simpa using heq.symm
+    · unfold IsReducedWord at ht
+      push_neg at ht
+      obtain ⟨u, hu, heq⟩ := ht
+      obtain ⟨i, j, hij, hj, hdel⟩ := ih ⟨u, hu, heq⟩
+      refine ⟨i + 1, j + 1, Nat.succ_lt_succ hij, by simp only [List.length_cons]; omega, ?_⟩
+      rw [deleteTwo_cons_succ]
+      simp only [wordProd, List.map_cons, List.prod_cons]
+      exact congrArg (reflectionMatrix S.B s * ·) hdel
+
+/-- **Theorem 3.9 (Deletion ↔ Exchange)**: For any `ReflectionSystem n`, the Deletion
+Property and the Exchange Property are logically equivalent. -/
+theorem deletion_iff_exchange {n : ℕ} (S : ReflectionSystem n) :
+    SatisfiesDeletionProperty S ↔ SatisfiesExchangeProperty S :=
+  ⟨exchange_of_deletion S, deletion_of_exchange S⟩
+
+/-- **Theorem 3.9 (Coxeter presentation lift)**: Whenever the pairwise products of
+reflections in `S` satisfy the Coxeter relations of `M : CoxeterMatrix (Fin n)`,
+`W(S)` is a quotient of the classical Coxeter group `M.Group`. -/
+theorem reflectionSystem_isLiftable_of_orders {n : ℕ} (S : ReflectionSystem n)
+    (M : CoxeterMatrix (Fin n))
+    (hord : ∀ i j : Fin n, (reflectionMatrix S.B i * reflectionMatrix S.B j) ^ (M.M i j) = 1) :
+    M.IsLiftable (reflectionMatrix S.B) :=
+  hord
+
 end MixedSignCoxeter

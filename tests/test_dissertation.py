@@ -242,10 +242,12 @@ def test_appendix_a_tables_and_remark_3_26():
         assert classify_signature(a1[name]) == "positive_definite"
         assert classify_signature(a2[f"{name}_neg"]) == "negative_definite"
 
-    # Remark 3.26: |W(~A_{-4})| = 1920 = |W(D_5)|
-    elems_a, ok_a = enumerate_group(MixedSignCoxeterGraph.A_tilde(4, negative=True), max_elements=2500)
-    elems_d, ok_d = enumerate_group(MixedSignCoxeterGraph.D_n(5), max_elements=2500)
-    assert ok_a and len(elems_a) == 1920
-    assert ok_d and len(elems_d) == 1920
+    # Remark 3.26: |W(~A_{-4})| = 1920 = |W(D_5)| and |W(~A_{-6})| = 322560 = |W(D_7)|
+    from mixed_sign_coxeter import fast_integer_group_order
+
+    assert fast_integer_group_order(MixedSignCoxeterGraph.A_tilde(4, negative=True)) == 1920
+    assert fast_integer_group_order(MixedSignCoxeterGraph.D_n(5)) == 1920
+    assert fast_integer_group_order(MixedSignCoxeterGraph.A_tilde(6, negative=True)) == 322560
+    assert fast_integer_group_order(MixedSignCoxeterGraph.D_n(7)) == 322560
 
 

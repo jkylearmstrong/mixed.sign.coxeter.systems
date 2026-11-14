@@ -142,3 +142,34 @@ def table_a2(max_rank: int = 8) -> dict[str, MixedSignCoxeterGraph]:
     spherical Coxeter graph is a tree and hence bipartite).
     """
     return {f"{name}_neg": g.negate_signs() for name, g in table_a1(max_rank=max_rank).items()}
+
+
+def fast_integer_group_order(system: ReflectionSystem, max_elements: int = 500_000) -> int | None:
+    """Compute |W(B)| via NumPy int64 BFS when all generator matrices are integer-valued.
+
+    Returns None if any generator has non-integer entries or if max_elements is exceeded.
+    """
+    gens_np: list[np.ndarray] = []
+    for g in system.generators():
+        arr = np.array(g.tolist(), dtype=np.float64)
+        rounded = np.rint(arr)
+        if not np.allclose(arr, rounded, atol=1e-9):
+            return None
+        gens_np.append(rounded.astype(np.int64))
+
+    from collections import deque
+
+    ident = np.eye(system.n, dtype=np.int64)
+    seen = {ident.tobytes()}
+    queue: deque[np.ndarray] = deque([ident])
+    while queue:
+        cur = queue.popleft()
+        for s in gens_np:
+            nxt = cur @ s
+            key = nxt.tobytes()
+            if key not in seen:
+                seen.add(key)
+                if len(seen) >= max_elements:
+                    return None
+                queue.append(nxt)
+    return len(seen)

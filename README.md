@@ -118,8 +118,10 @@ Mathlib `v4.35.0`):
   (`wLinEx333Z_annihilated`, `pLinEx333_no_root_ge_four`,
   `pBpEx333_has_root_gt_four`, `theorem_3_34_bipartite_exceeds_linear`).
 - `ClassicalDeletion.lean`: Universal Coxeter quotient
-  (`freeCoxeterQuotient`, Proposition 3.19), abstract Deletion Property
-  (`SatisfiesDeletionProperty`), $\mathcal{O}$-conjugacy invariance
+  (`freeCoxeterQuotient`, Proposition 3.19), Deletion $\leftrightarrow$
+  Exchange equivalence (`SatisfiesDeletionProperty`,
+  `SatisfiesExchangeProperty`, `deletion_iff_exchange`, Proposition 3.8
+  / Theorem 3.9), $\mathcal{O}$-conjugacy invariance
   (`deletion_invariant_of_O_conjugate`), and Corollary 1.3
   (`corollary_1_3_not_conjugate_to_deletion`).
 
