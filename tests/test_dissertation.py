@@ -232,3 +232,20 @@ def test_catalog_mahler_signature_and_an_table():
     assert finite_even_odd_cycle_determinants((2, 4, 6)) == {2: 4, 4: 4, 6: 4}
 
 
+def test_appendix_a_tables_and_remark_3_26():
+    from mixed_sign_coxeter import classify_signature, table_a1, table_a2
+
+    a1 = table_a1(max_rank=6)
+    a2 = table_a2(max_rank=6)
+    assert set(a2.keys()) == {f"{k}_neg" for k in a1.keys()}
+    for name in ("A_3", "B_3", "D_4", "E_6", "F_4", "H_3", "I_2[5]"):
+        assert classify_signature(a1[name]) == "positive_definite"
+        assert classify_signature(a2[f"{name}_neg"]) == "negative_definite"
+
+    # Remark 3.26: |W(~A_{-4})| = 1920 = |W(D_5)|
+    elems_a, ok_a = enumerate_group(MixedSignCoxeterGraph.A_tilde(4, negative=True), max_elements=2500)
+    elems_d, ok_d = enumerate_group(MixedSignCoxeterGraph.D_n(5), max_elements=2500)
+    assert ok_a and len(elems_a) == 1920
+    assert ok_d and len(elems_d) == 1920
+
+

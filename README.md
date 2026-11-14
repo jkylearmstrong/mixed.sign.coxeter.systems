@@ -31,7 +31,8 @@ Located in `src/mixed_sign_coxeter/`:
   two-deletion testing for the Deletion Property (Proposition 3.7 /
   Lemma 3.21), and root orbits $\Phi = W \Pi^+$.
 - `catalog.py`: Mahler measure `mahler_measure`, signature
-  classification `classify_signature`, Appendix B $A_n$ sign tables
+  classification `classify_signature`, Appendix A finite catalogs
+  `table_a1` / `table_a2`, Appendix B $A_n$ sign tables
   `A_n_sign_table`, and Remark 3.26 cycle determinant checks
   `finite_even_odd_cycle_determinants`.
 

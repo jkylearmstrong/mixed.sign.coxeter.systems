@@ -190,4 +190,145 @@ theorem corollary_1_3_not_conjugate_to_deletion (k : ℕ)
     (tildeAminus2Extended k).toReflectionSystem P hB hdel
   exact tildeAminus2Extended_not_deletion k h2
 
+/-! ### Proposition 3.8 & Theorem 3.9: Exchange Property from Deletion -/
+
+/-- A word `w` is **reduced** in `S` if it is not equal in `W(S)` to any strictly shorter word. -/
+def IsReducedWord {n : ℕ} (S : ReflectionSystem n) (w : List (Fin n)) : Prop :=
+  ∀ u : List (Fin n), u.length < w.length → S.wordProd w ≠ S.wordProd u
+
+/-- A `ReflectionSystem n` satisfies the **Exchange Property** (Proposition 3.8 / Theorem 3.9)
+if whenever `w` is reduced and `s :: w` equals a strictly shorter word in `W(S)`, there exists
+`k < w.length` such that `S.wordProd (s :: w) = S.wordProd (w.eraseIdx k)`. -/
+def SatisfiesExchangeProperty {n : ℕ} (S : ReflectionSystem n) : Prop :=
+  ∀ (s : Fin n) (w : List (Fin n)), IsReducedWord S w →
+    (∃ u : List (Fin n), u.length < (s :: w).length ∧ S.wordProd (s :: w) = S.wordProd u) →
+    ∃ k : ℕ, k < w.length ∧ S.wordProd (s :: w) = S.wordProd (w.eraseIdx k)
+
+private lemma filter_zipIdx_offset {α : Type*} (w : List α) (k m : ℕ) :
+    ((List.zipIdx w (k + 1)).filter (fun p => p.2 ≠ k + 1 + m)).map Prod.fst =
+      w.eraseIdx m := by
+  induction w generalizing k m with
+  | nil => simp
+  | cons a t ih =>
+    cases m with
+    | zero =>
+      have hsub : ∀ p ∈ List.zipIdx t (k + 2), p.2 ≠ k + 1 := by
+        intro p hp
+        have := List.mem_zipIdx hp
+        omega
+      simp [List.zipIdx_cons, List.filter_cons]
+      rw [List.filter_eq_self.mpr]
+      · simp
+      · intro p hp
+        simp [hsub p hp]
+    | succ m' =>
+      have hne : k + 1 ≠ k + 1 + (m' + 1) := by omega
+      simp only [List.zipIdx_cons, List.filter_cons, decide_eq_true_eq, hne, ↓reduceIte,
+        List.map_cons, List.eraseIdx_cons_succ]
+      congr 1
+      simpa [Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using ih (k + 1) m'
+
+private lemma deleteTwo_cons_zero {α : Type*} (s : α) (w : List α) (j : ℕ) (hj : 0 < j) :
+    deleteTwo (s :: w) 0 j = w.eraseIdx (j - 1) := by
+  cases j with
+  | zero => exact absurd hj (Nat.lt_irrefl 0)
+  | succ m =>
+    unfold deleteTwo
+    simp only [List.zipIdx_cons, List.filter_cons, ne_eq, not_true_eq_false, false_and,
+      decide_false, Bool.false_eq_true, ↓reduceIte]
+    have hfilt : (List.zipIdx w 1).filter (fun p => p.2 ≠ 0 ∧ p.2 ≠ m + 1) =
+        (List.zipIdx w 1).filter (fun p => p.2 ≠ m + 1) := by
+      refine List.filter_congr ?_
+      intro p hp
+      have hge : 1 ≤ p.2 := (List.mem_zipIdx hp).1
+      have hne : p.2 ≠ 0 := by omega
+      simp [hne]
+    rw [hfilt]
+    simpa [Nat.add_comm] using filter_zipIdx_offset w 0 m
+
+private lemma deleteTwo_cons_succ {α : Type*} (s : α) (w : List α) (i j : ℕ) :
+    deleteTwo (s :: w) (i + 1) (j + 1) = s :: deleteTwo w i j := by
+  unfold deleteTwo
+  simp only [List.zipIdx_cons, List.filter_cons, ne_eq, Nat.zero_ne_add_one, not_false_eq_true,
+    and_self, decide_true, ↓reduceIte, List.map_cons]
+  have hshift : ∀ (l : List α) (k : ℕ),
+      ((List.zipIdx l (k + 1)).filter (fun p => p.2 ≠ i + 1 ∧ p.2 ≠ j + 1)).map Prod.fst =
+        ((List.zipIdx l k).filter (fun p => p.2 ≠ i ∧ p.2 ≠ j)).map Prod.fst := by
+    intro l
+    induction l with
+    | nil => intro k; simp
+    | cons a t ih =>
+      intro k
+      simp only [List.zipIdx_cons, List.filter_cons]
+      have hk1 : (k + 1 ≠ i + 1 ∧ k + 1 ≠ j + 1) ↔ (k ≠ i ∧ k ≠ j) := by omega
+      by_cases h : (k ≠ i ∧ k ≠ j)
+      · have h' : (k + 1 ≠ i + 1 ∧ k + 1 ≠ j + 1) := hk1.mpr h
+        have hc1 : decide (k + 1 ≠ i + 1 ∧ k + 1 ≠ j + 1) = true := decide_eq_true h'
+        have hc2 : decide (k ≠ i ∧ k ≠ j) = true := decide_eq_true h
+        rw [hc1, hc2]
+        simp only [↓reduceIte, List.map_cons]
+        exact congrArg (a :: ·) (ih (k + 1))
+      · have h' : ¬(k + 1 ≠ i + 1 ∧ k + 1 ≠ j + 1) := mt hk1.mp h
+        have hc1 : decide (k + 1 ≠ i + 1 ∧ k + 1 ≠ j + 1) = false := decide_eq_false h'
+        have hc2 : decide (k ≠ i ∧ k ≠ j) = false := decide_eq_false h
+        rw [hc1, hc2]
+        simp only [Bool.false_eq_true, ↓reduceIte]
+        exact ih (k + 1)
+  congr 1
+  exact hshift w 0
+
+private lemma deleteTwo_length_lt {α : Type*} (w : List α) (i j : ℕ)
+    (hi : i < w.length) : (deleteTwo w i j).length < w.length := by
+  unfold deleteTwo
+  rw [List.length_map]
+  have hgen : ∀ (l : List α) (k : ℕ), k ≤ i → i < k + l.length →
+      ((List.zipIdx l k).filter (fun p => p.2 ≠ i ∧ p.2 ≠ j)).length < l.length := by
+    intro l
+    induction l with
+    | nil => intro k hk1 hk2; simp at hk2; omega
+    | cons a t ih =>
+      intro k hk1 hk2
+      simp only [List.zipIdx_cons, List.filter_cons, List.length_cons]
+      by_cases hki : k = i
+      · subst hki
+        simp only [ne_eq, not_true_eq_false, false_and, decide_false, Bool.false_eq_true, ↓reduceIte]
+        exact Nat.lt_succ_of_le ((List.length_filter_le _ _).trans (by simp))
+      · have hlt : k + 1 ≤ i := by omega
+        have hlt2 : i < (k + 1) + t.length := by simp at hk2; omega
+        have iht := ih (k + 1) hlt hlt2
+        split_ifs
+        · simp only [List.length_cons]; omega
+        · omega
+  exact hgen w 0 (Nat.zero_le i) (by omega)
+
+/-- **Proposition 3.8 / Theorem 3.9** (Deletion implies Exchange): Any `ReflectionSystem n`
+satisfying the Deletion Property also satisfies the Exchange Property. -/
+theorem exchange_of_deletion {n : ℕ} (S : ReflectionSystem n)
+    (hdel : SatisfiesDeletionProperty S) :
+    SatisfiesExchangeProperty S := by
+  intro s w hwred hshort
+  obtain ⟨i, j, hij, hj, heq⟩ := hdel (s :: w) hshort
+  cases i with
+  | zero =>
+    refine ⟨j - 1, ?_, ?_⟩
+    · simp only [List.length_cons] at hj; omega
+    · rw [← heq, deleteTwo_cons_zero s w j hij]
+  | succ i' =>
+    cases j with
+    | zero => exact absurd hij (Nat.not_lt_zero _)
+    | succ j' =>
+      exfalso
+      have hj' : j' < w.length := by simp only [List.length_cons] at hj; omega
+      have hi' : i' < w.length := lt_trans (by omega : i' < j') hj'
+      have hlen : (deleteTwo w i' j').length < w.length :=
+        deleteTwo_length_lt w i' j' hi'
+      rw [deleteTwo_cons_succ] at heq
+      have hprod : S.wordProd (deleteTwo w i' j') = S.wordProd w := by
+        have h1 : reflectionMatrix S.B s * S.wordProd (deleteTwo w i' j') =
+            reflectionMatrix S.B s * S.wordProd w := by
+          simpa [wordProd] using heq
+        have h2 := congr_arg (fun M => reflectionMatrix S.B s * M) h1
+        simpa only [← mul_assoc, reflectionMatrix_mul_self, one_mul] using h2
+      exact hwred (deleteTwo w i' j') hlen hprod.symm
+
 end MixedSignCoxeter

@@ -169,5 +169,25 @@ theorem tildeAminus2_eq_3_21_3 :
     simp [s1TildeAminus2, s2TildeAminus2, s3TildeAminus2, Matrix.mul_apply,
       pow_succ, Fin.sum_univ_three]
 
+/-! ### Proposition 3.5: Classical Coxeter Systems as All-Positive Mixed-Sign Systems -/
+
+/-- **Definition 3.4 / Proposition 3.5**: A `MixedSignCoxeterGraph n` is a classical
+Coxeter graph if every node has positive sign (`+`). -/
+def MixedSignCoxeterGraph.IsClassical {n : ℕ} (Γ : MixedSignCoxeterGraph n) : Prop :=
+  ∀ i : Fin n, Γ.sign i = Sign.pos
+
+/-- **Proposition 3.5**: Every classical Coxeter graph (`∀ i, Γ.sign i = Sign.pos`)
+induces a classical Coxeter bilinear form with `B(e_i, e_i) = 2` and
+`B(e_i, e_j) = edgeEntry (Γ.weight i j)` for `i ≠ j`. -/
+theorem proposition_3_5_classical_form {n : ℕ} (Γ : MixedSignCoxeterGraph n)
+    (hpos : Γ.IsClassical) :
+    (∀ i : Fin n, Γ.toBilinearForm i i = 2) ∧
+    (∀ i j : Fin n, i ≠ j → Γ.toBilinearForm i j = edgeEntry (Γ.weight i j)) := by
+  constructor
+  · intro i
+    simp [MixedSignCoxeterGraph.toBilinearForm, hpos i, Sign.toReal]
+  · intro i j hij
+    simp [MixedSignCoxeterGraph.toBilinearForm, hij]
+
 end MixedSignCoxeter
 

@@ -15,7 +15,7 @@ Located in `src/mixed_sign_coxeter/`:
 - `reflection_system.py`: `ReflectionSystem` and `Signature` — symmetric bilinear forms $B$, generating reflections $S(B)$, form preservation, connected components, bipartite detection/conjugation (Theorem 1.4), Howlett's $U$ matrix and generalized theorem $s_0 \cdots s_{n-1} = -U^{-1} U^T$ (Theorem 1.1), principal polynomials $\chi(w_\sigma, x)$ (Lemma 2.63), spectral radii $\lambda(w)$, minimal spectral radius $\Lambda(\Gamma)$, and signature classification.
 - `mixed_sign.py`: `MixedSignCoxeterGraph` — mixed-sign Coxeter graphs $\Gamma$ with `+`/`-` node signs and edge weights $m(i, j) \in \{2, 3, \dots, \infty\}$, standard families ($A_n$, $\widetilde{A_n}$, $\widetilde{A_{-n}}$, $B_n$, $D_n$, $E_n$, $F_4$, $H_3$, $H_4$, $I_2[m]$), and `example_3_33`.
 - `group.py`: Word evaluation, element orders, finite group enumeration, two-deletion testing for the Deletion Property (Proposition 3.7 / Lemma 3.21), and root orbits $\Phi = W \Pi^+$.
-- `catalog.py`: Mahler measure `mahler_measure`, signature classification `classify_signature`, Appendix B $A_n$ sign tables `A_n_sign_table`, and Remark 3.26 cycle determinant checks `finite_even_odd_cycle_determinants`.
+- `catalog.py`: Mahler measure `mahler_measure`, signature classification `classify_signature`, Appendix A finite catalogs `table_a1` / `table_a2`, Appendix B $A_n$ sign tables `A_n_sign_table`, and Remark 3.26 cycle determinant checks `finite_even_odd_cycle_determinants`.
 
 ### Quick Example (Theorem 1.7 / Example 3.33)
 

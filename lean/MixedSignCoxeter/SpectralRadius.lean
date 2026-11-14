@@ -215,5 +215,74 @@ theorem theorem_3_34_bipartite_exceeds_linear :
 
 end Example3_33
 
+/-! ### Theorems 3.27 & 3.28: Bipartite Graph Eigenvalues & Spectral-Radius Monotonicity -/
+
+/-- **Theorem 3.27**: For a classical bipartite Coxeter system with adjacency block
+`A : Matrix (Fin p) (Fin q) ℝ` (so the bipartite Coxeter element is
+`w = s₊ s₋` with `s₊ = fromBlocks (-1) A 0 1` and `s₋ = fromBlocks 1 0 Aᵀ (-1)`),
+any eigenvector `u` of `A * Aᵀ` with `A * Aᵀ *ᵥ u = μ^2 • u` and any `λ` satisfying
+`λ^2 - (μ^2 - 2) * λ + 1 = 0` yields an eigenvector `Sum.elim ((λ + 1) • u) (Aᵀ *ᵥ u)`
+of `w` with eigenvalue `λ`. -/
+theorem theorem_3_27_bipartite_coxeter_eigenvalue {p q : ℕ}
+    (A : Matrix (Fin p) (Fin q) ℝ) (u : Fin p → ℝ) (μ lam : ℝ)
+    (hu : (A * Aᵀ).mulVec u = (μ ^ 2) • u)
+    (hlam : lam ^ 2 - (μ ^ 2 - 2) * lam + 1 = 0) :
+    let sPlus : Matrix (Fin p ⊕ Fin q) (Fin p ⊕ Fin q) ℝ := Matrix.fromBlocks (-1) A 0 1
+    let sMinus : Matrix (Fin p ⊕ Fin q) (Fin p ⊕ Fin q) ℝ := Matrix.fromBlocks 1 0 Aᵀ (-1)
+    let v : Fin p ⊕ Fin q → ℝ := Sum.elim ((lam + 1) • u) (Aᵀ.mulVec u)
+    (sPlus * sMinus).mulVec v = lam • v := by
+  intro sPlus sMinus v
+  have hw : sPlus * sMinus =
+      Matrix.fromBlocks (A * Aᵀ - 1) (-A) Aᵀ (-1) := by
+    simp only [sPlus, sMinus, Matrix.fromBlocks_multiply]
+    congr 1 <;> simp [sub_eq_add_neg, add_comm]
+  rw [hw]
+  change (Matrix.fromBlocks (A * Aᵀ - 1) (-A) Aᵀ (-1)).mulVec
+      (Sum.elim ((lam + 1) • u) (Aᵀ.mulVec u)) =
+    lam • Sum.elim ((lam + 1) • u) (Aᵀ.mulVec u)
+  rw [Matrix.fromBlocks_mulVec]
+  have hcompL : (Sum.elim ((lam + 1) • u) (Aᵀ.mulVec u) ∘ Sum.inl) = (lam + 1) • u := rfl
+  have hcompR : (Sum.elim ((lam + 1) • u) (Aᵀ.mulVec u) ∘ Sum.inr) = Aᵀ.mulVec u := rfl
+  rw [hcompL, hcompR]
+  ext x
+  cases x with
+  | inl i =>
+    simp only [Sum.elim_inl, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
+      Matrix.sub_mulVec, Matrix.one_mulVec, Matrix.neg_mulVec, Pi.sub_apply, Pi.neg_apply,
+      Matrix.mulVec_smul]
+    have h1 : ((A * Aᵀ).mulVec u) i = μ ^ 2 * u i := by
+      have := congr_fun hu i
+      simpa [Pi.smul_apply, smul_eq_mul] using this
+    have h2 : (A.mulVec (Aᵀ.mulVec u)) i = μ ^ 2 * u i := by
+      rw [← Matrix.mulVec_mulVec] at h1
+      exact h1
+    rw [h1, h2]
+    linear_combination -(u i) * hlam
+  | inr j =>
+    simp only [Sum.elim_inr, Pi.add_apply, Pi.smul_apply, smul_eq_mul,
+      Matrix.neg_mulVec, Matrix.one_mulVec, Pi.neg_apply, Matrix.mulVec_smul]
+    ring
+
+/-- **Theorem 3.28** (Spectral-radius monotonicity): In the bipartite Coxeter eigenvalue
+equation `λ^2 - (μ^2 - 2) * λ + 1 = 0`, if `2 < μ₁ < μ₂` then the larger real root
+`λ(μ) = ((μ^2 - 2) + √((μ^2 - 2)^2 - 4)) / 2` satisfies `1 < λ(μ₁) < λ(μ₂)`. -/
+theorem theorem_3_28_spectral_radius_strict_mono (μ₁ μ₂ : ℝ)
+    (h1 : 2 < μ₁) (h12 : μ₁ < μ₂) :
+    let rad := fun μ : ℝ => ((μ ^ 2 - 2) + Real.sqrt ((μ ^ 2 - 2) ^ 2 - 4)) / 2
+    1 < rad μ₁ ∧ rad μ₁ < rad μ₂ := by
+  intro rad
+  have ha1 : (2 : ℝ) < μ₁ ^ 2 - 2 := by nlinarith
+  have ha2 : μ₁ ^ 2 - 2 < μ₂ ^ 2 - 2 := by nlinarith
+  have hsq1 : 0 < (μ₁ ^ 2 - 2) ^ 2 - 4 := by nlinarith
+  have hsq12 : (μ₁ ^ 2 - 2) ^ 2 - 4 < (μ₂ ^ 2 - 2) ^ 2 - 4 := by nlinarith
+  have hsqrt1 : 0 < Real.sqrt ((μ₁ ^ 2 - 2) ^ 2 - 4) := Real.sqrt_pos.mpr hsq1
+  have hsqrt12 : Real.sqrt ((μ₁ ^ 2 - 2) ^ 2 - 4) < Real.sqrt ((μ₂ ^ 2 - 2) ^ 2 - 4) :=
+    Real.sqrt_lt_sqrt hsq1.le hsq12
+  constructor
+  · dsimp [rad]
+    linarith
+  · dsimp [rad]
+    linarith
+
 end MixedSignCoxeter
 

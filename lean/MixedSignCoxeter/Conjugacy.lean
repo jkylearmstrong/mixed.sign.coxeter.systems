@@ -256,4 +256,17 @@ theorem O_conjugate_isPosDef_iff (S₁ S₂ : ReflectionSystem n) (P : SignedPer
     rw [← O_conjugate_quadForm P hB v]
     exact h2 v (fun hv => hu ((hinj v).mpr hv))
 
+/-- **Example 2.36**: Swapping the two nodes of an asymmetric rank-2 bilinear form
+gives an `𝒪`-conjugate bilinear form via `Equiv.swap 0 1`. -/
+theorem example_2_36_form_conjugate (a b c : ℝ) :
+    let B₁ : Matrix (Fin 2) (Fin 2) ℝ := !![a, c; c, b]
+    let B₂ : Matrix (Fin 2) (Fin 2) ℝ := !![b, c; c, a]
+    let P : SignedPerm 2 := ⟨Equiv.swap 0 1, fun _ => true⟩
+    B₂ = P.toMatrixᵀ * B₁ * P.toMatrix := by
+  intro B₁ B₂ P
+  ext i j
+  rw [P.toMatrix_conj_apply]
+  fin_cases i <;> fin_cases j <;>
+    simp [B₁, B₂, P, SignedPerm.signReal]
+
 end ReflectionSystem

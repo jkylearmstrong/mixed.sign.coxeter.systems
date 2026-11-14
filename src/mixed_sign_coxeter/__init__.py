@@ -6,6 +6,8 @@ from .catalog import (
     classify_signature,
     finite_even_odd_cycle_determinants,
     mahler_measure,
+    table_a1,
+    table_a2,
 )
 from .group import (
     element_order,
@@ -33,5 +35,7 @@ __all__ = [
     "generate_roots",
     "is_positive_vector",
     "mahler_measure",
+    "table_a1",
+    "table_a2",
 ]
 

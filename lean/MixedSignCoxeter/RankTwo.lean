@@ -367,6 +367,80 @@ theorem adjacent_pm_infinite_order {n : ℕ} (Γ : MixedSignCoxeterGraph n) (i j
       exact hr
   exact rank2_pm_infinite_order c hc k hk hmat1
 
+/-! ### Proposition 3.12 & Example 3.13 -/
+
+/-- **Proposition 3.12**: In `A₂(-, +)` (Example 3.16), the first coordinate of
+`w^k * e₀` is `(-1)^k * F_{2k+1}`, so consecutive powers strictly alternate sign. -/
+theorem prop_3_12_root_oscillation (k : ℕ) :
+    (Matrix.mulVec ((s0A2PM * s1A2PM) ^ k) ![1, 0]) (0 : Fin 2) =
+      (-1 : ℝ) ^ k * (Nat.fib (2 * k + 1) : ℝ) ∧
+    (Matrix.mulVec ((s0A2PM * s1A2PM) ^ k) ![1, 0]) (0 : Fin 2) *
+      (Matrix.mulVec ((s0A2PM * s1A2PM) ^ (k + 1)) ![1, 0]) (0 : Fin 2) < 0 := by
+  have h1 : ∀ m : ℕ, (Matrix.mulVec ((s0A2PM * s1A2PM) ^ m) ![1, 0]) (0 : Fin 2) =
+      (-1 : ℝ) ^ m * (Nat.fib (2 * m + 1) : ℝ) := by
+    intro m
+    cases m with
+    | zero => simp
+    | succ m' =>
+      rw [a2_pm_3_fibonacci_powers (m' + 1) (by omega)]
+      simp [Matrix.mulVec, dotProduct, Fin.sum_univ_two]
+  refine ⟨h1 k, ?_⟩
+  rw [h1 k, h1 (k + 1)]
+  have hf1 : (0 : ℝ) < (Nat.fib (2 * k + 1) : ℝ) := by
+    exact_mod_cast Nat.fib_pos.mpr (by omega)
+  have hf2 : (0 : ℝ) < (Nat.fib (2 * (k + 1) + 1) : ℝ) := by
+    exact_mod_cast Nat.fib_pos.mpr (by omega)
+  have hsq : (-1 : ℝ) ^ k * (-1 : ℝ) ^ (k + 1) = -1 := by
+    rw [pow_succ']
+    have : (-1 : ℝ) ^ k * (-1 : ℝ) ^ k = 1 := by
+      rw [← mul_pow]
+      norm_num
+    nlinarith
+  have hprod : (-1 : ℝ) ^ k * (Nat.fib (2 * k + 1) : ℝ) *
+      ((-1 : ℝ) ^ (k + 1) * (Nat.fib (2 * (k + 1) + 1) : ℝ)) =
+      ((-1 : ℝ) ^ k * (-1 : ℝ) ^ (k + 1)) *
+      ((Nat.fib (2 * k + 1) : ℝ) * (Nat.fib (2 * (k + 1) + 1) : ℝ)) := by ring
+  rw [hprod, hsq]
+  nlinarith
+
+/-- **Example 3.13** ($A_2[3] = I_2[3]$): In the classical rank-2 spherical system
+with `m = 3`, `(s₀ s₁)³ = I`, giving the dihedral group `D₆` of order `6`. -/
+theorem example_3_13_A2_3_order_three :
+    let s0 : Matrix (Fin 2) (Fin 2) ℤ := !![-1, 1; 0, 1]
+    let s1 : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 1, -1]
+    (s0 * s1) ^ 3 = 1 := by
+  decide
+
+/-- **Example 3.13 & Proposition 3.10–3.11** ($A_2[\infty] = I_2[\infty]$):
+In the classical rank-2 affine system with `m = ∞`,
+`(s₀ s₁)^k = !![2k + 1, -2k; 2k, 1 - 2k]`, so `(s₀ s₁)^k ≠ 1` for `k ≥ 1`
+and `((s₀ s₁)^k * e₀)₀ = 2k + 1 > 0`. -/
+theorem example_3_13_A2_inf_powers (k : ℕ) :
+    let s0 : Matrix (Fin 2) (Fin 2) ℤ := !![-1, 2; 0, 1]
+    let s1 : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 2, -1]
+    (s0 * s1) ^ k =
+      !![(2 * (k : ℤ) + 1), -(2 * (k : ℤ)); (2 * (k : ℤ)), 1 - 2 * (k : ℤ)] := by
+  intro s0 s1
+  induction k with
+  | zero =>
+    ext i j
+    fin_cases i <;> fin_cases j <;> simp
+  | succ m ih =>
+    rw [pow_succ, ih]
+    ext i j
+    fin_cases i <;> fin_cases j <;>
+      simp [s0, s1, Matrix.mul_apply, Fin.sum_univ_two] <;> ring
+
+theorem example_3_13_A2_inf_infinite_order (k : ℕ) (hk : 1 ≤ k) :
+    let s0 : Matrix (Fin 2) (Fin 2) ℤ := !![-1, 2; 0, 1]
+    let s1 : Matrix (Fin 2) (Fin 2) ℤ := !![1, 0; 2, -1]
+    (s0 * s1) ^ k ≠ 1 := by
+  intro s0 s1 h1
+  have h := congr_fun (congr_fun h1 0) 0
+  rw [example_3_13_A2_inf_powers k] at h
+  simp at h
+  omega
+
 end RankTwo
 
 end MixedSignCoxeter

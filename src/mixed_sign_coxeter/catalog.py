@@ -107,3 +107,38 @@ def finite_even_odd_cycle_determinants(even_ns: Iterable[int] = (2, 4, 6)) -> di
         g = MixedSignCoxeterGraph.A_tilde(n, negative=True)
         out[n] = int(sp.det(-g.B))
     return out
+
+
+def table_a1(max_rank: int = 8) -> dict[str, MixedSignCoxeterGraph]:
+    """Return the Appendix A Table A.1 catalog of finite all-positive Coxeter graphs.
+
+    Includes A_n (n=1..max_rank), B_n (n=2..max_rank), D_n (n=4..max_rank),
+    E_6, E_7, E_8 (when max_rank >= 6/7/8), F_4, H_3, H_4, and I_2[m] (m=3..8).
+    """
+    catalog: dict[str, MixedSignCoxeterGraph] = {}
+    for n in range(1, max_rank + 1):
+        catalog[f"A_{n}"] = MixedSignCoxeterGraph.A_n(n)
+    for n in range(2, max_rank + 1):
+        catalog[f"B_{n}"] = MixedSignCoxeterGraph.B_n(n)
+    for n in range(4, max_rank + 1):
+        catalog[f"D_{n}"] = MixedSignCoxeterGraph.D_n(n)
+    for n in (6, 7, 8):
+        if n <= max_rank:
+            catalog[f"E_{n}"] = MixedSignCoxeterGraph.E_n(n)
+    if max_rank >= 4:
+        catalog["F_4"] = MixedSignCoxeterGraph.F_4()
+        catalog["H_4"] = MixedSignCoxeterGraph.H_4()
+    if max_rank >= 3:
+        catalog["H_3"] = MixedSignCoxeterGraph.H_3()
+    for m in range(3, 9):
+        catalog[f"I_2[{m}]"] = MixedSignCoxeterGraph.I_2(m)
+    return catalog
+
+
+def table_a2(max_rank: int = 8) -> dict[str, MixedSignCoxeterGraph]:
+    """Return the Appendix A Table A.2 catalog of finite all-negative Coxeter graphs.
+
+    Obtained by negating every node sign in Table A.1 (Theorem 1.4, since every
+    spherical Coxeter graph is a tree and hence bipartite).
+    """
+    return {f"{name}_neg": g.negate_signs() for name, g in table_a1(max_rank=max_rank).items()}
