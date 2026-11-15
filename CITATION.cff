@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this software, Lean 4 formalization, or research portal, please cite it as below."
+title: "Mixed-Sign Coxeter Systems: Python Library, Lean 4 Formalization, and Research Portal"
+authors:
+  - family-names: Armstrong
+    given-names: Johnathon Kyle
+repository-code: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems"
+url: "https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/"
+preferred-citation:
+  type: thesis
+  thesis-type: "Ph.D. Dissertation"
+  authors:
+    - family-names: Armstrong
+      given-names: Johnathon Kyle
+  title: "Principal Elements of Mixed-Sign Coxeter Systems"
+  institution: "Florida State University"
+  year: 2012
+  url: "https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view"
