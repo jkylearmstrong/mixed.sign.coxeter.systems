@@ -1,2 +1,5 @@
 /.quarto/
 **/*.quarto_ipynb
+
+# Mirrored from ../assets by _sync_assets.py (pre-render hook)
+/assets/
