@@ -1,8 +1,10 @@
 # Mixed-Sign Coxeter Systems
 
 
-Python package, Lean 4 formalization, Manim presentation, and Quarto
-writeup supporting:
+<img src="assets/hex-sticker.png" align="right" width="160" alt="Mixed-Sign Coxeter Systems hex sticker" />
+
+Python package, Lean 4 formalization, interactive Shiny Explorer, Manim
+presentation, and Quarto research portal supporting:
 
 > Johnathon Kyle Armstrong, *Principal Elements of Mixed-Sign Coxeter
 > Systems*, Ph.D. Dissertation, Florida State University, 2012 ([FSU
@@ -11,21 +13,26 @@ writeup supporting:
 > ·
 > [Download](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download)).
 
-For the full theorem-by-theorem index, mathematical exposition, and
-Lean/Python cross-references, see the writeup
-([HTML](docs/mixed_sign_coxeter.html) ·
-[PDF](docs/mixed_sign_coxeter.pdf) ·
-[source](docs/mixed_sign_coxeter.qmd)) and [computational verifications
-note](docs/verifications.md).
+- **Research Portal (Quarto + GitHub Pages):**
+  <https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/>
+- **Interactive Explorer (In-Browser Shinylive):**
+  <https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/explorer.html>
+- **Full Writeup & Verification Notes:**
+  ([HTML](docs/mixed_sign_coxeter.html) ·
+  [PDF](docs/mixed_sign_coxeter.pdf) ·
+  [source](docs/mixed_sign_coxeter.qmd)) and [computational
+  verifications note](docs/verifications.md).
 
 ## Repository Layout
 
-| Directory | Contents |
+| Directory / File | Contents |
 |:---|:---|
 | `src/mixed_sign_coxeter/` | Python package: `ReflectionSystem`, `MixedSignCoxeterGraph`, group/root utilities, Appendix A–D catalogs, and exhaustive searches (`isomorphisms.py`, `finite_search.py`, `principal_search.py`) |
 | `lean/MixedSignCoxeter/` | `sorry`-free Lean 4 (`v4.35.0` + Mathlib) formalization across 16 modules covering Chapters 1–3 (Howlett’s formula, bipartite & tree conjugacy, Deletion/Exchange, parabolic transfer, spectral classification & interlacing, and counterexamples) |
-| `slides/` | 10-scene Manim presentation (`dissertation_deck.py`) backed by exact package computations (`deck_content.py`) |
-| `docs/` | Quarto writeup (`mixed_sign_coxeter.qmd` → HTML/PDF/DOCX) and `verifications.md` |
+| `explorer/` & `explorer.qmd` | Interactive **Shiny for Python** explorer (`explorer/app.py`) + in-browser **Shinylive** page (`explorer.qmd`) for building signed graphs, comparing linear vs. bipartite principal orderings, and checking theorems |
+| `data/theorems.yml` | Shared traceability registry connecting Dissertation → Lean 4 → Python → Interactive Explorer |
+| `slides/` | 10-scene Manim presentation (`dissertation_deck.py`) backed by exact package computations (`deck_content.py`) and speaker script (`SCRIPT.md`) |
+| `docs/` | Quarto research portal output (`index.qmd`, `dissertation.qmd`, `lean-verification.qmd`, `spectral-results.qmd`, `examples.qmd`, `explorer.qmd`) plus `mixed_sign_coxeter.*` and `verifications.md` |
 
 ## Python Package & Tests
 
@@ -58,14 +65,26 @@ lake exe cache get
 lake build
 ```
 
-## Slides & Writeup
+## Interactive Shiny Explorer
+
+Use the **in-browser Shinylive Explorer** at
+[jkylearmstrong.github.io/mixed.sign.coxeter.systems/explorer.html](https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/explorer.html)
+(no installation required), or run the full local Shiny for Python app
+backed by `mixed_sign_coxeter` and `data/theorems.yml`:
+
+``` bash
+pip install -r explorer/requirements.txt
+shiny run explorer/app.py
+```
+
+## Slides & Website
 
 ``` bash
 # Manim slides (requires LaTeX for MathTex)
 pip install -e ".[manim]"
 manim -pql slides/dissertation_deck.py TitleOverviewScene
 
-# Re-render Quarto writeup or README.md
-quarto render docs/mixed_sign_coxeter.qmd
+# Render the full Quarto portal or README.md
+quarto render
 quarto render README.qmd
 ```
