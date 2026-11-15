@@ -30,7 +30,7 @@ jobs:
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
       - name: Render Quarto website
-        run: quarto render
+        run: quarto render website
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

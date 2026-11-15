@@ -12,6 +12,7 @@ In classical Coxeter systems, bipartite Coxeter elements always minimize the spe
 
 ```{python}
 import sys
+sys.path.insert(0, "../src")
 sys.path.insert(0, "src")
 
 from mixed_sign_coxeter import MixedSignCoxeterGraph

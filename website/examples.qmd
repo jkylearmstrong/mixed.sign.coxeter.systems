@@ -10,6 +10,7 @@ All code blocks below execute directly against `src/mixed_sign_coxeter/` during 
 
 ```{python}
 import sys
+sys.path.insert(0, "../src")
 sys.path.insert(0, "src")
 
 from mixed_sign_coxeter import MixedSignCoxeterGraph
@@ -72,16 +73,16 @@ Eleven Manim scenes in [`slides/dissertation_deck.py`](https://github.com/jkylea
 ::: {.panel-tabset}
 
 #### Overview
-{{< video assets/slides/TitleOverviewScene.mp4 >}}
+{{< video ../assets/slides/TitleOverviewScene.mp4 >}}
 
 #### Howlett's Formula
-{{< video assets/slides/HowlettFormulaScene.mp4 >}}
+{{< video ../assets/slides/HowlettFormulaScene.mp4 >}}
 
 #### Single-Defect Parity Dichotomy
-{{< video assets/slides/SingleDefectParityScene.mp4 >}}
+{{< video ../assets/slides/SingleDefectParityScene.mp4 >}}
 
 #### Spectral Radius Separation (Ex. 3.33)
-{{< video assets/slides/SpectralRadiusSeparationScene.mp4 >}}
+{{< video ../assets/slides/SpectralRadiusSeparationScene.mp4 >}}
 
 :::
 

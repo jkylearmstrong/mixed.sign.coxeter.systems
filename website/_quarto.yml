@@ -1,6 +1,6 @@
 project:
   type: website
-  output-dir: docs
+  output-dir: ../docs
   render:
     - index.qmd
     - dissertation.qmd
@@ -11,12 +11,12 @@ project:
 
 website:
   title: "Mixed-Sign Coxeter Systems"
-  favicon: assets/hex-sticker.png
+  favicon: ../assets/hex-sticker.png
   site-url: https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/
   repo-url: https://github.com/jkylearmstrong/mixed.sign.coxeter.systems
   repo-actions: [source, issue]
   navbar:
-    logo: assets/hex-sticker.png
+    logo: ../assets/hex-sticker.png
     left:
       - href: index.qmd
         text: Home
@@ -42,3 +42,20 @@ format:
       dark: darkly
     toc: true
     html-math-method: mathjax
+
+author:
+- name: J Kyle Armstrong, PhD
+  orcid: 0000-0002-4269-0121
+  email: j.kyle.armstrong@temple.edu
+  affiliations:
+      - ref: temple
+      - ref: fsu
+affiliations:
+  - id: fsu
+    name: Florida State University
+    city: Tallahassee
+    state: FL
+  - id: temple
+    name: Lewis Katz School of Medicine at Temple University Center for Biostatistics & Epidemiology
+    city: Philadelphia
+    state: PA

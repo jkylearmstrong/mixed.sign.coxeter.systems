@@ -208,7 +208,7 @@ end Remark323
 section Remark326
 
 /-- Cyclic shift permutation matrix `P` of size `m`: `P i j = 1` iff `j = i + 1` (mod `m`). -/
-private def shiftMat (m : ℕ) : Matrix (Fin m) (Fin m) ℝ :=
+def shiftMat (m : ℕ) : Matrix (Fin m) (Fin m) ℝ :=
   Matrix.of fun i j => if j.val = (i.val + 1) % m then 1 else 0
 
 private lemma shiftMat_mul_transpose (m : ℕ) (hm : 1 ≤ m) :
@@ -236,7 +236,7 @@ private lemma shiftMat_mul_transpose (m : ℕ) (hm : 1 ≤ m) :
       · omega
     simp [hij, hne]
 
-private lemma neg_cycleNegForm_eq (m : ℕ) [NeZero m] (hm : 3 ≤ m) :
+lemma neg_cycleNegForm_eq (m : ℕ) [NeZero m] (hm : 3 ≤ m) :
     -cycleNegForm m = (1 + shiftMat m) * (1 + shiftMat m)ᵀ := by
   have hm1 : 1 ≤ m := by omega
   rw [transpose_add, transpose_one, add_mul, mul_add, mul_add,

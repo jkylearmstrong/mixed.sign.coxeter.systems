@@ -7,7 +7,8 @@ jupyter: python3
 ```{python}
 #| echo: false
 from pathlib import Path
-n_lean = len(list(Path("lean/MixedSignCoxeter").glob("*.lean")))
+lean_dir = next(p for p in (Path("../lean/MixedSignCoxeter"), Path("lean/MixedSignCoxeter")) if p.exists())
+n_lean = len(list(lean_dir.glob("*.lean")))
 ```
 
 ::: {.columns}
@@ -20,7 +21,7 @@ This portal accompanies **Johnathon Kyle Armstrong**, *Principal Elements of Mix
 [Launch Explorer](explorer.qmd){.btn .btn-outline-primary .btn-sm}
 :::
 ::: {.column width="28%"}
-![](assets/hex-sticker.svg){width="210" fig-align="center" fig-alt="Mixed-Sign Coxeter Systems hex sticker"}
+![](../assets/hex-sticker.svg){width="210" fig-align="center" fig-alt="Mixed-Sign Coxeter Systems hex sticker"}
 :::
 :::
 

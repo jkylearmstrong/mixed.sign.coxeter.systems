@@ -6,6 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="J Kyle Armstrong, PhD">
 
 <title>Lean 4 Formalization – Mixed-Sign Coxeter Systems</title>
 <style>
@@ -68,7 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./assets/hex-sticker.png" rel="icon" type="image/png">
+<link href="./../assets/hex-sticker.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -316,8 +317,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo light-content">
-    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
+    <img src="./../assets/hex-sticker.png" alt="" class="navbar-logo light-content">
+    <img src="./../assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Mixed-Sign Coxeter Systems</span>
@@ -380,7 +381,13 @@ window.Quarto = {
   <li><a href="#formalization-progress" id="toc-formalization-progress" class="nav-link active" data-scroll-target="#formalization-progress">Formalization Progress</a></li>
   <li><a href="#end-to-end-traceability-datatheorems.yml" id="toc-end-to-end-traceability-datatheorems.yml" class="nav-link" data-scroll-target="#end-to-end-traceability-datatheorems.yml">End-to-End Traceability (<code>data/theorems.yml</code>)</a></li>
   <li><a href="#building-locally" id="toc-building-locally" class="nav-link" data-scroll-target="#building-locally">Building Locally</a></li>
-  <li><a href="#module-dependency-architecture" id="toc-module-dependency-architecture" class="nav-link" data-scroll-target="#module-dependency-architecture">Module Dependency Architecture</a></li>
+  <li><a href="#module-dependency-architecture" id="toc-module-dependency-architecture" class="nav-link" data-scroll-target="#module-dependency-architecture">Module Dependency Architecture</a>
+  <ul class="collapse">
+  <li><a href="#rank-two-root-systems" id="toc-rank-two-root-systems" class="nav-link" data-scroll-target="#rank-two-root-systems">1. Rank-Two &amp; Root Systems</a></li>
+  <li><a href="#conjugacy-bipartite-tree-structure" id="toc-conjugacy-bipartite-tree-structure" class="nav-link" data-scroll-target="#conjugacy-bipartite-tree-structure">2. Conjugacy, Bipartite &amp; Tree Structure</a></li>
+  <li><a href="#cycles-deletion-coxeter-presentation" id="toc-cycles-deletion-coxeter-presentation" class="nav-link" data-scroll-target="#cycles-deletion-coxeter-presentation">3. Cycles, Deletion &amp; Coxeter Presentation</a></li>
+  <li><a href="#howlett-matrix-spectral-radius-cycle-families" id="toc-howlett-matrix-spectral-radius-cycle-families" class="nav-link" data-scroll-target="#howlett-matrix-spectral-radius-cycle-families">4. Howlett Matrix, Spectral Radius &amp; Cycle Families</a></li>
+  </ul></li>
   <li><a href="#module-index" id="toc-module-index" class="nav-link" data-scroll-target="#module-index">Module Index</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean-verification.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
@@ -396,10 +403,26 @@ window.Quarto = {
 </div>
 
 
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">J Kyle Armstrong, PhD <a href="mailto:j.kyle.armstrong@temple.edu" class="quarto-title-author-email"><i class="bi bi-envelope"></i></a> <a href="https://orcid.org/0000-0002-4269-0121" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Lewis Katz School of Medicine at Temple University Center for Biostatistics &amp; Epidemiology
+          </p>
+        <p class="affiliation">
+            Florida State University
+          </p>
+      </div>
+  </div>
 
 <div class="quarto-title-meta">
 
-    
+      
   
     
   </div>
@@ -423,22 +446,22 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Lean 4 Modules</td>
-<td style="text-align: center;">23</td>
+<td style="text-align: center;">24</td>
 <td style="text-align: left;">✅ <code>lake build</code> passes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Definitions &amp; Structures</td>
-<td style="text-align: center;">111</td>
+<td style="text-align: center;">124</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Lemmas</td>
-<td style="text-align: center;">227</td>
+<td style="text-align: center;">264</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Theorems</td>
-<td style="text-align: center;">154</td>
+<td style="text-align: center;">161</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
@@ -480,17 +503,17 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Theorem 1.6 Remark</strong>: W(~A_{-n}) ≅ W(D_{n+1}) for Even n</td>
-<td style="text-align: left;">—</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean"><code>theorem_1_6_tildeAminus_iso_D</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py#L117"><code>verify_a_tilde_minus_isomorphism</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_tilde_minus_2</code></a></td>
-<td style="text-align: left;">Python Verified</td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Theorem 3.14 / Prop. 3.15</strong>: Bipartite Principal Ordering Spectral Radius</td>
-<td style="text-align: left;">—</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211"><code>bipartite_principalElements_conjugate / theorem_3_34_bipartite_exceeds_linear</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L148"><code>MixedSignCoxeterGraph.bipartite_principal_order</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
-<td style="text-align: left;">Python Verified</td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Lemma 3.21</strong>: Failure of the Deletion Property on ~A_{-2}</td>
@@ -514,11 +537,11 @@ window.Quarto = {
 <td style="text-align: left;">Verified (Lean 4)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Example 3.33</strong>: 12-Vertex Bipartite Mixed-Sign Benchmark</td>
-<td style="text-align: left;">—</td>
+<td style="text-align: left;"><strong>Example 3.33</strong>: 6-Node Bipartite Mixed-Sign Benchmark</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211"><code>theorem_3_34_bipartite_exceeds_linear</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L244"><code>MixedSignCoxeterGraph.example_3_33</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
-<td style="text-align: left;">Python Verified</td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Open Qs 2.59, 3.35</strong>: Alternating Square Non-Conjugacy &amp; Spectral Non-Minimality</td>
@@ -549,8 +572,8 @@ window.Quarto = {
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Two-Defect Cycles C_k(+,+,-,…,-)</strong>: Two-Defect Cycle Hyperbolicity (C3, C4, C5)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"><code>c4_adjTwoDefect_complex_eigenvalue_norm_gt_one</code></a></td>
+<td style="text-align: left;"><strong>Two-Defect Cycles C_k(+,+,-,…,-)</strong>: Two-Defect Cycle Hyperbolicity (All C_n, n ≥ 3)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"><code>evenCycleAdjTwoDefect_complex_eigenvalue_norm_gt_one</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"><code>principal_search.cycle_radius_by_circulation</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
@@ -566,40 +589,87 @@ window.Quarto = {
 </section>
 <section id="module-dependency-architecture" class="level2">
 <h2 class="anchored" data-anchor-id="module-dependency-architecture">Module Dependency Architecture</h2>
+<p>All branches build on <code>Basic.lean</code> (<code>ReflectionSystem</code>, bilinear form <code>B</code>, reflections). Splitting the graph into four focused views keeps each dependency chain readable:</p>
+<section id="rank-two-root-systems" class="level3">
+<h3 class="anchored" data-anchor-id="rank-two-root-systems">1. Rank-Two &amp; Root Systems</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart TD
-  Basic["Basic.lean&lt;br/&gt;ReflectionSystem, B, reflections"] --&gt; Conj["Conjugacy.lean"]
-  Basic --&gt; Odd["OddCycles.lean"]
-  Basic --&gt; How["Howlett.lean&lt;br/&gt;Thm 1.1: w = -U⁻¹ Uᵀ"]
-  Basic --&gt; R2["RankTwo.lean"]
+<pre class="mermaid mermaid-js">flowchart TB
+  Basic["Basic.lean&lt;br/&gt;ReflectionSystem, B, reflections"] --&gt; R2["RankTwo.lean"]
   R2 --&gt; R2R["RankTwoRoots.lean"]
-  Conj --&gt; Bip["Bipartite.lean&lt;br/&gt;Thm 1.4, Prop 3.32"]
-  Conj --&gt; Comp["ComponentsAndTrees.lean"]
-  Comp --&gt; Tree["TreeConjugacy.lean&lt;br/&gt;Thm 2.58"]
-  Bip --&gt; Mix["MixedSign.lean&lt;br/&gt;Cor 1.5, Prop 3.5"]
-  Odd --&gt; Cyc["CyclesAndDeletion.lean&lt;br/&gt;Lem 3.21, Thm 1.6"]
-  Cyc --&gt; Para["ParabolicTransfer.lean&lt;br/&gt;Thm 1.2"]
-  Cyc --&gt; Clas["ClassicalDeletion.lean&lt;br/&gt;Thm 3.9, Cor 1.3"]
-  Clas --&gt; Pres["CoxeterPresentation.lean&lt;br/&gt;Thm 3.9: Deletion ⇒ Coxeter"]
-  Pres --&gt; CDel["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
-  How --&gt; Spec["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
-  Spec --&gt; AltSq["AlternatingSquare.lean&lt;br/&gt;Q2.59 &amp;amp; Q3.35: C₄(+,−,+,−)"]
-  Basic --&gt; OddDef["OddCycleSingleDefect.lean&lt;br/&gt;C_{2m+1}(+,−,…,−): (w−I)^{2m}(w+I)=0"]
-  How --&gt; EvenDef["EvenCycleSingleDefect.lean&lt;br/&gt;C_{2m}(+,−,…,−): ∃λ ∈ (−5, −1)"]
-  EvenDef --&gt; BipDual["BipartiteDuality.lean&lt;br/&gt;Bipartite sign-flip duality"]
-  How --&gt; TwoDef["TwoDefectCycle.lean&lt;br/&gt;C₃, C₄, C₅(+,+,−,…,−): ρ(w) &amp;gt; 1"]
-  Spec --&gt; SCls["SpectralClassification.lean&lt;br/&gt;Thm 3.27, Thm 3.28"]
-  Mix --&gt; Rem["RemarksAndClassical.lean"]
 </pre>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
+</section>
+<section id="conjugacy-bipartite-tree-structure" class="level3">
+<h3 class="anchored" data-anchor-id="conjugacy-bipartite-tree-structure">2. Conjugacy, Bipartite &amp; Tree Structure</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  Conj["Conjugacy.lean"] --&gt; Bip["Bipartite.lean&lt;br/&gt;Thm 1.4, Prop 3.32"]
+  Conj --&gt; Comp["ComponentsAndTrees.lean"]
+  Comp --&gt; Tree["TreeConjugacy.lean&lt;br/&gt;Thm 2.58"]
+  Bip --&gt; Mix["MixedSign.lean&lt;br/&gt;Cor 1.5, Prop 3.5"]
+  Mix --&gt; Rem["RemarksAndClassical.lean"]
+  Rem --&gt; TildeIso["TildeAminusEvenIso.lean&lt;br/&gt;Thm 1.6 Rem: W(~A_{-n}) ≅ W(D_{n+1})"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="cycles-deletion-coxeter-presentation" class="level3">
+<h3 class="anchored" data-anchor-id="cycles-deletion-coxeter-presentation">3. Cycles, Deletion &amp; Coxeter Presentation</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  Odd["OddCycles.lean"] --&gt; Cyc["CyclesAndDeletion.lean&lt;br/&gt;Lem 3.21, Thm 1.6"]
+  Cyc --&gt; Para["ParabolicTransfer.lean&lt;br/&gt;Thm 1.2"]
+  Cyc --&gt; Clas["ClassicalDeletion.lean&lt;br/&gt;Thm 3.9, Cor 1.3"]
+  Clas --&gt; Pres["CoxeterPresentation.lean&lt;br/&gt;Thm 3.9: Deletion ⇒ Coxeter"]
+  Pres --&gt; CDel["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="howlett-matrix-spectral-radius-cycle-families" class="level3">
+<h3 class="anchored" data-anchor-id="howlett-matrix-spectral-radius-cycle-families">4. Howlett Matrix, Spectral Radius &amp; Cycle Families</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  How["Howlett.lean&lt;br/&gt;Thm 1.1: w = -U⁻¹ Uᵀ"] --&gt; Spec["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
+  How --&gt; EvenDef["EvenCycleSingleDefect.lean&lt;br/&gt;C_{2m}(+,−,…,−): ∃λ ∈ (−5, −1)"]
+  How --&gt; TwoDef["TwoDefectCycle.lean&lt;br/&gt;Cₙ(+,+,−,…,−): ρ(w) &amp;gt; 1 (n ≥ 3)"]
+  Spec --&gt; AltSq["AlternatingSquare.lean&lt;br/&gt;Q2.59 &amp;amp; Q3.35: C₄(+,−,+,−)"]
+  Spec --&gt; SCls["SpectralClassification.lean&lt;br/&gt;Thm 3.27, Thm 3.28"]
+  EvenDef --&gt; BipDual["BipartiteDuality.lean&lt;br/&gt;Bipartite sign-flip duality"]
+  Basic["Basic.lean"] --&gt; OddDef["OddCycleSingleDefect.lean&lt;br/&gt;C_{2m+1}(+,−,…,−): (w−I)^{2m}(w+I)=0"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
 </section>
 <section id="module-index" class="level2">
 <h2 class="anchored" data-anchor-id="module-index">Module Index</h2>
@@ -715,7 +785,7 @@ window.Quarto = {
 <tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"><code>TwoDefectCycle.lean</code></a></td>
 <td style="text-align: left;">Two-Defect Cycles</td>
-<td style="text-align: left;"><code>c3_twoDefect_has_eigenvalue_lt_neg_one</code>, <code>c4_adjTwoDefect_complex_eigenvalue_norm_gt_one</code>, <code>c5_adjTwoDefect_has_eigenvalue_lt_neg_one</code></td>
+<td style="text-align: left;"><code>c3_twoDefect_has_eigenvalue_lt_neg_one</code>, <code>c4_adjTwoDefect_complex_eigenvalue_norm_gt_one</code>, <code>c5_adjTwoDefect_has_eigenvalue_lt_neg_one</code>, <code>oddCycleAdjTwoDefect_has_eigenvalue_lt_neg_one</code> (<span class="math inline">\(C_{2m+1}(+,+,-,\dots,-)\)</span>), <code>evenCycleAdjTwoDefect_complex_eigenvalue_norm_gt_one</code> (<span class="math inline">\(C_{2m}(+,+,-,\dots,-)\)</span>)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean"><code>SpectralClassification.lean</code></a></td>
@@ -726,6 +796,11 @@ window.Quarto = {
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean"><code>RemarksAndClassical.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.3–3.5)</td>
 <td style="text-align: left;"><code>remark_3_23_card</code> (Rem. 3.23), <code>remark_3_26_det_neg_odd_cycle</code> (Rem. 3.26), <code>remark_3_30_A2_root_gt</code>–<code>A5_roots_lt</code> (Rem. 3.30)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean"><code>TildeAminusEvenIso.lean</code></a></td>
+<td style="text-align: left;">Ch. 1 (1.6 Rem.)</td>
+<td style="text-align: left;"><code>theorem_1_6_tildeAminus_iso_D</code> (<span class="math inline">\(W(\widetilde{A}_{-n}) \cong W(D_{n+1})\)</span> for all even <span class="math inline">\(n \ge 2\)</span>)</td>
 </tr>
 </tbody>
 </table>
