@@ -19,8 +19,8 @@ lemma the W-invariant symmetric forms on an irreducible real representation are 
 multiples of Q, so B = cQ with c != 0 (the diagonal of B is +-2). Hence B is definite.
 
 Consequences.
-* A connected graph with both a positive and a negative node has W(Gamma) infinite,
-  because its diagonal has entries +2 and -2.
+* A connected graph with both a positive and a negative node has W(Gamma) infinite
+  (Corollary 3.18 of the thesis), because its diagonal has entries +2 and -2.
 * All-positive graphs are classical: finite exactly for Table A.1.
 * All-negative graphs: W(B) = W(-B), so W is finite iff the reflection group of
   -B is. Bipartite ones are conjugate to Table A.1 graphs (Theorem 1.4), which is

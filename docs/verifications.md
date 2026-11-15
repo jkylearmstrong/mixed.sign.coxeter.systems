@@ -16,7 +16,8 @@ Python port of Appendix D. Everything here is reproduced by
    that the 16 GAP relators present the group.
 3. Remark A.3 is answered: Table A.2 together with Figure A.1 is **not** complete. At
    rank 3 there are 4 further finite graphs and at rank 4 there are 24. All of them have
-   only negative nodes and an odd cycle. No graph with both signs is ever finite.
+   only negative nodes and an odd cycle. (Graphs with both signs are infinite by
+   Corollary 3.18.)
 4. Question 3.35: across all 4,026 simply-laced graphs with a cycle on 4 to 6 nodes,
    neither the bipartite type nor the "sign-sorted" type always minimizes the spectral
    radius. The smallest graph where the bipartite element fails has 4 nodes (Example
@@ -84,7 +85,7 @@ which is a contradiction. Since Γ is connected, every eᵢ lies in the same sum
 the eᵢ span V, so V is irreducible. By Schur's lemma the W-invariant symmetric forms on V
 are the multiples of the invariant inner product, and B ≠ 0, so B is definite. ∎
 
-So a connected graph with both a positive and a negative node always has W(Γ) infinite.
+This recovers Corollary 3.18 of the thesis (a connected graph with both a positive and a negative node has W(Γ) infinite), since such a B has diagonal entries +2 and −2. It also rules out every all-negative graph whose −B is not positive definite.
 All-positive graphs are the classical ones (Table A.1). An all-negative graph has
 W(B) = W(−B). If it is bipartite, Theorem 1.4 makes it conjugate to a Table A.1 graph,
 which is Table A.2. New finite groups can only come from **all-negative graphs with an
