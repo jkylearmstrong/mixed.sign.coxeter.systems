@@ -124,6 +124,43 @@ Mathlib `v4.35.0`):
   / Theorem 3.9), $\mathcal{O}$-conjugacy invariance
   (`deletion_invariant_of_O_conjugate`), and Corollary 1.3
   (`corollary_1_3_not_conjugate_to_deletion`).
+- `TreeConjugacy.lean`: Full **Theorem 2.58** for arbitrary forests and
+  trees (`theorem_2_58_principal_conj_of_isAcyclic`,
+  `theorem_2_58_principal_conj_of_isTree`,
+  `principal_moves_of_isAcyclic`, `exists_leaf_of_isAcyclic`) — all
+  principal elements of a tree or forest lie in a single conjugacy class
+  of $W(\Gamma)$.
+- `OddCycles.lean`: Full **Proposition 2.41**
+  (`isBipartite_iff_no_odd_cycle`,
+  `exists_bipartition_iff_no_odd_cycle`,
+  `nonempty_bipartite_of_no_odd_cycle`) — a reflection diagram is
+  bipartite if and only if it contains no odd cycle.
+- `ParabolicTransfer.lean`: Parabolic subgroup transfer and **Theorem
+  1.2** in full generality: any reflection system containing an induced
+  copy of $\widetilde{A_{-2}}$ fails the Deletion Property
+  (`not_deletion_of_contains_tildeAminus2`), covering both the
+  dissertation’s tail family $\Gamma_{3+k}$ (`tildeAminus2Tail`,
+  `theorem_1_2_tail_family`) and orthogonal extensions
+  (`theorem_1_2_extended_family`).
+- `RankTwoRoots.lean`: Full **Proposition 3.11** for any infinite
+  dihedral pair $(s_i, s_j)$ in arbitrary rank (`prop_3_11_general`,
+  `prop_3_11_infinite_order`, `alternating_word_root`), proving via
+  Chebyshev polynomials that $(s_i s_j)^k e_i \in \Phi^+$ and $s_i s_j$
+  has infinite order whenever $B_{ii} = B_{jj}$ and
+  $-2 B_{ij}/B_{ii} \ge 2$.
+- `SpectralClassification.lean`: Full **Theorem 3.27** (A’Campo’s
+  spherical / affine / hyperbolic spectral classification of bipartite
+  Coxeter elements, `theorem_3_27_classification`) and **Theorem 3.28**
+  (eigenvalue interlacing and strict monotonicity on induced subgraphs /
+  node deletion, `theorem_3_28_interlacing`, `theorem_3_28_strict`).
+- `RemarksAndClassical.lean`: **Remark 3.23**
+  ($W(\widetilde{A_{-2}}) \cong S_4$ of order $24$,
+  `remark_3_23_tildeAminus2_iso_S4`, `remark_3_23_card`), **Remark
+  3.26** ($\det(-B(\widetilde{A_{-n}})) = 4$ for every even $n \ge 2$,
+  `remark_3_26_det_neg_odd_cycle`), and **Remark 3.30** (annihilating
+  polynomials `wA2Z_annihilated`–`wA5Z_annihilated` and spectral-radius
+  oscillation bounds `remark_3_30_A2_root_gt`, `remark_3_30_A4_root_gt`,
+  `remark_3_30_A5_roots_lt`).
 
 ### Building Lean
 
@@ -136,13 +173,13 @@ lake build
 ## Manim Presentation (`slides/`)
 
 Ten presentation scenes built on top of `mixed_sign_coxeter` live in
-[`slides/dissertation_deck.py`](slides/dissertation_deck.py). Every number on a
-slide is computed from the package by
+[`slides/dissertation_deck.py`](slides/dissertation_deck.py). Every
+number on a slide is computed from the package by
 [`slides/deck_content.py`](slides/deck_content.py), and
 `tests/test_slides.py` checks those numbers against the dissertation.
 
 | Scene | Results |
-| :--- | :--- |
+|:---|:---|
 | `TitleOverviewScene` | Overview |
 | `HowlettFormulaScene` | Theorem 1.1, Lemma 2.63 |
 | `BipartiteConjugacyScene` | Theorem 1.4, Corollary 1.5 |
