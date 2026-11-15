@@ -46,6 +46,7 @@ from manim import (
     Create,
     FadeIn,
     Line,
+    MarkupText,
     MathTex,
     Scene,
     Text,
@@ -108,10 +109,10 @@ class TitleOverviewScene(Scene):
         title = Text("Principal Elements of Mixed-Sign Coxeter Systems", font_size=38, color=BLUE).to_edge(UP, buff=0.7)
         author = Text("J. Kyle Armstrong  ·  Florida State University, 2012", font_size=22, color=GREY_B).next_to(title, DOWN, buff=0.3)
         pillars = VGroup(
-            Text("Theorem 1.1   Howlett's formula  w = -U⁻¹Uᵀ", font_size=22, color=YELLOW),
+            MarkupText("Theorem 1.1   Howlett's formula  w = -U<sup>-1</sup>U<sup>T</sup>", font_size=22, color=YELLOW),
             Text("Theorem 1.2, Corollary 1.3   the Deletion Property fails", font_size=22, color=RED),
             Text("Theorem 1.4, Corollary 1.5   bipartite sign flips are conjugate", font_size=22, color=GREEN),
-            Text("Theorem 1.6   odd cycles Ã₋ₙ and Ãₙ are not conjugate", font_size=22, color=ORANGE),
+            MarkupText("Theorem 1.6   odd cycles Ã<sub>-n</sub> and Ã<sub>n</sub> are not conjugate", font_size=22, color=ORANGE),
             Text("Theorem 1.7   the bipartite element need not minimize λ", font_size=22, color=BLUE),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.3).next_to(author, DOWN, buff=0.7)
         footer = Text("Checked in Python and formalized in Lean 4", font_size=20, color=GREY_B).to_edge(DOWN, buff=0.5)
@@ -207,13 +208,12 @@ class RankTwoHyperbolicScene(Scene):
             color=YELLOW,
         ).next_to(sig_line, DOWN, buff=0.5).align_to(sig_line, LEFT)
         signs = ", ".join(str(r.first_coordinate) for r in rows)
-        note = Text(
-            f"First coordinate of (s₁s₂)ᵏe₁: {signs}, ...\n"
-            "so (s₁s₂)ᵏe₁ keeps leaving Φ⁺ as length grows (Prop. 3.12),\n"
-            "and s₁s₂ has infinite order (Lemma 3.14).",
+        note = MarkupText(
+            f"First coordinate of (s<sub>1</sub>s<sub>2</sub>)<sup>k</sup>e<sub>1</sub>: {signs}, ...\n"
+            "so (s<sub>1</sub>s<sub>2</sub>)<sup>k</sup>e<sub>1</sub> keeps leaving Φ<sup>+</sup> as length grows (Prop. 3.12),\n"
+            "and s<sub>1</sub>s<sub>2</sub> has infinite order (Lemma 3.14).",
             font_size=20,
             color=GREY_B,
-            line_spacing=1.2,
         ).to_edge(DOWN, buff=0.4)
 
         self.play(Write(title))
@@ -243,19 +243,18 @@ class DeletionFailureScene(Scene):
             font_size=22,
             line_spacing=1.2,
         ).next_to(relation, DOWN, buff=0.4)
-        order = Text(f"|W(Ã₋₂)| = {d.group_order} = |S₄|   (Remark 3.23)", font_size=22, color=GREY_B).next_to(failure, DOWN, buff=0.4)
+        order = MarkupText(f"|W(Ã<sub>-2</sub>)| = {d.group_order} = |S<sub>4</sub>|   (Remark 3.23)", font_size=22, color=GREY_B).next_to(failure, DOWN, buff=0.4)
         family_rows = dc.theorem_1_2_family((3, 4, 5, 6))
         held = [n for n, same, deletions in family_rows if same and deletions == 0]
         small_tri = circle_positions(3, 0.55, (-5.2, -2.3, 0.0))
         r3 = small_tri[2]
         tail_positions = small_tri + [(r3[0] + 0.85 * k, r3[1], 0.0) for k in (1, 2, 3)]
         tail = graph_mobject(dc.theorem_1_2_graph(6), tail_positions, radius=0.2)
-        family = Text(
-            "Theorem 1.2: Γₙ, Ã₋₂ plus a tail of n − 3 nodes,\n"
+        family = MarkupText(
+            "Theorem 1.2: Γ<sub>n</sub>, Ã<sub>-2</sub> plus a tail of n − 3 nodes,\n"
             f"fails the same way (checked for n = {', '.join(map(str, held))}).\n"
             "Corollary 1.3: none is conjugate to a classical system.",
             font_size=19,
-            line_spacing=1.2,
         ).next_to(tail, RIGHT, buff=0.5)
         self.play(Write(title))
         self.play(Create(tri), FadeIn(tri_name))
@@ -321,8 +320,8 @@ class HyperbolicRadiusOneScene(Scene):
         contrast = VGroup(
             Text("Theorem 3.27 (classical): all |eigenvalues| = 1 means spherical or affine.", font_size=21, color=GREY_B),
             Text("Here every eigenvalue is -1, but the system is hyperbolic.", font_size=21, color=YELLOW),
-            Text(
-                f"Theorem 3.28 (interlacing) also fails: Λ(A₂(+,-)) = {small:.3f} > Λ(A₃(+,+,-)) = {big:.3f}.",
+            MarkupText(
+                f"Theorem 3.28 (interlacing) also fails: Λ(A<sub>2</sub>(+,-)) = {small:.3f} &gt; Λ(A<sub>3</sub>(+,+,-)) = {big:.3f}.",
                 font_size=21,
                 color=YELLOW,
             ),
@@ -391,7 +390,7 @@ class AppendixBScene(Scene):
     def construct(self) -> None:
         entries = dc.appendix_b_rows(4, 6)
         lambdas = dc.remark_3_30_lambdas()
-        title = header("Appendix B: A₄ sign patterns", BLUE)
+        title = MarkupText("Appendix B: A<sub>4</sub> sign patterns", font_size=34, color=BLUE).to_edge(UP, buff=0.5)
         table = VGroup(
             *[
                 MathTex(
@@ -408,12 +407,11 @@ class AppendixBScene(Scene):
         for (_, prev), (_, cur) in zip(lambdas, lambdas[1:]):
             chain_tex += (r" > " if prev > cur else r" < ") + f"{cur:.3f}"
         chain = MathTex(chain_tex, font_size=30, color=YELLOW).next_to(table, DOWN, buff=0.45)
-        chain_note = Text(
-            "Remark 3.30: along A₂(+,-) ⊂ A₃(-,+,+) ⊂ A₄(-,+,+,+) ⊂ A₅(-,+,+,+,+),\n"
+        chain_note = MarkupText(
+            "Remark 3.30: along A<sub>2</sub>(+,-) ⊂ A<sub>3</sub>(-,+,+) ⊂ A<sub>4</sub>(-,+,+,+) ⊂ A<sub>5</sub>(-,+,+,+,+),\n"
             "adding a positive node makes Λ go down, up, then down again.",
             font_size=20,
             color=GREY_B,
-            line_spacing=1.2,
         ).next_to(chain, DOWN, buff=0.3)
 
         self.play(Write(title))
@@ -437,7 +435,7 @@ class FormalizationScene(Scene):
         python = VGroup(
             Text("Python (mixed_sign_coxeter)", font_size=26, color=ORANGE),
             Text("Tables 3.1, A.1, A.2, B.1, B.2 & Appendix D (16 relators)", font_size=20),
-            Text("W(Ã₋ₙ) ≅ W(Dₙ₊₁) for all even n; Remark A.3 & Question 3.35 searches", font_size=20),
+            MarkupText("W(Ã<sub>-n</sub>) ≅ W(D<sub>n+1</sub>) for all even n; Remark A.3 &amp; Question 3.35 searches", font_size=20),
             Text("Every number in this deck is computed live", font_size=20, color=GREY_B),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.2)
         cols = VGroup(lean, python).arrange(DOWN, buff=0.6, aligned_edge=LEFT).next_to(title, DOWN, buff=0.6)
