@@ -36,6 +36,13 @@ Located in `src/mixed_sign_coxeter/`:
   `A_n_sign_table`, and Remark 3.26 cycle determinant checks
   `finite_even_odd_cycle_determinants`.
 
+- `isomorphisms.py`: explicit isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$
+  for every even $n$, and a Python port of Appendix D (the thesis's GAP session).
+- `finite_search.py`: exhaustive search for finite mixed-sign groups (Remark A.3).
+- `principal_search.py`: exhaustive search over principal elements for Question 3.35.
+
+See [`docs/verifications.md`](docs/verifications.md) for the results of these searches.
+
 ### Quick Example (Theorem 1.7 / Example 3.33)
 
 ``` python
