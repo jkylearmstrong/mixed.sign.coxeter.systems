@@ -408,7 +408,7 @@ window.Quarto = {
 <section id="bipartite-spectral-non-minimality-theorem-1.7-example-3.33" class="level2">
 <h2 class="anchored" data-anchor-id="bipartite-spectral-non-minimality-theorem-1.7-example-3.33">Bipartite Spectral Non-Minimality (Theorem 1.7 / Example 3.33)</h2>
 <p>In classical Coxeter systems, bipartite Coxeter elements always minimize the spectral radius among all principal elements. In the 6-node bipartite mixed-sign graph <code>example_3_33</code>, the <strong>bipartite</strong> principal element has a strictly <em>larger</em> spectral radius than the linear principal element:</p>
-<div id="998e1217" class="cell" data-execution_count="1">
+<div id="d18ed4f8" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">"src"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -430,7 +430,7 @@ Bipartite principal element [1,4,6,2,3,5]: rho = 5.55193</code></pre>
 <section id="non-monotonicity-of-lambda-remark-3.30" class="level2">
 <h2 class="anchored" data-anchor-id="non-monotonicity-of-lambda-remark-3.30">Non-Monotonicity of <span class="math inline">\(\Lambda\)</span> (Remark 3.30)</h2>
 <p>Adding a positive node along <span class="math inline">\(A_2(+,-) \subset A_3(-,+,+) \subset A_4(-,+,+,+) \subset A_5(-,+,+,+,+)\)</span> causes the minimal spectral radius <span class="math inline">\(\Lambda\)</span> to oscillate instead of increasing monotonically:</p>
-<div id="c671cacc" class="cell" data-execution_count="2">
+<div id="98ae02d4" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter <span class="im">import</span> MixedSignCoxeterGraph</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>chain <span class="op">=</span> [</span>

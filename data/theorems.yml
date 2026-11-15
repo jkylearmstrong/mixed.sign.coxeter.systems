@@ -69,6 +69,17 @@ theorems:
     status: "Verified (Lean 4)"
     preset: "a3_ppm"
 
+  - id: theorem_3_9_coxeter_presentation
+    dissertation_ref: "Theorem 3.9"
+    title: "Deletion Property Implies Classical Coxeter Presentation"
+    statement: "Any reflection system satisfying the Deletion (or Exchange) Property is isomorphic to the classical Coxeter group determined by its pairwise generator orders."
+    lean_symbol: "theorem_3_9_coxeter_presentation"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean#L512"
+    python_ref: "find_two_deletions"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L72"
+    status: "Verified (Lean 4)"
+    preset: "a_n_alt_4"
+
   - id: example_3_33_benchmark
     dissertation_ref: "Example 3.33"
     title: "12-Vertex Bipartite Mixed-Sign Benchmark"

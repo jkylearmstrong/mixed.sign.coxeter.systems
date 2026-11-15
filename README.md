@@ -28,7 +28,7 @@ presentation, and Quarto research portal supporting:
 | Directory / File | Contents |
 |:---|:---|
 | `src/mixed_sign_coxeter/` | Python package: `ReflectionSystem`, `MixedSignCoxeterGraph`, group/root utilities, Appendix A–D catalogs, and exhaustive searches (`isomorphisms.py`, `finite_search.py`, `principal_search.py`) |
-| `lean/MixedSignCoxeter/` | `sorry`-free Lean 4 (`v4.35.0` + Mathlib) formalization across 16 modules covering Chapters 1–3 (Howlett’s formula, bipartite & tree conjugacy, Deletion/Exchange, parabolic transfer, spectral classification & interlacing, and counterexamples) |
+| `lean/MixedSignCoxeter/` | `sorry`-free Lean 4 (`v4.35.0` + Mathlib) formalization across 17 modules covering Chapters 1–3 (Howlett’s formula, bipartite & tree conjugacy, Deletion/Exchange & Coxeter presentation, parabolic transfer, spectral classification & interlacing, and counterexamples) |
 | `explorer/` & `explorer.qmd` | Interactive **Shiny for Python** explorer (`explorer/app.py`) + in-browser **Shinylive** page (`explorer.qmd`) for building signed graphs, comparing linear vs. bipartite principal orderings, and checking theorems |
 | `data/theorems.yml` | Shared traceability registry connecting Dissertation → Lean 4 → Python → Interactive Explorer |
 | `slides/` | 10-scene Manim presentation (`dissertation_deck.py`) backed by exact package computations (`deck_content.py`) and speaker script (`SCRIPT.md`) |
