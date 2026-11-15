@@ -338,7 +338,7 @@ private lemma det_matNegOne (m : ℕ) (hm : 2 ≤ m) : (matNegOne m).det = 4 := 
               rw [Finset.mem_Ico] at hb
               split_ifs <;> (try norm_num) <;> omega
             · intro h1; exfalso; apply h1; rw [Finset.mem_Ico]; omega
-          rw [hsum]; split_ifs <;> (try norm_num) <;> omega
+          rw [hsum]; split_ifs <;> first | (norm_num; done) | omega
         · by_cases hj0 : j.val = 0
           · have hsum : ∑ k ∈ Finset.Ico 1 m,
                 (if 2 * k + 1 = j.val ∨ (2 * k = 0 ∧ j.val = 2 * m - 1) then (1 : ℝ)
@@ -346,7 +346,7 @@ private lemma det_matNegOne (m : ℕ) (hm : 2 ≤ m) : (matNegOne m).det = 4 := 
               refine Finset.sum_eq_zero fun b hb => ?_
               rw [Finset.mem_Ico] at hb
               split_ifs <;> (try norm_num) <;> omega
-            rw [hsum]; split_ifs <;> (try norm_num) <;> omega
+            rw [hsum]; split_ifs <;> first | (norm_num; done) | omega
           · by_cases hj_even : j.val % 2 = 0
             · have hsum : ∑ k ∈ Finset.Ico 1 m,
                   (if 2 * k + 1 = j.val ∨ (2 * k = 0 ∧ j.val = 2 * m - 1) then (1 : ℝ)
@@ -354,7 +354,7 @@ private lemma det_matNegOne (m : ℕ) (hm : 2 ≤ m) : (matNegOne m).det = 4 := 
                 refine Finset.sum_eq_zero fun b hb => ?_
                 rw [Finset.mem_Ico] at hb
                 split_ifs <;> (try norm_num) <;> omega
-              rw [hsum]; split_ifs <;> (try norm_num) <;> omega
+              rw [hsum]; split_ifs <;> first | (norm_num; done) | omega
             · have hq_lt : j.val / 2 < m := by omega
               have hq_ge : 1 ≤ j.val / 2 := by omega
               have hsum : ∑ k ∈ Finset.Ico 1 m,
@@ -377,7 +377,7 @@ private lemma det_matNegOne (m : ℕ) (hm : 2 ≤ m) : (matNegOne m).det = 4 := 
                     split_ifs <;> (try norm_num) <;> omega
                 rw [h2, Finset.sum_pair (by omega)]
                 split_ifs <;> (try norm_num) <;> omega
-              rw [hsum]; split_ifs <;> (try norm_num) <;> omega
+              rw [hsum]; split_ifs <;> first | (norm_num; done) | omega
     dsimp only [M1]
     rw [← hrow_eq]
     exact hfull
@@ -871,12 +871,12 @@ private lemma det_matNegFive_lt_zero (m : ℕ) (hm : 2 ≤ m) : (matNegFive m).d
             have : 2 * m - 1 = 2 * (m - 1) + 1 := by omega
             rw [this, pow_add, pow_mul]; norm_num
           simp [g, hj0, hpow1]
-          try split_ifs
-          all_goals first | omega | (ring; try omega)
+          split_ifs
+          all_goals first | omega | ring
         rw [hsum]
         have h0j : (0 : Fin (2 * m)) = j := Fin.ext hj0.symm
-        simp [hj0, h0j]; try split_ifs
-        all_goals first | omega | (norm_num; try omega)
+        simp [hj0, h0j]
+        all_goals first | omega | norm_num
       · by_cases hj_last : j.val = 2 * m - 1
         · have hsum : ∑ i ∈ Finset.Ico 1 (2 * m), g i = 1 := by
             have hpair : ∑ i ∈ Finset.Ico 1 (2 * m), g i =
@@ -897,10 +897,10 @@ private lemma det_matNegFive_lt_zero (m : ℕ) (hm : 2 ≤ m) : (matNegFive m).d
               have : 2 * m - 1 = 2 * (m - 1) + 1 := by omega
               rw [this, pow_add, pow_mul]; norm_num
             simp [g, hj_last, hpow_even, hpow_odd]
-            try split_ifs
-            all_goals first | omega | (norm_num; try omega)
+            split_ifs
+            all_goals first | omega | norm_num
           rw [hsum]
-          split_ifs <;> first | (simp only [Fin.ext_iff, Fin.val_zero] at *; omega) | tauto | (norm_num; try omega)
+          split_ifs <;> first | (simp only [Fin.ext_iff, Fin.val_zero] at *; omega) | tauto | (norm_num; done)
         · have hj1_lt : 1 ≤ j.val := by omega
           have hj_lt_last : j.val < 2 * m - 1 := by omega
           have hsum : ∑ i ∈ Finset.Ico 1 (2 * m), g i = if j.val = 1 then -5 else 0 := by
@@ -916,8 +916,8 @@ private lemma det_matNegFive_lt_zero (m : ℕ) (hm : 2 ≤ m) : (matNegFive m).d
                   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at hnx
                   simp [g, hj1]; split_ifs <;> first | omega | simp
               rw [hpair, Finset.sum_pair (by omega)]
-              simp [g, hj1]; try split_ifs
-              all_goals first | omega | (norm_num; try omega)
+              simp [g, hj1]
+              all_goals first | omega | norm_num
             · have hpair : ∑ i ∈ Finset.Ico 1 (2 * m), g i =
                   ∑ i ∈ ({j.val - 1, j.val, j.val + 1} : Finset ℕ), g i := by
                 refine (Finset.sum_subset ?_ ?_).symm
@@ -938,10 +938,10 @@ private lemma det_matNegFive_lt_zero (m : ℕ) (hm : 2 ≤ m) : (matNegFive m).d
               have hpow_b : (-1 : ℝ) ^ (j.val + 1) = -((-1 : ℝ) ^ j.val) := by
                 rw [pow_succ]; ring
               simp [g, hj0, hj1, ha, hpow_a, hpow_b]
-              try split_ifs
-              all_goals first | omega | (ring; try omega)
+              split_ifs
+              all_goals first | omega | ring
           rw [hsum]
-          split_ifs <;> first | (simp only [Fin.ext_iff, Fin.val_zero] at *; omega) | tauto | (norm_num; try omega)
+          split_ifs <;> first | (simp only [Fin.ext_iff, Fin.val_zero] at *; omega) | tauto | (norm_num; done)
     dsimp only [M1]; rw [← hrow_eq]; exact hfull
   -- Step 2: Add 3 * col 0 to col (2*m - 1)
   let M2 : Matrix (Fin (2 * m)) (Fin (2 * m)) ℝ :=
@@ -1220,10 +1220,16 @@ private lemma det_matNegFive_lt_zero (m : ℕ) (hm : 2 ≤ m) : (matNegFive m).d
           have hj_lt : j.val < 2 * m - 3 := j.isLt
           have hcol_ne : (⟨2 * m - 3, by omega⟩ : Fin ((2 * m - 2) + 1)).succAbove
               (Fin.cast h2m2'.symm j.castSucc) ≠ Fin.last (2 * m - 2) := by
-            simp [Fin.succAbove, Fin.ext_iff]; split_ifs with h <;> simp [Fin.lt_def] at h ⊢ <;> omega
+            simp only [Fin.succAbove]
+            split_ifs with h
+            · simp
+            · exfalso; simp only [Fin.lt_def, Fin.val_cast, Fin.val_castSucc] at h; omega
           have hcol_val : ((⟨2 * m - 3, by omega⟩ : Fin ((2 * m - 2) + 1)).succAbove
               (Fin.cast h2m2'.symm j.castSucc)).val = j.val := by
-            simp [Fin.succAbove]; split_ifs with h <;> simp [Fin.lt_def] at h ⊢ <;> omega
+            simp only [Fin.succAbove]
+            split_ifs with h
+            · rfl
+            · exfalso; simp only [Fin.lt_def, Fin.val_cast, Fin.val_castSucc] at h; omega
           simp only [U, submatrix_apply, S_base, of_apply, hcol_ne, ↓reduceIte, S', S, M2', M2, M1,
             Fin.succAbove_last, tridiagFive]
           have hrow_ne0 : (Fin.cast h2m_pos.symm (Fin.cast h2m2.symm

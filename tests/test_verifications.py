@@ -183,3 +183,18 @@ def test_even_cycle_single_defect_spectral_radius(m):
     g = MixedSignCoxeterGraph(signs, edges)
     assert g.spectral_radius(list(range(n))) > 1.0
 
+
+@pytest.mark.parametrize("k", [3, 4, 5, 6])
+def test_multi_defect_cycle_spectral_classification(k):
+    from itertools import product
+
+    edges = [(i, (i + 1) % k, 3) for i in range(k)]
+    order = list(range(k))
+    for signs in product((-1, 1), repeat=k):
+        p = sum(1 for s in signs if s == 1)
+        rho = MixedSignCoxeterGraph(list(signs), edges).spectral_radius(order)
+        if p in (0, k) or (p == 1 and k % 2 == 1):
+            assert rho == pytest.approx(1.0, abs=1e-4)
+        else:
+            assert rho > 1.0 + 1e-4
+

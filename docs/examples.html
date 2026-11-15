@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Executable Examples &amp; Slides – Mixed-Sign Coxeter Systems</title>
+<title>Interactive Explorer – Mixed-Sign Coxeter Systems</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -379,7 +379,8 @@ window.Quarto = {
   <li><a href="#howletts-formula-theorem-1.1" id="toc-howletts-formula-theorem-1.1" class="nav-link active" data-scroll-target="#howletts-formula-theorem-1.1">1. Howlett’s Formula (Theorem 1.1)</a></li>
   <li><a href="#failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21" id="toc-failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21" class="nav-link" data-scroll-target="#failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21">2. Failure of the Deletion Property on <span class="math inline">\(\widetilde{A_{-2}}\)</span> (Lemma 3.21)</a></li>
   <li><a href="#wwidetildea_-n-cong-wd_n1-for-even-n" id="toc-wwidetildea_-n-cong-wd_n1-for-even-n" class="nav-link" data-scroll-target="#wwidetildea_-n-cong-wd_n1-for-even-n">3. <span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span> for Even <span class="math inline">\(n\)</span></a></li>
-  <li><a href="#manim-slide-deck-slides" id="toc-manim-slide-deck-slides" class="nav-link" data-scroll-target="#manim-slide-deck-slides">4. Manim Slide Deck (<code>slides/</code>)</a>
+  <li><a href="#single-defect-cycle-parity-dichotomy" id="toc-single-defect-cycle-parity-dichotomy" class="nav-link" data-scroll-target="#single-defect-cycle-parity-dichotomy">4. Single-Defect Cycle Parity Dichotomy</a></li>
+  <li><a href="#manim-slide-deck-slides" id="toc-manim-slide-deck-slides" class="nav-link" data-scroll-target="#manim-slide-deck-slides">5. Manim Slide Deck (<code>slides/</code>)</a>
   <ul class="collapse">
   <li><a href="#highlight-clips" id="toc-highlight-clips" class="nav-link" data-scroll-target="#highlight-clips">Highlight Clips</a></li>
   </ul></li>
@@ -392,8 +393,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Executable Examples &amp; Slides</h1>
-<p class="subtitle lead">Live Python computations from mixed_sign_coxeter and the Manim presentation</p>
+<h1 class="title">Interactive Explorer</h1>
+<p class="subtitle lead">Click directly on the graph to toggle signs, draw edges, or add vertices — running live in your browser</p>
 </div>
 
 
@@ -413,7 +414,7 @@ window.Quarto = {
 <p>All code blocks below execute directly against <code>src/mixed_sign_coxeter/</code> during <code>quarto render</code>.</p>
 <section id="howletts-formula-theorem-1.1" class="level2">
 <h2 class="anchored" data-anchor-id="howletts-formula-theorem-1.1">1. Howlett’s Formula (Theorem 1.1)</h2>
-<div id="13420c90" class="cell" data-execution_count="1">
+<div id="9204462d" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">"src"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -438,7 +439,7 @@ Principal polynomial: Poly(x**3 + x**2 + x + 1, x, domain='ZZ')</code></pre>
 </section>
 <section id="failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21" class="level2">
 <h2 class="anchored" data-anchor-id="failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21">2. Failure of the Deletion Property on <span class="math inline">\(\widetilde{A_{-2}}\)</span> (Lemma 3.21)</h2>
-<div id="e3b06ac5" class="cell" data-execution_count="2">
+<div id="c70ddee7" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter.group <span class="im">import</span> evaluate_word, find_two_deletions</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>w_word <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
@@ -453,7 +454,7 @@ Valid 2-letter deletions of (0,1,0,2,0): []</code></pre>
 </section>
 <section id="wwidetildea_-n-cong-wd_n1-for-even-n" class="level2">
 <h2 class="anchored" data-anchor-id="wwidetildea_-n-cong-wd_n1-for-even-n">3. <span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span> for Even <span class="math inline">\(n\)</span></h2>
-<div id="2bd055c7" class="cell" data-execution_count="3">
+<div id="ce2b81aa" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter.isomorphisms <span class="im">import</span> verify_a_tilde_minus_isomorphism</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> (<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>):</span>
@@ -467,8 +468,33 @@ n = 6: gram_ok=True, conj_ok=True, orbit_is_D=True, |W(D_7)|=322560</code></pre>
 </div>
 </div>
 </section>
+<section id="single-defect-cycle-parity-dichotomy" class="level2">
+<h2 class="anchored" data-anchor-id="single-defect-cycle-parity-dichotomy">4. Single-Defect Cycle Parity Dichotomy</h2>
+<p>On a single cycle <span class="math inline">\(C_k(+, -, \dots, -)\)</span> with one positive vertex and <span class="math inline">\(k - 1\)</span> negative vertices, the spectral radius of the standard principal element <span class="math inline">\(w = s_{k-1}\cdots s_1 s_0\)</span> depends on the parity of <span class="math inline">\(k\)</span>: <span class="math inline">\(\rho(w) = 1\)</span> for odd <span class="math inline">\(k = 2m+1\)</span> (<code>OddCycleSingleDefect.lean</code>), whereas <span class="math inline">\(\rho(w) &gt; 1\)</span> for even <span class="math inline">\(k = 2m \ge 4\)</span> (<code>EvenCycleSingleDefect.lean</code>).</p>
+<div id="005e7553" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> (<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>):</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    signs <span class="op">=</span> [<span class="dv">1</span>] <span class="op">+</span> [<span class="op">-</span><span class="dv">1</span>] <span class="op">*</span> (k <span class="op">-</span> <span class="dv">1</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    edges <span class="op">=</span> [(i, (i <span class="op">+</span> <span class="dv">1</span>) <span class="op">%</span> k, <span class="fl">3.0</span>) <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(k)]</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    ck <span class="op">=</span> MixedSignCoxeterGraph(signs, edges)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    w_ck <span class="op">=</span> np.array(ck.principal_element().tolist(), dtype<span class="op">=</span><span class="bu">float</span>)</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    eigs <span class="op">=</span> np.linalg.eigvals(w_ck)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    rho <span class="op">=</span> <span class="bu">max</span>(<span class="bu">abs</span>(eigs))</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    min_real <span class="op">=</span> <span class="bu">min</span>(e.real <span class="cf">for</span> e <span class="kw">in</span> eigs <span class="cf">if</span> <span class="bu">abs</span>(e.imag) <span class="op">&lt;</span> <span class="fl">1e-8</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"C_</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">(+,-,...,-) [</span><span class="sc">{</span><span class="st">'odd'</span> <span class="cf">if</span> k <span class="op">%</span> <span class="dv">2</span> <span class="cf">else</span> <span class="st">'even'</span><span class="sc">}</span><span class="ss">]: rho = </span><span class="sc">{</span>rho<span class="sc">:.6f}</span><span class="ss">, min real eig = </span><span class="sc">{</span>min_real<span class="sc">:.6f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>C_3(+,-,...,-) [odd]: rho = 1.000008, min real eig = -1.000008
+C_4(+,-,...,-) [even]: rho = 4.330640, min real eig = -4.330640
+C_5(+,-,...,-) [odd]: rho = 1.000004, min real eig = -0.999993
+C_6(+,-,...,-) [even]: rho = 4.241592, min real eig = -4.241592
+C_7(+,-,...,-) [odd]: rho = 1.000003, min real eig = -1.000003
+C_8(+,-,...,-) [even]: rho = 4.236377, min real eig = -4.236377</code></pre>
+</div>
+</div>
+</section>
 <section id="manim-slide-deck-slides" class="level2">
-<h2 class="anchored" data-anchor-id="manim-slide-deck-slides">4. Manim Slide Deck (<code>slides/</code>)</h2>
+<h2 class="anchored" data-anchor-id="manim-slide-deck-slides">5. Manim Slide Deck (<code>slides/</code>)</h2>
 <p>Ten Manim scenes in <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/dissertation_deck.py"><code>slides/dissertation_deck.py</code></a> render these live computations visually, accompanied by a speaker script in <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/SCRIPT.md"><code>slides/SCRIPT.md</code></a>.</p>
 <section id="highlight-clips" class="level3">
 <h3 class="anchored" data-anchor-id="highlight-clips">Highlight Clips</h3>
@@ -486,10 +512,419 @@ n = 6: gram_ok=True, conj_ok=True, orbit_is_D=True, |W(D_7)|=322560</code></pre>
 </div>
 </div>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> <span class="st">".[manim]"</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">manim</span> <span class="at">-qh</span> slides/dissertation_deck.py <span class="at">-a</span>   <span class="co"># 1080p60 full deck</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> <span class="st">".[manim]"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">manim</span> <span class="at">-qh</span> slides/dissertation_deck.py <span class="at">-a</span>   <span class="co"># 1080p60 full deck</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
+<p>This interactive explorer runs <strong>Shinylive for Python</strong> in your browser via Pyodide/WebAssembly. For the full local app backed by <code>mixed_sign_coxeter</code> and <code>data/theorems.yml</code>, run <code>shiny run explorer/app.py</code>.</p>
+<pre class="{shinylive-python}"><code>#| standalone: true
+#| viewerHeight: 880
+
+import math
+from collections import deque
+from fractions import Fraction
+from urllib.parse import parse_qs, urlencode
+import matplotlib.pyplot as plt
+import numpy as np
+from shiny import App, reactive, render, ui
+
+GARNET = "#782F40"
+LEAN_BLUE = "#1E6BD6"
+PYTHON_GREEN = "#008000"
+GOLD = "#CEB888"
+
+
+PRESETS = {
+    "example_3_33": (
+        "Example 3.33 (6-vertex bipartite)",
+        [1, 1, 1, -1, 1, -1],
+        [(0, 1, 3.0), (0, 2, 3.0), (2, 3, 3.0), (1, 3, 3.0), (1, 5, 3.0), (3, 4, 3.0), (4, 5, 3.0)],
+    ),
+    "a_tilde_minus_2": (
+        "~A_{-2} (Negative 3-cycle)",
+        [-1, -1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0), (0, 2, 3.0)],
+    ),
+    "a_tilde_minus_4": (
+        "~A_{-4} (Negative 5-cycle)",
+        [-1, -1, -1, -1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0), (2, 3, 3.0), (3, 4, 3.0), (0, 4, 3.0)],
+    ),
+    "a3_ppm": (
+        "A_3(+, +, -) (Example 3.29)",
+        [1, 1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0)],
+    ),
+    "a_n_alt_4": (
+        "A_4(+, -, +, -)",
+        [1, -1, 1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0), (2, 3, 3.0)],
+    ),
+    "c5_single_plus": (
+        "C_5(+, -, -, -, -) [odd single defect, rho = 1]",
+        [1, -1, -1, -1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0), (2, 3, 3.0), (3, 4, 3.0), (0, 4, 3.0)],
+    ),
+    "c6_single_plus": (
+        "C_6(+, -, -, -, -, -) [even single defect, rho &gt; 1]",
+        [1, -1, -1, -1, -1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0), (2, 3, 3.0), (3, 4, 3.0), (4, 5, 3.0), (0, 5, 3.0)],
+    ),
+}
+
+
+def circle_positions(n: int) -&gt; dict[int, tuple[float, float]]:
+    angles = np.linspace(0, 2 * np.pi, max(n, 1), endpoint=False)
+    return {i: (float(math.cos(angles[i])), float(math.sin(angles[i]))) for i in range(n)}
+
+
+def build_B(signs: list[int], edges: list[tuple[int, int, float]]) -&gt; np.ndarray:
+    n = len(signs)
+    B = np.diag([float(s) for s in signs])
+    for u, v, w in edges:
+        val = -1.0 if math.isinf(w) else -math.cos(math.pi / w)
+        B[u, v] = val
+        B[v, u] = val
+    return B
+
+
+def bipartition(n: int, edges: list[tuple[int, int, float]]):
+    adj = [[] for _ in range(n)]
+    for u, v, _ in edges:
+        adj[u].append(v)
+        adj[v].append(u)
+    color = [-1] * n
+    n1, n2 = [], []
+    for start in range(n):
+        if color[start] != -1:
+            continue
+        color[start] = 0
+        q = deque([start])
+        while q:
+            u = q.popleft()
+            (n1 if color[u] == 0 else n2).append(u)
+            for v in adj[u]:
+                if color[v] == -1:
+                    color[v] = 1 - color[u]
+                    q.append(v)
+                elif color[v] == color[u]:
+                    return None
+    return n1, n2
+
+
+def principal_element(B: np.ndarray, order: list[int]) -&gt; tuple[np.ndarray, np.ndarray]:
+    P = B[np.ix_(order, order)]
+    U_ord = np.triu(P)
+    w_ord = -np.linalg.inv(U_ord) @ U_ord.T
+    inv_perm = np.argsort(order)
+    return U_ord, w_ord[np.ix_(inv_perm, inv_perm)]
+
+
+app_ui = ui.page_fluid(
+    ui.layout_sidebar(
+        ui.sidebar(
+            ui.input_select("preset", "Preset Graph", choices={k: v[0] for k, v in PRESETS.items()}, selected="example_3_33"),
+            ui.input_radio_buttons(
+                "edit_mode",
+                "Click Graph To:",
+                choices={"sign": "Toggle Sign (+ / −)", "edge": "Draw / Remove Edge", "add_v": "Add Vertex", "del_v": "Delete Vertex"},
+                selected="sign",
+            ),
+            ui.input_text("edge_weight", "New Edge Weight", value="3", placeholder="Any real &gt;= 2 (e.g. 3, 5/2, 3.7) or oo"),
+            ui.layout_columns(
+                ui.input_action_button("add_v_btn", "+ Vertex", class_="btn-sm btn-outline-primary"),
+                ui.input_action_button("negate_btn", "Flip Signs", class_="btn-sm btn-outline-secondary"),
+                col_widths=(6, 6),
+            ),
+            ui.hr(),
+            ui.input_radio_buttons("order_mode", "Principal Ordering", choices={"linear": "Linear", "bipartite": "Bipartite"}, selected="linear"),
+            ui.hr(),
+            ui.output_ui("share_ui"),
+            width=280,
+        ),
+        ui.card(
+            ui.card_header("Interactive Signed Coxeter Graph (click directly on vertices or canvas)"),
+            ui.output_plot("plot_graph", click=True, height="380px"),
+            ui.output_ui("mode_hint_ui"),
+        ),
+        ui.layout_columns(
+            ui.card(ui.card_header("Structure &amp; Applicable Results"), ui.output_ui("summary_ui")),
+            ui.card(ui.card_header("Eigenvalue Spectrum &amp; Unit Circle"), ui.output_plot("plot_spectrum", height="320px")),
+            col_widths=(6, 6),
+        ),
+        ui.HTML("&lt;details class='mt-2'&gt;&lt;summary&gt;&lt;strong&gt;▶ Advanced Spectral Data&lt;/strong&gt;&lt;/summary&gt;"),
+        ui.card(ui.output_code("eigs_out")),
+        ui.HTML("&lt;/details&gt;"),
+    )
+)
+
+
+def server(input, output, session):
+    _, init_s, init_e = PRESETS["example_3_33"]
+    init_signs, init_edges = list(init_s), list(init_e)
+    qs = parse_qs(session.clientdata.url_search().lstrip("?")) if hasattr(session, "clientdata") else {}
+    if "signs" in qs and qs["signs"]:
+        s_parsed = [1 if ch == "+" else -1 for ch in qs["signs"][0] if ch in ("+", "-")]
+        if s_parsed:
+            init_signs = s_parsed
+            raw_e = qs.get("edges", [""])[0]
+            parsed_e = []
+            for item in raw_e.split(","):
+                item = item.strip()
+                if not item or "-" not in item:
+                    continue
+                pair_s, w_s = (item.split(":", 1) + ["3"])[:2]
+                u_s, v_s = pair_s.split("-", 1)
+                u, v = int(u_s), int(v_s)
+                w = math.inf if w_s.strip().lower() in ("oo", "inf") else float(w_s)
+                if 0 &lt;= u &lt; len(init_signs) and 0 &lt;= v &lt; len(init_signs) and u != v:
+                    parsed_e.append((min(u, v), max(u, v), w))
+            init_edges = parsed_e
+
+    signs_rv = reactive.value(init_signs)
+    edges_rv = reactive.value(init_edges)
+    pos_rv = reactive.value(circle_positions(len(init_signs)))
+    edge_start_rv = reactive.value(None)
+
+    @reactive.effect
+    @reactive.event(input.preset)
+    def _on_preset():
+        k = input.preset()
+        if k in PRESETS:
+            _, s, e = PRESETS[k]
+            signs_rv.set(list(s))
+            edges_rv.set(list(e))
+            pos_rv.set(circle_positions(len(s)))
+            edge_start_rv.set(None)
+
+    @reactive.effect
+    @reactive.event(input.negate_btn)
+    def _on_negate():
+        signs_rv.set([-s for s in signs_rv()])
+
+    @reactive.effect
+    @reactive.event(input.add_v_btn)
+    def _on_add_v_btn():
+        s = list(signs_rv())
+        p = dict(pos_rv())
+        idx = len(s)
+        ang = (idx * 2.39996) % (2 * math.pi)
+        p[idx] = (0.85 * math.cos(ang), 0.85 * math.sin(ang))
+        s.append(1)
+        signs_rv.set(s)
+        pos_rv.set(p)
+
+    @reactive.effect
+    @reactive.event(input.plot_graph_click)
+    def _on_click():
+        clk = input.plot_graph_click()
+        if not clk or "x" not in clk or "y" not in clk:
+            return
+        cx, cy = float(clk["x"]), float(clk["y"])
+        pos = pos_rv()
+        mode = input.edit_mode()
+        if mode == "add_v":
+            s = list(signs_rv())
+            p = dict(pos)
+            p[len(s)] = (cx, cy)
+            s.append(1)
+            signs_rv.set(s)
+            pos_rv.set(p)
+            return
+        nearest, min_d = None, 1e9
+        for i, (px, py) in pos.items():
+            d = math.hypot(px - cx, py - cy)
+            if d &lt; min_d:
+                min_d = d
+                nearest = i
+        if nearest is None or min_d &gt; 0.25:
+            edge_start_rv.set(None)
+            return
+        if mode == "sign":
+            s = list(signs_rv())
+            s[nearest] = -s[nearest]
+            signs_rv.set(s)
+        elif mode == "del_v":
+            s = list(signs_rv())
+            if len(s) &lt;= 2:
+                return
+            del s[nearest]
+            new_e = []
+            for u, v, w in edges_rv():
+                if u == nearest or v == nearest:
+                    continue
+                nu = u - 1 if u &gt; nearest else u
+                nv = v - 1 if v &gt; nearest else v
+                new_e.append((min(nu, nv), max(nu, nv), w))
+            new_p = {(k - 1 if k &gt; nearest else k): xy for k, xy in pos.items() if k != nearest}
+            signs_rv.set(s)
+            edges_rv.set(new_e)
+            pos_rv.set(new_p)
+            edge_start_rv.set(None)
+        elif mode == "edge":
+            st = edge_start_rv()
+            if st is None:
+                edge_start_rv.set(nearest)
+            elif st == nearest:
+                edge_start_rv.set(None)
+            else:
+                u, v = min(st, nearest), max(st, nearest)
+                e_list = list(edges_rv())
+                if any((a, b) == (u, v) for a, b, _ in e_list):
+                    e_list = [(a, b, w) for a, b, w in e_list if (a, b) != (u, v)]
+                else:
+                    w_raw = input.edge_weight().strip().lower()
+                    if w_raw in ("oo", "inf", "∞"):
+                        w = math.inf
+                    else:
+                        try:
+                            w = max(2.0, float(Fraction(w_raw)))
+                        except ValueError:
+                            try:
+                                w = max(2.0, float(w_raw))
+                            except ValueError:
+                                w = 3.0
+                    e_list.append((u, v, w))
+                edges_rv.set(e_list)
+                edge_start_rv.set(None)
+
+    @render.ui
+    def mode_hint_ui():
+        m = input.edit_mode()
+        st = edge_start_rv()
+        if m == "sign":
+            msg = "Click any vertex to flip its sign (+ Garnet ↔ − Lean Blue)."
+        elif m == "edge":
+            msg = f"Selected vertex {st}; click a second vertex to toggle edge." if st is not None else "Click two vertices to add or remove an edge."
+        elif m == "add_v":
+            msg = "Click empty canvas space to add a (+) vertex."
+        else:
+            msg = "Click any vertex to delete it."
+        return ui.p(msg, class_="text-muted small mb-0 mt-1")
+
+    @render.plot
+    def plot_graph():
+        s = signs_rv()
+        e = edges_rv()
+        pos = pos_rv()
+        st = edge_start_rv()
+        fig, ax = plt.subplots(figsize=(7.5, 4.0))
+        for u, v, w in e:
+            x0, y0 = pos[u]
+            x1, y1 = pos[v]
+            ax.plot([x0, x1], [y0, y1], color="#333333", lw=2.3, zorder=1)
+            if w != 3:
+                ax.text((x0 + x1) / 2, (y0 + y1) / 2, "∞" if math.isinf(w) else f"{w:g}", fontsize=9, bbox=dict(fc="white", ec="#cbd5e1", pad=1))
+        for i in range(len(s)):
+            x, y = pos[i]
+            c = GARNET if s[i] &gt; 0 else LEAN_BLUE
+            ec = "#f59e0b" if st == i else "#ffffff"
+            ax.scatter([x], [y], s=700, color=c, edgecolors=ec, linewidths=3 if st == i else 2, zorder=2)
+            ax.text(x, y, f"{i}\n({'+' if s[i] &gt; 0 else '−'})", color="white", ha="center", va="center", fontsize=8.5, fontweight="bold", zorder=3)
+        xs = [p[0] for p in pos.values()]
+        ys = [p[1] for p in pos.values()]
+        ax.scatter([], [], s=120, color=GARNET, label="(+) Positive")
+        ax.scatter([], [], s=120, color=LEAN_BLUE, label="(−) Negative")
+        ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.06), ncol=2, frameon=False, fontsize=9.5)
+        ax.set_xlim(min(xs) - 0.35, max(xs) + 0.35)
+        ax.set_ylim(min(ys) - 0.35, max(ys) + 0.35)
+        ax.set_aspect("equal")
+        ax.axis("off")
+        return fig
+
+    @render.plot
+    def plot_spectrum():
+        s, e = signs_rv(), edges_rv()
+        B = build_B(s, e)
+        bp = bipartition(len(s), e)
+        order = (bp[0] + bp[1]) if (input.order_mode() == "bipartite" and bp is not None) else list(range(len(s)))
+        _, w = principal_element(B, order)
+        eigs = np.linalg.eigvals(w)
+        fig, ax = plt.subplots(figsize=(5.0, 3.4))
+        theta = np.linspace(0, 2 * np.pi, 256)
+        ax.plot(np.cos(theta), np.sin(theta), "--", color="#94a3b8", lw=1.2)
+        ax.axhline(0, color="#cbd5e1", lw=0.8)
+        ax.axvline(0, color="#cbd5e1", lw=0.8)
+        ax.scatter(eigs.real, eigs.imag, s=75, color=GARNET, zorder=3)
+        lim = max(1.3, float(np.max(np.abs(eigs))) * 1.15)
+        ax.set_xlim(-lim, lim)
+        ax.set_ylim(-lim, lim)
+        ax.set_aspect("equal")
+        ax.set_title(f"Spectrum (ρ = {float(np.max(np.abs(eigs))):.4f})")
+        return fig
+
+    @render.ui
+    def summary_ui():
+        s, e = signs_rv(), edges_rv()
+        n = len(s)
+        B = build_B(s, e)
+        bp = bipartition(n, e)
+        _, w_lin = principal_element(B, list(range(n)))
+        rho_lin = float(np.max(np.abs(np.linalg.eigvals(w_lin))))
+        if bp is not None:
+            _, w_bip = principal_element(B, bp[0] + bp[1])
+            rho_bip = float(np.max(np.abs(np.linalg.eigvals(w_bip))))
+            pct = ((rho_bip / rho_lin) - 1.0) * 100.0 if rho_lin &gt; 0 else 0.0
+            bip_html = f"&lt;div class='mb-2'&gt;&lt;strong&gt;✓ Bipartite&lt;/strong&gt; | &lt;code&gt;ρ_lin={rho_lin:.4f}&lt;/code&gt; | &lt;code&gt;ρ_bip={rho_bip:.4f}&lt;/code&gt; ({pct:+.1f}%)&lt;/div&gt;"
+            thm_html = "&lt;li&gt;✅ &lt;strong&gt;Bipartite Principal Element Theorem&lt;/strong&gt; applicable (&lt;a href='https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/lean-verification.html' target='_blank'&gt;Learn More →&lt;/a&gt;)&lt;/li&gt;"
+        else:
+            bip_html = f"&lt;div class='mb-2'&gt;&lt;strong&gt;✗ Not bipartite&lt;/strong&gt; | &lt;code&gt;ρ_lin={rho_lin:.4f}&lt;/code&gt;&lt;/div&gt;"
+            thm_html = ""
+        evals_B = np.linalg.eigvalsh(B)
+        p, q = int(np.sum(evals_B &gt; 1e-9)), int(np.sum(evals_B &lt; -1e-9))
+        return ui.HTML(
+            bip_html
+            + f"&lt;div class='small text-muted mb-2'&gt;Vertices: &lt;strong&gt;{n}&lt;/strong&gt; · Edges: &lt;strong&gt;{len(e)}&lt;/strong&gt; · Signature: &lt;strong&gt;({p}, {q}, {n-p-q})&lt;/strong&gt;&lt;/div&gt;"
+            + f"&lt;ul class='small mb-0 ps-3'&gt;&lt;li&gt;✅ &lt;strong&gt;Theorem 1.1 (Howlett's Formula)&lt;/strong&gt; holds (&lt;a href='https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/lean-verification.html' target='_blank'&gt;Learn More →&lt;/a&gt;)&lt;/li&gt;{thm_html}&lt;/ul&gt;"
+        )
+
+    @render.ui
+    def share_ui():
+        s, e = signs_rv(), edges_rv()
+        q = urlencode({"signs": "".join("+" if x &gt; 0 else "-" for x in s), "edges": ",".join(f"{u}-{v}:{'oo' if math.isinf(w) else f'{w:g}'}" for u, v, w in sorted(e))})
+        full_url = f"https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/explorer.html?{q}"
+        return ui.HTML(
+            f"&lt;div class='small'&gt;&lt;strong&gt;Shareable Graph Link:&lt;/strong&gt;&lt;br/&gt;"
+            f"&lt;input type='text' class='form-control form-control-sm mt-1 mb-1' readonly value='{full_url}' onclick='this.select();' /&gt;"
+            f"&lt;a href='{full_url}' target='_blank'&gt;Open shared link ↗&lt;/a&gt;&lt;/div&gt;"
+        )
+
+    @render.text
+    def eigs_out():
+        s, e = signs_rv(), edges_rv()
+        B = build_B(s, e)
+        bp = bipartition(len(s), e)
+        order = (bp[0] + bp[1]) if (input.order_mode() == "bipartite" and bp is not None) else list(range(len(s)))
+        _, w = principal_element(B, order)
+        eigs = sorted(np.linalg.eigvals(w), key=lambda z: -abs(z))
+        lines = [f"Active order: {order}", "Eigenvalues of w = -U^(-1) U^T:"]
+        lines.extend(f"  {z.real:+.6f} {z.imag:+.6f}j  (|λ| = {abs(z):.6f})" for z in eigs)
+        return "\n".join(lines)
+
+
+app = App(app_ui, server)</code></pre>
+<script>
+// Forward ?signs=...&edges=... from the outer Quarto page URL into the Shinylive iframe.
+(function () {
+  const search = window.location.search;
+  if (!search) return;
+  const attach = (iframe) => {
+    if (!iframe || iframe.dataset.qsForwarded) return;
+    iframe.dataset.qsForwarded = "1";
+    const url = new URL(iframe.src, window.location.href);
+    const params = new URLSearchParams(search);
+    for (const [k, v] of params.entries()) {
+      url.searchParams.set(k, v);
+    }
+    iframe.src = url.toString();
+  };
+  document.querySelectorAll("iframe.shinylive-iframe").forEach(attach);
+  const obs = new MutationObserver(() => {
+    document.querySelectorAll("iframe.shinylive-iframe").forEach(attach);
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
 </section>
 </section>
 

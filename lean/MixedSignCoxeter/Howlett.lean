@@ -67,7 +67,7 @@ private lemma howlettBlock_zero (B : Matrix (Fin n) (Fin n) ℝ) :
 private lemma howlettBlock_n (B : Matrix (Fin n) (Fin n) ℝ) :
     howlettBlock B n = -(howlettU B)ᵀ := by
   ext r c
-  simp [howlettBlock, r.isLt, c.isLt]
+  simp [howlettBlock]
 
 private lemma howlettBlock_step (S : ReflectionSystem n) (k : ℕ) (hk : k < n) :
     howlettBlock S.B k * reflectionMatrix S.B ⟨k, hk⟩ = howlettBlock S.B (k + 1) := by
@@ -93,10 +93,10 @@ private lemma howlettBlock_step (S : ReflectionSystem n) (k : ℕ) (hk : k < n) 
     have h2 : ¬ ((idx : ℕ) < k) := by omega
     have hr_lt1 : (r : ℕ) < k + 1 := by omega
     have h3 : ¬ (k + 1 ≤ (r : ℕ)) := by omega
-    simp only [h1, false_and, ↓reduceIte, h2, and_false, mul_zero, sub_zero, hr_lt1, true_and, h3]
+    simp only [h1, false_and, ↓reduceIte, h2, and_false, hr_lt1, true_and, h3]
     by_cases hc_lt : (c : ℕ) < k
     · have hc_lt1 : (c : ℕ) < k + 1 := by omega
-      simp [hr_lt, h1, hc_lt, hc_lt1]
+      simp [hr_lt, hc_lt, hc_lt1]
     · have hc_ge : k ≤ (c : ℕ) := le_of_not_gt hc_lt
       by_cases hc_eq : (c : ℕ) = k
       · have hc_lt1 : (c : ℕ) < k + 1 := by omega
@@ -145,7 +145,7 @@ private lemma howlettBlock_step (S : ReflectionSystem n) (k : ℕ) (hk : k < n) 
       rw [h] at hr_gt
       exact absurd hr_gt (lt_irrefl _)
     simp only [hr_not_lt, false_and, ↓reduceIte, hr_le, true_and, hidx_not_lt, hr_ne_idx,
-      zero_mul, sub_zero, hr_not_lt1, hr_le1]
+      hr_not_lt1, hr_le1]
     rcases lt_trichotomy (c : ℕ) k with hc_lt | hc_eq | hc_gt
     · have hc_not_le : ¬ (k ≤ (c : ℕ)) := by omega
       have hc_not_le1 : ¬ (k + 1 ≤ (c : ℕ)) := by omega
@@ -153,7 +153,7 @@ private lemma howlettBlock_step (S : ReflectionSystem n) (k : ℕ) (hk : k < n) 
     · have hc_not_le1 : ¬ (k + 1 ≤ (c : ℕ)) := by omega
       have hc_idx : c = idx := Fin.ext hc_eq
       subst hc_idx
-      simp [hr_le, hidx_not_lt, hr_ne_idx, hc_not_le1]
+      simp [hidx_not_lt, hr_ne_idx, hc_not_le1]
     · have hc_le : k ≤ (c : ℕ) := by omega
       have hc_le1 : k + 1 ≤ (c : ℕ) := by omega
       simp [hc_le, hc_le1]
@@ -184,7 +184,7 @@ lemma howlettU_det (S : ReflectionSystem n) :
     have h1 : ¬ (i < j) := not_lt_of_gt hij
     have h2 : i ≠ j := ne_of_gt hij
     simp [howlettU_apply, h1, h2]
-  rw [Matrix.det_of_upperTriangular htri]
+  rw [Matrix.det_of_isUpperTriangular htri]
   refine Finset.prod_congr rfl fun i _ => ?_
   simp [howlettU_apply]
 

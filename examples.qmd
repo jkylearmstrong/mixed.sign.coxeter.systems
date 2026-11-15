@@ -45,7 +45,25 @@ for n in (2, 4, 6):
           f"orbit_is_D={res.root_orbit_is_D}, |W(D_{n+1})|={res.order_W_D}")
 ```
 
-## 4. Manim Slide Deck (`slides/`)
+## 4. Single-Defect Cycle Parity Dichotomy
+
+On a single cycle $C_k(+, -, \dots, -)$ with one positive vertex and $k - 1$ negative vertices, the spectral radius of the standard principal element $w = s_{k-1}\cdots s_1 s_0$ depends on the parity of $k$: $\rho(w) = 1$ for odd $k = 2m+1$ (`OddCycleSingleDefect.lean`), whereas $\rho(w) > 1$ for even $k = 2m \ge 4$ (`EvenCycleSingleDefect.lean`).
+
+```{python}
+import numpy as np
+
+for k in (3, 4, 5, 6, 7, 8):
+    signs = [1] + [-1] * (k - 1)
+    edges = [(i, (i + 1) % k, 3.0) for i in range(k)]
+    ck = MixedSignCoxeterGraph(signs, edges)
+    w_ck = np.array(ck.principal_element().tolist(), dtype=float)
+    eigs = np.linalg.eigvals(w_ck)
+    rho = max(abs(eigs))
+    min_real = min(e.real for e in eigs if abs(e.imag) < 1e-8)
+    print(f"C_{k}(+,-,...,-) [{'odd' if k % 2 else 'even'}]: rho = {rho:.6f}, min real eig = {min_real:.6f}")
+```
+
+## 5. Manim Slide Deck (`slides/`)
 
 Ten Manim scenes in [`slides/dissertation_deck.py`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/dissertation_deck.py) render these live computations visually, accompanied by a speaker script in [`slides/SCRIPT.md`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/SCRIPT.md).
 
