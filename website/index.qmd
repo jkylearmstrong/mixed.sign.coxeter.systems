@@ -21,7 +21,7 @@ This portal accompanies **Johnathon Kyle Armstrong**, *Principal Elements of Mix
 [Launch Explorer](explorer.qmd){.btn .btn-outline-primary .btn-sm}
 :::
 ::: {.column width="28%"}
-![](../assets/hex-sticker.svg){width="210" fig-align="center" fig-alt="Mixed-Sign Coxeter Systems hex sticker"}
+![](assets/hex-sticker.svg){width="210" fig-align="center" fig-alt="Mixed-Sign Coxeter Systems hex sticker"}
 :::
 :::
 

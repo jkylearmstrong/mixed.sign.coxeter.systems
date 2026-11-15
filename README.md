@@ -29,11 +29,12 @@ presentation, and Quarto research portal supporting:
 |:---|:---|
 | `src/mixed_sign_coxeter/` | Python package: `ReflectionSystem`, `MixedSignCoxeterGraph`, group/root utilities, Appendix A–D catalogs, and exhaustive searches (`isomorphisms.py`, `finite_search.py`, `principal_search.py`) |
 | `lean/MixedSignCoxeter/` | `sorry`-free Lean 4 (`v4.35.0` + Mathlib) formalization across 24 modules covering Chapters 1–3 (Howlett’s formula, bipartite & tree conjugacy, Deletion/Exchange & Coxeter presentation, parabolic transfer, spectral classification & interlacing, and counterexamples) |
-| `explorer/` & `explorer.qmd` | Interactive **Shiny for Python** explorer (`explorer/app.py`) + in-browser **Shinylive** page (`explorer.qmd`) for building signed graphs, comparing linear vs. bipartite principal orderings, and checking theorems |
+| `explorer/` & `website/explorer.qmd` | Interactive **Shiny for Python** explorer (`explorer/app.py`) + in-browser **Shinylive** page (`website/explorer.qmd`) for building signed graphs, comparing linear vs. bipartite principal orderings, and checking theorems |
 | `data/theorems.yml` | Shared traceability registry connecting Dissertation → Lean 4 → Python → Interactive Explorer |
 | `slides/` | 11-scene Manim presentation (`dissertation_deck.py`) backed by exact package computations (`deck_content.py`) and speaker script (`SCRIPT.md`) |
 | `website/` | Quarto research portal source (`_quarto.yml`, `index.qmd`, `dissertation.qmd`, `lean-verification.qmd`, `spectral-results.qmd`, `examples.qmd`, `explorer.qmd`) rendering to `docs/` |
-| `docs/` | Rendered Quarto research portal HTML output plus `mixed_sign_coxeter.*` and `verifications.md` |
+| `docs/` | Rendered Quarto research portal HTML output, plus the full writeup (`mixed_sign_coxeter.qmd` source with `bib.bib`, and its HTML/PDF/DOCX) and `verifications.md` |
+| `scripts/` | Maintenance scripts: `sync_theorem_registry.py` (refreshes `data/theorems.yml` source links), `lean_module_graph.py` (regenerates the Lean dependency diagrams), `generate_hex_sticker.py` |
 
 ## Python Package & Tests
 

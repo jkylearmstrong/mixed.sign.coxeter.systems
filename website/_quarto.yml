@@ -1,6 +1,9 @@
 project:
   type: website
   output-dir: ../docs
+  pre-render: _sync_assets.py
+  resources:
+    - assets/
   render:
     - index.qmd
     - dissertation.qmd
@@ -11,12 +14,12 @@ project:
 
 website:
   title: "Mixed-Sign Coxeter Systems"
-  favicon: ../assets/hex-sticker.png
+  favicon: assets/hex-sticker.png
   site-url: https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/
   repo-url: https://github.com/jkylearmstrong/mixed.sign.coxeter.systems
   repo-actions: [source, issue]
   navbar:
-    logo: ../assets/hex-sticker.png
+    logo: assets/hex-sticker.png
     left:
       - href: index.qmd
         text: Home
