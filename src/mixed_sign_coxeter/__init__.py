@@ -17,6 +17,8 @@ from .group import (
     find_two_deletions,
     generate_roots,
     is_positive_vector,
+    length_table,
+    verify_prop_3_10,
 )
 from .mixed_sign import MixedSignCoxeterGraph
 from .reflection_system import ReflectionSystem, Signature
@@ -36,8 +38,10 @@ __all__ = [
     "finite_even_odd_cycle_determinants",
     "generate_roots",
     "is_positive_vector",
+    "length_table",
     "mahler_measure",
     "table_a1",
     "table_a2",
+    "verify_prop_3_10",
 ]
 

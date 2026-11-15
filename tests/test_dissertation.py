@@ -11,6 +11,7 @@ from mixed_sign_coxeter import (
     evaluate_word,
     find_two_deletions,
     generate_roots,
+    verify_prop_3_10,
 )
 
 
@@ -269,3 +270,34 @@ def test_remarks_3_23_and_3_30():
     assert lam3 < lam5 < lam4
 
 
+
+
+def test_prop_3_10_classical_and_mixed_sign():
+    """Prop. 3.10: w(e_i) in Phi+ <=> l(w s_i) > l(w) holds for classical Coxeter graphs
+    (finite, affine, hyperbolic, m = oo) and fails for mixed-sign graphs (Prop. 3.12)."""
+    # All of W(A_3) (|W| = 24, longest element has length 6).
+    full = verify_prop_3_10(MixedSignCoxeterGraph(["+"] * 3, [(0, 1, 3), (1, 2, 3)]), 7)
+    assert full["elements"] == 24
+    assert full["checked"] == 24 * 3  # every pair (w, s_i)
+    assert full["failures"] == 0 and full["not_sign_coherent"] == 0
+
+    classical = [
+        MixedSignCoxeterGraph(["+"] * 3, [(0, 1, 4), (1, 2, 3)]),  # B_3
+        MixedSignCoxeterGraph(["+"] * 3, [(0, 1, 5), (1, 2, 3)]),  # H_3
+        MixedSignCoxeterGraph(["+"] * 3, [(0, 1, 3), (1, 2, 3), (0, 2, 3)]),  # affine ~A_2
+        MixedSignCoxeterGraph(["+"] * 3, [(0, 1, "oo"), (1, 2, 3)]),  # hyperbolic
+    ]
+    for g in classical:
+        result = verify_prop_3_10(g, 4)
+        assert result["checked"] > 0
+        assert result["failures"] == 0
+        assert result["not_sign_coherent"] == 0
+
+    mixed = [
+        MixedSignCoxeterGraph(["-", "+"], [(0, 1, 3)]),  # A_2(-, +), Prop. 3.12
+        MixedSignCoxeterGraph(["+", "-", "+"], [(0, 1, 3), (1, 2, 3)]),
+    ]
+    for g in mixed:
+        result = verify_prop_3_10(g, 4)
+        assert result["failures"] > 0
+        assert result["not_sign_coherent"] > 0

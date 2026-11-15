@@ -53,7 +53,7 @@ The 10 scenes in `SCENE_ORDER` (`slides/dissertation_deck.py`) cover all headlin
 
 ### 5. `DeletionFailureScene`
 
-> Once we leave bipartite graphs, odd negative cycles break classical Coxeter combinatorics. In $W(\widetilde{A_{-2}})$ (**Lemma 3.21**), the group is finite of order $24$—isomorphic to $S_4$ (**Remark 3.23**)—and the length-5 word $w = s_1 s_2 s_1 s_3 s_1$ equals the length-3 word $s_3 s_1 s_2$. Yet none of the 10 two-letter deletions from $w$ reproduces $w$: the Deletion Property fails. By parabolic transfer (**Theorem 1.2**), any graph containing $\widetilde{A_{-2}}$—such as the tail family $\Gamma_n$—fails the Deletion Property in the same way, and by **Corollary 1.3** none of these systems is $\mathcal{O}$-conjugate to a classical Coxeter system.
+> Once we leave bipartite graphs, odd negative cycles break classical Coxeter combinatorics. In $W(\widetilde{A_{-2}})$ (**Lemma 3.21**), the group is finite of order $24$—isomorphic to $S_4$ (**Remark 3.23**)—and the length-5 word $w = s_1 s_2 s_1 s_3 s_1$ equals the length-3 word $s_3 s_1 s_2$. Yet none of the 10 two-letter deletions from $w$ reproduces $w$: the Deletion Property fails. By parabolic transfer (**Theorem 1.2**), any graph containing $\widetilde{A_{-2}}$—such as the tail family $\Gamma_n$—fails the Deletion Property in the same way, and by **Corollary 1.3** none of these systems is $\mathcal{O}$-conjugate to a classical Coxeter system. The contrast is sharp: for every all-positive graph, **Proposition 3.10** ($w(e_i) \in \Phi^+ \Leftrightarrow \ell(w s_i) > \ell(w)$) holds, every root is positive or negative, and the Exchange and Deletion Properties follow, so the group really is a Coxeter group.
 
 ### 6. `OddCycleSignatureScene`
 
@@ -77,4 +77,4 @@ The 10 scenes in `SCENE_ORDER` (`slides/dissertation_deck.py`) cover all headlin
 
 ### 11. `FormalizationScene`
 
-> Finally, every number shown in this deck is computed live by the `mixed_sign_coxeter` Python package, and all numbered results from Chapters 1–3 of the dissertation are formally verified—`sorry`-free—in Lean 4 (`v4.35.0`) across 24 modules, alongside Python verifications for Appendices A, B, and D, the general even-$n$ isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$, and exhaustive searches for Remark A.3 and Question 3.35.
+> Finally, every number shown in this deck is computed live by the `mixed_sign_coxeter` Python package, and all numbered results from Chapters 1–3 of the dissertation are formally verified—`sorry`-free—in Lean 4 (`v4.35.0`) across 25 modules, alongside Python verifications for Appendices A, B, and D, the general even-$n$ isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$, and exhaustive searches for Remark A.3 and Question 3.35.
