@@ -135,13 +135,31 @@ lake build
 
 ## Manim Presentation (`slides/`)
 
-Interactive presentation scenes built on top of `mixed_sign_coxeter`
-live in [`slides/dissertation_deck.py`](slides/dissertation_deck.py). To
-render scenes locally:
+Ten presentation scenes built on top of `mixed_sign_coxeter` live in
+[`slides/dissertation_deck.py`](slides/dissertation_deck.py). Every number on a
+slide is computed from the package by
+[`slides/deck_content.py`](slides/deck_content.py), and
+`tests/test_slides.py` checks those numbers against the dissertation.
+
+| Scene | Results |
+| :--- | :--- |
+| `TitleOverviewScene` | Overview |
+| `HowlettFormulaScene` | Theorem 1.1, Lemma 2.63 |
+| `BipartiteConjugacyScene` | Theorem 1.4, Corollary 1.5 |
+| `RankTwoHyperbolicScene` | Example 3.16, Lemma 3.14, Proposition 3.12 |
+| `DeletionFailureScene` | Lemma 3.21, Theorem 1.2, Corollary 1.3, Remark 3.23 |
+| `OddCycleSignatureScene` | Theorem 1.6, Remark 3.26 |
+| `HyperbolicRadiusOneScene` | Example 3.29 against Theorems 3.27 and 3.28 |
+| `SpectralRadiusSeparationScene` | Example 3.33, Table 3.1, Theorem 1.7 |
+| `AppendixBScene` | Table B.1, Remark 3.30 |
+| `FormalizationScene` | What is checked in Lean 4 and Python |
+
+To render (`MathTex` also needs a LaTeX installation):
 
 ``` bash
 pip install -e ".[manim]"
-manim -pql slides/dissertation_deck.py TitleOverviewScene
+manim -pql slides/dissertation_deck.py TitleOverviewScene   # one scene
+manim -ql slides/dissertation_deck.py -a                    # whole deck
 ```
 
 ## Quarto Writeup (`docs/` & `README.qmd`)
