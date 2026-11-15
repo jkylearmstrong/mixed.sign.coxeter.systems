@@ -73,9 +73,17 @@ theorem exists_path_same_parity_or_odd_cycle [DecidableEq V] :
           refine ⟨b, hb, ?_⟩
           simp only [length_cons]
           rw [Nat.even_iff] at hae ⊢
-          rw [Nat.even_iff] at hpar
+          simp only [Nat.even_iff] at hpar
           rw [Nat.even_iff]
-          omega
+          have ha_odd : a.length % 2 = 1 := Nat.mod_two_ne_zero.mp hae
+          by_cases hq : q₀.length % 2 = 0
+          · have hr0 : r₀.length % 2 = 0 := hpar.mpr hq
+            have hb1 : b.length % 2 = 1 := by omega
+            simp [hq, hb1]; omega
+          · have hq1 : q₀.length % 2 = 1 := Nat.mod_two_ne_zero.mp hq
+            have hr1 : r₀.length % 2 = 1 := Nat.mod_two_ne_zero.mp (fun h => hq (hpar.mp h))
+            have hb0 : b.length % 2 = 0 := by omega
+            simp [hb0]; omega
       · left
         refine ⟨.cons h' r₀, hr₀.cons hv, ?_⟩
         simp only [length_cons, Nat.even_add_one, hpar]
@@ -86,10 +94,12 @@ theorem exists_odd_cycle_of_odd_length {u : V} (p : G.Walk u u) (hp : Odd p.leng
     ∃ (x : V) (c : G.Walk x x), c.IsCycle ∧ Odd c.length := by
   classical
   rcases exists_path_same_parity_or_odd_cycle p with ⟨r, hr, hpar⟩ | h
-  · have : r = .nil := isPath_iff_eq_nil.mp hr
-    subst this
-    simp only [length_nil, even_zero, true_iff] at hpar
-    exact absurd hpar (Nat.not_even_iff_odd.mpr hp)
+  · cases r with
+    | nil =>
+      simp only [length_nil, Even.zero, true_iff] at hpar
+      exact absurd hpar (Nat.not_even_iff_odd.mpr hp)
+    | cons _ _ =>
+      exact absurd ((isPath_iff_nil.mp hr)) (by simp)
   · exact h
 
 end Walk
@@ -101,8 +111,7 @@ theorem isBipartite_of_forall_closedWalk_even
   classical
   have hreach : ∀ v : V, G.Reachable (G.connectedComponentMk v).out v := by
     intro v
-    rw [← ConnectedComponent.eq]
-    simp
+    exact ConnectedComponent.eq.mp (Quot.out_eq (G.connectedComponentMk v))
   let W : ∀ v : V, G.Walk (G.connectedComponentMk v).out v := fun v => (hreach v).some
   refine ⟨Coloring.mk (fun v => decide (Even (W v).length)) ?_⟩
   intro u v huv
@@ -177,6 +186,6 @@ theorem nonempty_bipartite_of_no_odd_cycle (S : ReflectionSystem n)
 /-- Forests (in particular trees) have no odd cycles, hence are bipartite. -/
 theorem no_odd_cycle_of_isAcyclic (S : ReflectionSystem n) (hG : S.diagram.IsAcyclic) :
     ∀ (u : Fin n) (c : S.diagram.Walk u u), c.IsCycle → ¬ Odd c.length :=
-  fun u c hc _ => hG c hc
+  fun _u c hc _ => hG c hc
 
 end ReflectionSystem

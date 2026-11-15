@@ -95,11 +95,11 @@ lemma hasEigenC_of_real {M : Matrix ι ι ℝ} {lam : ℝ} {v : ι → ℝ} (hv 
   simp
 
 lemma re_mulVec_map (M : Matrix ι ι ℝ) (x : ι → ℂ) (i : ι) :
-    ((M.map (↑) : Matrix ι ι ℂ) *ᵥ x) i |>.re = (M *ᵥ fun j => (x j).re) i := by
+    (((M.map (↑) : Matrix ι ι ℂ) *ᵥ x) i).re = (M *ᵥ fun j => (x j).re) i := by
   simp [mulVec, dotProduct, Complex.re_sum]
 
 lemma im_mulVec_map (M : Matrix ι ι ℝ) (x : ι → ℂ) (i : ι) :
-    ((M.map (↑) : Matrix ι ι ℂ) *ᵥ x) i |>.im = (M *ᵥ fun j => (x j).im) i := by
+    (((M.map (↑) : Matrix ι ι ℂ) *ᵥ x) i).im = (M *ᵥ fun j => (x j).im) i := by
   simp [mulVec, dotProduct, Complex.im_sum]
 
 /-- Real form of a complex eigen-equation `M x = ν x`. -/
@@ -140,6 +140,7 @@ lemma real_eigen_of_complex (M : Matrix ι ι ℝ) (hM : Mᵀ = M) (x : ι → �
     · exact add_pos_of_pos_of_nonneg (dot_self_pos ha) (dot_self_nonneg b)
     · exact add_pos_of_nonneg_of_pos (dot_self_nonneg a) (dot_self_pos hb)
   have hcomm : a ⬝ᵥ b = b ⬝ᵥ a := dotProduct_comm a b
+  rw [hcomm] at hsym
   have him : ν.im * (a ⬝ᵥ a + b ⬝ᵥ b) = 0 := by linarith
   have him0 : ν.im = 0 := by
     rcases mul_eq_zero.mp him with h | h
@@ -170,7 +171,7 @@ lemma norm_eq_one_of_quadratic (lam : ℂ) (b : ℝ) (hb : b ^ 2 ≤ 4)
         rcases mul_eq_zero.mp this with h | h
         · exact absurd h hc
         · linarith
-      nlinarith
+      linear_combination -hre + lam.re * h2
   have hn : ‖lam‖ ^ 2 = 1 := by
     rw [← Complex.normSq_eq_norm_sq, Complex.normSq_apply]; nlinarith
   have hn0 : 0 ≤ ‖lam‖ := norm_nonneg _
@@ -335,7 +336,8 @@ lemma bipCoxeter_map :
       fromBlocks ((A.map (↑)) * (A.map (↑))ᵀ - 1) (-(A.map (↑))) (A.map (↑))ᵀ (-1) := by
   rw [bipCoxeter_eq]
   ext (i | i) (j | j) <;>
-    simp [fromBlocks, Matrix.mul_apply, Matrix.one_apply, apply_ite]
+    simp [fromBlocks, Matrix.mul_apply, Matrix.one_apply] <;>
+    split_ifs <;> simp
 
 /-- **Eigenvalue analysis.** Every complex eigenvalue `λ ≠ -1` of `w = s₊ s₋` satisfies
 `λ² - (ν - 2) λ + 1 = 0` for a real eigenvalue `ν ≥ 0` of `A Aᵀ`. -/
@@ -348,9 +350,9 @@ theorem eigen_analysis {lam : ℂ} (h : HasEigenC (bipCoxeter A) lam) (hlam : la
   set x := v ∘ Sum.inl
   set y := v ∘ Sum.inr
   have E1 : (Ac * Acᵀ - 1) *ᵥ x + (-Ac) *ᵥ y = lam • x := by
-    funext i; simpa using congr_fun hv (Sum.inl i)
+    funext i; simpa [x, y] using congr_fun hv (Sum.inl i)
   have E2 : Acᵀ *ᵥ x + (-1 : Matrix (Fin q) (Fin q) ℂ) *ᵥ y = lam • y := by
-    funext i; simpa using congr_fun hv (Sum.inr i)
+    funext i; simpa [x, y] using congr_fun hv (Sum.inr i)
   have hl1 : lam + 1 ≠ 0 := fun h => hlam (by linear_combination h)
   have E2' : Acᵀ *ᵥ x = (lam + 1) • y := by
     rw [neg_mulVec, one_mulVec] at E2
@@ -372,7 +374,9 @@ theorem eigen_analysis {lam : ℂ} (h : HasEigenC (bipCoxeter A) lam) (hlam : la
   have E3 : lam • ((Ac * Acᵀ) *ᵥ x) = ((lam + 1) ^ 2) • x := by
     have := congr_arg ((lam + 1) • ·) E1
     simp only [sub_mulVec, one_mulVec, neg_mulVec, smul_add, smul_sub, smul_neg] at this
-    rw [← mulVec_smul, ← E2', mulVec_mulVec] at this
+    have hAc : (lam + 1) • (Ac *ᵥ y) = Ac *ᵥ (Acᵀ *ᵥ x) := by
+      rw [← mulVec_smul, ← E2']
+    rw [hAc, mulVec_mulVec] at this
     funext i
     have hi := congr_fun this i
     simp only [Pi.add_apply, Pi.sub_apply, Pi.neg_apply, Pi.smul_apply, smul_eq_mul] at hi ⊢
@@ -395,7 +399,7 @@ theorem eigen_analysis {lam : ℂ} (h : HasEigenC (bipCoxeter A) lam) (hlam : la
     field_simp
     linear_combination this
   have hmap : ((A * Aᵀ).map (↑) : Matrix (Fin p) (Fin p) ℂ) = Ac * Acᵀ := by
-    simp [Ac, Matrix.map_mul, transpose_map]
+    ext i j; simp [Ac, Matrix.mul_apply]
   rw [← hmap] at E4
   obtain ⟨him, a, ha0, ha⟩ := real_eigen_of_complex (A * Aᵀ) (AAt_transpose A) x hx0 ν E4
   refine ⟨ν.re, eigen_AAt_nonneg A ha0 ha, ⟨a, ha0, ha⟩, ?_⟩
@@ -425,8 +429,12 @@ lemma exhaustive : FormSpherical (bipForm A) ∨ FormAffine (bipForm A) ∨
       intro h0; rw [h0] at hv; simp [qf] at hv
     obtain ⟨k, _⟩ := Function.ne_iff.mp hne
     refine ⟨Pi.single k 1, ?_⟩
-    simp only [qf, mulVec_single, mul_one, single_dotProduct, one_mul]
-    cases k <;> simp [bipForm]
+    have h2p : ∀ i : Fin p, (2 : Matrix (Fin p) (Fin p) ℝ) i i = 2 := fun i => by
+      rw [← one_add_one_eq_two]; simp; norm_num
+    have h2q : ∀ j : Fin q, (2 : Matrix (Fin q) (Fin q) ℝ) j j = 2 := fun j => by
+      rw [← one_add_one_eq_two]; simp; norm_num
+    simp only [qf, mulVec_single, single_dotProduct, one_mul]
+    cases k <;> simp [bipForm, h2p, h2q]
 
 lemma forall_norm_eq_one (hpsd : ∀ v, 0 ≤ qf (bipForm A) v) (lam : ℂ)
     (h : HasEigenC (bipCoxeter A) lam) : ‖lam‖ = 1 := by
@@ -449,12 +457,31 @@ lemma not_eigen_one_of_spherical (hsph : FormSpherical (bipForm A)) :
 
 lemma eigen_one_of_affine (haff : FormAffine (bipForm A)) : HasEigenC (bipCoxeter A) 1 := by
   obtain ⟨hpsd, v, hv0, hv⟩ := haff
-  have hPSD : (bipForm A).PosSemidef := by
-    refine PosSemidef.of_dotProduct_mulVec_nonneg
-      (isHermitian_of_transpose_eq (bipForm_transpose A)) fun x => ?_
-    simpa [qf] using hpsd x
-  have hBv : bipForm A *ᵥ v = 0 :=
-    (hPSD.dotProduct_mulVec_zero_iff).mp (by simpa [qf] using hv)
+  have hBv : bipForm A *ᵥ v = 0 := by
+    set w := bipForm A *ᵥ v
+    by_contra hw0
+    have ha : 0 < w ⬝ᵥ w := dot_self_pos hw0
+    set b := qf (bipForm A) w
+    have hb : 0 ≤ b := hpsd w
+    set t : ℝ := -(w ⬝ᵥ w) / (b + 1)
+    have hnonneg : 0 ≤ qf (bipForm A) (v + t • w) := hpsd (v + t • w)
+    have hexp : qf (bipForm A) (v + t • w) =
+        qf (bipForm A) v + 2 * t * (w ⬝ᵥ w) + t ^ 2 * b := by
+      simp only [qf, b, w, mulVec_add, mulVec_smul, add_dotProduct, dotProduct_add,
+        smul_dotProduct, dotProduct_smul, smul_eq_mul]
+      have hsym : v ⬝ᵥ (bipForm A *ᵥ w) = w ⬝ᵥ (bipForm A *ᵥ v) := by
+        rw [dotProduct_mulVec, ← mulVec_transpose, bipForm_transpose, dotProduct_comm]
+      rw [hsym]
+      ring
+    rw [hv, zero_add] at hexp
+    have hneg : 2 * t * (w ⬝ᵥ w) + t ^ 2 * b < 0 := by
+      have hden : 0 < b + 1 := by linarith
+      have hnum : -(w ⬝ᵥ w) ^ 2 * (b + 2) < 0 := by nlinarith
+      have heq : 2 * t * (w ⬝ᵥ w) + t ^ 2 * b = -(w ⬝ᵥ w) ^ 2 * (b + 2) / (b + 1) ^ 2 := by
+        simp only [t]; field_simp; ring
+      rw [heq]
+      exact div_neg_of_neg_of_pos hnum (sq_pos_of_pos hden)
+    linarith
   rw [← Sum.elim_comp_inl_inr v] at hBv
   rw [bipForm, fromBlocks_mulVec] at hBv
   set x := v ∘ Sum.inl
@@ -462,12 +489,18 @@ lemma eigen_one_of_affine (haff : FormAffine (bipForm A)) : HasEigenC (bipCoxete
   have e1 : (2 : ℝ) • x = A *ᵥ y := by
     funext i
     have := congr_fun hBv (Sum.inl i)
-    simp [x, y, smul_mulVec, sub_eq_zero] at this ⊢
+    rw [two_smul, add_mulVec, one_mulVec] at this
+    simp only [Sum.elim_comp_inl, Sum.elim_comp_inr, Sum.elim_inl, Pi.add_apply, Pi.zero_apply,
+      neg_mulVec, Pi.neg_apply, Pi.smul_apply, smul_eq_mul] at this ⊢
     linarith
   have e2 : Aᵀ *ᵥ x = (2 : ℝ) • y := by
     funext j
     have := congr_fun hBv (Sum.inr j)
-    simp [x, y, smul_mulVec] at this ⊢
+    have h2 : ((2 • (1 : Matrix (Fin q) (Fin q) ℝ)) *ᵥ y) j = 2 * y j := by
+      rw [two_smul, add_mulVec, one_mulVec]; simp; ring
+    simp only [Sum.elim_comp_inl, Sum.elim_comp_inr, Sum.elim_inr, Pi.add_apply, Pi.zero_apply,
+      neg_mulVec, Pi.neg_apply, Pi.smul_apply, smul_eq_mul] at this ⊢
+    rw [h2] at this
     linarith
   have hw : bipCoxeter A *ᵥ v = (1 : ℝ) • v := by
     rw [one_smul, bipCoxeter_eq]
@@ -477,10 +510,10 @@ lemma eigen_one_of_affine (haff : FormAffine (bipForm A)) : HasEigenC (bipCoxete
     congr 1
     · simp only [Sum.elim_comp_inl, Sum.elim_comp_inr]
       rw [sub_mulVec, ← mulVec_mulVec, e2, mulVec_smul, ← e1, neg_mulVec, ← e1, one_mulVec]
-      funext i; simp; ring
+      funext i; simp [x]; ring
     · simp only [Sum.elim_comp_inl, Sum.elim_comp_inr]
       rw [e2, neg_mulVec, one_mulVec]
-      funext j; simp; ring
+      funext j; simp [y]; ring
   have := hasEigenC_of_real hv0 hw
   simpa using this
 
@@ -620,7 +653,7 @@ lemma complex_eigen_of_AAt (u : Fin p → ℝ) (ν : ℝ) (hu : (A * Aᵀ) *ᵥ 
       lam • Sum.elim (fun i => (lam + 1) * (u i : ℂ)) (fun j => ((Aᵀ *ᵥ u) j : ℂ)) := by
   rw [bipCoxeter_map, fromBlocks_mulVec]
   have hmap : ((A * Aᵀ).map (↑) : Matrix (Fin p) (Fin p) ℂ) = A.map (↑) * (A.map (↑))ᵀ := by
-    simp [Matrix.map_mul, transpose_map]
+    ext i j; simp [Matrix.mul_apply]
   have hAA : ∀ i, ((A.map (↑) * (A.map (↑))ᵀ : Matrix (Fin p) (Fin p) ℂ) *ᵥ
       (fun i => (u i : ℂ))) i = (ν : ℂ) * u i := by
     intro i
@@ -646,7 +679,7 @@ lemma complex_eigen_of_AAt (u : Fin p → ℝ) (ν : ℝ) (hu : (A * Aᵀ) *ᵥ 
       smul_eq_mul, sub_mulVec, one_mulVec, neg_mulVec, Pi.sub_apply, Pi.neg_apply]
     rw [hx, mulVec_smul, Pi.smul_apply, hAA, hA]
     simp only [smul_eq_mul]
-    linear_combination (u i : ℂ) * hlam
+    linear_combination -(u i : ℂ) * hlam
   | inr j =>
     simp only [Sum.elim_comp_inl, Sum.elim_comp_inr, Sum.elim_inr, Pi.add_apply, Pi.smul_apply,
       smul_eq_mul, neg_mulVec, one_mulVec, Pi.neg_apply, hAt]
@@ -690,8 +723,13 @@ lemma exists_eigen_norm_ge_one (hne : Nonempty (Fin p ⊕ Fin q)) :
         set lam : ℂ := ⟨b / 2, Real.sqrt (4 - b ^ 2) / 2⟩
         have hs := Real.sq_sqrt (by linarith : (0 : ℝ) ≤ 4 - b ^ 2)
         have hlam : lam ^ 2 - ((ν : ℂ) - 2) * lam + 1 = 0 := by
+          rw [show ((ν : ℂ) - 2) = (b : ℂ) by simp [b]]
           apply Complex.ext
-          · simp [lam, pow_two, b]; nlinarith
+          · simp only [lam, pow_two, Complex.sub_re, Complex.add_re, Complex.mul_re,
+              Complex.ofReal_re, Complex.ofReal_im, Complex.one_re, Complex.zero_re]
+            rw [show √(4 - b * b) / 2 * (√(4 - b * b) / 2) = √(4 - b ^ 2) ^ 2 / 4 by
+              rw [show b * b = b ^ 2 by ring]; ring, hs]
+            ring
           · simp [lam, pow_two, b]; ring
         refine ⟨lam, ⟨_, ?_, complex_eigen_of_AAt A u ν hu lam hlam⟩, ?_⟩
         · intro h0
@@ -717,7 +755,10 @@ lemma exists_eigen_norm_ge_one (hne : Nonempty (Fin p ⊕ Fin q)) :
       funext k
       cases k with
       | inl i => exact absurd ⟨i⟩ hp
-      | inr j => simp
+      | inr j =>
+        have h0 : (Pi.single (Sum.inr j₀) (1 : ℝ) : Fin p ⊕ Fin q → ℝ) ∘ Sum.inl = 0 := by
+          funext i; simp
+        simp [h0, neg_mulVec, one_mulVec]
 
 /-- Restriction of a vector to the rows kept by `f`, and its extension by zero. -/
 lemma sum_mul_extend {m n : ℕ} (f : Fin m → Fin n) (hf : Function.Injective f)
