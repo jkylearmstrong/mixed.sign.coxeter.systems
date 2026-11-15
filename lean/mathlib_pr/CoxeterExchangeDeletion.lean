@@ -281,6 +281,41 @@ theorem exists_eraseIdx_of_isRightDescent (cs : CoxeterSystem M W)
   rw [List.getD_eq_getElem?_getD, List.getElem?_eq_getElem hj, Option.getD_some, hget] at hmul
   exact hmul
 
+private lemma reverse_eraseIdx_aux {α : Type*} (ω : List α) {j : ℕ} (hj : j < ω.length) :
+    (ω.reverse.eraseIdx j).reverse = ω.eraseIdx (ω.length - 1 - j) := by
+  induction ω using List.reverseRecOn generalizing j with
+  | nil => simp at hj
+  | append_singleton ω' a ih =>
+    cases j with
+    | zero =>
+      simp [List.eraseIdx_append_of_length_le]
+    | succ j' =>
+      simp only [List.length_append, List.length_singleton] at hj
+      have hj' : j' < ω'.length := by omega
+      rw [show (ω' ++ [a]).length - 1 - (j' + 1) = ω'.length - 1 - j' by simp; omega,
+        List.eraseIdx_append_of_lt_length (by omega)]
+      simp [ih hj']
+
+/-- **Left Exchange Property**: if `ω` is a reduced word and `i` is a left descent of
+`cs.wordProd ω`, then `cs.simple i * cs.wordProd ω = cs.wordProd (ω.eraseIdx j)` for some
+`j < ω.length`. -/
+theorem exists_eraseIdx_of_isLeftDescent (cs : CoxeterSystem M W)
+    {ω : List B} (hω : cs.IsReduced ω) {i : B}
+    (hl : cs.IsLeftDescent (cs.wordProd ω) i) :
+    ∃ j < ω.length, cs.simple i * cs.wordProd ω = cs.wordProd (ω.eraseIdx j) := by
+  have hωr : cs.IsReduced ω.reverse := by
+    rwa [IsReduced, cs.wordProd_reverse, cs.length_inv, List.length_reverse]
+  have hr : cs.IsRightDescent (cs.wordProd ω.reverse) i := by
+    rw [cs.wordProd_reverse]
+    exact cs.isRightDescent_inv_iff.mpr hl
+  obtain ⟨j, hj, hdel⟩ := exists_eraseIdx_of_isRightDescent cs hωr hr
+  have hj' : j < ω.length := by simpa using hj
+  refine ⟨ω.length - 1 - j, by omega, ?_⟩
+  have hinv := congrArg Inv.inv hdel
+  rw [mul_inv_rev, cs.inv_simple, cs.wordProd_reverse, inv_inv, ← cs.wordProd_reverse,
+    reverse_eraseIdx_aux ω hj'] at hinv
+  exact hinv
+
 private lemma exists_eraseIdx_two_aux (cs : CoxeterSystem M W) :
     ∀ (k : ℕ) (ω : List B), ω.length = k → ¬cs.IsReduced ω →
       ∃ i j : ℕ, i < j ∧ j < ω.length ∧

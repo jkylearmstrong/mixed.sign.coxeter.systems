@@ -118,7 +118,7 @@ lemma reflection_j_pairVec (hij : i ≠ j) (α β : ℝ) :
     · simp [hr, hri, pairVec]
 
 /-- The basis vector `e_i` is `pairVec i j 1 0`. -/
-lemma pairVec_single (hij : i ≠ j) : pairVec i j 1 0 = Pi.single i 1 := by
+lemma pairVec_single (_hij : i ≠ j) : pairVec i j 1 0 = Pi.single i 1 := by
   funext r
   by_cases hr : r = i
   · simp [hr, pairVec]
@@ -165,8 +165,8 @@ lemma altWord_even (k : ℕ) :
     have e : 2 * (k + 1) = (2 * k + 1) + 1 := by ring
     have hodd : (2 * k + 1) % 2 = 1 := by omega
     have heven : (2 * k) % 2 = 0 := by omega
-    rw [e, altWord_succ, altWord_succ, if_neg (by omega), if_pos heven, ih, pow_succ',
-      Matrix.mul_assoc]
+    rw [e, altWord_succ, altWord_succ]
+    simp only [hodd, one_ne_zero, ↓reduceIte, heven, ih, pow_succ', Matrix.mul_assoc]
 
 /-- **Proposition 3.11 (general)**: If `i ≠ j`, `B(e_i, e_i) = B(e_j, e_j)` and
 `c = -2 B(e_i, e_j) / B(e_i, e_i) ≥ 2` (so `s_i s_j` has infinite order, e.g. `m(i, j) = ∞`
@@ -194,7 +194,7 @@ theorem prop_3_11_general (hij : i ≠ j) (hdiag : S.B i i = S.B j j)
     unfold pairVec
     split_ifs <;> linarith
   have hk := hroot (2 * k)
-  rw [if_pos (by omega), altWord_even] at hk
+  simp only [Nat.mul_mod_right, ↓reduceIte, altWord_even] at hk
   refine ⟨hk, hge _, ?_, ?_⟩
   · rw [hk]; exact hpair _ _ (hnn _) (hnn _)
   · intro m r

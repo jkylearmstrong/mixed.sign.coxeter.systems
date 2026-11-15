@@ -216,16 +216,14 @@ private lemma filter_zipIdx_offset {α : Type*} (w : List α) (k m : ℕ) :
         intro p hp
         have := List.mem_zipIdx hp
         omega
-      simp [List.zipIdx_cons, List.filter_cons]
+      simp [List.zipIdx_cons]
       rw [List.filter_eq_self.mpr]
       · simp
       · intro p hp
         simp [hsub p hp]
     | succ m' =>
       have hne : k + 1 ≠ k + 1 + (m' + 1) := by omega
-      simp only [List.zipIdx_cons, List.filter_cons, decide_eq_true_eq, hne, ↓reduceIte,
-        List.map_cons, List.eraseIdx_cons_succ]
-      congr 1
+      simp only [List.zipIdx_cons, List.filter_cons, decide_eq_true_eq, List.eraseIdx_cons_succ]
       simpa [Nat.add_assoc, Nat.add_left_comm, Nat.add_comm] using ih (k + 1) m'
 
 private lemma deleteTwo_cons_zero {α : Type*} (s : α) (w : List α) (j : ℕ) (hj : 0 < j) :
@@ -349,7 +347,7 @@ theorem deletion_of_exchange {n : ℕ} (S : ReflectionSystem n)
       rw [deleteTwo_cons_zero s t (k + 1) (Nat.zero_lt_succ k)]
       simpa using heq.symm
     · unfold IsReducedWord at ht
-      push_neg at ht
+      push Not at ht
       obtain ⟨u, hu, heq⟩ := ht
       obtain ⟨i, j, hij, hj, hdel⟩ := ih ⟨u, hu, heq⟩
       refine ⟨i + 1, j + 1, Nat.succ_lt_succ hij, by simp only [List.length_cons]; omega, ?_⟩

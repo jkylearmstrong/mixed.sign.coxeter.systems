@@ -114,6 +114,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-diagram/mermaid-init.js"></script>
 <link href="site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -394,12 +423,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Lean 4 Modules</td>
-<td style="text-align: center;">18</td>
+<td style="text-align: center;">19</td>
 <td style="text-align: left;">✅ <code>lake build</code> passes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Definitions &amp; Structures</td>
-<td style="text-align: center;">91</td>
+<td style="text-align: center;">97</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
@@ -409,7 +438,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td style="text-align: left;">Theorems</td>
-<td style="text-align: center;">126</td>
+<td style="text-align: center;">137</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
@@ -523,6 +552,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   Clas --&gt; Pres["CoxeterPresentation.lean&lt;br/&gt;Thm 3.9: Deletion ⇒ Coxeter"]
   Pres --&gt; CDel["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
   How --&gt; Spec["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
+  Spec --&gt; AltSq["AlternatingSquare.lean&lt;br/&gt;Q2.59 &amp;amp; Q3.35: C₄(+,−,+,−)"]
   Spec --&gt; SCls["SpectralClassification.lean&lt;br/&gt;Thm 3.27, Thm 3.28"]
   Mix --&gt; Rem["RemarksAndClassical.lean"]
 </pre>
@@ -624,11 +654,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;"><code>w_A3_ppm_add_one_cube</code> (Ex. 3.29), <code>theorem_3_34_bipartite_exceeds_linear</code> (Thm. 1.7 / Ex. 3.33)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/AlternatingSquare.lean"><code>AlternatingSquare.lean</code></a></td>
+<td style="text-align: left;">Open Qs 2.59, 3.35</td>
+<td style="text-align: left;"><code>alternatingSquare_principal_not_conjugate</code>, <code>alternatingSquare_bipartite_not_min</code> (<span class="math inline">\(C_4(+,-,+,-)\)</span>)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean"><code>SpectralClassification.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.5.1)</td>
 <td style="text-align: left;"><code>theorem_3_27_classification</code> (Thm. 3.27), <code>theorem_3_28_interlacing</code> &amp; <code>theorem_3_28_strict</code> (Thm. 3.28)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean"><code>RemarksAndClassical.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.3–3.5)</td>
 <td style="text-align: left;"><code>remark_3_23_card</code> (Rem. 3.23), <code>remark_3_26_det_neg_odd_cycle</code> (Rem. 3.26), <code>remark_3_30_A2_root_gt</code>–<code>A5_roots_lt</code> (Rem. 3.30)</td>

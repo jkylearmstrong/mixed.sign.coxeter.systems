@@ -17,3 +17,4 @@ import MixedSignCoxeter.SpectralClassification
 import MixedSignCoxeter.RemarksAndClassical
 import MixedSignCoxeter.CoxeterPresentation
 import MixedSignCoxeter.ClassicalCoxeterDeletion
+import MixedSignCoxeter.AlternatingSquare

@@ -67,16 +67,16 @@ theorem bipartite_conjugation_theorem (G : BipartiteReflectionSystem n) :
       -negateDiag G.B := by
   rw [bipartiteConjugator_transpose]
   ext i j
-  simp only [bipartiteConjugator, diagonal_mul, mul_diagonal, neg_apply, negateDiag_apply]
+  simp only [bipartiteConjugator, diagonal_mul, mul_diagonal]
   by_cases hij : i = j
   · subst hij
-    cases h : G.part i <;> simp [h]
+    cases h : G.part i <;> simp
   · have hdiff : G.part i ≠ G.part j ∨ G.B i j = 0 := by
       by_cases hp : G.part i = G.part j
       · exact Or.inr (G.bipartite_edges i j hp hij)
       · exact Or.inl hp
     rcases hdiff with hp | h0
-    · cases hi : G.part i <;> cases hj : G.part j <;> simp_all [hij] <;> ring
+    · cases hi : G.part i <;> cases hj : G.part j <;> simp_all
     · simp [hij, h0]
 
 /-- Conjugating each generating reflection `s_i(Γ)` by `P` yields `s_i(Γ_-)`. -/
@@ -91,16 +91,16 @@ theorem bipartite_conjugates_reflections (G : BipartiteReflectionSystem n) (i : 
   · subst hrc
     by_cases hri : r = i
     · subst hri
-      cases h : G.part r <;> simp [h, G.B_diag_ne_zero r] <;> ring
-    · cases h : G.part r <;> simp [h, hri]
+      cases h : G.part r <;> simp [G.B_diag_ne_zero r]
+    · cases h : G.part r <;> simp [hri]
   · by_cases hri : r = i
     · subst hri
       have hne : r ≠ c := hrc
       by_cases hp : G.part r = G.part c
       · have h0 := G.bipartite_edges r c hp hne
         simp [hne, h0]
-      · cases hr : G.part r <;> cases hc : G.part c <;> simp_all [hne] <;> ring
-    · cases hr : G.part r <;> cases hc : G.part c <;> simp [hrc, hri, hr, hc]
+      · cases hr : G.part r <;> cases hc : G.part c <;> simp_all <;> ring
+    · cases hr : G.part r <;> cases hc : G.part c <;> simp [hrc, hri]
 
 /-- Conjugating any word product in `W(Γ)` by `P` yields the corresponding word product in `W(Γ_-)`. -/
 theorem bipartite_conjugates_wordProd (G : BipartiteReflectionSystem n) (w : List (Fin n)) :

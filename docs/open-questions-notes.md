@@ -11,9 +11,10 @@ Exhaustive exact characteristic-polynomial search (`search_question_3_35(n)`):
 | 3 | 0 | 0 | — | 0 | 0 | 0 |
 | 4 | 12 | 11 | 9 | 4 | 1 | 1 |
 | 5 | 194 | 180 | 153 | 32 | 8 | 8 |
+| 6 | 3123 | 2992 | 2457 | 277 | 87 | 63 |
 
 Key observations:
-1. **Bipartite failure at $n = 4$ and $n = 5$**: For every $n \in \{4, 5\}$ bipartite mixed graph where a bipartite principal element fails to minimize $\rho(w_\sigma)$ ($1/4$ at $n=4$, $8/32$ at $n=5$), the bipartite element actually **maximizes** $\rho(w_\sigma)$.
+1. **Bipartite failure at $n = 4, 5, 6$**: For every $n \in \{4, 5\}$ bipartite mixed graph where a bipartite principal element fails to minimize $\rho(w_\sigma)$ ($1/4$ at $n=4$, $8/32$ at $n=5$), the bipartite element actually **maximizes** $\rho(w_\sigma)$. At $n = 6$, this pattern breaks: out of $87$ bipartite failures ($87/277$), $63$ maximize $\rho$ while $24$ (including $C_6(+,-,+,-,+,-)$) are strictly intermediate.
 2. **Sign-sorted orientations are not universally minimal**: Sign-sorted orientations attain the minimum on $9/11$ mixed graphs at $n=4$ and $153/180$ at $n=5$, but fail already at $n = 4$:
    - $C_4$ with signs $(+, -, -, +)$: $\min \rho \approx 3.54646$ vs. sign-sorted $\min \approx 5.82843$.
    - $K_4 - e$ with signs $(+, +, -, -)$: $\min \rho \approx 3.73205$ vs. sign-sorted $\min \approx 6.85410$.

@@ -149,7 +149,7 @@ private lemma tildeAminus2Extended_block (k : ℕ) (a : Fin 3) (r c : Fin 3) :
         (Fin.castAdd k a) (Fin.castAdd k r) (Fin.castAdd k c) =
       ReflectionSystem.reflectionMatrix tildeAminus2Graph.toBilinearForm a r c := by
   simp [tildeAminus2Extended, tildeAminus2Graph, MixedSignCoxeterGraph.toBilinearForm,
-    ReflectionSystem.reflectionMatrix_apply, a.isLt, r.isLt, c.isLt]
+    ReflectionSystem.reflectionMatrix_apply, a.isLt, c.isLt]
 
 private lemma tildeAminus2Extended_offblock (k : ℕ) (a : Fin 3) (r : Fin 3) (c : Fin (3 + k))
     (hc : 3 ≤ c.val) :
@@ -588,7 +588,7 @@ theorem wA2TildeSqZ_pow (k : ℕ) :
   | zero => simp
   | succ k ih =>
     rw [pow_succ, ih, wA2TildeSqZ_eq]
-    simp only [add_mul, mul_add, one_mul, mul_one, smul_mul_assoc, mul_smul_comm,
+    simp only [add_mul, mul_add, one_mul, mul_one, smul_mul_assoc,
       diffA2TildeZ_sq, smul_zero, add_zero]
     push_cast
     rw [add_smul, one_smul]
