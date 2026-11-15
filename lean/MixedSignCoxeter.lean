@@ -13,3 +13,4 @@ import MixedSignCoxeter.TreeConjugacy
 import MixedSignCoxeter.OddCycles
 import MixedSignCoxeter.ParabolicTransfer
 import MixedSignCoxeter.RankTwoRoots
+import MixedSignCoxeter.SpectralClassification

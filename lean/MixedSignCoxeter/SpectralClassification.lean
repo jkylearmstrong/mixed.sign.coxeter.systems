@@ -81,6 +81,11 @@ lemma mulVec_map_ofReal (M : Matrix ι ι ℝ) (v : ι → ℝ) :
   funext i
   simp [mulVec, dotProduct]
 
+lemma mulVec_map_ofReal' {κ : Type*} [Fintype κ] (M : Matrix ι κ ℝ) (v : κ → ℝ) :
+    (M.map (↑) : Matrix ι κ ℂ) *ᵥ (fun i => (v i : ℂ)) = fun i => ((M *ᵥ v) i : ℂ) := by
+  funext i
+  simp [mulVec, dotProduct]
+
 lemma hasEigenC_of_real {M : Matrix ι ι ℝ} {lam : ℝ} {v : ι → ℝ} (hv : v ≠ 0)
     (h : M *ᵥ v = lam • v) : HasEigenC M lam := by
   refine ⟨fun i => (v i : ℂ), fun h0 => hv (funext fun i => by
@@ -570,5 +575,285 @@ theorem theorem_3_27_classification :
     · exact (real_gt_one_contra lam hl he (sph_psd h)).elim
     · exact (real_gt_one_contra lam hl he h.1).elim
     · exact h
+
+/-! ### Theorem 3.28 -/
+
+lemma rplus_mono {x y : ℝ} (hx : 4 ≤ x) (hxy : x ≤ y) :
+    ((x - 2) + Real.sqrt ((x - 2) ^ 2 - 4)) / 2 ≤ ((y - 2) + Real.sqrt ((y - 2) ^ 2 - 4)) / 2 := by
+  have : Real.sqrt ((x - 2) ^ 2 - 4) ≤ Real.sqrt ((y - 2) ^ 2 - 4) :=
+    Real.sqrt_le_sqrt (by nlinarith)
+  linarith
+
+/-- For `ν > 4` and an eigenvector `u` of `A Aᵀ`, `w` has the real eigenvalue
+`r₊(ν) = ((ν - 2) + √((ν - 2)² - 4)) / 2 > 1`. -/
+lemma real_eigen_of_AAt_gt_four {u : Fin p → ℝ} (hu0 : u ≠ 0) {ν : ℝ}
+    (hu : (A * Aᵀ) *ᵥ u = ν • u) (hν : 4 < ν) :
+    1 < ((ν - 2) + Real.sqrt ((ν - 2) ^ 2 - 4)) / 2 ∧
+      HasEigenC (bipCoxeter A) (((ν - 2) + Real.sqrt ((ν - 2) ^ 2 - 4)) / 2 : ℝ) := by
+  set μ := Real.sqrt ν
+  have hμ : μ ^ 2 = ν := Real.sq_sqrt (by linarith)
+  set lam : ℝ := ((ν - 2) + Real.sqrt ((ν - 2) ^ 2 - 4)) / 2
+  have hdisc : 0 ≤ (ν - 2) ^ 2 - 4 := by nlinarith
+  have hs := Real.sq_sqrt hdisc
+  have hlam : lam ^ 2 - (μ ^ 2 - 2) * lam + 1 = 0 := by
+    rw [hμ]; simp only [lam]; nlinarith
+  have hgt : 1 < lam := by
+    have := Real.sqrt_nonneg ((ν - 2) ^ 2 - 4)
+    simp only [lam]; linarith
+  have heig := theorem_3_27_bipartite_coxeter_eigenvalue A u μ lam (by rw [hμ]; exact hu) hlam
+  refine ⟨hgt, hasEigenC_of_real (v := Sum.elim ((lam + 1) • u) (Aᵀ *ᵥ u)) ?_ ?_⟩
+  · intro h0
+    apply hu0
+    funext i
+    have := congr_fun h0 (Sum.inl i)
+    simp only [Sum.elim_inl, Pi.smul_apply, smul_eq_mul, Pi.zero_apply] at this
+    have hl1 : lam + 1 ≠ 0 := by linarith
+    exact (mul_eq_zero.mp this).resolve_left hl1
+  · exact heig
+
+/-- Complex eigenvectors of `w` from real eigenvectors of `A Aᵀ`: if `A Aᵀ u = ν u` and
+`λ² - (ν - 2) λ + 1 = 0`, then `w ((λ + 1) u, Aᵀ u) = λ ((λ + 1) u, Aᵀ u)`. -/
+lemma complex_eigen_of_AAt (u : Fin p → ℝ) (ν : ℝ) (hu : (A * Aᵀ) *ᵥ u = ν • u) (lam : ℂ)
+    (hlam : lam ^ 2 - ((ν : ℂ) - 2) * lam + 1 = 0) :
+    ((bipCoxeter A).map (↑) : Matrix _ _ ℂ) *ᵥ
+        Sum.elim (fun i => (lam + 1) * (u i : ℂ)) (fun j => ((Aᵀ *ᵥ u) j : ℂ)) =
+      lam • Sum.elim (fun i => (lam + 1) * (u i : ℂ)) (fun j => ((Aᵀ *ᵥ u) j : ℂ)) := by
+  rw [bipCoxeter_map, fromBlocks_mulVec]
+  have hmap : ((A * Aᵀ).map (↑) : Matrix (Fin p) (Fin p) ℂ) = A.map (↑) * (A.map (↑))ᵀ := by
+    simp [Matrix.map_mul, transpose_map]
+  have hAA : ∀ i, ((A.map (↑) * (A.map (↑))ᵀ : Matrix (Fin p) (Fin p) ℂ) *ᵥ
+      (fun i => (u i : ℂ))) i = (ν : ℂ) * u i := by
+    intro i
+    rw [← hmap, mulVec_map_ofReal, hu]
+    simp
+  have hA : ∀ i, ((A.map (↑) : Matrix (Fin p) (Fin q) ℂ) *ᵥ
+      (fun j => ((Aᵀ *ᵥ u) j : ℂ))) i = (ν : ℂ) * u i := by
+    intro i
+    rw [mulVec_map_ofReal', mulVec_mulVec, hu]
+    simp
+  have hAt : ((A.map (↑) : Matrix (Fin p) (Fin q) ℂ)ᵀ *ᵥ (fun i => (lam + 1) * (u i : ℂ))) =
+      fun j => (lam + 1) * ((Aᵀ *ᵥ u) j : ℂ) := by
+    have : (fun i => (lam + 1) * (u i : ℂ)) = (lam + 1) • (fun i => (u i : ℂ)) := by
+      funext i; simp
+    rw [this, mulVec_smul, ← transpose_map, mulVec_map_ofReal']
+    funext j; simp
+  funext k
+  cases k with
+  | inl i =>
+    have hx : (fun i => (lam + 1) * (u i : ℂ)) = (lam + 1) • (fun i => (u i : ℂ)) := by
+      funext i; simp
+    simp only [Sum.elim_comp_inl, Sum.elim_comp_inr, Sum.elim_inl, Pi.add_apply, Pi.smul_apply,
+      smul_eq_mul, sub_mulVec, one_mulVec, neg_mulVec, Pi.sub_apply, Pi.neg_apply]
+    rw [hx, mulVec_smul, Pi.smul_apply, hAA, hA]
+    simp only [smul_eq_mul]
+    linear_combination (u i : ℂ) * hlam
+  | inr j =>
+    simp only [Sum.elim_comp_inl, Sum.elim_comp_inr, Sum.elim_inr, Pi.add_apply, Pi.smul_apply,
+      smul_eq_mul, neg_mulVec, one_mulVec, Pi.neg_apply, hAt]
+    ring
+
+/-- `w` always has an eigenvalue of modulus at least `1` (on a nonempty node set). -/
+lemma exists_eigen_norm_ge_one (hne : Nonempty (Fin p ⊕ Fin q)) :
+    ∃ lam : ℂ, HasEigenC (bipCoxeter A) lam ∧ 1 ≤ ‖lam‖ := by
+  by_cases hp : Nonempty (Fin p)
+  · obtain ⟨i₀⟩ := hp
+    set M := A * Aᵀ
+    have hM := isHermitian_of_transpose_eq (AAt_transpose A)
+    set u : Fin p → ℝ := ⇑(hM.eigenvectorBasis i₀)
+    set ν := hM.eigenvalues i₀
+    have hu : M *ᵥ u = ν • u := hM.mulVec_eigenvectorBasis i₀
+    have hu0 : u ≠ 0 := by
+      intro h0
+      apply (hM.eigenvectorBasis).orthonormal.ne_zero i₀
+      ext j
+      simpa using congr_fun h0 j
+    have hν0 : 0 ≤ ν := eigen_AAt_nonneg A hu0 hu
+    by_cases hν4 : 4 < ν
+    · obtain ⟨hgt, he⟩ := real_eigen_of_AAt_gt_four A hu0 hu hν4
+      refine ⟨_, he, ?_⟩
+      rw [Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by linarith)]
+      exact hgt.le
+    · push Not at hν4
+      by_cases hAu : Aᵀ *ᵥ u = 0
+      · -- eigenvalue `-1` with eigenvector `(u, 0)`
+        refine ⟨((-1 : ℝ) : ℂ), hasEigenC_of_real (v := Sum.elim u 0) ?_ ?_, by simp⟩
+        · intro h0; apply hu0; funext i; simpa using congr_fun h0 (Sum.inl i)
+        · rw [bipCoxeter_eq, fromBlocks_mulVec]
+          funext k
+          cases k with
+          | inl i =>
+            have : (A * Aᵀ) *ᵥ u = 0 := by rw [← mulVec_mulVec, hAu, mulVec_zero]
+            simp [sub_mulVec, this]
+          | inr j => simp [hAu]
+      · set b : ℝ := ν - 2
+        have hb : b ^ 2 ≤ 4 := by simp only [b]; nlinarith
+        set lam : ℂ := ⟨b / 2, Real.sqrt (4 - b ^ 2) / 2⟩
+        have hs := Real.sq_sqrt (by linarith : (0 : ℝ) ≤ 4 - b ^ 2)
+        have hlam : lam ^ 2 - ((ν : ℂ) - 2) * lam + 1 = 0 := by
+          apply Complex.ext
+          · simp [lam, pow_two, b]; nlinarith
+          · simp [lam, pow_two, b]; ring
+        refine ⟨lam, ⟨_, ?_, complex_eigen_of_AAt A u ν hu lam hlam⟩, ?_⟩
+        · intro h0
+          apply hAu
+          funext j
+          have := congr_fun h0 (Sum.inr j)
+          simpa using this
+        · rw [norm_eq_one_of_quadratic lam b hb (by
+            have : ((ν : ℂ) - 2) = (b : ℂ) := by simp [b]
+            rw [← this]; exact hlam)]
+  · -- `N₁ = ∅`: `w = -1` on `ℝ^{N₂}`
+    have hq : Nonempty (Fin q) := by
+      obtain ⟨k⟩ := hne
+      cases k with
+      | inl i => exact absurd ⟨i⟩ hp
+      | inr j => exact ⟨j⟩
+    obtain ⟨j₀⟩ := hq
+    refine ⟨((-1 : ℝ) : ℂ), hasEigenC_of_real (v := Sum.elim 0 (Pi.single j₀ 1)) ?_ ?_, by simp⟩
+    · intro h0
+      have := congr_fun h0 (Sum.inr j₀)
+      simp at this
+    · rw [bipCoxeter_eq, fromBlocks_mulVec]
+      funext k
+      cases k with
+      | inl i => exact absurd ⟨i⟩ hp
+      | inr j => simp
+
+/-- Restriction of a vector to the rows kept by `f`, and its extension by zero. -/
+lemma sum_mul_extend {m n : ℕ} (f : Fin m → Fin n) (hf : Function.Injective f)
+    (a' : Fin m → ℝ) (h : Fin n → ℝ) :
+    ∑ r, h r * Function.extend f a' 0 r = ∑ r', h (f r') * a' r' := by
+  classical
+  have hsub : Finset.univ.map ⟨f, hf⟩ ⊆ Finset.univ := Finset.subset_univ _
+  have hzero : ∀ r ∈ (Finset.univ : Finset (Fin n)), r ∉ Finset.univ.map ⟨f, hf⟩ →
+      h r * Function.extend f a' 0 r = 0 := by
+    intro r _ hr
+    have hnr : ¬ ∃ r', f r' = r := by simpa using hr
+    simp [Function.extend_apply' _ _ _ hnr]
+  rw [← Finset.sum_subset hsub hzero, Finset.sum_map]
+  simp [hf.extend_apply]
+
+/-- **Theorem 3.28 (interlacing)**: let `Γ' ⊂ Γ` be the induced subgraph on the nodes picked by
+injective maps `f : N₁' → N₁` and `g : N₂' → N₂` (so `A' = A.submatrix f g`; deleting the
+single node `rᵢ` gives `Γ' = Γ/(rᵢ)`). Then every eigenvalue `λ'` of the Coxeter element
+`w(Γ')` is dominated in modulus by an eigenvalue `λ` of `w(Γ)`: `ρ(w(Γ')) ≤ ρ(w(Γ))`. -/
+theorem theorem_3_28_interlacing {p' q' : ℕ} (f : Fin p' → Fin p) (g : Fin q' → Fin q)
+    (hf : Function.Injective f) (hg : Function.Injective g) (lam' : ℂ)
+    (h' : HasEigenC (bipCoxeter (A.submatrix f g)) lam') :
+    ∃ lam : ℂ, HasEigenC (bipCoxeter A) lam ∧ ‖lam'‖ ≤ ‖lam‖ := by
+  set A' := A.submatrix f g
+  have hne : Nonempty (Fin p ⊕ Fin q) := by
+    obtain ⟨v, hv0, _⟩ := h'
+    obtain ⟨k, _⟩ := Function.ne_iff.mp hv0
+    cases k with
+    | inl i => exact ⟨Sum.inl (f i)⟩
+    | inr j => exact ⟨Sum.inr (g j)⟩
+  by_cases hsmall : ‖lam'‖ ≤ 1
+  · obtain ⟨lam, he, hn⟩ := exists_eigen_norm_ge_one A hne
+    exact ⟨lam, he, hsmall.trans hn⟩
+  push Not at hsmall
+  have hl1 : lam' ≠ -1 := by intro h; rw [h] at hsmall; simp at hsmall
+  obtain ⟨ν', hν'0, ⟨a', ha'0, ha'⟩, hq⟩ := eigen_analysis A' h' hl1
+  -- `ν' > 4`, otherwise `‖λ'‖ = 1`
+  have hν'4 : 4 < ν' := by
+    by_contra hc
+    push Not at hc
+    have := norm_eq_one_of_quadratic lam' (ν' - 2) (by nlinarith) (by push_cast; exact hq)
+    linarith
+  -- `λ'` is one of the two real roots, so `‖λ'‖ ≤ r₊(ν')`
+  set d := Real.sqrt ((ν' - 2) ^ 2 - 4)
+  have hd2 : d ^ 2 = (ν' - 2) ^ 2 - 4 := Real.sq_sqrt (by nlinarith)
+  have hd0 : 0 ≤ d := Real.sqrt_nonneg _
+  set rp : ℝ := ((ν' - 2) + d) / 2
+  set rm : ℝ := ((ν' - 2) - d) / 2
+  have hfac : (lam' - rp) * (lam' - rm) = 0 := by
+    have e1 : (rp : ℂ) + rm = ν' - 2 := by simp only [rp, rm]; push_cast; ring
+    have e2 : (rp : ℂ) * rm = 1 := by
+      have : rp * rm = 1 := by simp only [rp, rm]; nlinarith
+      exact_mod_cast this
+    linear_combination hq - lam' * e1 + e2
+  have hrm_le : rm ≤ rp := by simp only [rm, rp]; linarith
+  have hrm_pos : 0 < rm := by
+    simp only [rm]
+    have : d < ν' - 2 := by
+      rw [← Real.sqrt_sq (by linarith : (0 : ℝ) ≤ ν' - 2)]
+      exact Real.sqrt_lt_sqrt (by nlinarith) (by linarith)
+    linarith
+  have hnorm' : ‖lam'‖ ≤ rp := by
+    rcases mul_eq_zero.mp hfac with h | h
+    · rw [sub_eq_zero.mp h, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by linarith)]
+    · rw [sub_eq_zero.mp h, Complex.norm_real, Real.norm_eq_abs, abs_of_pos hrm_pos]
+      exact hrm_le
+  -- extend `a'` by zero to `N₁`
+  set a : Fin p → ℝ := Function.extend f a' 0
+  have ha0 : a ≠ 0 := by
+    intro h0
+    apply ha'0
+    funext i
+    have := congr_fun h0 (f i)
+    simpa [a, hf.extend_apply] using this
+  have hAa : ∀ c', (Aᵀ *ᵥ a) (g c') = (A'ᵀ *ᵥ a') c' := by
+    intro c'
+    simp only [mulVec, dotProduct, transpose_apply, A', submatrix_apply]
+    rw [show (∑ x, A x (g c') * a x) = ∑ r', A (f r') (g c') * a' r' from
+      sum_mul_extend f hf a' (fun r => A r (g c'))]
+  have haa : a ⬝ᵥ a = a' ⬝ᵥ a' := by
+    simp only [dotProduct]
+    have := sum_mul_extend f hf a' a
+    simp only [a, hf.extend_apply] at this ⊢
+    exact this
+  have hle : (A'ᵀ *ᵥ a') ⬝ᵥ (A'ᵀ *ᵥ a') ≤ (Aᵀ *ᵥ a) ⬝ᵥ (Aᵀ *ᵥ a) := by
+    classical
+    simp only [dotProduct]
+    rw [show (∑ c', (A'ᵀ *ᵥ a') c' * (A'ᵀ *ᵥ a') c') =
+        ∑ c ∈ Finset.univ.map ⟨g, hg⟩, (Aᵀ *ᵥ a) c * (Aᵀ *ᵥ a) c by
+      rw [Finset.sum_map]; simp [hAa]]
+    exact Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _)
+      (fun c _ _ => mul_self_nonneg _)
+  have hray : ν' * (a ⬝ᵥ a) ≤ a ⬝ᵥ ((A * Aᵀ) *ᵥ a) := by
+    rw [dot_AAt, haa]
+    have := dot_AAt A' a'
+    rw [ha', dotProduct_smul, smul_eq_mul] at this
+    linarith
+  -- an eigenvalue `ν ≥ ν'` of `A Aᵀ`
+  set N : Matrix (Fin p) (Fin p) ℝ := ν' • 1 - A * Aᵀ
+  have hNt : Nᵀ = N := by simp [N, transpose_sub, AAt_transpose]
+  have hN := isHermitian_of_transpose_eq hNt
+  have hnot : ¬ N.PosDef := by
+    intro hpd
+    have := (posDef_iff_dotProduct_mulVec.mp hpd).2 ha0
+    simp only [star_trivial, N, sub_mulVec, smul_mulVec, one_mulVec, dotProduct_sub,
+      dotProduct_smul, smul_eq_mul] at this
+    linarith
+  obtain ⟨θ, hθ, u, hu0, hu⟩ := exists_eigen_nonpos_of_not_posDef N hN hnot
+  have huν : (A * Aᵀ) *ᵥ u = (ν' - θ) • u := by
+    have : (A * Aᵀ) *ᵥ u = ν' • u - N *ᵥ u := by
+      simp [N, sub_mulVec, smul_mulVec]
+    rw [this, hu, ← sub_smul]
+  obtain ⟨_, he⟩ := real_eigen_of_AAt_gt_four A hu0 huν (by linarith)
+  refine ⟨_, he, ?_⟩
+  rw [Complex.norm_real, Real.norm_eq_abs]
+  refine hnorm'.trans (le_trans (rplus_mono (by linarith) (by linarith : ν' ≤ ν' - θ))
+    (le_abs_self _))
+
+/-- **Theorem 3.28 (strict form)**: if `Γ` is hyperbolic and its induced subgraph `Γ'` is not,
+every eigenvalue of `w(Γ')` is strictly smaller in modulus than some eigenvalue of `w(Γ)`. -/
+theorem theorem_3_28_strict {p' q' : ℕ} (f : Fin p' → Fin p) (g : Fin q' → Fin q)
+    (hΓ : FormIndefinite (bipForm A)) (hΓ' : ¬ FormIndefinite (bipForm (A.submatrix f g)))
+    (lam' : ℂ) (h' : HasEigenC (bipCoxeter (A.submatrix f g)) lam') :
+    ∃ lam : ℂ, HasEigenC (bipCoxeter A) lam ∧ ‖lam'‖ < ‖lam‖ := by
+  have hpsd : ∀ v, 0 ≤ qf (bipForm (A.submatrix f g)) v := by
+    rcases exhaustive (A.submatrix f g) with h | h | h
+    · intro v
+      by_cases hv : v = 0
+      · rw [hv]; simp [qf]
+      · exact (h v hv).le
+    · exact h.1
+    · exact absurd h hΓ'
+  have h1 := forall_norm_eq_one _ hpsd lam' h'
+  obtain ⟨lam, hl, he⟩ := real_eigen_gt_one_of_indefinite A hΓ
+  refine ⟨lam, he, ?_⟩
+  rw [h1, Complex.norm_real, Real.norm_eq_abs, abs_of_pos (by linarith)]
+  exact hl
 
 end MixedSignCoxeter
