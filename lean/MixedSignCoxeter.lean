@@ -9,3 +9,7 @@ import MixedSignCoxeter.CyclesAndDeletion
 import MixedSignCoxeter.SpectralRadius
 import MixedSignCoxeter.ClassicalDeletion
 
+import MixedSignCoxeter.TreeConjugacy
+import MixedSignCoxeter.OddCycles
+import MixedSignCoxeter.ParabolicTransfer
+import MixedSignCoxeter.RankTwoRoots
