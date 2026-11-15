@@ -2,9 +2,10 @@
 
 The Mermaid diagrams in ``website/lean-verification.qmd`` are generated from the
 actual ``import MixedSignCoxeter.*`` lines in ``lean/MixedSignCoxeter/*.lean``,
-so they cannot drift from the code.  Modules are split into four views; each
-view draws every import edge that ends in one of its modules, and modules from
-other views appear as dashed "context" nodes.
+so they cannot drift from the code.  Modules are split into four views and each
+module is drawn exactly once: an overview graph has one node per view, with the
+imports that cross between views as edge labels, and each view draws the imports
+among its own modules.
 
 Usage::
 
@@ -102,18 +103,37 @@ def validate(imports: dict[str, list[str]]) -> list[str]:
     return errors
 
 
+def view_of(imports: dict[str, list[str]]) -> dict[str, int]:
+    """Map each module to the index of the view it belongs to."""
+    return {mod: i for i, (_, mods) in enumerate(VIEWS) for mod in mods}
+
+
+def render_overview(imports: dict[str, list[str]]) -> str:
+    """One node per view; each edge lists the imports that cross between views."""
+    where = view_of(imports)
+    crossing: dict[tuple[int, int], list[str]] = {}
+    for mod, deps in imports.items():
+        for dep in deps:
+            if where[dep] != where[mod]:
+                crossing.setdefault((where[dep], where[mod]), []).append(f"{dep} → {mod}")
+    lines = ["```{mermaid}", "flowchart LR"]
+    for i, (heading, mods) in enumerate(VIEWS):
+        title = heading.split(". ", 1)[-1]
+        lines.append(f'  V{i + 1}["<b>{i + 1}. {title}</b><br/>{len(mods)} modules"]')
+    for (src, dst), pairs in sorted(crossing.items()):
+        lines.append(f'  V{src + 1} -->|"{"<br/>".join(sorted(pairs))}"| V{dst + 1}')
+    lines.append("```")
+    return "\n".join(lines)
+
+
 def render_view(modules: list[str], imports: dict[str, list[str]]) -> str:
-    edges = [(dep, mod) for mod in modules for dep in imports[mod]]
-    context = sorted({dep for dep, _ in edges if dep not in modules})
+    """Modules of one view with the imports between them (each module drawn once)."""
+    inside = set(modules)
     lines = ["```{mermaid}", "flowchart TB"]
     for mod in modules:
         label = f"{mod}.lean<br/>{LABELS[mod]}" if mod in LABELS else f"{mod}.lean"
         lines.append(f'  {mod}["{label}"]')
-    for mod in context:
-        lines.append(f'  {mod}["{mod}.lean"]:::context')
-    lines.extend(f"  {dep} --> {mod}" for dep, mod in edges)
-    if context:
-        lines.append("  classDef context stroke-dasharray: 4 3,opacity:0.7")
+    lines.extend(f"  {dep} --> {mod}" for mod in modules for dep in imports[mod] if dep in inside)
     lines.append("```")
     return "\n".join(lines)
 
@@ -124,7 +144,13 @@ def render(imports: dict[str, list[str]]) -> str:
         BEGIN,
         "",
         f"These diagrams are generated from the `import` lines of all {len(imports)} modules "
-        f"({total} direct imports between them). Dashed nodes belong to another view.",
+        f"({total} direct imports between them). Each module appears in exactly one view. "
+        "The overview shows how the four views connect; each arrow is labelled with the "
+        "imports that cross between them, and the views below show the imports inside each one.",
+        "",
+        "### Overview",
+        "",
+        render_overview(imports),
     ]
     for heading, modules in VIEWS:
         parts += ["", f"### {heading}", "", render_view(modules, imports)]
