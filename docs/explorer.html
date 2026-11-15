@@ -23,41 +23,6 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
 
 
@@ -355,7 +320,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Interactive Explorer</h1>
-<p class="subtitle lead">Run Mixed-Sign Coxeter System computations live in your browser (Shinylive) or locally via Shiny for Python</p>
+<p class="subtitle lead">Click directly on the graph to toggle signs, draw edges, or add vertices — running live in your browser</p>
 </div>
 
 
@@ -372,84 +337,55 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This page runs <strong>Shinylive for Python</strong> directly in your browser via WebAssembly/Pyodide ($0 server cost on GitHub Pages). For full <code>mixed_sign_coxeter</code> + <code>data/theorems.yml</code> support locally or on a Shiny server, run:</p>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> explorer/requirements.txt</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">shiny</span> run explorer/app.py</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>This interactive explorer runs <strong>Shinylive for Python</strong> in your browser via Pyodide/WebAssembly ($0 server cost on GitHub Pages). For the full local app backed by <code>mixed_sign_coxeter</code> and <code>data/theorems.yml</code>, run <code>shiny run explorer/app.py</code>.</p>
 <pre class="shinylive-python" data-engine="python"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
-#| viewerHeight: 780
+#| viewerHeight: 880
 
 import math
 from collections import deque
+from urllib.parse import parse_qs, urlencode
 import matplotlib.pyplot as plt
 import numpy as np
 from shiny import App, reactive, render, ui
 
+GARNET = "#782F40"
+LEAN_BLUE = "#1E6BD6"
+
 PRESETS = {
     "example_3_33": (
         "Example 3.33 (6-vertex bipartite)",
-        ["+", "+", "+", "-", "+", "-"],
-        [(0, 1, 3), (0, 2, 3), (2, 3, 3), (1, 3, 3), (1, 5, 3), (3, 4, 3), (4, 5, 3)],
+        [1, 1, 1, -1, 1, -1],
+        [(0, 1, 3.0), (0, 2, 3.0), (2, 3, 3.0), (1, 3, 3.0), (1, 5, 3.0), (3, 4, 3.0), (4, 5, 3.0)],
     ),
     "a_tilde_minus_2": (
         "~A_{-2} (Negative 3-cycle)",
-        ["-", "-", "-"],
-        [(0, 1, 3), (1, 2, 3), (0, 2, 3)],
+        [-1, -1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0), (0, 2, 3.0)],
     ),
     "a_tilde_minus_4": (
         "~A_{-4} (Negative 5-cycle)",
-        ["-", "-", "-", "-", "-"],
-        [(0, 1, 3), (1, 2, 3), (2, 3, 3), (3, 4, 3), (0, 4, 3)],
+        [-1, -1, -1, -1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0), (2, 3, 3.0), (3, 4, 3.0), (0, 4, 3.0)],
     ),
     "a3_ppm": (
         "A_3(+, +, -) (Example 3.29)",
-        ["+", "+", "-"],
-        [(0, 1, 3), (1, 2, 3)],
+        [1, 1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0)],
     ),
     "a_n_alt_4": (
         "A_4(+, -, +, -)",
-        ["+", "-", "+", "-"],
-        [(0, 1, 3), (1, 2, 3), (2, 3, 3)],
+        [1, -1, 1, -1],
+        [(0, 1, 3.0), (1, 2, 3.0), (2, 3, 3.0)],
     ),
 }
 
 
-def parse_signs(text: str) -&gt; list[int]:
-    out = []
-    for tok in text.replace(";", ",").split(","):
-        t = tok.strip()
-        if not t:
-            continue
-        if t in ("+", "+1", "1"):
-            out.append(1)
-        elif t in ("-", "-1"):
-            out.append(-1)
-        else:
-            raise ValueError(f"Invalid sign: {t}")
-    if not out:
-        raise ValueError("Need at least one sign.")
-    return out
-
-
-def parse_edges(text: str, n: int) -&gt; list[tuple[int, int, float]]:
-    edges = []
-    for raw in text.replace("\n", ",").split(","):
-        item = raw.strip()
-        if not item:
-            continue
-        if ":" in item:
-            pair_s, w_s = item.split(":", 1)
-            w = math.inf if w_s.strip().lower() in ("oo", "inf") else float(w_s.strip())
-        else:
-            pair_s, w = item, 3.0
-        u_s, v_s = pair_s.split("-", 1)
-        u, v = int(u_s.strip()), int(v_s.strip())
-        if not (0 &lt;= u &lt; n and 0 &lt;= v &lt; n) or u == v:
-            raise ValueError(f"Invalid edge ({u}, {v})")
-        edges.append((u, v, w))
-    return edges
+def circle_positions(n: int) -&gt; dict[int, tuple[float, float]]:
+    angles = np.linspace(0, 2 * np.pi, max(n, 1), endpoint=False)
+    return {i: (float(math.cos(angles[i])), float(math.sin(angles[i]))) for i in range(n)}
 
 
 def build_B(signs: list[int], edges: list[tuple[int, int, float]]) -&gt; np.ndarray:
@@ -487,143 +423,255 @@ def bipartition(n: int, edges: list[tuple[int, int, float]]):
 
 
 def principal_element(B: np.ndarray, order: list[int]) -&gt; tuple[np.ndarray, np.ndarray]:
-    n = B.shape[0]
     P = B[np.ix_(order, order)]
     U_ord = np.triu(P)
     w_ord = -np.linalg.inv(U_ord) @ U_ord.T
     inv_perm = np.argsort(order)
-    w = w_ord[np.ix_(inv_perm, inv_perm)]
-    return U_ord, w
+    return U_ord, w_ord[np.ix_(inv_perm, inv_perm)]
 
 
 app_ui = ui.page_fluid(
     ui.layout_sidebar(
         ui.sidebar(
-            ui.input_select(
-                "preset",
-                "Preset Graph",
-                choices={k: v[0] for k, v in PRESETS.items()} | {"custom": "Custom Graph"},
-                selected="example_3_33",
+            ui.input_select("preset", "Preset Graph", choices={k: v[0] for k, v in PRESETS.items()}, selected="example_3_33"),
+            ui.input_radio_buttons(
+                "edit_mode",
+                "Click Graph To:",
+                choices={"sign": "Toggle Sign (+ / −)", "edge": "Draw / Remove Edge", "add_v": "Add Vertex", "del_v": "Delete Vertex"},
+                selected="sign",
             ),
-            ui.input_text("signs", "Signs (+ / -)", value="+, +, +, -, +, -"),
-            ui.input_action_button("negate", "Negate Signs", class_="btn-sm btn-outline-secondary"),
-            ui.input_text_area("edges", "Edges (u-v:weight)", value="0-1:3, 0-2:3, 2-3:3, 1-3:3, 1-5:3, 3-4:3, 4-5:3", rows=3),
+            ui.input_select("edge_weight", "New Edge Weight", choices={"3": "3", "4": "4", "5": "5", "6": "6", "oo": "∞"}, selected="3"),
+            ui.layout_columns(
+                ui.input_action_button("add_v_btn", "+ Vertex", class_="btn-sm btn-outline-primary"),
+                ui.input_action_button("negate_btn", "Flip Signs", class_="btn-sm btn-outline-secondary"),
+                col_widths=(6, 6),
+            ),
+            ui.hr(),
             ui.input_radio_buttons("order_mode", "Principal Ordering", choices={"linear": "Linear", "bipartite": "Bipartite"}, selected="linear"),
-            width=300,
+            ui.hr(),
+            ui.output_ui("share_ui"),
+            width=280,
+        ),
+        ui.card(
+            ui.card_header("Interactive Signed Coxeter Graph (click directly on vertices or canvas)"),
+            ui.output_plot("plot_graph", click=True, height="380px"),
+            ui.output_ui("mode_hint_ui"),
         ),
         ui.layout_columns(
-            ui.card(ui.card_header("Signed Coxeter Graph"), ui.output_plot("plot_graph", height="300px")),
-            ui.card(ui.card_header("Spectral &amp; Structural Summary"), ui.output_ui("summary_ui")),
+            ui.card(ui.card_header("Structure &amp; Applicable Results"), ui.output_ui("summary_ui")),
+            ui.card(ui.card_header("Eigenvalue Spectrum &amp; Unit Circle"), ui.output_plot("plot_spectrum", height="320px")),
             col_widths=(6, 6),
         ),
-        ui.card(ui.card_header("Eigenvalues &amp; Howlett Principal Element"), ui.output_text_verbatim("eigs_out")),
+        ui.HTML("&lt;details class='mt-2'&gt;&lt;summary&gt;&lt;strong&gt;▶ Advanced Spectral Data&lt;/strong&gt;&lt;/summary&gt;"),
+        ui.card(ui.output_code("eigs_out")),
+        ui.HTML("&lt;/details&gt;"),
     )
 )
 
 
 def server(input, output, session):
+    _, init_s, init_e = PRESETS["example_3_33"]
+    signs_rv = reactive.value(list(init_s))
+    edges_rv = reactive.value(list(init_e))
+    pos_rv = reactive.value(circle_positions(len(init_s)))
+    edge_start_rv = reactive.value(None)
+
     @reactive.effect
     @reactive.event(input.preset)
     def _on_preset():
         k = input.preset()
         if k in PRESETS:
             _, s, e = PRESETS[k]
-            ui.update_text("signs", value=", ".join(s))
-            ui.update_text_area("edges", value=", ".join(f"{u}-{v}:{w}" for u, v, w in e))
+            signs_rv.set(list(s))
+            edges_rv.set(list(e))
+            pos_rv.set(circle_positions(len(s)))
+            edge_start_rv.set(None)
 
     @reactive.effect
-    @reactive.event(input.negate)
+    @reactive.event(input.negate_btn)
     def _on_negate():
-        try:
-            s = parse_signs(input.signs())
-            ui.update_text("signs", value=", ".join("-" if x &gt; 0 else "+" for x in s))
-        except Exception:
-            pass
+        signs_rv.set([-s for s in signs_rv()])
 
-    @reactive.calc
-    def parsed():
-        try:
-            s = parse_signs(input.signs())
-            e = parse_edges(input.edges(), len(s))
-            return s, e, None
-        except Exception as exc:
-            return None, None, str(exc)
+    @reactive.effect
+    @reactive.event(input.add_v_btn)
+    def _on_add_v_btn():
+        s = list(signs_rv())
+        p = dict(pos_rv())
+        idx = len(s)
+        ang = (idx * 2.39996) % (2 * math.pi)
+        p[idx] = (0.85 * math.cos(ang), 0.85 * math.sin(ang))
+        s.append(1)
+        signs_rv.set(s)
+        pos_rv.set(p)
+
+    @reactive.effect
+    @reactive.event(input.plot_graph_click)
+    def _on_click():
+        clk = input.plot_graph_click()
+        if not clk or "x" not in clk or "y" not in clk:
+            return
+        cx, cy = float(clk["x"]), float(clk["y"])
+        pos = pos_rv()
+        mode = input.edit_mode()
+        if mode == "add_v":
+            s = list(signs_rv())
+            p = dict(pos)
+            p[len(s)] = (cx, cy)
+            s.append(1)
+            signs_rv.set(s)
+            pos_rv.set(p)
+            return
+        nearest, min_d = None, 1e9
+        for i, (px, py) in pos.items():
+            d = math.hypot(px - cx, py - cy)
+            if d &lt; min_d:
+                min_d = d
+                nearest = i
+        if nearest is None or min_d &gt; 0.25:
+            edge_start_rv.set(None)
+            return
+        if mode == "sign":
+            s = list(signs_rv())
+            s[nearest] = -s[nearest]
+            signs_rv.set(s)
+        elif mode == "del_v":
+            s = list(signs_rv())
+            if len(s) &lt;= 2:
+                return
+            del s[nearest]
+            new_e = []
+            for u, v, w in edges_rv():
+                if u == nearest or v == nearest:
+                    continue
+                nu = u - 1 if u &gt; nearest else u
+                nv = v - 1 if v &gt; nearest else v
+                new_e.append((min(nu, nv), max(nu, nv), w))
+            new_p = {(k - 1 if k &gt; nearest else k): xy for k, xy in pos.items() if k != nearest}
+            signs_rv.set(s)
+            edges_rv.set(new_e)
+            pos_rv.set(new_p)
+            edge_start_rv.set(None)
+        elif mode == "edge":
+            st = edge_start_rv()
+            if st is None:
+                edge_start_rv.set(nearest)
+            elif st == nearest:
+                edge_start_rv.set(None)
+            else:
+                u, v = min(st, nearest), max(st, nearest)
+                e_list = list(edges_rv())
+                if any((a, b) == (u, v) for a, b, _ in e_list):
+                    e_list = [(a, b, w) for a, b, w in e_list if (a, b) != (u, v)]
+                else:
+                    w = math.inf if input.edge_weight() == "oo" else float(input.edge_weight())
+                    e_list.append((u, v, w))
+                edges_rv.set(e_list)
+                edge_start_rv.set(None)
+
+    @render.ui
+    def mode_hint_ui():
+        m = input.edit_mode()
+        st = edge_start_rv()
+        if m == "sign":
+            msg = "Click any vertex to flip its sign (+ Garnet ↔ − Lean Blue)."
+        elif m == "edge":
+            msg = f"Selected vertex {st}; click a second vertex to toggle edge." if st is not None else "Click two vertices to add or remove an edge."
+        elif m == "add_v":
+            msg = "Click empty canvas space to add a (+) vertex."
+        else:
+            msg = "Click any vertex to delete it."
+        return ui.p(msg, class_="text-muted small mb-0 mt-1")
 
     @render.plot
     def plot_graph():
-        s, e, err = parsed()
-        fig, ax = plt.subplots(figsize=(5, 3.4))
-        if err:
-            ax.text(0.5, 0.5, err, ha="center", va="center")
-            ax.axis("off")
-            return fig
-        n = len(s)
-        angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
-        pos = {i: (math.cos(angles[i]), math.sin(angles[i])) for i in range(n)}
+        s = signs_rv()
+        e = edges_rv()
+        pos = pos_rv()
+        st = edge_start_rv()
+        fig, ax = plt.subplots(figsize=(7.5, 4.0))
         for u, v, w in e:
             x0, y0 = pos[u]
             x1, y1 = pos[v]
-            ax.plot([x0, x1], [y0, y1], color="#64748b", lw=2, zorder=1)
+            ax.plot([x0, x1], [y0, y1], color="#333333", lw=2.3, zorder=1)
             if w != 3:
-                ax.text((x0 + x1) / 2, (y0 + y1) / 2, f"{w:g}", fontsize=9, bbox=dict(fc="white", ec="none", pad=1))
-        for i in range(n):
+                ax.text((x0 + x1) / 2, (y0 + y1) / 2, "∞" if math.isinf(w) else f"{w:g}", fontsize=9, bbox=dict(fc="white", ec="#cbd5e1", pad=1))
+        for i in range(len(s)):
             x, y = pos[i]
-            c = "#782F40" if s[i] &gt; 0 else "#1E6BD6"
-            ax.scatter([x], [y], s=500, color=c, zorder=2)
-            ax.text(x, y, f"{i}({'+' if s[i] &gt; 0 else '-'})", color="white", ha="center", va="center", fontsize=9, fontweight="bold", zorder=3)
+            c = GARNET if s[i] &gt; 0 else LEAN_BLUE
+            ec = "#f59e0b" if st == i else "#ffffff"
+            ax.scatter([x], [y], s=700, color=c, edgecolors=ec, linewidths=3 if st == i else 2, zorder=2)
+            ax.text(x, y, f"{i}\n({'+' if s[i] &gt; 0 else '−'})", color="white", ha="center", va="center", fontsize=8.5, fontweight="bold", zorder=3)
+        xs = [p[0] for p in pos.values()]
+        ys = [p[1] for p in pos.values()]
+        ax.set_xlim(min(xs) - 0.35, max(xs) + 0.35)
+        ax.set_ylim(min(ys) - 0.35, max(ys) + 0.35)
         ax.set_aspect("equal")
         ax.axis("off")
-        ax.set_title("Garnet (#782F40) = (+), Lean Blue (#1E6BD6) = (−)")
+        ax.set_title("Garnet (#782F40) = (+) vertex   |   Lean Blue (#1E6BD6) = (−) vertex", fontsize=9.5)
+        return fig
+
+    @render.plot
+    def plot_spectrum():
+        s, e = signs_rv(), edges_rv()
+        B = build_B(s, e)
+        bp = bipartition(len(s), e)
+        order = (bp[0] + bp[1]) if (input.order_mode() == "bipartite" and bp is not None) else list(range(len(s)))
+        _, w = principal_element(B, order)
+        eigs = np.linalg.eigvals(w)
+        fig, ax = plt.subplots(figsize=(5.0, 3.4))
+        theta = np.linspace(0, 2 * np.pi, 256)
+        ax.plot(np.cos(theta), np.sin(theta), "--", color="#94a3b8", lw=1.2)
+        ax.axhline(0, color="#cbd5e1", lw=0.8)
+        ax.axvline(0, color="#cbd5e1", lw=0.8)
+        ax.scatter(eigs.real, eigs.imag, s=75, color=GARNET, zorder=3)
+        lim = max(1.3, float(np.max(np.abs(eigs))) * 1.15)
+        ax.set_xlim(-lim, lim)
+        ax.set_ylim(-lim, lim)
+        ax.set_aspect("equal")
+        ax.set_title(f"Spectrum (ρ = {float(np.max(np.abs(eigs))):.4f})")
         return fig
 
     @render.ui
     def summary_ui():
-        s, e, err = parsed()
-        if err:
-            return ui.p(f"Error: {err}", class_="text-danger")
+        s, e = signs_rv(), edges_rv()
         n = len(s)
         B = build_B(s, e)
         bp = bipartition(n, e)
-        lin_order = list(range(n))
-        _, w_lin = principal_element(B, lin_order)
+        _, w_lin = principal_element(B, list(range(n)))
         rho_lin = float(np.max(np.abs(np.linalg.eigvals(w_lin))))
         if bp is not None:
-            bip_order = bp[0] + bp[1]
-            _, w_bip = principal_element(B, bip_order)
+            _, w_bip = principal_element(B, bp[0] + bp[1])
             rho_bip = float(np.max(np.abs(np.linalg.eigvals(w_bip))))
-            bip_text = f"{rho_bip:.6f} (ratio {rho_bip / rho_lin:.4f})"
+            pct = ((rho_bip / rho_lin) - 1.0) * 100.0 if rho_lin &gt; 0 else 0.0
+            bip_html = f"&lt;div class='mb-2'&gt;&lt;strong&gt;✓ Bipartite&lt;/strong&gt; | &lt;code&gt;ρ_lin={rho_lin:.4f}&lt;/code&gt; | &lt;code&gt;ρ_bip={rho_bip:.4f}&lt;/code&gt; ({pct:+.1f}%)&lt;/div&gt;"
+            thm_html = "&lt;li&gt;✅ &lt;strong&gt;Bipartite Principal Element Theorem&lt;/strong&gt; applicable (&lt;a href='lean-verification.html'&gt;Learn More →&lt;/a&gt;)&lt;/li&gt;"
         else:
-            bip_text = "N/A (not bipartite)"
+            bip_html = f"&lt;div class='mb-2'&gt;&lt;strong&gt;✗ Not bipartite&lt;/strong&gt; | &lt;code&gt;ρ_lin={rho_lin:.4f}&lt;/code&gt;&lt;/div&gt;"
+            thm_html = ""
         evals_B = np.linalg.eigvalsh(B)
-        p = int(np.sum(evals_B &gt; 1e-9))
-        q = int(np.sum(evals_B &lt; -1e-9))
-        z = n - p - q
+        p, q = int(np.sum(evals_B &gt; 1e-9)), int(np.sum(evals_B &lt; -1e-9))
         return ui.HTML(
-            f"""
-            &lt;table class="table table-sm"&gt;
-              &lt;tr&gt;&lt;th&gt;Vertices / Edges&lt;/th&gt;&lt;td&gt;{n} / {len(e)}&lt;/td&gt;&lt;/tr&gt;
-              &lt;tr&gt;&lt;th&gt;Bipartite&lt;/th&gt;&lt;td&gt;{'Yes' if bp is not None else 'No'}&lt;/td&gt;&lt;/tr&gt;
-              &lt;tr&gt;&lt;th&gt;Signature (p, q, z)&lt;/th&gt;&lt;td&gt;({p}, {q}, {z})&lt;/td&gt;&lt;/tr&gt;
-              &lt;tr&gt;&lt;th&gt;Linear ρ&lt;/th&gt;&lt;td&gt;&lt;strong&gt;{rho_lin:.6f}&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
-              &lt;tr&gt;&lt;th&gt;Bipartite ρ&lt;/th&gt;&lt;td&gt;&lt;strong&gt;{bip_text}&lt;/strong&gt;&lt;/td&gt;&lt;/tr&gt;
-            &lt;/table&gt;
-            """
+            bip_html
+            + f"&lt;div class='small text-muted mb-2'&gt;Vertices: &lt;strong&gt;{n}&lt;/strong&gt; · Edges: &lt;strong&gt;{len(e)}&lt;/strong&gt; · Signature: &lt;strong&gt;({p}, {q}, {n-p-q})&lt;/strong&gt;&lt;/div&gt;"
+            + f"&lt;ul class='small mb-0 ps-3'&gt;&lt;li&gt;✅ &lt;strong&gt;Theorem 1.1 (Howlett's Formula)&lt;/strong&gt; holds (&lt;a href='lean-verification.html'&gt;Learn More →&lt;/a&gt;)&lt;/li&gt;{thm_html}&lt;/ul&gt;"
         )
+
+    @render.ui
+    def share_ui():
+        s, e = signs_rv(), edges_rv()
+        q = urlencode({"signs": "".join("+" if x &gt; 0 else "-" for x in s), "edges": ",".join(f"{u}-{v}:{'oo' if math.isinf(w) else int(w)}" for u, v, w in sorted(e))})
+        return ui.HTML(f"&lt;div class='small'&gt;&lt;strong&gt;Share Graph:&lt;/strong&gt;&lt;br/&gt;&lt;code style='word-break:break-all'&gt;?{q}&lt;/code&gt;&lt;/div&gt;")
 
     @render.text
     def eigs_out():
-        s, e, err = parsed()
-        if err:
-            return err
-        n = len(s)
+        s, e = signs_rv(), edges_rv()
         B = build_B(s, e)
-        bp = bipartition(n, e)
-        order = (bp[0] + bp[1]) if (input.order_mode() == "bipartite" and bp is not None) else list(range(n))
+        bp = bipartition(len(s), e)
+        order = (bp[0] + bp[1]) if (input.order_mode() == "bipartite" and bp is not None) else list(range(len(s)))
         _, w = principal_element(B, order)
         eigs = sorted(np.linalg.eigvals(w), key=lambda z: -abs(z))
         lines = [f"Active order: {order}", "Eigenvalues of w = -U^(-1) U^T:"]
-        for z in eigs:
-            lines.append(f"  {z.real:+.6f} {z.imag:+.6f}j  (|λ| = {abs(z):.6f})")
+        lines.extend(f"  {z.real:+.6f} {z.imag:+.6f}j  (|λ| = {abs(z):.6f})" for z in eigs)
         return "\n".join(lines)
 
 
