@@ -2637,10 +2637,11 @@ vertical-align: top;
   <li><a href="#odd-cycles-deletion-failure-and-non-classicality" id="toc-odd-cycles-deletion-failure-and-non-classicality" class="nav-link" data-scroll-target="#odd-cycles-deletion-failure-and-non-classicality"><span class="header-section-number">3.3</span> Odd Cycles, Deletion Failure, and Non-Classicality</a></li>
   <li><a href="#spectral-radius-theory-and-counterexamples" id="toc-spectral-radius-theory-and-counterexamples" class="nav-link" data-scroll-target="#spectral-radius-theory-and-counterexamples"><span class="header-section-number">3.4</span> Spectral Radius Theory and Counterexamples</a></li>
   </ul></li>
-  <li><a href="#summary-of-lean-4-modules" id="toc-summary-of-lean-4-modules" class="nav-link" data-scroll-target="#summary-of-lean-4-modules"><span class="header-section-number">4</span> Summary of Lean 4 Modules</a></li>
-  <li><a href="#formalization-scope-python-coverage-and-dissertation-omissions" id="toc-formalization-scope-python-coverage-and-dissertation-omissions" class="nav-link" data-scroll-target="#formalization-scope-python-coverage-and-dissertation-omissions"><span class="header-section-number">5</span> Formalization Scope, Python Coverage, and Dissertation Omissions</a></li>
-  <li><a href="#lean-4-formalization-architecture" id="toc-lean-4-formalization-architecture" class="nav-link" data-scroll-target="#lean-4-formalization-architecture"><span class="header-section-number">6</span> Lean 4 Formalization Architecture</a></li>
-  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">7</span> References</a></li>
+  <li><a href="#computational-verifications-beyond-the-dissertation" id="toc-computational-verifications-beyond-the-dissertation" class="nav-link" data-scroll-target="#computational-verifications-beyond-the-dissertation"><span class="header-section-number">4</span> Computational Verifications Beyond the Dissertation</a></li>
+  <li><a href="#summary-of-lean-4-modules" id="toc-summary-of-lean-4-modules" class="nav-link" data-scroll-target="#summary-of-lean-4-modules"><span class="header-section-number">5</span> Summary of Lean 4 Modules</a></li>
+  <li><a href="#formalization-scope-python-coverage-and-dissertation-omissions" id="toc-formalization-scope-python-coverage-and-dissertation-omissions" class="nav-link" data-scroll-target="#formalization-scope-python-coverage-and-dissertation-omissions"><span class="header-section-number">6</span> Formalization Scope, Python Coverage, and Dissertation Omissions</a></li>
+  <li><a href="#lean-4-formalization-architecture" id="toc-lean-4-formalization-architecture" class="nav-link" data-scroll-target="#lean-4-formalization-architecture"><span class="header-section-number">7</span> Lean 4 Formalization Architecture</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"><span class="header-section-number">8</span> References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="mixed_sign_coxeter.docx"><i class="bi bi-file-word"></i>MS Word</a></li><li><a href="..\mixed_sign_coxeter.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
@@ -2676,7 +2677,7 @@ vertical-align: top;
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">Nov 14, 2026</p>
+      <p class="date">Nov 15, 2026</p>
     </div>
   </div>
   
@@ -2972,8 +2973,18 @@ theorem pBpEx333_has_root_gt_four :
 </section>
 </section>
 </section>
-<section id="summary-of-lean-4-modules" class="level2" data-number="4">
-<h2 data-number="4" class="anchored" data-anchor-id="summary-of-lean-4-modules"><span class="header-section-number">4</span> Summary of Lean 4 Modules</h2>
+<section id="computational-verifications-beyond-the-dissertation" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="computational-verifications-beyond-the-dissertation"><span class="header-section-number">4</span> Computational Verifications Beyond the Dissertation</h2>
+<p><em>Results covered: Theorem 1.6 remark, Appendix D, Remark A.3, Question 3.35. Full details in <a href="verifications.md"><code>verifications.md</code></a>; tests in <a href="../tests/test_verifications.py"><code>tests/test_verifications.py</code></a>.</em></p>
+<ol type="1">
+<li><strong><span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span> for every even <span class="math inline">\(n\)</span></strong> (<a href="../src/mixed_sign_coxeter/isomorphisms.py"><code>isomorphisms.py</code></a>). The integer matrix <span class="math inline">\(T\)</span> whose columns are the <span class="math inline">\(D_{n+1}\)</span> roots <span class="math inline">\(r_i = (-1)^i(\varepsilon_{i+1} - \varepsilon_{i+2})\)</span> (<span class="math inline">\(0 \le i &lt; n\)</span>) and <span class="math inline">\(r_n = \varepsilon_1 + \varepsilon_{n+1}\)</span> satisfies <span class="math inline">\(T^T T = -B(\widetilde{A_{-n}})\)</span>, so <span class="math inline">\(w \mapsto T w T^{-1}\)</span> sends each <span class="math inline">\(s_i\)</span> to the reflection in <span class="math inline">\(r_i\)</span>. The orbit of the <span class="math inline">\(r_i\)</span> is the whole <span class="math inline">\(D_{n+1}\)</span> root system, so the image is exactly <span class="math inline">\(W(D_{n+1})\)</span>. For odd <span class="math inline">\(n\)</span> the cycle is bipartite and the group is infinite (Theorem 1.4). This proves the conjecture stated after Theorem 1.6.</li>
+<li><strong>Appendix D in Python.</strong> The thesis’s GAP matrices equal the package generators of <span class="math inline">\(W(\widetilde{A_{-4}})\)</span>, all 16 GAP relators hold, and Todd–Coxeter enumeration gives <span class="math inline">\([G : \langle f_1,\dots,f_4\rangle] = 16\)</span>, so the presentation has order <span class="math inline">\(16 \cdot 120 = 1920\)</span> and is faithful.</li>
+<li><strong>Remark A.3: Table A.2 is not complete.</strong> If <span class="math inline">\(\Gamma\)</span> is connected and <span class="math inline">\(W(\Gamma)\)</span> is finite then <span class="math inline">\(B(\Gamma)\)</span> is definite, which recovers Corollary 3.18 (graphs with both signs are infinite) and also excludes all-negative graphs with <span class="math inline">\(-B\)</span> not positive definite. An exhaustive search of rank 3 and 4 (<a href="../src/mixed_sign_coxeter/finite_search.py"><code>finite_search.py</code></a>) finds 4 finite rank-3 and 24 finite rank-4 graphs beyond Table A.2 and Figure A.1, all negative and non-bipartite (for example the negative <span class="math inline">\(K_4\)</span>, of type <span class="math inline">\(A_4\)</span>). Simply-laced searches at ranks 5 and 6 find 12 and 45 more.</li>
+<li><strong>Question 3.35</strong> (<a href="../src/mixed_sign_coxeter/principal_search.py"><code>principal_search.py</code></a>). Over all 4,026 simply-laced graphs with a cycle on 4–6 nodes, the bipartite element fails to minimize in 96 graphs, always with mixed signs, and is the <em>maximum</em> in 72 of them. The smallest example is the alternating 4-cycle <span class="math inline">\((+,-,+,-)\)</span>: bipartite radius <span class="math inline">\(3 + 2\sqrt{2} \approx 5.828\)</span>, circuit radius <span class="math inline">\(\approx 3.546\)</span>. Orienting all mixed edges the same way also fails to minimize in 564 of 3,183 mixed graphs. In Example 3.33, the first row of Table 3.1 (<span class="math inline">\(\rho \approx 3.051\)</span>) is the global minimum and the (positive)(negative) row (<span class="math inline">\(\rho \approx 7.148\)</span>) the global maximum.</li>
+</ol>
+</section>
+<section id="summary-of-lean-4-modules" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="summary-of-lean-4-modules"><span class="header-section-number">5</span> Summary of Lean 4 Modules</h2>
 <table class="caption-top table">
 <caption>Lean 4 formalization modules in <code>lean/MixedSignCoxeter/</code> and their dissertation coverage.</caption>
 <colgroup>
@@ -3077,8 +3088,8 @@ theorem pBpEx333_has_root_gt_four :
 </tbody>
 </table>
 </section>
-<section id="formalization-scope-python-coverage-and-dissertation-omissions" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="formalization-scope-python-coverage-and-dissertation-omissions"><span class="header-section-number">5</span> Formalization Scope, Python Coverage, and Dissertation Omissions</h2>
+<section id="formalization-scope-python-coverage-and-dissertation-omissions" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="formalization-scope-python-coverage-and-dissertation-omissions"><span class="header-section-number">6</span> Formalization Scope, Python Coverage, and Dissertation Omissions</h2>
 <p>To maintain a transparent audit trail between the dissertation <span class="citation" data-cites="armstrong2012">(<a href="#ref-armstrong2012" role="doc-biblioref">Armstrong 2012</a>)</span>, the Python package, and the Lean 4 formalization:</p>
 <table class="caption-top table">
 <caption>Formalization scope, Python verification coverage, and dissertation omissions.</caption>
@@ -3108,8 +3119,8 @@ theorem pBpEx333_has_root_gt_four :
 </tbody>
 </table>
 </section>
-<section id="lean-4-formalization-architecture" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="lean-4-formalization-architecture"><span class="header-section-number">6</span> Lean 4 Formalization Architecture</h2>
+<section id="lean-4-formalization-architecture" class="level2" data-number="7">
+<h2 data-number="7" class="anchored" data-anchor-id="lean-4-formalization-architecture"><span class="header-section-number">7</span> Lean 4 Formalization Architecture</h2>
 <p>Several design choices keep the Lean 4 (<code>v4.35.0</code>) formalization modular, <code>sorry</code>-free, and fast to verify (<code>lake build</code>, 3,148 jobs):</p>
 <ul>
 <li><strong>Coordinate-free matrix representation (<code>Basic.lean</code>)</strong>: Rather than fixing a basis-free inner product space early, <code>ReflectionSystem n</code> packages a symmetric matrix <span class="math inline">\(B \in \mathbb{R}^{n \times n}\)</span> with <span class="math inline">\(B_{ii} \neq 0\)</span>, allowing direct <code>ext</code>/<code>fin_cases</code>/<code>ring</code> proofs for reflections <span class="math inline">\(s_i = I - \frac{2}{B_{ii}} e_i e_i^T B\)</span>, form preservation, and <span class="math inline">\(\mathcal{O}\)</span>-conjugacy (<code>Conjugacy.lean</code>).</li>
@@ -3118,8 +3129,8 @@ theorem pBpEx333_has_root_gt_four :
 <li><strong>Algebraic spectral-radius separation (<code>SpectralRadius.lean</code>)</strong>: Instead of floating-point root approximation, Theorem 1.7 is proved rigorously by combining polynomial factorization bounds (<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L133"><code>pLinEx333_no_root_ge_four</code></a>, <span class="math inline">\(|\lambda_{\mathrm{lin}}| &lt; 4\)</span>) with the Intermediate Value Theorem on <span class="math inline">\([-6, -4]\)</span> (<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L120"><code>pBpEx333_has_root_gt_four</code></a>, <span class="math inline">\(|\lambda_{\mathrm{bp}}| \ge 4\)</span>).</li>
 </ul>
 </section>
-<section id="references" class="level2" data-number="7">
-<h2 data-number="7" class="anchored" data-anchor-id="references"><span class="header-section-number">7</span> References</h2>
+<section id="references" class="level2" data-number="8">
+<h2 data-number="8" class="anchored" data-anchor-id="references"><span class="header-section-number">8</span> References</h2>
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
 <div id="ref-armstrong2012" class="csl-entry" role="listitem">
 Armstrong, Johnathon Kyle. 2012. <span>“Principal Elements of Mixed-Sign Coxeter Systems.”</span> PhD thesis, Florida State University. <a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view">https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view</a>.
