@@ -429,15 +429,15 @@ class FormalizationScene(Scene):
     def construct(self) -> None:
         title = header("How the results are checked", GREEN)
         lean = VGroup(
-            Text("Lean 4 + Mathlib", font_size=26, color=BLUE),
-            Text("Theorems 1.1, 1.2, 1.4, 1.6, 1.7, 3.9 (Deletion ⇔ Exchange)", font_size=20),
-            Text("Corollaries 1.3, 1.5; Lemmas 2.63, 3.14, 3.17, 3.21, 3.25", font_size=20),
-            Text("Exact integer matrices, decide, and an IVT root bound", font_size=20, color=GREY_B),
+            Text("Lean 4 + Mathlib (16 modules, sorry-free)", font_size=26, color=BLUE),
+            Text("Theorems 1.1, 1.2, 1.4, 1.6, 1.7, 2.58, 3.9, 3.27, 3.28, 3.34", font_size=20),
+            Text("Corollaries 1.3, 1.5, 3.18; Props 2.41, 3.11; Remarks 3.23, 3.26, 3.30", font_size=20),
+            Text("All numbered Ch. 1–3 results, decide, and IVT root bounds", font_size=20, color=GREY_B),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.2)
         python = VGroup(
             Text("Python (mixed_sign_coxeter)", font_size=26, color=ORANGE),
-            Text("Tables 3.1, A.1, A.2, B.1, B.2", font_size=20),
-            Text("Group orders |W(Ã₋ₙ)| = |W(Dₙ₊₁)| for n = 2, 4, 6", font_size=20),
+            Text("Tables 3.1, A.1, A.2, B.1, B.2 & Appendix D (16 relators)", font_size=20),
+            Text("W(Ã₋ₙ) ≅ W(Dₙ₊₁) for all even n; Remark A.3 & Question 3.35 searches", font_size=20),
             Text("Every number in this deck is computed live", font_size=20, color=GREY_B),
         ).arrange(DOWN, aligned_edge=LEFT, buff=0.2)
         cols = VGroup(lean, python).arrange(DOWN, buff=0.6, aligned_edge=LEFT).next_to(title, DOWN, buff=0.6)
