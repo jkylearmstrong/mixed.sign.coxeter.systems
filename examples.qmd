@@ -1,0 +1,55 @@
+---
+title: "Executable Examples & Slides"
+subtitle: "Live Python computations from mixed_sign_coxeter and the Manim presentation"
+jupyter: python3
+---
+
+All code blocks below execute directly against `src/mixed_sign_coxeter/` during `quarto render`.
+
+## 1. Howlett's Formula (Theorem 1.1)
+
+```{python}
+import sys
+sys.path.insert(0, "src")
+
+from mixed_sign_coxeter import MixedSignCoxeterGraph
+
+g = MixedSignCoxeterGraph.A_tilde(2, negative=True)
+U = g.howlett_U()
+w = g.principal_element()
+print("U =\n", U)
+print("w = -U^{-1} U^T =\n", w)
+print("Matches -U^{-1} U^T:", w == -(U.inv() * U.T))
+print("Principal polynomial:", g.principal_polynomial())
+```
+
+## 2. Failure of the Deletion Property on $\widetilde{A_{-2}}$ (Lemma 3.21)
+
+```{python}
+from mixed_sign_coxeter.group import evaluate_word, find_two_deletions
+
+w_word = (0, 1, 0, 2, 0)
+short_word = (2, 0, 1)
+print("s1 s2 s1 s3 s1 == s3 s1 s2:", evaluate_word(g, w_word) == evaluate_word(g, short_word))
+print("Valid 2-letter deletions of (0,1,0,2,0):", find_two_deletions(g, w_word))
+```
+
+## 3. $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$ for Even $n$
+
+```{python}
+from mixed_sign_coxeter.isomorphisms import verify_a_tilde_minus_isomorphism
+
+for n in (2, 4, 6):
+    res = verify_a_tilde_minus_isomorphism(n)
+    print(f"n = {n}: gram_ok={res.gram_matches}, conj_ok={res.conjugates_generators}, "
+          f"orbit_is_D={res.root_orbit_is_D}, |W(D_{n+1})|={res.order_W_D}")
+```
+
+## 4. Manim Slide Deck (`slides/`)
+
+Ten Manim scenes in [`slides/dissertation_deck.py`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/dissertation_deck.py) render these live computations visually, accompanied by a speaker script in [`slides/SCRIPT.md`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/SCRIPT.md).
+
+```bash
+pip install -e ".[manim]"
+manim -qh slides/dissertation_deck.py -a   # 1080p60 full deck
+```

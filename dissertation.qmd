@@ -1,0 +1,35 @@
+---
+title: "Dissertation & Lean 4 Audit"
+subtitle: "What exactly from the 2012 dissertation has been formally verified?"
+---
+
+- **Original Dissertation**: [FSU Digital Library PDF](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view) ([Download](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download))
+- **Combined Writeup**: [HTML](mixed_sign_coxeter.html) · [PDF](mixed_sign_coxeter.pdf) · [DOCX](mixed_sign_coxeter.docx)
+
+## Headline Audit Summary
+
+Every numbered theorem, proposition, lemma, corollary, definition, example, and remark in **Chapters 1–3** of the dissertation has a `sorry`-free Lean 4 verification (`lake build`, `3390` jobs in Lean `v4.35.0`). Appendices A, B, and D—plus the general even-$n$ isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$—are verified in Python (`pytest`).
+
+## Dissertation ↔ Lean 4 ↔ Python Audit Table
+
+| Dissertation Result | Lean 4 / Python Artifact | Status |
+| :--- | :--- | :--- |
+| **Theorem 1.1** (Howlett's formula $w = -U^{-1} U^T$) | [`howlett_principalElement_eq_neg_inv_mul_transpose`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L218) | ✅ Lean 4 |
+| **Theorem 1.2** ($\widetilde{A_{-2}}$ containment & tail family $\Gamma_{3+k}$ fail Deletion) | [`not_deletion_of_contains_tildeAminus2`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L195), [`theorem_1_2_tail_family`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L253) | ✅ Lean 4 |
+| **Corollary 1.3** (Not $\mathcal{O}$-conjugate to any Deletion system) | [`corollary_1_3_not_conjugate_to_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L183) | ✅ Lean 4 |
+| **Theorem 1.4 & Corollary 1.5** (Bipartite sign-negation conjugacy) | [`bipartite_conjugation_theorem`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L65), [`bipartite_mixed_sign_conjugation`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L122) | ✅ Lean 4 |
+| **Theorem 1.6** (Odd cycles $\widetilde{A_{-n}}$ and $\widetilde{A_n}$ not $\mathcal{O}$-conjugate) | [`oddCycle_not_O_conjugate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L479) | ✅ Lean 4 |
+| **Theorem 1.7 / 3.34 & Example 3.33** (Bipartite element need not minimize $\lambda$) | [`theorem_3_34_bipartite_exceeds_linear`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211) | ✅ Lean 4 |
+| **Propositions 2.17, 2.21, 2.22, 2.28, 2.45** & **Lemmas 2.31, 2.32, 2.37** | `Basic.lean`, `Conjugacy.lean`, `ComponentsAndTrees.lean` | ✅ Lean 4 |
+| **Proposition 2.41** (Bipartite $\iff$ no odd cycle) | [`isBipartite_iff_no_odd_cycle`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycles.lean#L135) | ✅ Lean 4 |
+| **Theorem 2.58** (All principal elements of a tree/forest are conjugate) | [`theorem_2_58_principal_conj_of_isAcyclic`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TreeConjugacy.lean#L385), [`theorem_2_58_principal_conj_of_isTree`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TreeConjugacy.lean#L393) | ✅ Lean 4 |
+| **Lemma 2.63** (Principal polynomial invariant under inversion) | [`principal_charpoly_eq`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L198) | ✅ Lean 4 |
+| **Propositions 3.8, 3.19 & Theorem 3.9** (Deletion $\leftrightarrow$ Exchange; universal quotient) | [`deletion_iff_exchange`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L362), [`freeCoxeterQuotient`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L52) | ✅ Lean 4 *(presentation converse cited [BB05]/[Bah05])* |
+| **Propositions 3.10–3.12, Lemmas 3.14, 3.17, Cor. 3.18, Ex. 3.13, 3.16** | [`prop_3_11_general`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwoRoots.lean#L177), `RankTwo.lean` | ✅ Lean 4 |
+| **Lemma 3.21, Lemma 3.25** ($\widetilde{A_{-2}}$ fails Deletion; $W(\widetilde{A_2})$ infinite) | [`tildeAminus2_fails_deletion`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L120), [`tildeA2_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L597) | ✅ Lean 4 |
+| **Remarks 3.23, 3.26, 3.30** ($W(\widetilde{A_{-2}}) \cong S_4$, $\det(-B)=4$, $\Lambda$ oscillation) | [`remark_3_23_card`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean#L199), [`remark_3_26_det_neg_odd_cycle`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean#L424), [`remark_3_30_A5_roots_lt`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean#L513) | ✅ Lean 4 |
+| **Theorems 3.27 & 3.28** (Classical spectral classification & interlacing) | [`theorem_3_27_classification`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L539), [`theorem_3_28_interlacing`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L740) | ✅ Lean 4 |
+| **Example 3.29** (Hyperbolic $A_3(+,+,-)$ with $\lambda(w) = 1$) | [`w_A3_ppm_add_one_cube`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L72) | ✅ Lean 4 |
+| **Theorem 1.6 Remark** ($W(\widetilde{A_{-n}}) \cong W(D_{n+1})$ for all even $n$) | [`isomorphisms.py`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py), [verifications.md](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/docs/verifications.md) | 🐍 Python |
+| **Appendices A, B, D** (Catalogs, Remark A.3 search, GAP 16-relator proof) | `catalog.py`, `finite_search.py`, `isomorphisms.py` | 🐍 Python |
+| **Questions 2.59 & 3.35** (Open research questions) | [`principal_search.py`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py) | Open Question |

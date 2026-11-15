@@ -1,0 +1,142 @@
+[
+  {
+    "objectID": "examples.html",
+    "href": "examples.html",
+    "title": "Executable Examples & Slides",
+    "section": "",
+    "text": "All code blocks below execute directly against src/mixed_sign_coxeter/ during quarto render."
+  },
+  {
+    "objectID": "examples.html#howletts-formula-theorem-1.1",
+    "href": "examples.html#howletts-formula-theorem-1.1",
+    "title": "Executable Examples & Slides",
+    "section": "1. Howlett’s Formula (Theorem 1.1)",
+    "text": "1. Howlett’s Formula (Theorem 1.1)\n\nimport sys\nsys.path.insert(0, \"src\")\n\nfrom mixed_sign_coxeter import MixedSignCoxeterGraph\n\ng = MixedSignCoxeterGraph.A_tilde(2, negative=True)\nU = g.howlett_U()\nw = g.principal_element()\nprint(\"U =\\n\", U)\nprint(\"w = -U^{-1} U^T =\\n\", w)\nprint(\"Matches -U^{-1} U^T:\", w == -(U.inv() * U.T))\nprint(\"Principal polynomial:\", g.principal_polynomial())\n\nU =\n Matrix([[-1, -1, -1], [0, -1, -1], [0, 0, -1]])\nw = -U^{-1} U^T =\n Matrix([[0, 1, 0], [0, 0, 1], [-1, -1, -1]])\nMatches -U^{-1} U^T: True\nPrincipal polynomial: Poly(x**3 + x**2 + x + 1, x, domain='ZZ')"
+  },
+  {
+    "objectID": "examples.html#failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21",
+    "href": "examples.html#failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21",
+    "title": "Executable Examples & Slides",
+    "section": "2. Failure of the Deletion Property on \\(\\widetilde{A_{-2}}\\) (Lemma 3.21)",
+    "text": "2. Failure of the Deletion Property on \\(\\widetilde{A_{-2}}\\) (Lemma 3.21)\n\nfrom mixed_sign_coxeter.group import evaluate_word, find_two_deletions\n\nw_word = (0, 1, 0, 2, 0)\nshort_word = (2, 0, 1)\nprint(\"s1 s2 s1 s3 s1 == s3 s1 s2:\", evaluate_word(g, w_word) == evaluate_word(g, short_word))\nprint(\"Valid 2-letter deletions of (0,1,0,2,0):\", find_two_deletions(g, w_word))\n\ns1 s2 s1 s3 s1 == s3 s1 s2: True\nValid 2-letter deletions of (0,1,0,2,0): []"
+  },
+  {
+    "objectID": "examples.html#wwidetildea_-n-cong-wd_n1-for-even-n",
+    "href": "examples.html#wwidetildea_-n-cong-wd_n1-for-even-n",
+    "title": "Executable Examples & Slides",
+    "section": "3. \\(W(\\widetilde{A_{-n}}) \\cong W(D_{n+1})\\) for Even \\(n\\)",
+    "text": "3. \\(W(\\widetilde{A_{-n}}) \\cong W(D_{n+1})\\) for Even \\(n\\)\n\nfrom mixed_sign_coxeter.isomorphisms import verify_a_tilde_minus_isomorphism\n\nfor n in (2, 4, 6):\n    res = verify_a_tilde_minus_isomorphism(n)\n    print(f\"n = {n}: gram_ok={res.gram_matches}, conj_ok={res.conjugates_generators}, \"\n          f\"orbit_is_D={res.root_orbit_is_D}, |W(D_{n+1})|={res.order_W_D}\")\n\nn = 2: gram_ok=True, conj_ok=True, orbit_is_D=True, |W(D_3)|=24\nn = 4: gram_ok=True, conj_ok=True, orbit_is_D=True, |W(D_5)|=1920\nn = 6: gram_ok=True, conj_ok=True, orbit_is_D=True, |W(D_7)|=322560"
+  },
+  {
+    "objectID": "examples.html#manim-slide-deck-slides",
+    "href": "examples.html#manim-slide-deck-slides",
+    "title": "Executable Examples & Slides",
+    "section": "4. Manim Slide Deck (slides/)",
+    "text": "4. Manim Slide Deck (slides/)\nTen Manim scenes in slides/dissertation_deck.py render these live computations visually, accompanied by a speaker script in slides/SCRIPT.md.\npip install -e \".[manim]\"\nmanim -qh slides/dissertation_deck.py -a   # 1080p60 full deck"
+  },
+  {
+    "objectID": "lean-verification.html",
+    "href": "lean-verification.html",
+    "title": "Lean 4 Formalization",
+    "section": "",
+    "text": "The Lean 4 formalization lives in lean/MixedSignCoxeter/ and builds cleanly (3390 jobs, zero sorry, zero axiom) against Lean v4.35.0 and Mathlib."
+  },
+  {
+    "objectID": "lean-verification.html#traceability-chain",
+    "href": "lean-verification.html#traceability-chain",
+    "title": "Lean 4 Formalization",
+    "section": "Traceability Chain",
+    "text": "Traceability Chain\nDissertation Theorem  ──▶  Lean 4 Theorem  ──▶  GitHub Source File  ──▶  lake build / pytest"
+  },
+  {
+    "objectID": "lean-verification.html#building-locally",
+    "href": "lean-verification.html#building-locally",
+    "title": "Lean 4 Formalization",
+    "section": "Building Locally",
+    "text": "Building Locally\ncd lean\nlake exe cache get\nlake build"
+  },
+  {
+    "objectID": "lean-verification.html#module-index",
+    "href": "lean-verification.html#module-index",
+    "title": "Lean 4 Formalization",
+    "section": "Module Index",
+    "text": "Module Index\n\n\n\nModule\nDissertation Scope\nKey Theorems & Definitions\n\n\n\n\nBasic.lean\nCh. 2 (2.1–2.4)\nReflectionSystem, reflectionMatrix_preserves_B (Prop. 2.17), odd_word_ne_one (Prop. 2.21), IsPosDef–IsIndefinite (Defs. 2.47–2.51)\n\n\nConjugacy.lean\nCh. 2 (2.3–2.4)\nSignedPerm, graphIso_iff_perm_conjugate (Cor. 2.38), O_conjugate_isPosDef_iff (Cor. 2.46)\n\n\nBipartite.lean\nCh. 2 (2.4), 3 (3.5)\nbipartite_conjugation_theorem (Thm. 1.4), bipartite_principalElements_conjugate (Prop. 3.32)\n\n\nComponentsAndTrees.lean\nCh. 2 (2.5–2.6)\nwordProd_split_components (Prop. 2.45), leaf_insert_conj\n\n\nTreeConjugacy.lean\nCh. 2 (2.5–2.6)\ntheorem_2_58_principal_conj_of_isAcyclic, theorem_2_58_principal_conj_of_isTree (Thm. 2.58)\n\n\nOddCycles.lean\nCh. 2 (2.4)\nisBipartite_iff_no_odd_cycle (Prop. 2.41)\n\n\nHowlett.lean\nCh. 2 (2.6)\nhowlett_principalElement_eq_neg_inv_mul_transpose (Thm. 1.1), principal_charpoly_eq (Lem. 2.63)\n\n\nMixedSign.lean\nCh. 3 (intro)\nbipartite_mixed_sign_conjugation (Cor. 1.5), proposition_3_5_classical_form (Prop. 3.5)\n\n\nRankTwo.lean\nCh. 3 (3.1–3.2)\ndet_rank2_pm (Lem. 3.17), rank2_pm_infinite_order (Lem. 3.14), adjacent_pm_infinite_order (Cor. 3.18), a2_pm_3_fibonacci_powers (Ex. 3.16)\n\n\nRankTwoRoots.lean\nCh. 3 (3.1)\nprop_3_11_general, prop_3_11_infinite_order (Prop. 3.11 in arbitrary rank)\n\n\nCyclesAndDeletion.lean\nCh. 3 (3.3–3.4)\ntildeAminus2_fails_deletion (Lem. 3.21), tildeA2_infinite_order (Lem. 3.25), oddCycle_not_O_conjugate (Thm. 1.6)\n\n\nParabolicTransfer.lean\nCh. 1 & 3 (3.3)\nnot_deletion_of_contains_tildeAminus2, theorem_1_2_tail_family (Thm. 1.2)\n\n\nClassicalDeletion.lean\nCh. 1 & 3\ndeletion_iff_exchange (Prop. 3.8 / Thm. 3.9), corollary_1_3_not_conjugate_to_deletion (Cor. 1.3)\n\n\nSpectralRadius.lean\nCh. 3 (3.5)\nw_A3_ppm_add_one_cube (Ex. 3.29), theorem_3_34_bipartite_exceeds_linear (Thm. 1.7 / Ex. 3.33)\n\n\nSpectralClassification.lean\nCh. 3 (3.5.1)\ntheorem_3_27_classification (Thm. 3.27), theorem_3_28_interlacing & theorem_3_28_strict (Thm. 3.28)\n\n\nRemarksAndClassical.lean\nCh. 3 (3.3–3.5)\nremark_3_23_card (Rem. 3.23), remark_3_26_det_neg_odd_cycle (Rem. 3.26), remark_3_30_A2_root_gt–A5_roots_lt (Rem. 3.30)"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Mixed-Sign Coxeter Systems",
+    "section": "",
+    "text": "This portal accompanies:"
+  },
+  {
+    "objectID": "index.html#what-is-a-mixed-sign-coxeter-system",
+    "href": "index.html#what-is-a-mixed-sign-coxeter-system",
+    "title": "Mixed-Sign Coxeter Systems",
+    "section": "What Is a Mixed-Sign Coxeter System?",
+    "text": "What Is a Mixed-Sign Coxeter System?\nA classical Coxeter system is realized geometrically by a symmetric bilinear form \\(B\\) with all positive diagonal entries (\\(B_{ii} = 2\\)) and reflections \\[s_i(v) = v - \\frac{2 B(e_i, v)}{B(e_i, e_i)} e_i.\\] A mixed-sign Coxeter system relaxes the positivity requirement on the diagonal: each node \\(i\\) of the signed Coxeter graph \\(\\Gamma\\) carries a sign \\(+1\\) (\\(B_{ii} = +2\\)) or \\(-1\\) (\\(B_{ii} = -2\\)), while edges carry weights \\(m(i,j) \\in \\{2, 3, \\dots, \\infty\\}\\)."
+  },
+  {
+    "objectID": "index.html#why-is-it-interesting",
+    "href": "index.html#why-is-it-interesting",
+    "title": "Mixed-Sign Coxeter Systems",
+    "section": "Why Is It Interesting?",
+    "text": "Why Is It Interesting?\nAllowing negative diagonal entries preserves the local reflection structure (\\(s_i^2 = I\\), form preservation, Howlett’s \\(U\\)-matrix factorization), yet breaks several cornerstones of classical Coxeter theory:\n\nDeletion Property fails: Odd negative cycles such as \\(\\widetilde{A_{-2}}\\) generate finite groups (\\(W(\\widetilde{A_{-2}}) \\cong S_4\\) of order \\(24\\)) that violate the classical Deletion Property and cannot be \\(\\mathcal{O}\\)-conjugate to any classical Coxeter system (Theorem 1.2, Corollary 1.3).\nSignature obstructions: Odd negative cycles \\(\\widetilde{A_{-n}}\\) (\\(n\\) even) are strictly negative definite (\\(\\det(-B) = 4\\)), hence never \\(\\mathcal{O}\\)-conjugate to affine \\(\\widetilde{A_n}\\) (Theorem 1.6); in fact \\(W(\\widetilde{A_{-n}}) \\cong W(D_{n+1})\\) for all even \\(n\\).\nSpectral-radius minimality fails: A hyperbolic system can have spectral radius \\(\\lambda(w) = 1\\) (Example 3.29), and on a bipartite mixed-sign graph the bipartite principal element need not minimize the spectral radius (Theorem 1.7, Example 3.33)."
+  },
+  {
+    "objectID": "index.html#research-portal-architecture",
+    "href": "index.html#research-portal-architecture",
+    "title": "Mixed-Sign Coxeter Systems",
+    "section": "Research Portal Architecture",
+    "text": "Research Portal Architecture\n\n\n\n\n\nflowchart LR\n  D[\"Dissertation (FSU, 2012)&lt;br/&gt;Ch. 1–3 &amp; Appendices A, B, D\"] --&gt; L[\"Lean 4 + Mathlib (v4.35.0)&lt;br/&gt;16 sorry-free modules\"]\n  D --&gt; P[\"Python Package&lt;br/&gt;mixed_sign_coxeter\"]\n  L --&gt; G[\"GitHub Source&lt;br/&gt;lean/MixedSignCoxeter/*.lean\"]\n  P --&gt; T[\"Pytest Suite &amp; Searches&lt;br/&gt;isomorphisms, finite &amp; principal search\"]\n  P --&gt; M[\"Manim Slide Deck&lt;br/&gt;slides/dissertation_deck.py\"]\n\n\n\n\n\n\n\n\n\nLayer\nRole\nWhere to Look\n\n\n\n\nDissertation & Audit\nFull theorem-by-theorem verification matrix\nDissertation & Audit\n\n\nLean 4 Proofs\n16 sorry-free Lean 4 modules covering Ch. 1–3\nLean Proofs\n\n\nSpectral & Combinatorial Results\nLive Python plots, signature & search summaries\nResults\n\n\nExecutable Examples\nInteractive Python snippets + Manim slide deck\nExamples"
+  },
+  {
+    "objectID": "dissertation.html",
+    "href": "dissertation.html",
+    "title": "Dissertation & Lean 4 Audit",
+    "section": "",
+    "text": "Original Dissertation: FSU Digital Library PDF (Download)\nCombined Writeup: HTML · PDF · DOCX"
+  },
+  {
+    "objectID": "dissertation.html#headline-audit-summary",
+    "href": "dissertation.html#headline-audit-summary",
+    "title": "Dissertation & Lean 4 Audit",
+    "section": "Headline Audit Summary",
+    "text": "Headline Audit Summary\nEvery numbered theorem, proposition, lemma, corollary, definition, example, and remark in Chapters 1–3 of the dissertation has a sorry-free Lean 4 verification (lake build, 3390 jobs in Lean v4.35.0). Appendices A, B, and D—plus the general even-\\(n\\) isomorphism \\(W(\\widetilde{A_{-n}}) \\cong W(D_{n+1})\\)—are verified in Python (pytest)."
+  },
+  {
+    "objectID": "dissertation.html#dissertation-lean-4-python-audit-table",
+    "href": "dissertation.html#dissertation-lean-4-python-audit-table",
+    "title": "Dissertation & Lean 4 Audit",
+    "section": "Dissertation ↔︎ Lean 4 ↔︎ Python Audit Table",
+    "text": "Dissertation ↔︎ Lean 4 ↔︎ Python Audit Table\n\n\n\nDissertation Result\nLean 4 / Python Artifact\nStatus\n\n\n\n\nTheorem 1.1 (Howlett’s formula \\(w = -U^{-1} U^T\\))\nhowlett_principalElement_eq_neg_inv_mul_transpose\n✅ Lean 4\n\n\nTheorem 1.2 (\\(\\widetilde{A_{-2}}\\) containment & tail family \\(\\Gamma_{3+k}\\) fail Deletion)\nnot_deletion_of_contains_tildeAminus2, theorem_1_2_tail_family\n✅ Lean 4\n\n\nCorollary 1.3 (Not \\(\\mathcal{O}\\)-conjugate to any Deletion system)\ncorollary_1_3_not_conjugate_to_deletion\n✅ Lean 4\n\n\nTheorem 1.4 & Corollary 1.5 (Bipartite sign-negation conjugacy)\nbipartite_conjugation_theorem, bipartite_mixed_sign_conjugation\n✅ Lean 4\n\n\nTheorem 1.6 (Odd cycles \\(\\widetilde{A_{-n}}\\) and \\(\\widetilde{A_n}\\) not \\(\\mathcal{O}\\)-conjugate)\noddCycle_not_O_conjugate\n✅ Lean 4\n\n\nTheorem 1.7 / 3.34 & Example 3.33 (Bipartite element need not minimize \\(\\lambda\\))\ntheorem_3_34_bipartite_exceeds_linear\n✅ Lean 4\n\n\nPropositions 2.17, 2.21, 2.22, 2.28, 2.45 & Lemmas 2.31, 2.32, 2.37\nBasic.lean, Conjugacy.lean, ComponentsAndTrees.lean\n✅ Lean 4\n\n\nProposition 2.41 (Bipartite \\(\\iff\\) no odd cycle)\nisBipartite_iff_no_odd_cycle\n✅ Lean 4\n\n\nTheorem 2.58 (All principal elements of a tree/forest are conjugate)\ntheorem_2_58_principal_conj_of_isAcyclic, theorem_2_58_principal_conj_of_isTree\n✅ Lean 4\n\n\nLemma 2.63 (Principal polynomial invariant under inversion)\nprincipal_charpoly_eq\n✅ Lean 4\n\n\nPropositions 3.8, 3.19 & Theorem 3.9 (Deletion \\(\\leftrightarrow\\) Exchange; universal quotient)\ndeletion_iff_exchange, freeCoxeterQuotient\n✅ Lean 4 (presentation converse cited [BB05]/[Bah05])\n\n\nPropositions 3.10–3.12, Lemmas 3.14, 3.17, Cor. 3.18, Ex. 3.13, 3.16\nprop_3_11_general, RankTwo.lean\n✅ Lean 4\n\n\nLemma 3.21, Lemma 3.25 (\\(\\widetilde{A_{-2}}\\) fails Deletion; \\(W(\\widetilde{A_2})\\) infinite)\ntildeAminus2_fails_deletion, tildeA2_infinite_order\n✅ Lean 4\n\n\nRemarks 3.23, 3.26, 3.30 (\\(W(\\widetilde{A_{-2}}) \\cong S_4\\), \\(\\det(-B)=4\\), \\(\\Lambda\\) oscillation)\nremark_3_23_card, remark_3_26_det_neg_odd_cycle, remark_3_30_A5_roots_lt\n✅ Lean 4\n\n\nTheorems 3.27 & 3.28 (Classical spectral classification & interlacing)\ntheorem_3_27_classification, theorem_3_28_interlacing\n✅ Lean 4\n\n\nExample 3.29 (Hyperbolic \\(A_3(+,+,-)\\) with \\(\\lambda(w) = 1\\))\nw_A3_ppm_add_one_cube\n✅ Lean 4\n\n\nTheorem 1.6 Remark (\\(W(\\widetilde{A_{-n}}) \\cong W(D_{n+1})\\) for all even \\(n\\))\nisomorphisms.py, verifications.md\n🐍 Python\n\n\nAppendices A, B, D (Catalogs, Remark A.3 search, GAP 16-relator proof)\ncatalog.py, finite_search.py, isomorphisms.py\n🐍 Python\n\n\nQuestions 2.59 & 3.35 (Open research questions)\nprincipal_search.py\nOpen Question"
+  },
+  {
+    "objectID": "spectral-results.html",
+    "href": "spectral-results.html",
+    "title": "Spectral & Combinatorial Results",
+    "section": "",
+    "text": "This page summarizes the main spectral and combinatorial phenomena from the dissertation alongside the computational verifications in docs/verifications.md."
+  },
+  {
+    "objectID": "spectral-results.html#bipartite-spectral-non-minimality-theorem-1.7-example-3.33",
+    "href": "spectral-results.html#bipartite-spectral-non-minimality-theorem-1.7-example-3.33",
+    "title": "Spectral & Combinatorial Results",
+    "section": "Bipartite Spectral Non-Minimality (Theorem 1.7 / Example 3.33)",
+    "text": "Bipartite Spectral Non-Minimality (Theorem 1.7 / Example 3.33)\nIn classical Coxeter systems, bipartite Coxeter elements always minimize the spectral radius among all principal elements. In the 6-node bipartite mixed-sign graph example_3_33, the bipartite principal element has a strictly larger spectral radius than the linear principal element:\n\nimport sys\nsys.path.insert(0, \"src\")\n\nfrom mixed_sign_coxeter import MixedSignCoxeterGraph\n\ng = MixedSignCoxeterGraph.example_3_33()\nrho_lin = g.spectral_radius([0, 1, 2, 3, 4, 5])\nrho_bp = g.spectral_radius([0, 3, 5, 1, 2, 4])\nprint(f\"Bipartite graph: {g.is_bipartite()}\")\nprint(f\"Linear principal element   [1,2,3,4,5,6]: rho = {rho_lin:.5f}\")\nprint(f\"Bipartite principal element [1,4,6,2,3,5]: rho = {rho_bp:.5f}\")\n\nBipartite graph: True\nLinear principal element   [1,2,3,4,5,6]: rho = 3.05129\nBipartite principal element [1,4,6,2,3,5]: rho = 5.55193"
+  },
+  {
+    "objectID": "spectral-results.html#non-monotonicity-of-lambda-remark-3.30",
+    "href": "spectral-results.html#non-monotonicity-of-lambda-remark-3.30",
+    "title": "Spectral & Combinatorial Results",
+    "section": "Non-Monotonicity of \\(\\Lambda\\) (Remark 3.30)",
+    "text": "Non-Monotonicity of \\(\\Lambda\\) (Remark 3.30)\nAdding a positive node along \\(A_2(+,-) \\subset A_3(-,+,+) \\subset A_4(-,+,+,+) \\subset A_5(-,+,+,+,+)\\) causes the minimal spectral radius \\(\\Lambda\\) to oscillate instead of increasing monotonically:\n\nfrom mixed_sign_coxeter import MixedSignCoxeterGraph\n\nchain = [\n    (\"A2(+,-)\",       [\"+\", \"-\"]),\n    (\"A3(-,+,+)\",     [\"-\", \"+\", \"+\"]),\n    (\"A4(-,+,+,+)\",   [\"-\", \"+\", \"+\", \"+\"]),\n    (\"A5(-,+,+,+,+)\", [\"-\", \"+\", \"+\", \"+\", \"+\"]),\n]\nfor label, signs in chain:\n    lam, _ = MixedSignCoxeterGraph.A_n(signs).minimal_spectral_radius()\n    print(f\"{label:15s}  Lambda = {lam:.5f}\")\n\nA2(+,-)          Lambda = 2.61803\nA3(-,+,+)        Lambda = 1.00000\nA4(-,+,+,+)      Lambda = 2.15372\nA5(-,+,+,+,+)    Lambda = 1.88320"
+  },
+  {
+    "objectID": "spectral-results.html#computational-verifications-beyond-the-dissertation",
+    "href": "spectral-results.html#computational-verifications-beyond-the-dissertation",
+    "title": "Spectral & Combinatorial Results",
+    "section": "Computational Verifications Beyond the Dissertation",
+    "text": "Computational Verifications Beyond the Dissertation\nFull derivations and tests live in docs/verifications.md and tests/test_verifications.py:\n\n\\(W(\\widetilde{A_{-n}}) \\cong W(D_{n+1})\\) for every even \\(n\\) (isomorphisms.py): An explicit integer matrix \\(T\\) of \\(D_{n+1}\\) roots satisfies \\(T^T T = -B(\\widetilde{A_{-n}})\\) and conjugates \\(W(\\widetilde{A_{-n}})\\) onto \\(W(D_{n+1})\\) of order \\(2^n (n+1)!\\). For odd \\(n\\), the cycle is bipartite and \\(W(\\widetilde{A_{-n}})\\) is infinite.\nAppendix D in Python: Reproduces the GAP session for \\(W(\\widetilde{A_{-4}})\\), verifies all 16 relators, and proves faithfulness of order \\(1920\\) via Todd–Coxeter enumeration.\nRemark A.3 (Table A.2 completeness) (finite_search.py): Exhaustive search finds 4 additional finite rank-3 graphs and 24 additional finite rank-4 graphs beyond Table A.2 and Figure A.1 (all negative and non-bipartite).\nQuestion 3.35 (principal_search.py): Across 4,026 simply-laced cyclic graphs on 4–6 nodes, the smallest counterexample where the bipartite element fails to minimize is the alternating 4-cycle \\((+,-,+,-)\\)."
+  }
+]
