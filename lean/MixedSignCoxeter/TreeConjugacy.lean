@@ -55,8 +55,8 @@ variable {n : ℕ}
 `i ≠ j` exactly when `B(e_i, e_j) ≠ 0`. -/
 def diagram (S : ReflectionSystem n) : SimpleGraph (Fin n) where
   Adj i j := i ≠ j ∧ S.B i j ≠ 0
-  symm i j h := ⟨h.1.symm, by rw [S.B_symm.apply i j]; exact h.2⟩
-  loopless i h := h.1 rfl
+  symm := ⟨fun i j h => ⟨h.1.symm, by rw [S.B_symm.apply i j]; exact h.2⟩⟩
+  loopless := ⟨fun i h => h.1 rfl⟩
 
 @[simp]
 lemma diagram_adj (S : ReflectionSystem n) (i j : Fin n) :
@@ -185,7 +185,7 @@ lemma moves_commute_front (S : ReflectionSystem n) (t : Fin n) (v : List (Fin n)
   | x :: u, p, hu => by
     have ih := moves_commute_front S t v u (p ++ [x]) (fun y hy => hu y (by simp [hy]))
     have hxt : S.B x t = 0 := by
-      rw [← S.B_symm.apply t x]; exact hu x (by simp)
+      rw [S.B_symm.apply t x]; exact hu x (by simp)
     refine Moves.trans' (b := p ++ [x] ++ t :: (u ++ v)) ?_ ?_
     · simpa using ih
     · have := Moves.single (MoveStep.swap (S := S) p (u ++ v) x t hxt)
@@ -272,10 +272,10 @@ private lemma moves_lift {S : ReflectionSystem n} {t i : Fin n} {a b : List (Fin
   | refl => exact fun _ => Moves.refl' S _
   | symm x y hxy ih =>
     intro hy
-    exact (ih (LeafInv.of_perm hxy.perm.symm hy)).symm'
+    exact (ih (LeafInv.of_perm (Moves.perm hxy).symm hy)).symm'
   | trans x y z hxy _ ih₁ ih₂ =>
     intro hx
-    exact (ih₁ hx).trans' (ih₂ (LeafInv.of_perm hxy.perm hx))
+    exact (ih₁ hx).trans' (ih₂ (LeafInv.of_perm (Moves.perm hxy) hx))
 
 /-! ### Leaves of forests -/
 
@@ -289,14 +289,13 @@ theorem exists_leaf_of_isAcyclic (S : ReflectionSystem n) (hG : S.diagram.IsAcyc
   · obtain ⟨t, ht, h⟩ := hiso
     exact ⟨t, ht, t, fun x hx hxt _ => h x hx hxt⟩
   push Not at hiso
-  obtain ⟨t₀, ht₀, x₀, hx₀, hx₀t, hB₀⟩ := hs.elim fun t ht => by
-    obtain ⟨x, hx, hxt, hB⟩ := hiso t ht
-    exact ⟨t, ht, x, hx, hxt, hB⟩
+  obtain ⟨t₀, ht₀⟩ := hs
+  obtain ⟨x₀, hx₀, hx₀t, hB₀⟩ := hiso t₀ ht₀
   -- The diagram induced on `s`, as a subgraph of `Γ(B)` on all of `Fin n`.
   let H : SimpleGraph (Fin n) :=
     { Adj := fun x y => x ∈ s ∧ y ∈ s ∧ S.diagram.Adj x y
-      symm := fun x y h => ⟨h.2.1, h.1, h.2.2.symm⟩
-      loopless := fun x h => S.diagram.loopless x h.2.2 }
+      symm := ⟨fun x y h => ⟨h.2.1, h.1, h.2.2.symm⟩⟩
+      loopless := ⟨fun x h => h.2.2.1 rfl⟩ }
   have hHG : H ≤ S.diagram := fun x y h => h.2.2
   have hH : H.IsAcyclic := hG.anti hHG
   haveI : Nonempty (Fin n) := ⟨t₀⟩

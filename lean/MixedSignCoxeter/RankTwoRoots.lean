@@ -76,27 +76,24 @@ private lemma sum_mul_pairVec (i j : Fin n) (α β : ℝ) (g : Fin n → ℝ) :
 
 variable (S : ReflectionSystem n) {i j : Fin n}
 
-/-- `s_i (α e_i + β e_j) = (c β - α) e_i + β e_j`. -/
+/-- `s_i (α e_i + β e_j) = (c β - α) e_i + β e_j`, `c = -2 B(e_i, e_j) / B(e_i, e_i)`. -/
 lemma reflection_i_pairVec (hij : i ≠ j) (α β : ℝ) :
     (reflectionMatrix S.B i).mulVec (pairVec i j α β) =
       pairVec i j (-2 * S.B i j / S.B i i * β - α) β := by
   have hB := S.B_diag_ne_zero i
+  have hs : (∑ x : Fin n, 2 * S.B i x / S.B i i * pairVec i j α β x) =
+      2 * S.B i i / S.B i i * α + 2 * S.B i j / S.B i i * β :=
+    sum_mul_pairVec i j α β (fun x => 2 * S.B i x / S.B i i)
   funext r
   simp only [mulVec, dotProduct, reflectionMatrix_apply, sub_mul, ite_mul, one_mul, zero_mul,
     Finset.sum_sub_distrib, Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte]
-  have hsum : (∑ x : Fin n, (if r = i then 2 * S.B i x / S.B i i else 0) * pairVec i j α β x) =
-      if r = i then 2 * S.B i i / S.B i i * α + 2 * S.B i j / S.B i i * β else 0 := by
-    by_cases hr : r = i
-    · simp only [hr, ↓reduceIte]
-      exact sum_mul_pairVec i j α β (fun x => 2 * S.B i x / S.B i i)
-    · simp [hr]
-  rw [hsum]
   by_cases hr : r = i
-  · subst hr
+  · simp only [hr, ↓reduceIte]
+    rw [hs]
     simp only [pairVec, ↓reduceIte, hij, add_zero]
     field_simp
     ring
-  · simp [pairVec, hr]
+  · simp [hr, pairVec]
 
 /-- `s_j (α e_i + β e_j) = α e_i + (c' α - β) e_j`, `c' = -2 B(e_j, e_i) / B(e_j, e_j)`. -/
 lemma reflection_j_pairVec (hij : i ≠ j) (α β : ℝ) :
@@ -104,31 +101,28 @@ lemma reflection_j_pairVec (hij : i ≠ j) (α β : ℝ) :
       pairVec i j α (-2 * S.B j i / S.B j j * α - β) := by
   have hB := S.B_diag_ne_zero j
   have hji : j ≠ i := hij.symm
+  have hs : (∑ x : Fin n, 2 * S.B j x / S.B j j * pairVec i j α β x) =
+      2 * S.B j i / S.B j j * α + 2 * S.B j j / S.B j j * β :=
+    sum_mul_pairVec i j α β (fun x => 2 * S.B j x / S.B j j)
   funext r
   simp only [mulVec, dotProduct, reflectionMatrix_apply, sub_mul, ite_mul, one_mul, zero_mul,
     Finset.sum_sub_distrib, Finset.sum_ite_eq, Finset.mem_univ, ↓reduceIte]
-  have hsum : (∑ x : Fin n, (if r = j then 2 * S.B j x / S.B j j else 0) * pairVec i j α β x) =
-      if r = j then 2 * S.B j i / S.B j j * α + 2 * S.B j j / S.B j j * β else 0 := by
-    by_cases hr : r = j
-    · simp only [hr, ↓reduceIte]
-      exact sum_mul_pairVec i j α β (fun x => 2 * S.B j x / S.B j j)
-    · simp [hr]
-  rw [hsum]
   by_cases hr : r = j
-  · subst hr
+  · simp only [hr, ↓reduceIte]
+    rw [hs]
     simp only [pairVec, ↓reduceIte, hji, zero_add]
     field_simp
     ring
   · by_cases hri : r = i
-    · subst hri; simp [pairVec, hr]
-    · simp [pairVec, hr, hri]
+    · simp [hri, pairVec, hij]
+    · simp [hr, hri, pairVec]
 
 /-- The basis vector `e_i` is `pairVec i j 1 0`. -/
 lemma pairVec_single (hij : i ≠ j) : pairVec i j 1 0 = Pi.single i 1 := by
   funext r
   by_cases hr : r = i
-  · subst hr; simp [pairVec, Pi.single_apply]
-  · simp [pairVec, Pi.single_apply, hr]
+  · simp [hr, pairVec]
+  · simp [pairVec, hr]
 
 /-- The alternating words `g_k` of the proof of Proposition 3.11:
 `g₀ = 1`, `g_{2k+1} = s_j g_{2k}`, `g_{2k+2} = s_i g_{2k+1}`. -/
@@ -136,98 +130,78 @@ noncomputable def altWord (i j : Fin n) : ℕ → Matrix (Fin n) (Fin n) ℝ
   | 0 => 1
   | k + 1 => (if k % 2 = 0 then reflectionMatrix S.B j else reflectionMatrix S.B i) * altWord i j k
 
-/-- The coefficients of `g_k e_i`. -/
-lemma alternating_word_root (hij : i ≠ j) (hdiag : S.B i i = S.B j j) (k : ℕ) :
-    let c := -2 * S.B i j / S.B i i
-    (altWord S i j (2 * k)).mulVec (Pi.single i 1) =
-        pairVec i j (chebSeq c (2 * k + 1)) (chebSeq c (2 * k)) ∧
-      (altWord S i j (2 * k + 1)).mulVec (Pi.single i 1) =
-        pairVec i j (chebSeq c (2 * k + 1)) (chebSeq c (2 * k + 2)) := by
-  intro c
-  have hcj : -2 * S.B j i / S.B j j = c := by
-    simp only [c]; rw [← hdiag, S.B_symm.apply i j]
-  induction k with
-  | zero =>
-    have h0 : (altWord S i j 0).mulVec (Pi.single i 1) = pairVec i j 1 0 := by
-      simp [altWord, pairVec_single S hij]
-    refine ⟨by simpa using h0, ?_⟩
-    simp only [altWord, Nat.zero_mod, ↓reduceIte]
-    rw [← Matrix.mulVec_mulVec]
-    have := h0
-    simp only [altWord] at this
-    rw [this, reflection_j_pairVec S hij, hcj]
-    simp [chebSeq_succ_succ]
-  | succ k ih =>
-    obtain ⟨_, h₂⟩ := ih
-    have hodd : (2 * k + 1) % 2 = 1 := by omega
-    have heven : (2 * (k + 1)) % 2 = 0 := by omega
-    have hA : (altWord S i j (2 * (k + 1))).mulVec (Pi.single i 1) =
-        pairVec i j (chebSeq c (2 * (k + 1) + 1)) (chebSeq c (2 * (k + 1))) := by
-      have e : 2 * (k + 1) = (2 * k + 1) + 1 := by ring
-      rw [e]
-      simp only [altWord, hodd, one_ne_zero, ↓reduceIte]
-      rw [← Matrix.mulVec_mulVec]
-      have h₂' := h₂
-      simp only [altWord] at h₂'
-      rw [h₂', reflection_i_pairVec S hij]
-      have e2 : 2 * k + 1 + 1 + 1 = (2 * k + 1) + 2 := by ring
-      rw [e2, chebSeq_succ_succ, show 2 * k + 1 + 1 = 2 * k + 2 by ring]
-      simp only [c]
-      ring_nf
-    refine ⟨hA, ?_⟩
-    simp only [altWord, heven, ↓reduceIte]
-    rw [← Matrix.mulVec_mulVec]
-    have hA' := hA
-    simp only [altWord] at hA'
-    rw [hA', reflection_j_pairVec S hij, hcj]
-    have e3 : 2 * (k + 1) + 2 = (2 * (k + 1)) + 2 := rfl
-    rw [e3, chebSeq_succ_succ]
-    ring_nf
+lemma altWord_succ (i j : Fin n) (k : ℕ) :
+    altWord S i j (k + 1) =
+      (if k % 2 = 0 then reflectionMatrix S.B j else reflectionMatrix S.B i) * altWord S i j k :=
+  rfl
+
+/-- The coefficients of `g_m e_i`: `t_{m+1} e_i + t_m e_j` for even `m`, and
+`t_m e_i + t_{m+1} e_j` for odd `m`. -/
+lemma alternating_word_root (hij : i ≠ j) (c : ℝ) (hci : -2 * S.B i j / S.B i i = c)
+    (hcj : -2 * S.B j i / S.B j j = c) : ∀ m : ℕ,
+    (altWord S i j m).mulVec (Pi.single i 1) =
+      if m % 2 = 0 then pairVec i j (chebSeq c (m + 1)) (chebSeq c m)
+      else pairVec i j (chebSeq c m) (chebSeq c (m + 1))
+  | 0 => by
+    rw [show altWord S i j 0 = 1 from rfl, one_mulVec, ← pairVec_single hij]
+    simp
+  | m + 1 => by
+    have ih := alternating_word_root hij c hci hcj m
+    rw [altWord_succ, ← mulVec_mulVec, ih]
+    rcases Nat.mod_two_eq_zero_or_one m with hm | hm
+    · have hm' : (m + 1) % 2 = 1 := by omega
+      simp only [hm, hm', ↓reduceIte, one_ne_zero]
+      rw [reflection_j_pairVec S hij, hcj, ← chebSeq_succ_succ]
+    · have hm' : (m + 1) % 2 = 0 := by omega
+      simp only [hm, hm', ↓reduceIte, one_ne_zero]
+      rw [reflection_i_pairVec S hij, hci, ← chebSeq_succ_succ]
 
 /-- `g_{2k} = (s_i s_j)^k`. -/
 lemma altWord_even (k : ℕ) :
     altWord S i j (2 * k) = (reflectionMatrix S.B i * reflectionMatrix S.B j) ^ k := by
   induction k with
-  | zero => simp [altWord]
+  | zero => rfl
   | succ k ih =>
     have e : 2 * (k + 1) = (2 * k + 1) + 1 := by ring
     have hodd : (2 * k + 1) % 2 = 1 := by omega
     have heven : (2 * k) % 2 = 0 := by omega
-    rw [e]
-    simp only [altWord, hodd, one_ne_zero, ↓reduceIte, heven]
-    rw [ih, pow_succ', Matrix.mul_assoc]
+    rw [e, altWord_succ, altWord_succ, if_neg (by omega), if_pos heven, ih, pow_succ',
+      Matrix.mul_assoc]
 
 /-- **Proposition 3.11 (general)**: If `i ≠ j`, `B(e_i, e_i) = B(e_j, e_j)` and
 `c = -2 B(e_i, e_j) / B(e_i, e_i) ≥ 2` (so `s_i s_j` has infinite order, e.g. `m(i, j) = ∞`
 in a classical Coxeter graph), then `w_k = (s_i s_j)^k` satisfies
 `w_k e_i = t_{2k+1} e_i + t_{2k} e_j` with `t_{2k+1} ≥ 2k+1` and `t_{2k} ≥ 2k`; in particular
 every coordinate of `w_k e_i` is nonnegative, i.e. `w_k e_i ∈ Φ⁺`. The same holds for all the
-alternating words `g_k` of the dissertation's proof. -/
+alternating words `g_m` of the dissertation's proof. -/
 theorem prop_3_11_general (hij : i ≠ j) (hdiag : S.B i i = S.B j j)
     (hc : 2 ≤ -2 * S.B i j / S.B i i) (k : ℕ) :
-    let c := -2 * S.B i j / S.B i i
     ((reflectionMatrix S.B i * reflectionMatrix S.B j) ^ k).mulVec (Pi.single i 1) =
-        pairVec i j (chebSeq c (2 * k + 1)) (chebSeq c (2 * k)) ∧
-      ((2 * k + 1 : ℕ) : ℝ) ≤ chebSeq c (2 * k + 1) ∧ ((2 * k : ℕ) : ℝ) ≤ chebSeq c (2 * k) ∧
+        pairVec i j (chebSeq (-2 * S.B i j / S.B i i) (2 * k + 1))
+          (chebSeq (-2 * S.B i j / S.B i i) (2 * k)) ∧
+      ((2 * k + 1 : ℕ) : ℝ) ≤ chebSeq (-2 * S.B i j / S.B i i) (2 * k + 1) ∧
       (∀ r, 0 ≤ ((reflectionMatrix S.B i * reflectionMatrix S.B j) ^ k).mulVec
         (Pi.single i 1) r) ∧
       (∀ m r, 0 ≤ (altWord S i j m).mulVec (Pi.single i 1) r) := by
-  intro c
-  have hroot := alternating_word_root S hij hdiag
+  set c := -2 * S.B i j / S.B i i with hc_def
+  have hcj : -2 * S.B j i / S.B j j = c := by
+    rw [hc_def, ← hdiag, S.B_symm.apply i j]
+  have hroot := alternating_word_root S hij c hc_def.symm hcj
   have hge := chebSeq_ge c hc
   have hnn : ∀ m, 0 ≤ chebSeq c m := fun m => le_trans (Nat.cast_nonneg m) (hge m)
   have hpair : ∀ α β, 0 ≤ α → 0 ≤ β → ∀ r, 0 ≤ pairVec i j α β r := by
     intro α β hα hβ r
     unfold pairVec
     split_ifs <;> linarith
-  have hk := (hroot k).1
-  rw [altWord_even] at hk
-  refine ⟨hk, hge _, hge _, ?_, ?_⟩
+  have hk := hroot (2 * k)
+  rw [if_pos (by omega), altWord_even] at hk
+  refine ⟨hk, hge _, ?_, ?_⟩
   · rw [hk]; exact hpair _ _ (hnn _) (hnn _)
   · intro m r
-    obtain ⟨q, rfl | rfl⟩ := Nat.even_or_odd' m
-    · rw [(hroot q).1]; exact hpair _ _ (hnn _) (hnn _) r
-    · rw [(hroot q).2]; exact hpair _ _ (hnn _) (hnn _) r
+    rw [hroot m]
+    split_ifs
+    · exact hpair _ _ (hnn _) (hnn _) r
+    · exact hpair _ _ (hnn _) (hnn _) r
 
 /-- Under the hypotheses of Proposition 3.11, `s_i s_j` has infinite order. -/
 theorem prop_3_11_infinite_order (hij : i ≠ j) (hdiag : S.B i i = S.B j j)
@@ -238,8 +212,8 @@ theorem prop_3_11_infinite_order (hij : i ≠ j) (hdiag : S.B i i = S.B j j)
   rw [h1, Matrix.one_mulVec] at hv
   have := congr_fun hv i
   simp only [Pi.single_eq_same, pairVec, ↓reduceIte, hij, add_zero] at this
-  have : ((2 * k + 1 : ℕ) : ℝ) ≤ 1 := by linarith
-  have : (2 * k + 1 : ℕ) ≤ 1 := by exact_mod_cast this
+  have h3 : ((2 * k + 1 : ℕ) : ℝ) ≤ 1 := by linarith
+  have h4 : (2 * k + 1 : ℕ) ≤ 1 := by exact_mod_cast h3
   omega
 
 end ReflectionSystem

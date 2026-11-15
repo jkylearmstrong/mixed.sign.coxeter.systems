@@ -72,7 +72,7 @@ lemma embedMat_transpose_mul (f : Fin m → Fin n) (hf : Function.Injective f) :
 lemma reflectionMatrix_comp_eq (B : Matrix (Fin n) (Fin n) ℝ) (f : Fin m → Fin n) (a : Fin m) :
     reflectionMatrix B (f a) = 1 - embedMat f * reflCoeff B f a * B.submatrix f id := by
   ext r c
-  simp only [reflectionMatrix_apply, sub_apply, one_apply, mul_apply, embedMat, reflCoeff,
+  simp only [reflectionMatrix_apply, Matrix.sub_apply, one_apply, mul_apply, embedMat, reflCoeff,
     of_apply, submatrix_apply, id_eq]
   congr 1
   have hinner : ∀ y : Fin m,
@@ -93,7 +93,7 @@ lemma reflectionMatrix_comp_eq (B : Matrix (Fin n) (Fin n) ℝ) (f : Fin m → F
 lemma reflectionMatrix_sub_eq (B : Matrix (Fin n) (Fin n) ℝ) (f : Fin m → Fin n) (a : Fin m) :
     reflectionMatrix (B.submatrix f f) a = 1 - reflCoeff B f a * B.submatrix f f := by
   ext x c
-  simp only [reflectionMatrix_apply, sub_apply, one_apply, mul_apply, reflCoeff, of_apply,
+  simp only [reflectionMatrix_apply, Matrix.sub_apply, one_apply, mul_apply, reflCoeff, of_apply,
     submatrix_apply]
   congr 1
   have hterm : ∀ y : Fin m,
@@ -214,7 +214,7 @@ theorem not_deletion_of_contains_tildeAminus2 (S : ReflectionSystem n) (f : Fin 
     rw [hdel] at hEq
     have := wordProd_sub_eq_of_map S.B f hf _ _ hEq
     rw [hsub] at this
-    simpa [wordProd] using this
+    simpa [wordProd, MixedSignCoxeterGraph.toReflectionSystem] using this
   refine ⟨heq, hno, ?_⟩
   intro hdel
   have hu : ([2, 0, 1].map f).length < w.length := by simp [w]
