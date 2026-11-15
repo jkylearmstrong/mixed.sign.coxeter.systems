@@ -1,6 +1,6 @@
 ---
 title: "Lean 4 Formalization"
-subtitle: "17 sorry-free modules in Lean v4.35.0 + Mathlib"
+subtitle: "Sorry-free formalization in Lean v4.35.0 + Mathlib"
 jupyter: python3
 ---
 

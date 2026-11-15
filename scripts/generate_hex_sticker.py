@@ -192,8 +192,9 @@ def build_social_card() -> None:
         linespacing=1.4,
     )
 
+    n_lean = len(list((ROOT / "lean" / "MixedSignCoxeter").glob("*.lean")))
     pills = [
-        (530, "Lean 4 (16 modules)", LEAN_BLUE),
+        (530, f"Lean 4 ({n_lean} modules)", LEAN_BLUE),
         (765, "Python + SymPy", GARNET),
         (965, "Shiny Explorer", GRAPHITE),
     ]
