@@ -472,9 +472,29 @@ app_ui = ui.page_fluid(
 
 def server(input, output, session):
     _, init_s, init_e = PRESETS["example_3_33"]
-    signs_rv = reactive.value(list(init_s))
-    edges_rv = reactive.value(list(init_e))
-    pos_rv = reactive.value(circle_positions(len(init_s)))
+    init_signs, init_edges = list(init_s), list(init_e)
+    qs = parse_qs(session.clientdata.url_search().lstrip("?")) if hasattr(session, "clientdata") else {}
+    if "signs" in qs and qs["signs"]:
+        s_parsed = [1 if ch == "+" else -1 for ch in qs["signs"][0] if ch in ("+", "-")]
+        if s_parsed:
+            init_signs = s_parsed
+            raw_e = qs.get("edges", [""])[0]
+            parsed_e = []
+            for item in raw_e.split(","):
+                item = item.strip()
+                if not item or "-" not in item:
+                    continue
+                pair_s, w_s = (item.split(":", 1) + ["3"])[:2]
+                u_s, v_s = pair_s.split("-", 1)
+                u, v = int(u_s), int(v_s)
+                w = math.inf if w_s.strip().lower() in ("oo", "inf") else float(w_s)
+                if 0 &lt;= u &lt; len(init_signs) and 0 &lt;= v &lt; len(init_signs) and u != v:
+                    parsed_e.append((min(u, v), max(u, v), w))
+            init_edges = parsed_e
+
+    signs_rv = reactive.value(init_signs)
+    edges_rv = reactive.value(init_edges)
+    pos_rv = reactive.value(circle_positions(len(init_signs)))
     edge_start_rv = reactive.value(None)
 
     @reactive.effect
@@ -614,11 +634,13 @@ def server(input, output, session):
             ax.text(x, y, f"{i}\n({'+' if s[i] &gt; 0 else '−'})", color="white", ha="center", va="center", fontsize=8.5, fontweight="bold", zorder=3)
         xs = [p[0] for p in pos.values()]
         ys = [p[1] for p in pos.values()]
+        ax.scatter([], [], s=120, color=GARNET, label="(+) Positive")
+        ax.scatter([], [], s=120, color=LEAN_BLUE, label="(−) Negative")
+        ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.06), ncol=2, frameon=False, fontsize=9.5)
         ax.set_xlim(min(xs) - 0.35, max(xs) + 0.35)
         ax.set_ylim(min(ys) - 0.35, max(ys) + 0.35)
         ax.set_aspect("equal")
         ax.axis("off")
-        ax.set_title("Garnet (#782F40) = (+) vertex   |   Lean Blue (#1E6BD6) = (−) vertex", fontsize=9.5)
         return fig
 
     @render.plot
@@ -655,7 +677,7 @@ def server(input, output, session):
             rho_bip = float(np.max(np.abs(np.linalg.eigvals(w_bip))))
             pct = ((rho_bip / rho_lin) - 1.0) * 100.0 if rho_lin &gt; 0 else 0.0
             bip_html = f"&lt;div class='mb-2'&gt;&lt;strong&gt;✓ Bipartite&lt;/strong&gt; | &lt;code&gt;ρ_lin={rho_lin:.4f}&lt;/code&gt; | &lt;code&gt;ρ_bip={rho_bip:.4f}&lt;/code&gt; ({pct:+.1f}%)&lt;/div&gt;"
-            thm_html = "&lt;li&gt;✅ &lt;strong&gt;Bipartite Principal Element Theorem&lt;/strong&gt; applicable (&lt;a href='lean-verification.html'&gt;Learn More →&lt;/a&gt;)&lt;/li&gt;"
+            thm_html = "&lt;li&gt;✅ &lt;strong&gt;Bipartite Principal Element Theorem&lt;/strong&gt; applicable (&lt;a href='https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/lean-verification.html' target='_blank'&gt;Learn More →&lt;/a&gt;)&lt;/li&gt;"
         else:
             bip_html = f"&lt;div class='mb-2'&gt;&lt;strong&gt;✗ Not bipartite&lt;/strong&gt; | &lt;code&gt;ρ_lin={rho_lin:.4f}&lt;/code&gt;&lt;/div&gt;"
             thm_html = ""
@@ -664,14 +686,19 @@ def server(input, output, session):
         return ui.HTML(
             bip_html
             + f"&lt;div class='small text-muted mb-2'&gt;Vertices: &lt;strong&gt;{n}&lt;/strong&gt; · Edges: &lt;strong&gt;{len(e)}&lt;/strong&gt; · Signature: &lt;strong&gt;({p}, {q}, {n-p-q})&lt;/strong&gt;&lt;/div&gt;"
-            + f"&lt;ul class='small mb-0 ps-3'&gt;&lt;li&gt;✅ &lt;strong&gt;Theorem 1.1 (Howlett's Formula)&lt;/strong&gt; holds (&lt;a href='lean-verification.html'&gt;Learn More →&lt;/a&gt;)&lt;/li&gt;{thm_html}&lt;/ul&gt;"
+            + f"&lt;ul class='small mb-0 ps-3'&gt;&lt;li&gt;✅ &lt;strong&gt;Theorem 1.1 (Howlett's Formula)&lt;/strong&gt; holds (&lt;a href='https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/lean-verification.html' target='_blank'&gt;Learn More →&lt;/a&gt;)&lt;/li&gt;{thm_html}&lt;/ul&gt;"
         )
 
     @render.ui
     def share_ui():
         s, e = signs_rv(), edges_rv()
         q = urlencode({"signs": "".join("+" if x &gt; 0 else "-" for x in s), "edges": ",".join(f"{u}-{v}:{'oo' if math.isinf(w) else f'{w:g}'}" for u, v, w in sorted(e))})
-        return ui.HTML(f"&lt;div class='small'&gt;&lt;strong&gt;Share Graph:&lt;/strong&gt;&lt;br/&gt;&lt;code style='word-break:break-all'&gt;?{q}&lt;/code&gt;&lt;/div&gt;")
+        full_url = f"https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/explorer.html?{q}"
+        return ui.HTML(
+            f"&lt;div class='small'&gt;&lt;strong&gt;Shareable Graph Link:&lt;/strong&gt;&lt;br/&gt;"
+            f"&lt;input type='text' class='form-control form-control-sm mt-1 mb-1' readonly value='{full_url}' onclick='this.select();' /&gt;"
+            f"&lt;a href='{full_url}' target='_blank'&gt;Open shared link ↗&lt;/a&gt;&lt;/div&gt;"
+        )
 
     @render.text
     def eigs_out():

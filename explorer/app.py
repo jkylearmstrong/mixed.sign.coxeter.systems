@@ -412,11 +412,13 @@ def server(input, output, session):
         xs = [p[0] for p in pos.values()]
         ys = [p[1] for p in pos.values()]
         pad = 0.35
+        ax.scatter([], [], s=120, color=GARNET, label="(+) Positive")
+        ax.scatter([], [], s=120, color=LEAN_BLUE, label="(−) Negative")
+        ax.legend(loc="upper center", bbox_to_anchor=(0.5, 1.06), ncol=2, frameon=False, fontsize=10)
         ax.set_xlim(min(xs) - pad, max(xs) + pad)
         ax.set_ylim(min(ys) - pad, max(ys) + pad)
         ax.set_aspect("equal")
         ax.axis("off")
-        ax.set_title("Garnet (#782F40) = (+) vertex   |   Lean Blue (#1E6BD6) = (−) vertex", fontsize=10)
         return fig
 
     @render.plot
@@ -511,8 +513,9 @@ def server(input, output, session):
         edges_param = ",".join(f"{u}-{v}:{'oo' if w == sp.oo else w}" for (u, v), w in sorted(g.edges.items()))
         query = urlencode({"signs": signs_param, "edges": edges_param})
         return ui.HTML(
-            f"<div class='small'><strong>Share Graph URL:</strong><br/>"
-            f"<code style='word-break:break-all'>?{query}</code></div>"
+            f"<div class='small'><strong>Shareable Graph Link:</strong><br/>"
+            f"<input type='text' class='form-control form-control-sm mt-1 mb-1' readonly value='?{query}' onclick='this.select();' />"
+            f"<a href='?{query}'>Open shared link ↗</a></div>"
         )
 
     @render.text
