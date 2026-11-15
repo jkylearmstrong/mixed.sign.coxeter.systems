@@ -137,6 +137,7 @@ def test_every_scene_is_in_presentation_order(deck):
         "RankTwoHyperbolicScene",
         "DeletionFailureScene",
         "OddCycleSignatureScene",
+        "SingleDefectParityScene",
         "HyperbolicRadiusOneScene",
         "SpectralRadiusSeparationScene",
         "AppendixBScene",

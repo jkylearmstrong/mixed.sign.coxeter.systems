@@ -447,6 +447,32 @@ class FormalizationScene(Scene):
         self.wait(2)
 
 
+class SingleDefectParityScene(Scene):
+    """Odd/even parity dichotomy on single-defect cycles C_k(+, -, ..., -)."""
+
+    def construct(self) -> None:
+        title = header("Single-defect cycles: odd vs. even parity", BLUE)
+        c5_graph = MixedSignCoxeterGraph([1, -1, -1, -1, -1], [(i, (i + 1) % 5, 3) for i in range(5)])
+        c6_graph = MixedSignCoxeterGraph([1, -1, -1, -1, -1, -1], [(i, (i + 1) % 6, 3) for i in range(6)])
+        c5 = graph_mobject(c5_graph, circle_positions(5, 1.0, (-3.6, 0.7, 0.0)))
+        c6 = graph_mobject(c6_graph, circle_positions(6, 1.0, (3.6, 0.7, 0.0)))
+        labels = VGroup(
+            MathTex(r"C_5(+,-,-,-,-):\ \rho(w) = 1", font_size=28, color=BLUE).next_to(c5, DOWN, buff=0.35),
+            MathTex(r"C_6(+,-,-,-,-,-):\ \rho(w) > 1", font_size=28, color=RED).next_to(c6, DOWN, buff=0.35),
+        )
+        note = MathTex(
+            r"(w - I)^{2m}(w + I) = 0 \text{ for } C_{2m+1}, \qquad \exists\,\lambda \in (-5, -1) \text{ for } C_{2m}\ (m \ge 2)",
+            font_size=24,
+            color=YELLOW,
+        ).to_edge(DOWN, buff=0.5)
+
+        self.play(Write(title))
+        self.play(Create(c5), Create(c6))
+        self.play(FadeIn(labels))
+        self.play(FadeIn(note))
+        self.wait(2)
+
+
 #: Presentation order; ``tests/test_slides.py`` checks every Scene here is listed.
 SCENE_ORDER: tuple[type[Scene], ...] = (
     TitleOverviewScene,
@@ -455,6 +481,7 @@ SCENE_ORDER: tuple[type[Scene], ...] = (
     RankTwoHyperbolicScene,
     DeletionFailureScene,
     OddCycleSignatureScene,
+    SingleDefectParityScene,
     HyperbolicRadiusOneScene,
     SpectralRadiusSeparationScene,
     AppendixBScene,

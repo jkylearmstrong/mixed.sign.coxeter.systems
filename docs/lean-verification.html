@@ -423,22 +423,22 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Lean 4 Modules</td>
-<td style="text-align: center;">21</td>
+<td style="text-align: center;">23</td>
 <td style="text-align: left;">✅ <code>lake build</code> passes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Definitions &amp; Structures</td>
-<td style="text-align: center;">105</td>
+<td style="text-align: center;">111</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Lemmas</td>
-<td style="text-align: center;">214</td>
+<td style="text-align: center;">227</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Theorems</td>
-<td style="text-align: center;">143</td>
+<td style="text-align: center;">154</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
@@ -541,6 +541,20 @@ window.Quarto = {
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;"><strong>General Bipartite Duality</strong>: Bipartite Sign-Flip Conjugation &amp; Duality</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/BipartiteDuality.lean"><code>principalElement_bipartiteSignFlip</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"><code>principal_search.cycle_radius_by_circulation</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Two-Defect Cycles C_k(+,+,-,…,-)</strong>: Two-Defect Cycle Hyperbolicity (C3, C4, C5)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"><code>c4_adjTwoDefect_complex_eigenvalue_norm_gt_one</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"><code>principal_search.cycle_radius_by_circulation</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -576,6 +590,8 @@ window.Quarto = {
   Spec --&gt; AltSq["AlternatingSquare.lean&lt;br/&gt;Q2.59 &amp;amp; Q3.35: C₄(+,−,+,−)"]
   Basic --&gt; OddDef["OddCycleSingleDefect.lean&lt;br/&gt;C_{2m+1}(+,−,…,−): (w−I)^{2m}(w+I)=0"]
   How --&gt; EvenDef["EvenCycleSingleDefect.lean&lt;br/&gt;C_{2m}(+,−,…,−): ∃λ ∈ (−5, −1)"]
+  EvenDef --&gt; BipDual["BipartiteDuality.lean&lt;br/&gt;Bipartite sign-flip duality"]
+  How --&gt; TwoDef["TwoDefectCycle.lean&lt;br/&gt;C₃, C₄, C₅(+,+,−,…,−): ρ(w) &amp;gt; 1"]
   Spec --&gt; SCls["SpectralClassification.lean&lt;br/&gt;Thm 3.27, Thm 3.28"]
   Mix --&gt; Rem["RemarksAndClassical.lean"]
 </pre>
@@ -690,6 +706,16 @@ window.Quarto = {
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/EvenCycleSingleDefect.lean"><code>EvenCycleSingleDefect.lean</code></a></td>
 <td style="text-align: left;">General <span class="math inline">\(C_{2m}\)</span></td>
 <td style="text-align: left;"><code>evenCycleSinglePlus_charpoly_at_neg_one</code>, <code>evenCycleSinglePlus_charpoly_at_neg_five</code>, <code>evenCycleSinglePlus_has_eigenvalue_lt_neg_one</code> (<span class="math inline">\(C_{2m}(+,-,\dots,-)\)</span>)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/BipartiteDuality.lean"><code>BipartiteDuality.lean</code></a></td>
+<td style="text-align: left;">General Bipartite</td>
+<td style="text-align: left;"><code>principalElement_bipartiteSignFlip</code>, <code>charpoly_eval_bipartiteSignFlip</code>, <code>evenCycleSingleMinus_has_eigenvalue_lt_neg_one</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"><code>TwoDefectCycle.lean</code></a></td>
+<td style="text-align: left;">Two-Defect Cycles</td>
+<td style="text-align: left;"><code>c3_twoDefect_has_eigenvalue_lt_neg_one</code>, <code>c4_adjTwoDefect_complex_eigenvalue_norm_gt_one</code>, <code>c5_adjTwoDefect_has_eigenvalue_lt_neg_one</code></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean"><code>SpectralClassification.lean</code></a></td>

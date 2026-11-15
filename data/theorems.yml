@@ -123,3 +123,26 @@ theorems:
     python_url: "https://github.com/jkylearmstrong/mixed.signed.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"
     status: "Verified (Lean 4 + Python)"
     preset: "a_n_alt_4"
+
+
+  - id: bipartite_sign_flip_duality
+    dissertation_ref: "General Bipartite Duality"
+    title: "Bipartite Sign-Flip Conjugation & Duality"
+    statement: "On any bipartite reflection system, flipping all vertex signs conjugates the principal element w by D = diag(+-1), preserving det(mu I - w) and eigenvalues; hence C_{2m}(-,+,...,+) also has a real eigenvalue < -1."
+    lean_symbol: "principalElement_bipartiteSignFlip"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/BipartiteDuality.lean"
+    python_ref: "principal_search.cycle_radius_by_circulation"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"
+    status: "Verified (Lean 4 + Python)"
+    preset: "a_n_alt_4"
+
+  - id: two_defect_cycles
+    dissertation_ref: "Two-Defect Cycles C_k(+,+,-,...,-)"
+    title: "Two-Defect Cycle Hyperbolicity (C3, C4, C5)"
+    statement: "Adjacent two-defect cycles have spectral radius > 1: C_3(+,+,-) and C_5(+,+,-,-,-) have real eigenvalues < -1 via IVT, while C_4(+,+,-,-) has no real eigenvalues, tr(w^2) = -7, and a complex root of x^4 + 3x^3 + 8x^2 + 3x + 1 with ||z|| > 1."
+    lean_symbol: "c4_adjTwoDefect_complex_eigenvalue_norm_gt_one"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"
+    python_ref: "principal_search.cycle_radius_by_circulation"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"
+    status: "Verified (Lean 4 + Python)"
+    preset: "a_n_alt_4"
