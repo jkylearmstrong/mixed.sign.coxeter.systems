@@ -21,8 +21,11 @@ if str(ROOT / "src") not in sys.path:
     sys.path.insert(0, str(ROOT / "src"))
 
 from mixed_sign_coxeter import (  # noqa: E402
+    A_n_sign_table,
     MixedSignCoxeterGraph,
     mahler_measure,
+    table_a1,
+    table_a2,
 )
 from mixed_sign_coxeter.isomorphisms import (  # noqa: E402
     verify_a_tilde_minus_isomorphism,
@@ -186,6 +189,29 @@ app_ui = ui.page_navbar(
             ui.HTML("<details class='mt-3'><summary><strong>▶ Advanced Spectral Data &amp; Adjacency / Bilinear Matrices</strong></summary>"),
             ui.card(ui.output_code("matrices_out")),
             ui.HTML("</details>"),
+        ),
+    ),
+    ui.nav_panel(
+        "Catalogs",
+        ui.layout_sidebar(
+            ui.sidebar(
+                ui.input_select(
+                    "catalog_kind",
+                    "Appendix Catalog",
+                    choices={
+                        "an_b": "Appendix B: A_n Sign Table",
+                        "a1": "Appendix A.1: Definite / Semidefinite",
+                        "a2": "Appendix A.2: Hyperbolic Families",
+                    },
+                    selected="an_b",
+                ),
+                ui.input_slider("catalog_rank", "Rank n (for A_n / max rank)", min=2, max=6, value=4),
+                width=280,
+            ),
+            ui.card(
+                ui.card_header("Appendix Classification Catalog"),
+                ui.output_ui("catalog_ui"),
+            ),
         ),
     ),
     ui.nav_panel(
@@ -562,6 +588,36 @@ def server(input, output, session):
             G.add_edge(u, v, weight=str(w))
         graphml = "\n".join(nx.generate_graphml(G))
         return f"--- Python ---\n{py_code}\n--- JSON ---\n{json_data}\n\n--- CSV ---\n{csv_lines}\n\n--- GraphML ---\n{graphml}"
+
+    @render.ui
+    def catalog_ui():
+        kind = input.catalog_kind()
+        rank = int(input.catalog_rank())
+        if kind == "an_b":
+            entries = A_n_sign_table(rank)
+            rows = "".join(
+                f"<tr><td><code>{e.signs}</code></td><td>{e.signature}</td><td>{e.classification}</td>"
+                f"<td><code>{sp.sstr(e.principal_polynomial)}</code></td>"
+                f"<td>{e.spectral_radius:.5f}</td><td>{e.mahler_measure:.5f}</td></tr>"
+                for e in entries
+            )
+            return ui.HTML(
+                "<table class='table table-sm table-striped'>"
+                "<thead><tr><th>Signs</th><th>Signature</th><th>Class</th><th>Principal Poly</th><th>ρ</th><th>Mahler</th></tr></thead>"
+                f"<tbody>{rows}</tbody></table>"
+            )
+        tbl = table_a1(max_rank=rank) if kind == "a1" else table_a2(max_rank=rank)
+        rows = "".join(
+            f"<tr><td><strong>{name}</strong></td><td>{g.n}</td><td>{len(g.edges)}</td>"
+            f"<td>{g.signature().as_tuple()} ({g.signature().classify()})</td>"
+            f"<td>{g.spectral_radius():.5f}</td></tr>"
+            for name, g in tbl.items()
+        )
+        return ui.HTML(
+            "<table class='table table-sm table-striped'>"
+            "<thead><tr><th>Graph</th><th>Vertices</th><th>Edges</th><th>Signature</th><th>ρ</th></tr></thead>"
+            f"<tbody>{rows}</tbody></table>"
+        )
 
 
 app = App(app_ui, server)

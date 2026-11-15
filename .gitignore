@@ -14,5 +14,10 @@ lean/.lake/
 # Quarto
 /.quarto/
 docs/.quarto/
+docs/site_libs/quarto-contrib/
 *_files/
+media/
 
+/.luarc.json
+
+**/*.quarto_ipynb

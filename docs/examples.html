@@ -83,6 +83,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/videojs/video.min.js"></script>
+<link href="site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -377,7 +379,10 @@ window.Quarto = {
   <li><a href="#howletts-formula-theorem-1.1" id="toc-howletts-formula-theorem-1.1" class="nav-link active" data-scroll-target="#howletts-formula-theorem-1.1">1. Howlett’s Formula (Theorem 1.1)</a></li>
   <li><a href="#failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21" id="toc-failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21" class="nav-link" data-scroll-target="#failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21">2. Failure of the Deletion Property on <span class="math inline">\(\widetilde{A_{-2}}\)</span> (Lemma 3.21)</a></li>
   <li><a href="#wwidetildea_-n-cong-wd_n1-for-even-n" id="toc-wwidetildea_-n-cong-wd_n1-for-even-n" class="nav-link" data-scroll-target="#wwidetildea_-n-cong-wd_n1-for-even-n">3. <span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span> for Even <span class="math inline">\(n\)</span></a></li>
-  <li><a href="#manim-slide-deck-slides" id="toc-manim-slide-deck-slides" class="nav-link" data-scroll-target="#manim-slide-deck-slides">4. Manim Slide Deck (<code>slides/</code>)</a></li>
+  <li><a href="#manim-slide-deck-slides" id="toc-manim-slide-deck-slides" class="nav-link" data-scroll-target="#manim-slide-deck-slides">4. Manim Slide Deck (<code>slides/</code>)</a>
+  <ul class="collapse">
+  <li><a href="#highlight-clips" id="toc-highlight-clips" class="nav-link" data-scroll-target="#highlight-clips">Highlight Clips</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/examples.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -408,7 +413,7 @@ window.Quarto = {
 <p>All code blocks below execute directly against <code>src/mixed_sign_coxeter/</code> during <code>quarto render</code>.</p>
 <section id="howletts-formula-theorem-1.1" class="level2">
 <h2 class="anchored" data-anchor-id="howletts-formula-theorem-1.1">1. Howlett’s Formula (Theorem 1.1)</h2>
-<div id="b683b4d1" class="cell" data-execution_count="1">
+<div id="8a93b596" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">"src"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -433,7 +438,7 @@ Principal polynomial: Poly(x**3 + x**2 + x + 1, x, domain='ZZ')</code></pre>
 </section>
 <section id="failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21" class="level2">
 <h2 class="anchored" data-anchor-id="failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21">2. Failure of the Deletion Property on <span class="math inline">\(\widetilde{A_{-2}}\)</span> (Lemma 3.21)</h2>
-<div id="25286ad0" class="cell" data-execution_count="2">
+<div id="e4e77fab" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter.group <span class="im">import</span> evaluate_word, find_two_deletions</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>w_word <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
@@ -448,7 +453,7 @@ Valid 2-letter deletions of (0,1,0,2,0): []</code></pre>
 </section>
 <section id="wwidetildea_-n-cong-wd_n1-for-even-n" class="level2">
 <h2 class="anchored" data-anchor-id="wwidetildea_-n-cong-wd_n1-for-even-n">3. <span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span> for Even <span class="math inline">\(n\)</span></h2>
-<div id="60a011ee" class="cell" data-execution_count="3">
+<div id="ea3bdcda" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter.isomorphisms <span class="im">import</span> verify_a_tilde_minus_isomorphism</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> (<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>):</span>
@@ -465,10 +470,27 @@ n = 6: gram_ok=True, conj_ok=True, orbit_is_D=True, |W(D_7)|=322560</code></pre>
 <section id="manim-slide-deck-slides" class="level2">
 <h2 class="anchored" data-anchor-id="manim-slide-deck-slides">4. Manim Slide Deck (<code>slides/</code>)</h2>
 <p>Ten Manim scenes in <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/dissertation_deck.py"><code>slides/dissertation_deck.py</code></a> render these live computations visually, accompanied by a speaker script in <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/SCRIPT.md"><code>slides/SCRIPT.md</code></a>.</p>
+<section id="highlight-clips" class="level3">
+<h3 class="anchored" data-anchor-id="highlight-clips">Highlight Clips</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Howlett’s Formula</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Spectral Radius Separation (Ex. 3.33)</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
+<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="assets/slides/TitleOverviewScene.mp4"></video></div>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
+<div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="assets/slides/HowlettFormulaScene.mp4"></video></div>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
+<div class="quarto-video"><video id="video_shortcode_videojs_video3" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="assets/slides/SpectralRadiusSeparationScene.mp4"></video></div>
+</div>
+</div>
+</div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-e</span> <span class="st">".[manim]"</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="ex">manim</span> <span class="at">-qh</span> slides/dissertation_deck.py <span class="at">-a</span>   <span class="co"># 1080p60 full deck</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
@@ -886,8 +908,11 @@ n = 6: gram_ok=True, conj_ok=True, orbit_is_D=True, |W(D_7)|=322560</code></pre>
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/examples.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer><script>videojs(video_shortcode_videojs_video1);</script>
+<script>videojs(video_shortcode_videojs_video2);</script>
+<script>videojs(video_shortcode_videojs_video3);</script>
 
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/examples.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+</body></html>

@@ -49,6 +49,21 @@ for n in (2, 4, 6):
 
 Ten Manim scenes in [`slides/dissertation_deck.py`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/dissertation_deck.py) render these live computations visually, accompanied by a speaker script in [`slides/SCRIPT.md`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/SCRIPT.md).
 
+### Highlight Clips
+
+::: {.panel-tabset}
+
+#### Overview
+{{< video assets/slides/TitleOverviewScene.mp4 >}}
+
+#### Howlett's Formula
+{{< video assets/slides/HowlettFormulaScene.mp4 >}}
+
+#### Spectral Radius Separation (Ex. 3.33)
+{{< video assets/slides/SpectralRadiusSeparationScene.mp4 >}}
+
+:::
+
 ```bash
 pip install -e ".[manim]"
 manim -qh slides/dissertation_deck.py -a   # 1080p60 full deck

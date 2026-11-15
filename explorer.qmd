@@ -382,3 +382,28 @@ def server(input, output, session):
 
 app = App(app_ui, server)
 ```
+
+```{=html}
+<script>
+// Forward ?signs=...&edges=... from the outer Quarto page URL into the Shinylive iframe.
+(function () {
+  const search = window.location.search;
+  if (!search) return;
+  const attach = (iframe) => {
+    if (!iframe || iframe.dataset.qsForwarded) return;
+    iframe.dataset.qsForwarded = "1";
+    const url = new URL(iframe.src, window.location.href);
+    const params = new URLSearchParams(search);
+    for (const [k, v] of params.entries()) {
+      url.searchParams.set(k, v);
+    }
+    iframe.src = url.toString();
+  };
+  document.querySelectorAll("iframe.shinylive-iframe").forEach(attach);
+  const obs = new MutationObserver(() => {
+    document.querySelectorAll("iframe.shinylive-iframe").forEach(attach);
+  });
+  obs.observe(document.body, { childList: true, subtree: true });
+})();
+</script>
+```
