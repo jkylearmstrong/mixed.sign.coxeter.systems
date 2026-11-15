@@ -440,7 +440,7 @@ app_ui = ui.page_fluid(
                 choices={"sign": "Toggle Sign (+ / −)", "edge": "Draw / Remove Edge", "add_v": "Add Vertex", "del_v": "Delete Vertex"},
                 selected="sign",
             ),
-            ui.input_select("edge_weight", "New Edge Weight", choices={"3": "3", "4": "4", "5": "5", "6": "6", "oo": "∞"}, selected="3"),
+            ui.input_text("edge_weight", "New Edge Weight", value="3", placeholder="Any integer &gt;= 3 or oo"),
             ui.layout_columns(
                 ui.input_action_button("add_v_btn", "+ Vertex", class_="btn-sm btn-outline-primary"),
                 ui.input_action_button("negate_btn", "Flip Signs", class_="btn-sm btn-outline-secondary"),
@@ -563,7 +563,14 @@ def server(input, output, session):
                 if any((a, b) == (u, v) for a, b, _ in e_list):
                     e_list = [(a, b, w) for a, b, w in e_list if (a, b) != (u, v)]
                 else:
-                    w = math.inf if input.edge_weight() == "oo" else float(input.edge_weight())
+                    w_raw = input.edge_weight().strip().lower()
+                    if w_raw in ("oo", "inf", "∞"):
+                        w = math.inf
+                    else:
+                        try:
+                            w = max(3.0, float(int(w_raw)))
+                        except ValueError:
+                            w = 3.0
                     e_list.append((u, v, w))
                 edges_rv.set(e_list)
                 edge_start_rv.set(None)

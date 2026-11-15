@@ -123,11 +123,11 @@ app_ui = ui.page_navbar(
                     },
                     selected="sign",
                 ),
-                ui.input_select(
+                ui.input_text(
                     "edge_weight",
                     "New Edge Weight m(i, j)",
-                    choices={"3": "3 (standard)", "4": "4", "5": "5", "6": "6", "oo": "∞"},
-                    selected="3",
+                    value="3",
+                    placeholder="Any integer >= 3 or oo",
                 ),
                 ui.layout_columns(
                     ui.input_action_button("add_vertex_btn", "+ Add Vertex", class_="btn-sm btn-outline-primary"),
@@ -307,8 +307,16 @@ def server(input, output, session):
                 if existing:
                     e_list = [item for item in e_list if (item[0], item[1]) != (u, v)]
                 else:
-                    w_raw = input.edge_weight()
-                    w: Any = sp.oo if w_raw == "oo" else int(w_raw)
+                    w_raw = input.edge_weight().strip().lower()
+                    if w_raw in ("oo", "inf", "∞"):
+                        w: Any = sp.oo
+                    else:
+                        try:
+                            w = int(w_raw)
+                            if w < 3:
+                                w = 3
+                        except ValueError:
+                            w = 3
                     e_list.append((u, v, w))
                 edges_rv.set(e_list)
                 edge_start_rv.set(None)
