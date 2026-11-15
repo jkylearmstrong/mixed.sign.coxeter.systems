@@ -105,6 +105,7 @@ theorem alternatingSquare_principal_not_conjugate :
   intro g h
   have htr := congrArg Matrix.trace h
   rw [Matrix.trace_mul_cycle] at htr
+  rw [← Matrix.coe_units_inv g, ← Units.val_mul, inv_mul_cancel, Units.val_one, one_mul] at htr
   simp only [trace_w_altSq_circ] at htr
   rw [trace_w_altSq_bp] at htr
   norm_num at htr

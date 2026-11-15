@@ -27,4 +27,5 @@ Key observations:
 
 By Theorem 2.58, all principal elements of an acyclic graph (tree/forest) are conjugate. On graphs with cycles, acyclic orientations are classified up to source/sink-reversal equivalence by cycle circulations $c$:
 - On any single cycle $C_k$, distinct $|c| \in \{k \bmod 2, \dots, k-2\}$ already separate characteristic polynomials and spectral radii on mixed-sign cycles (e.g. $C_4(+, -, +, -)$ separates $|c|=0$ with $\rho = 3 + 2\sqrt{2} \approx 5.82843$ from $|c|=2$ with $\rho \approx 3.54646$), proving non-conjugacy.
+- For single-defect odd cycles $C_{2m+1}(+, -, \dots, -)$ ($m \ge 1$), the principal element $w = s_{2m}\cdots s_1 s_0$ satisfies $(w - I)^{2m}(w + I) = 0$ and $w + I \neq 0$, hence $\rho(w) = 1$, formally verified in [`lean/MixedSignCoxeter/OddCycleSingleDefect.lean`](../lean/MixedSignCoxeter/OddCycleSingleDefect.lean) (`oddCycleSinglePlus_minimal_poly`, `oddCycleSinglePlus_ne_neg_one_poly`).
 - Conversely, for classical positive-sign cycles $C_k(+, \dots, +)$, all acyclic orientations yield $\rho = 1.0$.

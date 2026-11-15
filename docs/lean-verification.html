@@ -423,22 +423,22 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Lean 4 Modules</td>
-<td style="text-align: center;">19</td>
+<td style="text-align: center;">20</td>
 <td style="text-align: left;">✅ <code>lake build</code> passes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Definitions &amp; Structures</td>
-<td style="text-align: center;">97</td>
+<td style="text-align: center;">99</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Lemmas</td>
-<td style="text-align: center;">184</td>
+<td style="text-align: center;">200</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Theorems</td>
-<td style="text-align: center;">137</td>
+<td style="text-align: center;">139</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
@@ -553,6 +553,7 @@ window.Quarto = {
   Pres --&gt; CDel["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
   How --&gt; Spec["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
   Spec --&gt; AltSq["AlternatingSquare.lean&lt;br/&gt;Q2.59 &amp;amp; Q3.35: C₄(+,−,+,−)"]
+  Basic --&gt; OddDef["OddCycleSingleDefect.lean&lt;br/&gt;C_{2m+1}(+,−,…,−): (w−I)^{2m}(w+I)=0"]
   Spec --&gt; SCls["SpectralClassification.lean&lt;br/&gt;Thm 3.27, Thm 3.28"]
   Mix --&gt; Rem["RemarksAndClassical.lean"]
 </pre>
@@ -659,11 +660,16 @@ window.Quarto = {
 <td style="text-align: left;"><code>alternatingSquare_principal_not_conjugate</code>, <code>alternatingSquare_bipartite_not_min</code> (<span class="math inline">\(C_4(+,-,+,-)\)</span>)</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycleSingleDefect.lean"><code>OddCycleSingleDefect.lean</code></a></td>
+<td style="text-align: left;">General <span class="math inline">\(C_{2m+1}\)</span></td>
+<td style="text-align: left;"><code>oddCycleSinglePlus_minimal_poly</code>, <code>oddCycleSinglePlus_ne_neg_one_poly</code> (<span class="math inline">\(C_{2m+1}(+,-,\dots,-)\)</span>)</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean"><code>SpectralClassification.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.5.1)</td>
 <td style="text-align: left;"><code>theorem_3_27_classification</code> (Thm. 3.27), <code>theorem_3_28_interlacing</code> &amp; <code>theorem_3_28_strict</code> (Thm. 3.28)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean"><code>RemarksAndClassical.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.3–3.5)</td>
 <td style="text-align: left;"><code>remark_3_23_card</code> (Rem. 3.23), <code>remark_3_26_det_neg_odd_cycle</code> (Rem. 3.26), <code>remark_3_30_A2_root_gt</code>–<code>A5_roots_lt</code> (Rem. 3.30)</td>
