@@ -298,8 +298,8 @@ theorem exists_leaf_of_isAcyclic (S : ReflectionSystem n) (hG : S.diagram.IsAcyc
       loopless := ⟨fun x h => h.2.2.1 rfl⟩ }
   have hHG : H ≤ S.diagram := fun x y h => h.2.2
   have hH : H.IsAcyclic := hG.anti hHG
-  haveI : Nonempty (Fin n) := ⟨t₀⟩
-  obtain ⟨u, v, p, hp, hmax⟩ := H.exists_isPath_forall_isPath_length_le_length
+  have : Nonempty (Fin n) := ⟨t₀⟩
+  obtain ⟨u, v, p, hp, hmax⟩ := SimpleGraph.Walk.exists_isPath_forall_isPath_length_le_length H
   have hedge : H.Adj t₀ x₀ := ⟨ht₀, hx₀, hx₀t.symm, hB₀⟩
   have hlen : 1 ≤ p.length := by
     have := hmax t₀ x₀ (SimpleGraph.Walk.cons hedge SimpleGraph.Walk.nil)
