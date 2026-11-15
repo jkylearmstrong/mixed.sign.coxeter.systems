@@ -24,3 +24,4 @@ import MixedSignCoxeter.BipartiteDuality
 import MixedSignCoxeter.TwoDefectCycle
 import MixedSignCoxeter.TildeAminusEvenIso
 import MixedSignCoxeter.RootPositivity
+import MixedSignCoxeter.FiniteReduction

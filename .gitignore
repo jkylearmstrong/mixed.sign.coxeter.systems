@@ -25,3 +25,4 @@ media/
 # ignore .agents
 .agents/
 AGENTS.md
+.claude/

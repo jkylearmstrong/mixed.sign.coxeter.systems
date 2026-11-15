@@ -40,7 +40,7 @@ theorems:
     dissertation_ref: "Prop. 3.32 / Theorem 1.7"
     title: "Bipartite Principal Ordering Spectral Radius"
     statement: "For a bipartite mixed-sign Coxeter graph, the bipartite principal ordering groups the two parts and often yields a strictly larger spectral radius than the linear ordering."
-    lean_symbol: "bipartite_principalElements_conjugate / theorem_3_34_bipartite_exceeds_linear"
+    lean_symbol: "bipartite_principalElements_conjugate"
     lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L208"
     python_ref: "MixedSignCoxeterGraph.bipartite_principal_order"
     python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L176"

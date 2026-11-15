@@ -499,4 +499,44 @@ noncomputable def theorem_1_6_tildeAminus_iso_D (k : ℕ) (hk : 1 ≤ k) :
 
 end TildeAminusEvenIso
 
+/-! ### Appendix D: The 16 GAP Relators for `W(~A_{-4})` -/
+
+section AppendixD
+
+/-- The five integer generating matrices `s₁, ..., s₅` of `W(~A_{-4})` from Appendix D. -/
+def appendixDGen : Fin 5 → Matrix (Fin 5) (Fin 5) ℤ
+  | 0 => !![-1, -1, 0, 0, -1; 0, 1, 0, 0, 0; 0, 0, 1, 0, 0; 0, 0, 0, 1, 0; 0, 0, 0, 0, 1]
+  | 1 => !![1, 0, 0, 0, 0; -1, -1, -1, 0, 0; 0, 0, 1, 0, 0; 0, 0, 0, 1, 0; 0, 0, 0, 0, 1]
+  | 2 => !![1, 0, 0, 0, 0; 0, 1, 0, 0, 0; 0, -1, -1, -1, 0; 0, 0, 0, 1, 0; 0, 0, 0, 0, 1]
+  | 3 => !![1, 0, 0, 0, 0; 0, 1, 0, 0, 0; 0, 0, 1, 0, 0; 0, 0, -1, -1, -1; 0, 0, 0, 0, 1]
+  | 4 => !![1, 0, 0, 0, 0; 0, 1, 0, 0, 0; 0, 0, 1, 0, 0; 0, 0, 0, 1, 0; -1, 0, 0, -1, -1]
+
+/-- Word evaluation in `appendixDGen`. -/
+def appendixDWord (w : List (Fin 5)) : Matrix (Fin 5) (Fin 5) ℤ :=
+  (w.map appendixDGen).prod
+
+/-- The 16 GAP relators from Appendix D (`f₁..f₅ ↦ 0..4`). -/
+def appendixDRelators : List (List (Fin 5)) :=
+  [ [0, 0], [1, 1], [2, 2], [3, 3], [4, 4],
+    [0, 2, 0, 2], [0, 3, 0, 3], [1, 3, 1, 3], [1, 4, 1, 4], [2, 4, 2, 4],
+    [0, 1, 0, 1, 0, 1], [1, 2, 1, 2, 1, 2], [2, 3, 2, 3, 2, 3],
+    [0, 4, 0, 4, 0, 4], [3, 4, 3, 4, 3, 4],
+    [2, 0, 3, 4, 0, 1, 3, 2, 3, 1, 0, 4, 3, 2, 0, 1] ]
+
+/-- **Appendix D**: All 16 GAP relators evaluate to the identity on the `W(~A_{-4})` matrices. -/
+theorem appendixD_relators_hold :
+    ∀ r ∈ appendixDRelators, appendixDWord r = 1 := by
+  decide
+
+/-- The integer generators `appendixDGen` agree with `reflectionMatrix (cycleNegForm 5)` over `ℝ`. -/
+theorem appendixDGen_eq_reflectionMatrix (c : Fin 5) :
+    (appendixDGen c).map (Int.cast : ℤ → ℝ) =
+      ReflectionSystem.reflectionMatrix (cycleNegForm 5) c := by
+  fin_cases c <;>
+    · ext i j
+      fin_cases i <;> fin_cases j <;>
+        (simp [appendixDGen, ReflectionSystem.reflectionMatrix, cycleNegForm]; try norm_num)
+
+end AppendixD
+
 end MixedSignCoxeter
