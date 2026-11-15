@@ -6,6 +6,7 @@ Implements Chapter 3, Appendix A, and Appendix B of Armstrong (2012).
 from __future__ import annotations
 
 import math
+from fractions import Fraction
 from typing import Iterable, Mapping, Sequence
 
 import sympy as sp
@@ -13,7 +14,7 @@ import sympy as sp
 from .reflection_system import ReflectionSystem
 
 SignLike = int | str
-WeightLike = int | float | sp.Expr | str
+WeightLike = int | float | Fraction | sp.Expr | str
 
 
 def _parse_sign(s: SignLike) -> int:
@@ -37,6 +38,33 @@ def _parse_weight(m: WeightLike) -> int | sp.Expr:
         if val < 2:
             raise ValueError(f"Edge weight m(i, j) must be >= 2 or inf, got {val}")
         return val
+    if isinstance(m, Fraction):
+        r = sp.Rational(m.numerator, m.denominator)
+        if r < 2:
+            raise ValueError(f"Edge weight m(i, j) must be >= 2 or inf, got {m!r}")
+        return int(r) if r.is_Integer else r
+    if isinstance(m, (float, sp.Float)):
+        fval = float(m)
+        if math.isnan(fval) or fval < 2.0:
+            raise ValueError(f"Edge weight m(i, j) must be >= 2 or inf, got {m!r}")
+        if math.isinf(fval):
+            return sp.oo
+        return sp.Float(fval)
+    if isinstance(m, str):
+        s = m.strip()
+        try:
+            r = sp.Rational(s)
+            if r < 2:
+                raise ValueError(f"Edge weight m(i, j) must be >= 2 or inf, got {m!r}")
+            return int(r) if r.is_Integer else r
+        except (TypeError, ValueError):
+            pass
+    if isinstance(m, sp.Expr) and m.is_real is not False:
+        try:
+            if float(m.evalf()) >= 2.0:
+                return m
+        except TypeError:
+            pass
     raise ValueError(f"Unsupported edge weight: {m!r}")
 
 
@@ -52,7 +80,7 @@ def _edge_entry(m: int | sp.Expr) -> sp.Expr:
         return -sp.sqrt(2)
     if m == 6:
         return -sp.sqrt(3)
-    return -2 * sp.cos(sp.pi / sp.Integer(m))
+    return -2 * sp.cos(sp.pi / sp.sympify(m))
 
 
 class MixedSignCoxeterGraph(ReflectionSystem):

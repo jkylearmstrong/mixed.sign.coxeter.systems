@@ -346,6 +346,7 @@ ul.task-list li input[type="checkbox"] {
 
 import math
 from collections import deque
+from fractions import Fraction
 from urllib.parse import parse_qs, urlencode
 import matplotlib.pyplot as plt
 import numpy as np
@@ -440,7 +441,7 @@ app_ui = ui.page_fluid(
                 choices={"sign": "Toggle Sign (+ / −)", "edge": "Draw / Remove Edge", "add_v": "Add Vertex", "del_v": "Delete Vertex"},
                 selected="sign",
             ),
-            ui.input_text("edge_weight", "New Edge Weight", value="3", placeholder="Any integer &gt;= 3 or oo"),
+            ui.input_text("edge_weight", "New Edge Weight", value="3", placeholder="Any real &gt;= 2 (e.g. 3, 5/2, 3.7) or oo"),
             ui.layout_columns(
                 ui.input_action_button("add_v_btn", "+ Vertex", class_="btn-sm btn-outline-primary"),
                 ui.input_action_button("negate_btn", "Flip Signs", class_="btn-sm btn-outline-secondary"),
@@ -568,9 +569,12 @@ def server(input, output, session):
                         w = math.inf
                     else:
                         try:
-                            w = max(3.0, float(int(w_raw)))
+                            w = max(2.0, float(Fraction(w_raw)))
                         except ValueError:
-                            w = 3.0
+                            try:
+                                w = max(2.0, float(w_raw))
+                            except ValueError:
+                                w = 3.0
                     e_list.append((u, v, w))
                 edges_rv.set(e_list)
                 edge_start_rv.set(None)
@@ -666,7 +670,7 @@ def server(input, output, session):
     @render.ui
     def share_ui():
         s, e = signs_rv(), edges_rv()
-        q = urlencode({"signs": "".join("+" if x &gt; 0 else "-" for x in s), "edges": ",".join(f"{u}-{v}:{'oo' if math.isinf(w) else int(w)}" for u, v, w in sorted(e))})
+        q = urlencode({"signs": "".join("+" if x &gt; 0 else "-" for x in s), "edges": ",".join(f"{u}-{v}:{'oo' if math.isinf(w) else f'{w:g}'}" for u, v, w in sorted(e))})
         return ui.HTML(f"&lt;div class='small'&gt;&lt;strong&gt;Share Graph:&lt;/strong&gt;&lt;br/&gt;&lt;code style='word-break:break-all'&gt;?{q}&lt;/code&gt;&lt;/div&gt;")
 
     @render.text

@@ -83,6 +83,25 @@ def default_positions(n: int, edges: list[tuple[int, int, Any]]) -> dict[int, tu
     return {int(k): (float(v[0]), float(v[1])) for k, v in pos.items()}
 
 
+def parse_weight_str(raw: str) -> Any:
+    s = raw.strip().lower()
+    if s in ("oo", "inf", "∞"):
+        return sp.oo
+    try:
+        r = sp.Rational(s)
+        if r >= 2:
+            return int(r) if r.is_Integer else r
+    except (TypeError, ValueError):
+        pass
+    try:
+        f = float(s)
+        if f >= 2.0:
+            return sp.Float(f)
+    except ValueError:
+        pass
+    return 3
+
+
 def parse_edges_param(raw: str, n: int) -> list[tuple[int, int, Any]]:
     edges: list[tuple[int, int, Any]] = []
     for item in raw.split(","):
@@ -91,7 +110,7 @@ def parse_edges_param(raw: str, n: int) -> list[tuple[int, int, Any]]:
             continue
         if ":" in item:
             pair_s, w_s = item.split(":", 1)
-            w: Any = sp.oo if w_s.strip().lower() in ("oo", "inf") else int(w_s.strip())
+            w = parse_weight_str(w_s)
         else:
             pair_s, w = item, 3
         u_s, v_s = pair_s.split("-", 1)
@@ -127,7 +146,7 @@ app_ui = ui.page_navbar(
                     "edge_weight",
                     "New Edge Weight m(i, j)",
                     value="3",
-                    placeholder="Any integer >= 3 or oo",
+                    placeholder="Any real >= 2 (e.g. 3, 5/2, 3.7) or oo",
                 ),
                 ui.layout_columns(
                     ui.input_action_button("add_vertex_btn", "+ Add Vertex", class_="btn-sm btn-outline-primary"),
@@ -307,16 +326,7 @@ def server(input, output, session):
                 if existing:
                     e_list = [item for item in e_list if (item[0], item[1]) != (u, v)]
                 else:
-                    w_raw = input.edge_weight().strip().lower()
-                    if w_raw in ("oo", "inf", "∞"):
-                        w: Any = sp.oo
-                    else:
-                        try:
-                            w = int(w_raw)
-                            if w < 3:
-                                w = 3
-                        except ValueError:
-                            w = 3
+                    w = parse_weight_str(input.edge_weight())
                     e_list.append((u, v, w))
                 edges_rv.set(e_list)
                 edge_start_rv.set(None)
@@ -513,14 +523,17 @@ def server(input, output, session):
         w = g.principal_element(order)
         poly = g.principal_polynomial(order)
         mm = mahler_measure(poly)
-        eigs = sorted(np.linalg.eigvals(np.array(w.tolist(), dtype=float)), key=lambda z: -abs(z))
+        w_np = np.array(w.tolist(), dtype=float)
+        u_np = np.array(U.tolist(), dtype=float)
+        howlett_ok = bool(np.allclose(w_np, -(np.linalg.inv(u_np) @ u_np.T), atol=1e-9))
+        eigs = sorted(np.linalg.eigvals(w_np), key=lambda z: -abs(z))
         eig_lines = "\n".join(f"  {z.real:+.6f} {z.imag:+.6f}j  (|λ| = {abs(z):.6f})" for z in eigs)
         return (
             f"Active order: {list(order)}\n"
             f"Principal polynomial: {sp.sstr(poly.as_expr())}\n"
             f"Factored:             {sp.sstr(g.factor_principal_polynomial(order))}\n"
             f"Mahler measure:       {mm:.6f}\n"
-            f"Howlett identity w == -U^(-1) U^T: {w == -(U.inv() * U.T)}\n\n"
+            f"Howlett identity w == -U^(-1) U^T: {howlett_ok}\n\n"
             f"Eigenvalues:\n{eig_lines}\n\n"
             f"Bilinear Form B:\n{sp.pretty(g.B)}\n\n"
             f"Principal Element w:\n{sp.pretty(w)}"
