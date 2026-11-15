@@ -65,7 +65,7 @@ for k in (3, 4, 5, 6, 7, 8):
 
 ## 5. Manim Slide Deck (`slides/`)
 
-Ten Manim scenes in [`slides/dissertation_deck.py`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/dissertation_deck.py) render these live computations visually, accompanied by a speaker script in [`slides/SCRIPT.md`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/SCRIPT.md).
+Eleven Manim scenes in [`slides/dissertation_deck.py`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/dissertation_deck.py) render these live computations visually, accompanied by a speaker script in [`slides/SCRIPT.md`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/slides/SCRIPT.md).
 
 ### Highlight Clips
 
@@ -76,6 +76,9 @@ Ten Manim scenes in [`slides/dissertation_deck.py`](https://github.com/jkylearms
 
 #### Howlett's Formula
 {{< video assets/slides/HowlettFormulaScene.mp4 >}}
+
+#### Single-Defect Parity Dichotomy
+{{< video assets/slides/SingleDefectParityScene.mp4 >}}
 
 #### Spectral Radius Separation (Ex. 3.33)
 {{< video assets/slides/SpectralRadiusSeparationScene.mp4 >}}

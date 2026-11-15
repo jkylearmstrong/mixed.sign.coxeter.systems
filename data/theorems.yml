@@ -138,9 +138,9 @@ theorems:
 
   - id: two_defect_cycles
     dissertation_ref: "Two-Defect Cycles C_k(+,+,-,...,-)"
-    title: "Two-Defect Cycle Hyperbolicity (C3, C4, C5)"
-    statement: "Adjacent two-defect cycles have spectral radius > 1: C_3(+,+,-) and C_5(+,+,-,-,-) have real eigenvalues < -1 via IVT, while C_4(+,+,-,-) has no real eigenvalues, tr(w^2) = -7, and a complex root of x^4 + 3x^3 + 8x^2 + 3x + 1 with ||z|| > 1."
-    lean_symbol: "c4_adjTwoDefect_complex_eigenvalue_norm_gt_one"
+    title: "Two-Defect Cycle Hyperbolicity (All C_n, n ≥ 3)"
+    statement: "Every adjacent two-defect cycle C_n(+,+,-,...,-) (n ≥ 3) has spectral radius > 1: odd cycles C_{2m+1} (m ≥ 1) have a real eigenvalue in (-10, -2) via IVT, while even cycles C_{2m} (m ≥ 2) have det(xI - w) = x^{2m} + 3x^{2m-1} + 8 sum_{k=2}^{2m-2} x^k + 3x + 1 and a complex root with ||z|| > 1 (plus non-adjacent C_4, C_5)."
+    lean_symbol: "evenCycleAdjTwoDefect_complex_eigenvalue_norm_gt_one"
     lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"
     python_ref: "principal_search.cycle_radius_by_circulation"
     python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"

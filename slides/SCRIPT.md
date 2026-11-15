@@ -59,18 +59,22 @@ The 10 scenes in `SCENE_ORDER` (`slides/dissertation_deck.py`) cover all headlin
 
 > **Theorem 1.6** separates odd cycles by quadratic-form signature. Classical $\widetilde{A_n}$ (for even $n$) is positive semidefinite and degenerate on $(1,\dots,1)^T$, giving an infinite affine group. By contrast, $\widetilde{A_{-n}}$ with $n$ even has $v^T B v = -\sum_i (v_i + v_{i+1})^2 < 0$ for all $v \neq 0$—strictly negative definite, with $\det(-B) = 4$ (**Remark 3.26**). Since $\mathcal{O}$-conjugacy preserves definiteness, $\widetilde{A_{-n}}$ and $\widetilde{A_n}$ are never conjugate; in fact $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$ for every even $n$.
 
-### 7. `HyperbolicRadiusOneScene`
+### 7. `SingleDefectParityScene`
+
+> What happens when we flip just a single vertex to $+2$ on a negative cycle $C_k(+, -, \dots, -)$? A sharp parity dichotomy emerges. On odd cycles $C_{2m+1}(+, -, \dots, -)$ such as $C_5$, the principal element satisfies $(w + I)^2(w^{2m} - I) = 0$, keeping every eigenvalue on the unit circle ($\rho(w) = 1$). On even cycles $C_{2m}(+, -, \dots, -)$ such as $C_6$ ($m \ge 2$), Howlett's factorization gives $\det(-I - w) = -4 < 0$ and $\det(-5I - w) > 0$, forcing a real eigenvalue $\lambda \in (-5, -1)$ and $\rho(w) > 1$.
+
+### 8. `HyperbolicRadiusOneScene`
 
 > In classical Coxeter theory, **Theorem 3.27** classifies a system as spherical, affine, or hyperbolic by whether its Coxeter element has eigenvalues on the unit circle or outside it, and **Theorem 3.28** gives eigenvalue interlacing under node deletion. **Example 3.29** shows both fail in the mixed-sign setting: $A_3(+,+,-)$ is hyperbolic ($\det B = -8 < 0$, signature $(2,1,0)$), yet its principal polynomial is $(x+1)^3$, so $\lambda(w) = 1$. Moreover, deleting a node raises the minimal spectral radius from $\Lambda(A_3(+,+,-)) = 1$ to $\Lambda(A_2(+,-)) \approx 2.618$.
 
-### 8. `SpectralRadiusSeparationScene`
+### 9. `SpectralRadiusSeparationScene`
 
 > In classical Coxeter groups, the bipartite Coxeter element always minimizes the spectral radius among all principal elements. **Example 3.33** (**Theorem 1.7 / 3.34**) constructs a 6-node bipartite mixed-sign graph where the linear principal element has $\lambda \approx 3.051$, while the bipartite principal element $s_1 s_4 s_6 s_2 s_3 s_5$ has $\lambda \approx 5.552$—strictly larger. This leaves **Question 3.35** open: what general principle characterizes the minimal spectral-radius ordering?
 
-### 9. `AppendixBScene`
+### 10. `AppendixBScene`
 
 > **Appendix B** catalogs sign patterns on $A_n$, and **Remark 3.30** highlights the non-monotonicity of $\Lambda$ along the chain $A_2(+,-) \subset A_3(-,+,+) \subset A_4(-,+,+,+) \subset A_5(-,+,+,+,+)$. Adding a single positive node makes the minimal spectral radius drop from $\approx 2.618$ to $1.000$, jump up to $\approx 2.154$, and drop again to $\approx 1.883$.
 
-### 10. `FormalizationScene`
+### 11. `FormalizationScene`
 
-> Finally, every number shown in this deck is computed live by the `mixed_sign_coxeter` Python package, and all numbered results from Chapters 1–3 of the dissertation are formally verified—`sorry`-free—in Lean 4 (`v4.35.0`) across 16 modules, alongside Python verifications for Appendices A, B, and D, the general even-$n$ isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$, and exhaustive searches for Remark A.3 and Question 3.35.
+> Finally, every number shown in this deck is computed live by the `mixed_sign_coxeter` Python package, and all numbered results from Chapters 1–3 of the dissertation are formally verified—`sorry`-free—in Lean 4 (`v4.35.0`) across 24 modules, alongside Python verifications for Appendices A, B, and D, the general even-$n$ isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$, and exhaustive searches for Remark A.3 and Question 3.35.

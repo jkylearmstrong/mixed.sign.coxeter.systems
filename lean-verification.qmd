@@ -88,7 +88,7 @@ flowchart TD
   Basic --> OddDef["OddCycleSingleDefect.lean<br/>C_{2m+1}(+,−,…,−): (w−I)^{2m}(w+I)=0"]
   How --> EvenDef["EvenCycleSingleDefect.lean<br/>C_{2m}(+,−,…,−): ∃λ ∈ (−5, −1)"]
   EvenDef --> BipDual["BipartiteDuality.lean<br/>Bipartite sign-flip duality"]
-  How --> TwoDef["TwoDefectCycle.lean<br/>C₃, C₄, C₅(+,+,−,…,−): ρ(w) &gt; 1"]
+  How --> TwoDef["TwoDefectCycle.lean<br/>Cₙ(+,+,−,…,−): ρ(w) &gt; 1 (n ≥ 3)"]
   Spec --> SCls["SpectralClassification.lean<br/>Thm 3.27, Thm 3.28"]
   Mix --> Rem["RemarksAndClassical.lean"]
 ```
@@ -117,6 +117,6 @@ flowchart TD
 | [`OddCycleSingleDefect.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycleSingleDefect.lean) | General $C_{2m+1}$ | `oddCycleSinglePlus_minimal_poly`, `oddCycleSinglePlus_ne_neg_one_poly` ($C_{2m+1}(+,-,\dots,-)$) |
 | [`EvenCycleSingleDefect.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/EvenCycleSingleDefect.lean) | General $C_{2m}$ | `evenCycleSinglePlus_charpoly_at_neg_one`, `evenCycleSinglePlus_charpoly_at_neg_five`, `evenCycleSinglePlus_has_eigenvalue_lt_neg_one` ($C_{2m}(+,-,\dots,-)$) |
 | [`BipartiteDuality.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/BipartiteDuality.lean) | General Bipartite | `principalElement_bipartiteSignFlip`, `charpoly_eval_bipartiteSignFlip`, `evenCycleSingleMinus_has_eigenvalue_lt_neg_one` |
-| [`TwoDefectCycle.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean) | Two-Defect Cycles | `c3_twoDefect_has_eigenvalue_lt_neg_one`, `c4_adjTwoDefect_complex_eigenvalue_norm_gt_one`, `c5_adjTwoDefect_has_eigenvalue_lt_neg_one` |
+| [`TwoDefectCycle.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean) | Two-Defect Cycles | `c3_twoDefect_has_eigenvalue_lt_neg_one`, `c4_adjTwoDefect_complex_eigenvalue_norm_gt_one`, `c5_adjTwoDefect_has_eigenvalue_lt_neg_one`, `oddCycleAdjTwoDefect_has_eigenvalue_lt_neg_one` ($C_{2m+1}(+,+,-,\dots,-)$), `evenCycleAdjTwoDefect_complex_eigenvalue_norm_gt_one` ($C_{2m}(+,+,-,\dots,-)$) |
 | [`SpectralClassification.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean) | Ch. 3 (3.5.1) | `theorem_3_27_classification` (Thm. 3.27), `theorem_3_28_interlacing` & `theorem_3_28_strict` (Thm. 3.28) |
 | [`RemarksAndClassical.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean) | Ch. 3 (3.3–3.5) | `remark_3_23_card` (Rem. 3.23), `remark_3_26_det_neg_odd_cycle` (Rem. 3.26), `remark_3_30_A2_root_gt`–`A5_roots_lt` (Rem. 3.30) |
