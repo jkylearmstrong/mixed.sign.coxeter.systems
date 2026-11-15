@@ -23,3 +23,4 @@ import MixedSignCoxeter.EvenCycleSingleDefect
 import MixedSignCoxeter.BipartiteDuality
 import MixedSignCoxeter.TwoDefectCycle
 import MixedSignCoxeter.TildeAminusEvenIso
+import MixedSignCoxeter.RootPositivity

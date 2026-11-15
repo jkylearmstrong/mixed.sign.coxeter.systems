@@ -80,6 +80,16 @@ theorems:
     status: "Verified (Lean 4)"
     preset: "a_n_alt_4"
 
+  - id: prop_3_10_root_positivity
+    dissertation_ref: "Proposition 3.10"
+    title: "Positive Roots and Length in Classical Coxeter Systems"
+    statement: "If B(e_i, e_i) = 2 and B(e_i, e_j) = -2 cos(pi/m) (m >= 2) or <= -2, then w(e_i) is a positive root iff l(w s_i) > l(w); every root is positive or negative, and W(B) satisfies the Exchange Property, so every classical Coxeter graph gives a Coxeter group."
+    lean_symbol: "prop_3_10 / classical_graph_isClassicalCoxeter"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RootPositivity.lean#L680"
+    python_ref: "verify_prop_3_10"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L165"
+    status: "Verified (Lean 4 + Python)"
+    preset: "e_6_plus"
   - id: example_3_33_benchmark
     dissertation_ref: "Example 3.33"
     title: "6-Node Bipartite Mixed-Sign Benchmark"
