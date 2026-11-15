@@ -92,7 +92,7 @@ Allowing negative diagonal entries preserves the local reflection structure ($s_
 
 ```{mermaid}
 flowchart LR
-  D["Dissertation (FSU, 2012)<br/>Ch. 1–3 &amp; Appendices A, B, D"] --> L["Lean 4 + Mathlib (v4.35.0)<br/>16 sorry-free modules"]
+  D["Dissertation (FSU, 2012)<br/>Ch. 1–3 &amp; Appendices A, B, D"] --> L["Lean 4 + Mathlib (v4.35.0)<br/>19 sorry-free modules"]
   D --> P["Python Package<br/>mixed_sign_coxeter"]
   L --> G["GitHub Source<br/>lean/MixedSignCoxeter/*.lean"]
   P --> T["Pytest Suite &amp; Searches<br/>isomorphisms, finite &amp; principal search"]
@@ -102,6 +102,6 @@ flowchart LR
 | Layer | Role | Where to Look |
 | :--- | :--- | :--- |
 | **Dissertation & Audit** | Full theorem-by-theorem verification matrix | [Dissertation & Audit](dissertation.qmd) |
-| **Lean 4 Proofs** | 16 `sorry`-free Lean 4 modules covering Ch. 1–3 | [Lean Proofs](lean-verification.qmd) |
+| **Lean 4 Proofs** | `{python} n_lean` `sorry`-free Lean 4 modules covering Ch. 1–3 | [Lean Proofs](lean-verification.qmd) |
 | **Spectral & Combinatorial Results** | Live Python plots, signature & search summaries | [Results](spectral-results.qmd) |
 | **Executable Examples** | Interactive Python snippets + Manim slide deck | [Examples](examples.qmd) |
