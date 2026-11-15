@@ -5,7 +5,7 @@ filters:
   - shinylive
 ---
 
-This interactive explorer runs **Shinylive for Python** in your browser via Pyodide/WebAssembly ($0 server cost on GitHub Pages). For the full local app backed by `mixed_sign_coxeter` and `data/theorems.yml`, run `shiny run explorer/app.py`.
+This interactive explorer runs **Shinylive for Python** in your browser via Pyodide/WebAssembly. For the full local app backed by `mixed_sign_coxeter` and `data/theorems.yml`, run `shiny run explorer/app.py`.
 
 ```{shinylive-python}
 #| standalone: true
@@ -21,6 +21,9 @@ from shiny import App, reactive, render, ui
 
 GARNET = "#782F40"
 LEAN_BLUE = "#1E6BD6"
+PYTHON_GREEN = "#008000"
+GOLD = "#CEB888"
+
 
 PRESETS = {
     "example_3_33": (

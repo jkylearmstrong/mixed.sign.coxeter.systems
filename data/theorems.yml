@@ -112,3 +112,14 @@ theorems:
     python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"
     status: "Verified (Lean 4 + Python)"
     preset: "a_n_alt_4"
+
+  - id: even_cycle_single_defect
+    dissertation_ref: "General C_{2m}(+,-,...,-)"
+    title: "Single-Defect Even Cycle Hyperbolic Eigenvalue"
+    statement: "For every m >= 2, the principal element w of C_{2m}(+,-,...,-) has det(-I - w) = -4 < 0 and det(-5I - w) > 0, so it has a real eigenvalue lambda in (-5, -1) and spectral radius rho(w) > 1."
+    lean_symbol: "evenCycleSinglePlus_has_eigenvalue_lt_neg_one"
+    lean_url: "https://github.com/jkylearmstrong/mixed.signed.coxeter.systems/blob/main/lean/MixedSignCoxeter/EvenCycleSingleDefect.lean"
+    python_ref: "principal_search.cycle_radius_by_circulation"
+    python_url: "https://github.com/jkylearmstrong/mixed.signed.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"
+    status: "Verified (Lean 4 + Python)"
+    preset: "a_n_alt_4"

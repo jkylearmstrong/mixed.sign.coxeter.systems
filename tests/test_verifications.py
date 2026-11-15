@@ -164,3 +164,22 @@ def test_search_counts_n4_n5():
 def test_cycle_circulation_table():
     assert cycle_radius_by_circulation((1, -1, 1, -1)) == pytest.approx({0: 5.82843, 2: 3.54646}, abs=1e-5)
     assert cycle_radius_by_circulation((1, 1, 1, 1)) == pytest.approx({0: 1.0, 2: 1.0}, abs=1e-6)
+
+
+@pytest.mark.parametrize("m", [1, 2, 3, 4, 5])
+def test_odd_cycle_single_defect_spectral_radius(m):
+    n = 2 * m + 1
+    signs = [1] + [-1] * (n - 1)
+    edges = [(i, (i + 1) % n, 3) for i in range(n)]
+    g = MixedSignCoxeterGraph(signs, edges)
+    assert g.spectral_radius(list(range(n))) == pytest.approx(1.0, abs=1e-6)
+
+
+@pytest.mark.parametrize("m", [2, 3, 4, 5])
+def test_even_cycle_single_defect_spectral_radius(m):
+    n = 2 * m
+    signs = [1] + [-1] * (n - 1)
+    edges = [(i, (i + 1) % n, 3) for i in range(n)]
+    g = MixedSignCoxeterGraph(signs, edges)
+    assert g.spectral_radius(list(range(n))) > 1.0
+

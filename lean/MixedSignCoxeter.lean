@@ -19,3 +19,4 @@ import MixedSignCoxeter.CoxeterPresentation
 import MixedSignCoxeter.ClassicalCoxeterDeletion
 import MixedSignCoxeter.AlternatingSquare
 import MixedSignCoxeter.OddCycleSingleDefect
+import MixedSignCoxeter.EvenCycleSingleDefect
