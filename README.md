@@ -124,6 +124,11 @@ Mathlib `v4.35.0`):
   / Theorem 3.9), $\mathcal{O}$-conjugacy invariance
   (`deletion_invariant_of_O_conjugate`), and Corollary 1.3
   (`corollary_1_3_not_conjugate_to_deletion`).
+- `CoxeterPresentation.lean`: Theorem 3.9, Deletion $\Rightarrow$
+  classical Coxeter system. The order matrix `orderCoxeterMatrix` and
+  the canonical map `orderCoxeterLift`, a Matsumoto-type lemma
+  (`gamma_eq_of_reduced_of_same_length`), and injectivity of the lift
+  (`theorem_3_9_coxeter_presentation`, `theorem_3_9_isClassicalCoxeter`).
 
 ### Building Lean
 

@@ -9,3 +9,4 @@ import MixedSignCoxeter.CyclesAndDeletion
 import MixedSignCoxeter.SpectralRadius
 import MixedSignCoxeter.ClassicalDeletion
 
+import MixedSignCoxeter.CoxeterPresentation
