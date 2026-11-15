@@ -34,9 +34,20 @@ def test_lean_verification_page_diagrams_are_current():
 
 
 def test_rendered_edges_match_imports():
+    """Every import is drawn exactly once: inside a view, or on an overview edge."""
     imports = graph.module_imports()
     block = graph.render(imports)
+    where = graph.view_of(imports)
     for mod, deps in imports.items():
         for dep in deps:
-            assert f"  {dep} --> {mod}" in block
-    assert block.count(" --> ") == sum(len(d) for d in imports.values())
+            if where[dep] == where[mod]:
+                assert block.count(f"  {dep} --> {mod}\n") == 1
+            else:
+                assert block.count(f"{dep} → {mod}") == 1
+    assert block.count(" --> ") == sum(1 for m, ds in imports.items() for d in ds if where[d] == where[m])
+
+
+def test_each_module_is_drawn_once():
+    block = graph.render(graph.module_imports())
+    for mod in graph.module_imports():
+        assert block.count(f'  {mod}["') == 1
