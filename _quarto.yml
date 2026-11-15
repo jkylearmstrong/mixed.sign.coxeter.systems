@@ -7,6 +7,7 @@ project:
     - lean-verification.qmd
     - spectral-results.qmd
     - examples.qmd
+    - explorer.qmd
 
 website:
   title: "Mixed-Sign Coxeter Systems"
@@ -25,6 +26,8 @@ website:
         text: Results
       - href: examples.qmd
         text: Examples
+      - href: explorer.qmd
+        text: Explorer
     right:
       - icon: github
         href: https://github.com/jkylearmstrong/mixed.sign.coxeter.systems

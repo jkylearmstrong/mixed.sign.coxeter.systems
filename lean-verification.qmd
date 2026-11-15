@@ -1,14 +1,33 @@
 ---
 title: "Lean 4 Formalization"
 subtitle: "16 sorry-free modules in Lean v4.35.0 + Mathlib"
+jupyter: python3
 ---
 
 The Lean 4 formalization lives in [`lean/MixedSignCoxeter/`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/tree/main/lean/MixedSignCoxeter) and builds cleanly (`3390` jobs, zero `sorry`, zero `axiom`) against **Lean `v4.35.0`** and Mathlib.
 
-## Traceability Chain
+## End-to-End Traceability (`data/theorems.yml`)
 
 ```text
-Dissertation Theorem  ──▶  Lean 4 Theorem  ──▶  GitHub Source File  ──▶  lake build / pytest
+Dissertation Theorem  ──▶  Lean 4 Theorem  ──▶  Python Implementation  ──▶  Interactive Explorer
+```
+
+The table below is generated directly from [`data/theorems.yml`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/data/theorems.yml), the same registry used by the Shiny Explorer's Theorem Checker.
+
+```{python}
+#| echo: false
+#| output: asis
+import yaml
+from pathlib import Path
+
+theorems = yaml.safe_load(Path("data/theorems.yml").read_text(encoding="utf-8"))["theorems"]
+print("| Dissertation | Lean 4 Theorem | Python Implementation | Explorer Preset | Status |")
+print("| :--- | :--- | :--- | :--- | :--- |")
+for t in theorems:
+    lean_col = f"[`{t['lean_symbol']}`]({t['lean_url']})" if t.get("lean_url") else "—"
+    py_col = f"[`{t['python_ref']}`]({t['python_url']})"
+    exp_col = f"[`{t['preset']}`](explorer.qmd)"
+    print(f"| **{t['dissertation_ref']}**: {t['title']} | {lean_col} | {py_col} | {exp_col} | {t['status']} |")
 ```
 
 ## Building Locally

@@ -175,6 +175,10 @@ window.Quarto = {
     <a class="nav-link active" href="./examples.html" aria-current="page"> 
 <span class="menu-text">Examples</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./explorer.html"> 
+<span class="menu-text">Explorer</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
@@ -231,7 +235,7 @@ window.Quarto = {
 <p>All code blocks below execute directly against <code>src/mixed_sign_coxeter/</code> during <code>quarto render</code>.</p>
 <section id="howletts-formula-theorem-1.1" class="level2">
 <h2 class="anchored" data-anchor-id="howletts-formula-theorem-1.1">1. Howlett’s Formula (Theorem 1.1)</h2>
-<div id="29d55da4" class="cell" data-execution_count="1">
+<div id="dfcb7be1" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">"src"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -256,7 +260,7 @@ Principal polynomial: Poly(x**3 + x**2 + x + 1, x, domain='ZZ')</code></pre>
 </section>
 <section id="failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21" class="level2">
 <h2 class="anchored" data-anchor-id="failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21">2. Failure of the Deletion Property on <span class="math inline">\(\widetilde{A_{-2}}\)</span> (Lemma 3.21)</h2>
-<div id="4424e895" class="cell" data-execution_count="2">
+<div id="3fb3eec8" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter.group <span class="im">import</span> evaluate_word, find_two_deletions</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>w_word <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
@@ -271,7 +275,7 @@ Valid 2-letter deletions of (0,1,0,2,0): []</code></pre>
 </section>
 <section id="wwidetildea_-n-cong-wd_n1-for-even-n" class="level2">
 <h2 class="anchored" data-anchor-id="wwidetildea_-n-cong-wd_n1-for-even-n">3. <span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span> for Even <span class="math inline">\(n\)</span></h2>
-<div id="febd0278" class="cell" data-execution_count="3">
+<div id="ba5efcc5" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter.isomorphisms <span class="im">import</span> verify_a_tilde_minus_isomorphism</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> (<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>):</span>

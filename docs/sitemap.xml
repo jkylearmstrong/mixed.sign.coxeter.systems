@@ -1,23 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/examples.html</loc>
-    <lastmod>2026-11-15T06:34:38.499Z</lastmod>
+    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/explorer.html</loc>
+    <lastmod>2026-11-15T06:42:22.154Z</lastmod>
   </url>
   <url>
-    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/lean-verification.html</loc>
-    <lastmod>2026-11-15T06:27:37.658Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/index.html</loc>
-    <lastmod>2026-11-15T06:27:35.141Z</lastmod>
+    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/spectral-results.html</loc>
+    <lastmod>2026-11-15T06:32:11.531Z</lastmod>
   </url>
   <url>
     <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/dissertation.html</loc>
     <lastmod>2026-11-15T06:32:11.475Z</lastmod>
   </url>
   <url>
-    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/spectral-results.html</loc>
-    <lastmod>2026-11-15T06:32:11.531Z</lastmod>
+    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/index.html</loc>
+    <lastmod>2026-11-15T06:27:35.141Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/lean-verification.html</loc>
+    <lastmod>2026-11-15T06:44:28.148Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/examples.html</loc>
+    <lastmod>2026-11-15T06:34:38.499Z</lastmod>
   </url>
 </urlset>

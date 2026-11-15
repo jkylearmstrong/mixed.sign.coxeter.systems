@@ -146,6 +146,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="nav-link" href="./examples.html"> 
 <span class="menu-text">Examples</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./explorer.html"> 
+<span class="menu-text">Explorer</span></a>
+  </li>  
 </ul>
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
@@ -169,7 +173,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#traceability-chain" id="toc-traceability-chain" class="nav-link active" data-scroll-target="#traceability-chain">Traceability Chain</a></li>
+  <li><a href="#end-to-end-traceability-datatheorems.yml" id="toc-end-to-end-traceability-datatheorems.yml" class="nav-link active" data-scroll-target="#end-to-end-traceability-datatheorems.yml">End-to-End Traceability (<code>data/theorems.yml</code>)</a></li>
   <li><a href="#building-locally" id="toc-building-locally" class="nav-link" data-scroll-target="#building-locally">Building Locally</a></li>
   <li><a href="#module-index" id="toc-module-index" class="nav-link" data-scroll-target="#module-index">Module Index</a></li>
   </ul>
@@ -199,9 +203,72 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>The Lean 4 formalization lives in <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/tree/main/lean/MixedSignCoxeter"><code>lean/MixedSignCoxeter/</code></a> and builds cleanly (<code>3390</code> jobs, zero <code>sorry</code>, zero <code>axiom</code>) against <strong>Lean <code>v4.35.0</code></strong> and Mathlib.</p>
-<section id="traceability-chain" class="level2">
-<h2 class="anchored" data-anchor-id="traceability-chain">Traceability Chain</h2>
-<pre class="text"><code>Dissertation Theorem  ──▶  Lean 4 Theorem  ──▶  GitHub Source File  ──▶  lake build / pytest</code></pre>
+<section id="end-to-end-traceability-datatheorems.yml" class="level2">
+<h2 class="anchored" data-anchor-id="end-to-end-traceability-datatheorems.yml">End-to-End Traceability (<code>data/theorems.yml</code>)</h2>
+<pre class="text"><code>Dissertation Theorem  ──▶  Lean 4 Theorem  ──▶  Python Implementation  ──▶  Interactive Explorer</code></pre>
+<p>The table below is generated directly from <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/data/theorems.yml"><code>data/theorems.yml</code></a>, the same registry used by the Shiny Explorer’s Theorem Checker.</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Dissertation</th>
+<th style="text-align: left;">Lean 4 Theorem</th>
+<th style="text-align: left;">Python Implementation</th>
+<th style="text-align: left;">Explorer Preset</th>
+<th style="text-align: left;">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Theorem 1.1</strong>: Howlett’s Principal-Element Formula</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean"><code>howlett_principalElement_eq_neg_inv_mul_transpose</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L213"><code>ReflectionSystem.principal_element / howlett_U</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
+<td style="text-align: left;">Verified (Lean 4)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Theorem 1.4 / Cor. 1.5</strong>: Bipartite Sign-Negation Conjugacy</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean"><code>bipartite_conjugation_theorem</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L190"><code>ReflectionSystem.bipartite_conjugator</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
+<td style="text-align: left;">Verified (Lean 4)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Theorem 1.6 Remark</strong>: W(~A_{-n}) ≅ W(D_{n+1}) for Even n</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py#L117"><code>verify_a_tilde_minus_isomorphism</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a_tilde_minus_2</code></a></td>
+<td style="text-align: left;">Python Verified</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Theorem 3.14 / Prop. 3.15</strong>: Bipartite Principal Ordering Spectral Radius</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L148"><code>MixedSignCoxeterGraph.bipartite_principal_order</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
+<td style="text-align: left;">Python Verified</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Lemma 3.21</strong>: Failure of the Deletion Property on ~A_{-2}</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean"><code>tildeAminus2_fails_deletion</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L72"><code>find_two_deletions</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a_tilde_minus_2</code></a></td>
+<td style="text-align: left;">Verified (Lean 4)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Example 3.29</strong>: Hyperbolic A_3(+,+,-) with Mahler Measure &gt; 1</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L72"><code>w_A3_ppm_add_one_cube</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L172"><code>MixedSignCoxeterGraph.A_n([1, 1, -1])</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a3_ppm</code></a></td>
+<td style="text-align: left;">Verified (Lean 4)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Example 3.33</strong>: 12-Vertex Bipartite Mixed-Sign Benchmark</td>
+<td style="text-align: left;">—</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L244"><code>MixedSignCoxeterGraph.example_3_33</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
+<td style="text-align: left;">Python Verified</td>
+</tr>
+</tbody>
+</table>
 </section>
 <section id="building-locally" class="level2">
 <h2 class="anchored" data-anchor-id="building-locally">Building Locally</h2>

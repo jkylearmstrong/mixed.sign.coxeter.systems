@@ -1,0 +1,81 @@
+# Structured traceability registry connecting:
+#   Dissertation Result -> Lean 4 Theorem -> Python Implementation -> Interactive Preset
+# Used by lean-verification.qmd (Quarto audit page) and explorer/app.py (Theorem Checker).
+
+theorems:
+  - id: howlett_formula
+    dissertation_ref: "Theorem 1.1"
+    title: "Howlett's Principal-Element Formula"
+    statement: "For any reflection system with upper-triangular U obtained from B, the principal element w = s_1 s_2 ... s_n satisfies w = -U^{-1} U^T."
+    lean_symbol: "howlett_principalElement_eq_neg_inv_mul_transpose"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean"
+    python_ref: "ReflectionSystem.principal_element / howlett_U"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L213"
+    status: "Verified (Lean 4)"
+    preset: "example_3_33"
+
+  - id: coxeter_conjugacy_bipartite
+    dissertation_ref: "Theorem 1.4 / Cor. 1.5"
+    title: "Bipartite Sign-Negation Conjugacy"
+    statement: "If the underlying graph of a reflection system is bipartite, negating all node weights yields an O(B)-conjugate reflection system."
+    lean_symbol: "bipartite_conjugation_theorem"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean"
+    python_ref: "ReflectionSystem.bipartite_conjugator"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L190"
+    status: "Verified (Lean 4)"
+    preset: "a_n_alt_4"
+
+  - id: a_tilde_minus_even_iso
+    dissertation_ref: "Theorem 1.6 Remark"
+    title: "W(~A_{-n}) ≅ W(D_{n+1}) for Even n"
+    statement: "For even n >= 2, the negative affine cycle ~A_{-n} generates a finite group isomorphic to the Weyl group W(D_{n+1}) of order 2^n (n+1)!."
+    lean_symbol: "—"
+    lean_url: ""
+    python_ref: "verify_a_tilde_minus_isomorphism"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py#L117"
+    status: "Python Verified"
+    preset: "a_tilde_minus_2"
+
+  - id: bipartite_principal_radius
+    dissertation_ref: "Theorem 3.14 / Prop. 3.15"
+    title: "Bipartite Principal Ordering Spectral Radius"
+    statement: "For a bipartite mixed-sign Coxeter graph, the bipartite principal ordering groups the two parts and often yields a strictly larger spectral radius than the linear ordering."
+    lean_symbol: "—"
+    lean_url: ""
+    python_ref: "MixedSignCoxeterGraph.bipartite_principal_order"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L148"
+    status: "Python Verified"
+    preset: "example_3_33"
+
+  - id: deletion_failure_a_tilde_minus_2
+    dissertation_ref: "Lemma 3.21"
+    title: "Failure of the Deletion Property on ~A_{-2}"
+    statement: "In W(~A_{-2}), s1 s2 s1 s3 s1 = s3 s1 s2, yet no 2-letter deletion of (s1, s2, s1, s3, s1) equals s3 s1 s2."
+    lean_symbol: "tildeAminus2_fails_deletion"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean"
+    python_ref: "find_two_deletions"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L72"
+    status: "Verified (Lean 4)"
+    preset: "a_tilde_minus_2"
+
+  - id: example_3_29_hyperbolic
+    dissertation_ref: "Example 3.29"
+    title: "Hyperbolic A_3(+,+,-) with Mahler Measure > 1"
+    statement: "A_3(+,+,-) is hyperbolic (signature (2,1,0)) and its principal element has spectral radius > 1."
+    lean_symbol: "w_A3_ppm_add_one_cube"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L72"
+    python_ref: "MixedSignCoxeterGraph.A_n([1, 1, -1])"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L172"
+    status: "Verified (Lean 4)"
+    preset: "a3_ppm"
+
+  - id: example_3_33_benchmark
+    dissertation_ref: "Example 3.33"
+    title: "12-Vertex Bipartite Mixed-Sign Benchmark"
+    statement: "The 12-vertex, 16-edge bipartite graph Example 3.33 exhibits distinct linear and bipartite principal spectral radii."
+    lean_symbol: "—"
+    lean_url: ""
+    python_ref: "MixedSignCoxeterGraph.example_3_33"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L244"
+    status: "Python Verified"
+    preset: "example_3_33"

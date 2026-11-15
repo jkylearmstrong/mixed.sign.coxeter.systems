@@ -1,0 +1,266 @@
+---
+title: "Interactive Explorer"
+subtitle: "Run Mixed-Sign Coxeter System computations live in your browser (Shinylive) or locally via Shiny for Python"
+filters:
+  - shinylive
+---
+
+This page runs **Shinylive for Python** directly in your browser via WebAssembly/Pyodide ($0 server cost on GitHub Pages). For full `mixed_sign_coxeter` + `data/theorems.yml` support locally or on a Shiny server, run:
+
+```bash
+pip install -r explorer/requirements.txt
+shiny run explorer/app.py
+```
+
+```{shinylive-python}
+#| standalone: true
+#| viewerHeight: 780
+
+import math
+from collections import deque
+import matplotlib.pyplot as plt
+import numpy as np
+from shiny import App, reactive, render, ui
+
+PRESETS = {
+    "example_3_33": (
+        "Example 3.33 (6-vertex bipartite)",
+        ["+", "+", "+", "-", "+", "-"],
+        [(0, 1, 3), (0, 2, 3), (2, 3, 3), (1, 3, 3), (1, 5, 3), (3, 4, 3), (4, 5, 3)],
+    ),
+    "a_tilde_minus_2": (
+        "~A_{-2} (Negative 3-cycle)",
+        ["-", "-", "-"],
+        [(0, 1, 3), (1, 2, 3), (0, 2, 3)],
+    ),
+    "a_tilde_minus_4": (
+        "~A_{-4} (Negative 5-cycle)",
+        ["-", "-", "-", "-", "-"],
+        [(0, 1, 3), (1, 2, 3), (2, 3, 3), (3, 4, 3), (0, 4, 3)],
+    ),
+    "a3_ppm": (
+        "A_3(+, +, -) (Example 3.29)",
+        ["+", "+", "-"],
+        [(0, 1, 3), (1, 2, 3)],
+    ),
+    "a_n_alt_4": (
+        "A_4(+, -, +, -)",
+        ["+", "-", "+", "-"],
+        [(0, 1, 3), (1, 2, 3), (2, 3, 3)],
+    ),
+}
+
+
+def parse_signs(text: str) -> list[int]:
+    out = []
+    for tok in text.replace(";", ",").split(","):
+        t = tok.strip()
+        if not t:
+            continue
+        if t in ("+", "+1", "1"):
+            out.append(1)
+        elif t in ("-", "-1"):
+            out.append(-1)
+        else:
+            raise ValueError(f"Invalid sign: {t}")
+    if not out:
+        raise ValueError("Need at least one sign.")
+    return out
+
+
+def parse_edges(text: str, n: int) -> list[tuple[int, int, float]]:
+    edges = []
+    for raw in text.replace("\n", ",").split(","):
+        item = raw.strip()
+        if not item:
+            continue
+        if ":" in item:
+            pair_s, w_s = item.split(":", 1)
+            w = math.inf if w_s.strip().lower() in ("oo", "inf") else float(w_s.strip())
+        else:
+            pair_s, w = item, 3.0
+        u_s, v_s = pair_s.split("-", 1)
+        u, v = int(u_s.strip()), int(v_s.strip())
+        if not (0 <= u < n and 0 <= v < n) or u == v:
+            raise ValueError(f"Invalid edge ({u}, {v})")
+        edges.append((u, v, w))
+    return edges
+
+
+def build_B(signs: list[int], edges: list[tuple[int, int, float]]) -> np.ndarray:
+    n = len(signs)
+    B = np.diag([float(s) for s in signs])
+    for u, v, w in edges:
+        val = -1.0 if math.isinf(w) else -math.cos(math.pi / w)
+        B[u, v] = val
+        B[v, u] = val
+    return B
+
+
+def bipartition(n: int, edges: list[tuple[int, int, float]]):
+    adj = [[] for _ in range(n)]
+    for u, v, _ in edges:
+        adj[u].append(v)
+        adj[v].append(u)
+    color = [-1] * n
+    n1, n2 = [], []
+    for start in range(n):
+        if color[start] != -1:
+            continue
+        color[start] = 0
+        q = deque([start])
+        while q:
+            u = q.popleft()
+            (n1 if color[u] == 0 else n2).append(u)
+            for v in adj[u]:
+                if color[v] == -1:
+                    color[v] = 1 - color[u]
+                    q.append(v)
+                elif color[v] == color[u]:
+                    return None
+    return n1, n2
+
+
+def principal_element(B: np.ndarray, order: list[int]) -> tuple[np.ndarray, np.ndarray]:
+    n = B.shape[0]
+    P = B[np.ix_(order, order)]
+    U_ord = np.triu(P)
+    w_ord = -np.linalg.inv(U_ord) @ U_ord.T
+    inv_perm = np.argsort(order)
+    w = w_ord[np.ix_(inv_perm, inv_perm)]
+    return U_ord, w
+
+
+app_ui = ui.page_fluid(
+    ui.layout_sidebar(
+        ui.sidebar(
+            ui.input_select(
+                "preset",
+                "Preset Graph",
+                choices={k: v[0] for k, v in PRESETS.items()} | {"custom": "Custom Graph"},
+                selected="example_3_33",
+            ),
+            ui.input_text("signs", "Signs (+ / -)", value="+, +, +, -, +, -"),
+            ui.input_action_button("negate", "Negate Signs", class_="btn-sm btn-outline-secondary"),
+            ui.input_text_area("edges", "Edges (u-v:weight)", value="0-1:3, 0-2:3, 2-3:3, 1-3:3, 1-5:3, 3-4:3, 4-5:3", rows=3),
+            ui.input_radio_buttons("order_mode", "Principal Ordering", choices={"linear": "Linear", "bipartite": "Bipartite"}, selected="linear"),
+            width=300,
+        ),
+        ui.layout_columns(
+            ui.card(ui.card_header("Signed Coxeter Graph"), ui.output_plot("plot_graph", height="300px")),
+            ui.card(ui.card_header("Spectral & Structural Summary"), ui.output_ui("summary_ui")),
+            col_widths=(6, 6),
+        ),
+        ui.card(ui.card_header("Eigenvalues & Howlett Principal Element"), ui.output_text_verbatim("eigs_out")),
+    )
+)
+
+
+def server(input, output, session):
+    @reactive.effect
+    @reactive.event(input.preset)
+    def _on_preset():
+        k = input.preset()
+        if k in PRESETS:
+            _, s, e = PRESETS[k]
+            ui.update_text("signs", value=", ".join(s))
+            ui.update_text_area("edges", value=", ".join(f"{u}-{v}:{w}" for u, v, w in e))
+
+    @reactive.effect
+    @reactive.event(input.negate)
+    def _on_negate():
+        try:
+            s = parse_signs(input.signs())
+            ui.update_text("signs", value=", ".join("-" if x > 0 else "+" for x in s))
+        except Exception:
+            pass
+
+    @reactive.calc
+    def parsed():
+        try:
+            s = parse_signs(input.signs())
+            e = parse_edges(input.edges(), len(s))
+            return s, e, None
+        except Exception as exc:
+            return None, None, str(exc)
+
+    @render.plot
+    def plot_graph():
+        s, e, err = parsed()
+        fig, ax = plt.subplots(figsize=(5, 3.4))
+        if err:
+            ax.text(0.5, 0.5, err, ha="center", va="center")
+            ax.axis("off")
+            return fig
+        n = len(s)
+        angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
+        pos = {i: (math.cos(angles[i]), math.sin(angles[i])) for i in range(n)}
+        for u, v, w in e:
+            x0, y0 = pos[u]
+            x1, y1 = pos[v]
+            ax.plot([x0, x1], [y0, y1], color="#64748b", lw=2, zorder=1)
+            if w != 3:
+                ax.text((x0 + x1) / 2, (y0 + y1) / 2, f"{w:g}", fontsize=9, bbox=dict(fc="white", ec="none", pad=1))
+        for i in range(n):
+            x, y = pos[i]
+            c = "#2563eb" if s[i] > 0 else "#dc2626"
+            ax.scatter([x], [y], s=500, color=c, zorder=2)
+            ax.text(x, y, f"{i}({'+' if s[i] > 0 else '-'})", color="white", ha="center", va="center", fontsize=9, fontweight="bold", zorder=3)
+        ax.set_aspect("equal")
+        ax.axis("off")
+        ax.set_title("Blue = (+) vertex, Red = (-) vertex")
+        return fig
+
+    @render.ui
+    def summary_ui():
+        s, e, err = parsed()
+        if err:
+            return ui.p(f"Error: {err}", class_="text-danger")
+        n = len(s)
+        B = build_B(s, e)
+        bp = bipartition(n, e)
+        lin_order = list(range(n))
+        _, w_lin = principal_element(B, lin_order)
+        rho_lin = float(np.max(np.abs(np.linalg.eigvals(w_lin))))
+        if bp is not None:
+            bip_order = bp[0] + bp[1]
+            _, w_bip = principal_element(B, bip_order)
+            rho_bip = float(np.max(np.abs(np.linalg.eigvals(w_bip))))
+            bip_text = f"{rho_bip:.6f} (ratio {rho_bip / rho_lin:.4f})"
+        else:
+            bip_text = "N/A (not bipartite)"
+        evals_B = np.linalg.eigvalsh(B)
+        p = int(np.sum(evals_B > 1e-9))
+        q = int(np.sum(evals_B < -1e-9))
+        z = n - p - q
+        return ui.HTML(
+            f"""
+            <table class="table table-sm">
+              <tr><th>Vertices / Edges</th><td>{n} / {len(e)}</td></tr>
+              <tr><th>Bipartite</th><td>{'Yes' if bp is not None else 'No'}</td></tr>
+              <tr><th>Signature (p, q, z)</th><td>({p}, {q}, {z})</td></tr>
+              <tr><th>Linear ρ</th><td><strong>{rho_lin:.6f}</strong></td></tr>
+              <tr><th>Bipartite ρ</th><td><strong>{bip_text}</strong></td></tr>
+            </table>
+            """
+        )
+
+    @render.text
+    def eigs_out():
+        s, e, err = parsed()
+        if err:
+            return err
+        n = len(s)
+        B = build_B(s, e)
+        bp = bipartition(n, e)
+        order = (bp[0] + bp[1]) if (input.order_mode() == "bipartite" and bp is not None) else list(range(n))
+        _, w = principal_element(B, order)
+        eigs = sorted(np.linalg.eigvals(w), key=lambda z: -abs(z))
+        lines = [f"Active order: {order}", "Eigenvalues of w = -U^(-1) U^T:"]
+        for z in eigs:
+            lines.append(f"  {z.real:+.6f} {z.imag:+.6f}j  (|λ| = {abs(z):.6f})")
+        return "\n".join(lines)
+
+
+app = App(app_ui, server)
+```
