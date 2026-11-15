@@ -22,26 +22,35 @@ Located in `src/mixed_sign_coxeter/`:
   polynomials $\chi(w_\sigma, x)$ (Lemma 2.63), spectral radii
   $\lambda(w)$, minimal spectral radius $\Lambda(\Gamma)$, and signature
   classification.
+
 - `mixed_sign.py`: `MixedSignCoxeterGraph` — mixed-sign Coxeter graphs
   $\Gamma$ with `+`/`-` node signs and edge weights
   $m(i, j) \in \{2, 3, \dots, \infty\}$, standard families ($A_n$,
   $\widetilde{A_n}$, $\widetilde{A_{-n}}$, $B_n$, $D_n$, $E_n$, $F_4$,
   $H_3$, $H_4$, $I_2[m]$), and `example_3_33`.
+
 - `group.py`: Word evaluation, element orders, finite group enumeration,
   two-deletion testing for the Deletion Property (Proposition 3.7 /
   Lemma 3.21), and root orbits $\Phi = W \Pi^+$.
+
 - `catalog.py`: Mahler measure `mahler_measure`, signature
   classification `classify_signature`, Appendix A finite catalogs
   `table_a1` / `table_a2`, Appendix B $A_n$ sign tables
   `A_n_sign_table`, and Remark 3.26 cycle determinant checks
   `finite_even_odd_cycle_determinants`.
 
-- `isomorphisms.py`: explicit isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$
-  for every even $n$, and a Python port of Appendix D (the thesis's GAP session).
-- `finite_search.py`: exhaustive search for finite mixed-sign groups (Remark A.3).
-- `principal_search.py`: exhaustive search over principal elements for Question 3.35.
+- `isomorphisms.py`: explicit isomorphism
+  $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$ for every even $n$, and a
+  Python port of Appendix D (the thesis’s GAP session).
 
-See [`docs/verifications.md`](docs/verifications.md) for the results of these searches.
+- `finite_search.py`: exhaustive search for finite mixed-sign groups
+  (Remark A.3).
+
+- `principal_search.py`: exhaustive search over principal elements for
+  Question 3.35.
+
+See [`docs/verifications.md`](docs/verifications.md) for the results of
+these searches.
 
 ### Quick Example (Theorem 1.7 / Example 3.33)
 
