@@ -1,11 +1,71 @@
 ---
 title: "Mixed-Sign Coxeter Systems"
-subtitle: "Lean 4 Formalizations, Executable Python Computations, and Dissertation Archive"
+subtitle: "Computation, formal verification, and exploration of signed Coxeter dynamics."
 ---
 
-This portal accompanies:
+::: {.columns}
+::: {.column width="72%"}
+This portal accompanies **Johnathon Kyle Armstrong**, *Principal Elements of Mixed-Sign Coxeter Systems* (Ph.D. Dissertation, Florida State University, 2012), connecting the original mathematical theory with a **sorry-free Lean 4 formalization**, an **exact Python library**, and an **interactive Shiny Explorer**.
 
-> **Johnathon Kyle Armstrong**, *Principal Elements of Mixed-Sign Coxeter Systems*, Ph.D. Dissertation, Florida State University, 2012 ([FSU Digital Library PDF](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view) · [Full Monograph HTML](mixed_sign_coxeter.html) · [Monograph PDF](mixed_sign_coxeter.pdf)).
+[FSU Dissertation PDF](https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view){.btn .btn-primary .btn-sm}
+[GitHub Repository](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems){.btn .btn-outline-secondary .btn-sm}
+[Lean 4 Source](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/tree/main/lean/MixedSignCoxeter){.btn .btn-outline-secondary .btn-sm}
+[Launch Explorer](explorer.qmd){.btn .btn-outline-primary .btn-sm}
+:::
+::: {.column width="28%"}
+![](assets/hex-sticker.svg){width="210" fig-align="center" fig-alt="Mixed-Sign Coxeter Systems hex sticker"}
+:::
+:::
+
+## Explore the Portal
+
+::: {.grid}
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+### 📖 Dissertation
+Full theorem-by-theorem audit mapping Chapters 1–3 and Appendices A–D to Lean 4 proofs and Python verifications.
+
+[Open Dissertation Audit →](dissertation.qmd)
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+### ✅ Lean Verification
+16 `sorry`-free Lean 4 (`v4.35.0` + Mathlib) modules with formalization progress metrics and end-to-end traceability.
+
+[Open Lean Dashboard →](lean-verification.qmd)
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+### 🐍 Python Package
+Exact symbolic `ReflectionSystem` and `MixedSignCoxeterGraph` computations, spectral plots, and Manim slides.
+
+[Results](spectral-results.qmd) · [Executable Examples →](examples.qmd)
+:::
+:::
+:::
+
+::: {.g-col-12 .g-col-md-6}
+::: {.card .h-100}
+::: {.card-body}
+### 🔬 Interactive Explorer
+Build signed Coxeter graphs, compare linear vs. bipartite principal orderings, inspect spectra, and check theorems live.
+
+[Launch Interactive Explorer →](explorer.qmd)
+:::
+:::
+:::
+
+:::
 
 ## What Is a Mixed-Sign Coxeter System?
 

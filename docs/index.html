@@ -33,16 +33,21 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
+<link href="./assets/hex-sticker.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,13 +111,179 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo light-content">
+    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
+    </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Mixed-Sign Coxeter Systems</span>
     </a>
@@ -157,6 +328,7 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -170,7 +342,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#what-is-a-mixed-sign-coxeter-system" id="toc-what-is-a-mixed-sign-coxeter-system" class="nav-link active" data-scroll-target="#what-is-a-mixed-sign-coxeter-system">What Is a Mixed-Sign Coxeter System?</a></li>
+  <li><a href="#explore-the-portal" id="toc-explore-the-portal" class="nav-link active" data-scroll-target="#explore-the-portal">Explore the Portal</a></li>
+  <li><a href="#what-is-a-mixed-sign-coxeter-system" id="toc-what-is-a-mixed-sign-coxeter-system" class="nav-link" data-scroll-target="#what-is-a-mixed-sign-coxeter-system">What Is a Mixed-Sign Coxeter System?</a></li>
   <li><a href="#why-is-it-interesting" id="toc-why-is-it-interesting" class="nav-link" data-scroll-target="#why-is-it-interesting">Why Is It Interesting?</a></li>
   <li><a href="#research-portal-architecture" id="toc-research-portal-architecture" class="nav-link" data-scroll-target="#research-portal-architecture">Research Portal Architecture</a></li>
   </ul>
@@ -179,10 +352,11 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Mixed-Sign Coxeter Systems</h1>
-<p class="subtitle lead">Lean 4 Formalizations, Executable Python Computations, and Dissertation Archive</p>
+<p class="subtitle lead">Computation, formal verification, and exploration of signed Coxeter dynamics.</p>
 </div>
 
 
@@ -199,10 +373,59 @@ window.Quarto = {
 </header>
 
 
-<p>This portal accompanies:</p>
-<blockquote class="blockquote">
-<p><strong>Johnathon Kyle Armstrong</strong>, <em>Principal Elements of Mixed-Sign Coxeter Systems</em>, Ph.D.&nbsp;Dissertation, Florida State University, 2012 (<a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view">FSU Digital Library PDF</a> · <a href="mixed_sign_coxeter.html">Full Monograph HTML</a> · <a href="mixed_sign_coxeter.pdf">Monograph PDF</a>).</p>
-</blockquote>
+<div class="columns">
+<div class="column" style="width:72%;">
+<p>This portal accompanies <strong>Johnathon Kyle Armstrong</strong>, <em>Principal Elements of Mixed-Sign Coxeter Systems</em> (Ph.D.&nbsp;Dissertation, Florida State University, 2012), connecting the original mathematical theory with a <strong>sorry-free Lean 4 formalization</strong>, an <strong>exact Python library</strong>, and an <strong>interactive Shiny Explorer</strong>.</p>
+<p><a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view" class="btn btn-primary btn-sm">FSU Dissertation PDF</a> <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems" class="btn btn-outline-secondary btn-sm">GitHub Repository</a> <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/tree/main/lean/MixedSignCoxeter" class="btn btn-outline-secondary btn-sm">Lean 4 Source</a> <a href="./explorer.html" class="btn btn-outline-primary btn-sm">Launch Explorer</a></p>
+</div><div class="column" style="width:28%;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="assets/hex-sticker.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" alt="Mixed-Sign Coxeter Systems hex sticker" width="210"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="explore-the-portal" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-portal">Explore the Portal</h2>
+<div class="grid">
+<div class="g-col-12 g-col-md-6">
+<div class="card h-100">
+<section id="dissertation" class="level3 card-body">
+<h3 class="anchored" data-anchor-id="dissertation">📖 Dissertation</h3>
+<p>Full theorem-by-theorem audit mapping Chapters 1–3 and Appendices A–D to Lean 4 proofs and Python verifications.</p>
+<p><a href="./dissertation.html">Open Dissertation Audit →</a></p>
+</section>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="card h-100">
+<section id="lean-verification" class="level3 card-body">
+<h3 class="anchored" data-anchor-id="lean-verification">✅ Lean Verification</h3>
+<p>16 <code>sorry</code>-free Lean 4 (<code>v4.35.0</code> + Mathlib) modules with formalization progress metrics and end-to-end traceability.</p>
+<p><a href="./lean-verification.html">Open Lean Dashboard →</a></p>
+</section>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="card h-100">
+<section id="python-package" class="level3 card-body">
+<h3 class="anchored" data-anchor-id="python-package">🐍 Python Package</h3>
+<p>Exact symbolic <code>ReflectionSystem</code> and <code>MixedSignCoxeterGraph</code> computations, spectral plots, and Manim slides.</p>
+<p><a href="./spectral-results.html">Results</a> · <a href="./examples.html">Executable Examples →</a></p>
+</section>
+</div>
+</div>
+<div class="g-col-12 g-col-md-6">
+<div class="card h-100">
+<section id="interactive-explorer" class="level3 card-body">
+<h3 class="anchored" data-anchor-id="interactive-explorer">🔬 Interactive Explorer</h3>
+<p>Build signed Coxeter graphs, compare linear vs.&nbsp;bipartite principal orderings, inspect spectra, and check theorems live.</p>
+<p><a href="./explorer.html">Launch Interactive Explorer →</a></p>
+</section>
+</div>
+</div>
+</div>
+</section>
 <section id="what-is-a-mixed-sign-coxeter-system" class="level2">
 <h2 class="anchored" data-anchor-id="what-is-a-mixed-sign-coxeter-system">What Is a Mixed-Sign Coxeter System?</h2>
 <p>A classical Coxeter system is realized geometrically by a symmetric bilinear form <span class="math inline">\(B\)</span> with <strong>all positive</strong> diagonal entries (<span class="math inline">\(B_{ii} = 2\)</span>) and reflections <span class="math display">\[s_i(v) = v - \frac{2 B(e_i, v)}{B(e_i, e_i)} e_i.\]</span> A <strong>mixed-sign Coxeter system</strong> relaxes the positivity requirement on the diagonal: each node <span class="math inline">\(i\)</span> of the signed Coxeter graph <span class="math inline">\(\Gamma\)</span> carries a sign <span class="math inline">\(+1\)</span> (<span class="math inline">\(B_{ii} = +2\)</span>) or <span class="math inline">\(-1\)</span> (<span class="math inline">\(B_{ii} = -2\)</span>), while edges carry weights <span class="math inline">\(m(i,j) \in \{2, 3, \dots, \infty\}\)</span>.</p>
@@ -273,6 +496,19 @@ window.Quarto = {
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

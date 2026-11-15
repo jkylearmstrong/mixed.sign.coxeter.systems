@@ -160,21 +160,25 @@ app_ui = ui.page_navbar(
                     ui.output_plot("graph_plot", height="340px"),
                 ),
                 ui.card(
-                    ui.card_header("Structural & Signature Data"),
-                    ui.output_ui("structural_ui"),
+                    ui.card_header("Eigenvalue Spectrum & Unit Circle"),
+                    ui.output_plot("spectrum_plot", height="340px"),
                 ),
                 col_widths=(6, 6),
             ),
             ui.layout_columns(
                 ui.card(
+                    ui.card_header("Structural & Signature Data"),
+                    ui.output_ui("structural_ui"),
+                ),
+                ui.card(
                     ui.card_header("Principal Element & Spectral Radius"),
                     ui.output_ui("spectral_ui"),
                 ),
-                ui.card(
-                    ui.card_header("Eigenvalues & Howlett Matrices"),
-                    ui.output_text_verbatim("matrices_out"),
-                ),
                 col_widths=(6, 6),
+            ),
+            ui.card(
+                ui.card_header("Eigenvalues & Howlett Matrices"),
+                ui.output_code("matrices_out"),
             ),
             ui.card(
                 ui.card_header("Verified Theorem Checker (from data/theorems.yml)"),
@@ -185,8 +189,8 @@ app_ui = ui.page_navbar(
     ui.nav_panel(
         "Export",
         ui.card(
-            ui.card_header("Reproducible Python, JSON & LaTeX/TikZ"),
-            ui.output_text_verbatim("export_out"),
+            ui.card_header("Reproducible Python, JSON, CSV, GraphML & LaTeX/TikZ"),
+            ui.output_code("export_out"),
         ),
     ),
     title="Mixed-Sign Coxeter Explorer",
@@ -259,15 +263,41 @@ def server(input, output, session):
         for (u, v), w in g.edges.items():
             G.add_edge(u, v, weight=w)
         pos = nx.spring_layout(G, seed=42)
-        colors = ["#2563eb" if g.signs[i] > 0 else "#dc2626" for i in range(g.n)]
+        colors = ["#782F40" if g.signs[i] > 0 else "#1E6BD6" for i in range(g.n)]
         nx.draw_networkx_nodes(G, pos, node_color=colors, node_size=650, ax=ax)
         labels = {i: f"{i}({'+' if g.signs[i] > 0 else '-'})" for i in range(g.n)}
         nx.draw_networkx_labels(G, pos, labels=labels, font_color="white", font_size=9, ax=ax)
-        nx.draw_networkx_edges(G, pos, width=2, edge_color="#475569", ax=ax)
+        nx.draw_networkx_edges(G, pos, width=2, edge_color="#333333", ax=ax)
         edge_labels = {(u, v): (str(w) if w != 3 else "") for (u, v), w in g.edges.items()}
         nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=9, ax=ax)
-        ax.set_title("Blue = (+) vertex, Red = (-) vertex")
+        ax.set_title("Garnet (#782F40) = (+), Lean Blue (#1E6BD6) = (−)")
         ax.axis("off")
+        return fig
+
+    @render.plot
+    def spectrum_plot():
+        g, err = current_graph()
+        fig, ax = plt.subplots(figsize=(5.5, 4.0))
+        if g is None:
+            ax.text(0.5, 0.5, f"Input error:\n{err}", ha="center", va="center")
+            ax.axis("off")
+            return fig
+        order, _ = active_order()
+        w = g.principal_element(order)
+        eigs = np.linalg.eigvals(np.array(w.tolist(), dtype=float))
+        theta = np.linspace(0, 2 * np.pi, 256)
+        ax.plot(np.cos(theta), np.sin(theta), "--", color="#94a3b8", lw=1.2, label="|λ| = 1")
+        ax.axhline(0, color="#cbd5e1", lw=0.8)
+        ax.axvline(0, color="#cbd5e1", lw=0.8)
+        ax.scatter(eigs.real, eigs.imag, s=75, color="#782F40", zorder=3, label="Eigenvalues")
+        lim = max(1.3, float(np.max(np.abs(eigs))) * 1.15)
+        ax.set_xlim(-lim, lim)
+        ax.set_ylim(-lim, lim)
+        ax.set_aspect("equal")
+        ax.set_xlabel("Re(λ)")
+        ax.set_ylabel("Im(λ)")
+        ax.set_title(f"Principal Spectrum (ρ = {float(np.max(np.abs(eigs))):.4f})")
+        ax.legend(loc="upper right", fontsize=8)
         return fig
 
     @render.ui
@@ -415,7 +445,20 @@ def server(input, output, session):
             for i, s in enumerate(g.signs)
         )
         tikz_edges = "\n".join(f"  \\draw (v{u}) -- node[above] {{{w}}} (v{v});" for (u, v), w in sorted(g.edges.items()))
-        return f"--- Python ---\n{py_code}\n--- JSON ---\n{json_data}\n\n--- TikZ ---\n\\begin{{tikzpicture}}\n{tikz_nodes}\n{tikz_edges}\n\\end{{tikzpicture}}"
+        csv_lines = "source,target,weight\n" + "\n".join(f"{u},{v},{w}" for (u, v), w in sorted(g.edges.items()))
+        G = nx.Graph()
+        for i, s in enumerate(g.signs):
+            G.add_node(i, sign="+" if s > 0 else "-")
+        for (u, v), w in g.edges.items():
+            G.add_edge(u, v, weight=str(w))
+        graphml = "\n".join(nx.generate_graphml(G))
+        return (
+            f"--- Python ---\n{py_code}\n"
+            f"--- JSON ---\n{json_data}\n\n"
+            f"--- CSV Edge List ---\n{csv_lines}\n\n"
+            f"--- GraphML ---\n{graphml}\n\n"
+            f"--- TikZ ---\n\\begin{{tikzpicture}}\n{tikz_nodes}\n{tikz_edges}\n\\end{{tikzpicture}}"
+        )
 
 
 app = App(app_ui, server)
