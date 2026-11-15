@@ -153,6 +153,14 @@ Mathlib `v4.35.0`):
   Coxeter elements, `theorem_3_27_classification`) and **Theorem 3.28**
   (eigenvalue interlacing and strict monotonicity on induced subgraphs /
   node deletion, `theorem_3_28_interlacing`, `theorem_3_28_strict`).
+- `RemarksAndClassical.lean`: **Remark 3.23**
+  ($W(\widetilde{A_{-2}}) \cong S_4$ of order $24$,
+  `remark_3_23_tildeAminus2_iso_S4`, `remark_3_23_card`), **Remark
+  3.26** ($\det(-B(\widetilde{A_{-n}})) = 4$ for every even $n \ge 2$,
+  `remark_3_26_det_neg_odd_cycle`), and **Remark 3.30** (annihilating
+  polynomials `wA2Z_annihilated`–`wA5Z_annihilated` and spectral-radius
+  oscillation bounds `remark_3_30_A2_root_gt`, `remark_3_30_A4_root_gt`,
+  `remark_3_30_A5_roots_lt`).
 
 ### Building Lean
 
