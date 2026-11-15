@@ -394,7 +394,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Lean 4 Modules</td>
-<td style="text-align: center;">17</td>
+<td style="text-align: center;">18</td>
 <td style="text-align: left;">✅ <code>lake build</code> passes</td>
 </tr>
 <tr class="even">
@@ -404,12 +404,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Lemmas</td>
-<td style="text-align: center;">167</td>
+<td style="text-align: center;">184</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Theorems</td>
-<td style="text-align: center;">120</td>
+<td style="text-align: center;">126</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
@@ -478,8 +478,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td style="text-align: left;">Verified (Lean 4)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Theorem 3.9</strong>: Deletion Property Implies Classical Coxeter Presentation</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean#L512"><code>theorem_3_9_coxeter_presentation</code></a></td>
+<td style="text-align: left;"><strong>Theorem 3.9</strong>: Classical Coxeter Equivalence (Deletion / Exchange / Coxeter Presentation)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean#L406"><code>theorem_3_9_classical_iff_deletion</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L72"><code>find_two_deletions</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
 <td style="text-align: left;">Verified (Lean 4)</td>
@@ -521,6 +521,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   Cyc --&gt; Para["ParabolicTransfer.lean&lt;br/&gt;Thm 1.2"]
   Cyc --&gt; Clas["ClassicalDeletion.lean&lt;br/&gt;Thm 3.9, Cor 1.3"]
   Clas --&gt; Pres["CoxeterPresentation.lean&lt;br/&gt;Thm 3.9: Deletion ⇒ Coxeter"]
+  Pres --&gt; CDel["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
   How --&gt; Spec["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
   Spec --&gt; SCls["SpectralClassification.lean&lt;br/&gt;Thm 3.27, Thm 3.28"]
   Mix --&gt; Rem["RemarksAndClassical.lean"]
@@ -610,19 +611,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean"><code>CoxeterPresentation.lean</code></a></td>
 <td style="text-align: left;">Ch. 3</td>
-<td style="text-align: left;"><code>orderCoxeterMatrix</code>, <code>gamma_eq_of_reduced_of_same_length</code>, <code>theorem_3_9_coxeter_presentation</code>, <code>theorem_3_9_isClassicalCoxeter</code> (Thm. 3.9)</td>
+<td style="text-align: left;"><code>orderCoxeterMatrix</code>, <code>gamma_eq_of_reduced_of_same_length</code>, <code>theorem_3_9_coxeter_presentation</code>, <code>theorem_3_9_isClassicalCoxeter</code> (Thm. 3.9, <code>(2) ⇒ (1)</code>)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean"><code>ClassicalCoxeterDeletion.lean</code></a></td>
+<td style="text-align: left;">Ch. 3</td>
+<td style="text-align: left;"><code>deletion_of_coxeterSystem</code>, <code>theorem_3_9_deletion_of_isClassicalCoxeter</code> (<code>(1) ⇒ (2)</code>), <code>theorem_3_9_classical_iff_deletion</code> (<code>(1) ⇔ (2)</code>), <code>theorem_3_9_classical_iff_exchange</code> (<code>(1) ⇔ (3)</code>)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean"><code>SpectralRadius.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.5)</td>
 <td style="text-align: left;"><code>w_A3_ppm_add_one_cube</code> (Ex. 3.29), <code>theorem_3_34_bipartite_exceeds_linear</code> (Thm. 1.7 / Ex. 3.33)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean"><code>SpectralClassification.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.5.1)</td>
 <td style="text-align: left;"><code>theorem_3_27_classification</code> (Thm. 3.27), <code>theorem_3_28_interlacing</code> &amp; <code>theorem_3_28_strict</code> (Thm. 3.28)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean"><code>RemarksAndClassical.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.3–3.5)</td>
 <td style="text-align: left;"><code>remark_3_23_card</code> (Rem. 3.23), <code>remark_3_26_det_neg_odd_cycle</code> (Rem. 3.26), <code>remark_3_30_A2_root_gt</code>–<code>A5_roots_lt</code> (Rem. 3.30)</td>

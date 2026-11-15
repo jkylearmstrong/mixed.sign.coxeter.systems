@@ -16,3 +16,4 @@ import MixedSignCoxeter.RankTwoRoots
 import MixedSignCoxeter.SpectralClassification
 import MixedSignCoxeter.RemarksAndClassical
 import MixedSignCoxeter.CoxeterPresentation
+import MixedSignCoxeter.ClassicalCoxeterDeletion

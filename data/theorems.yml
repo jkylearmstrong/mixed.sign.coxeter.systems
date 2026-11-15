@@ -71,10 +71,10 @@ theorems:
 
   - id: theorem_3_9_coxeter_presentation
     dissertation_ref: "Theorem 3.9"
-    title: "Deletion Property Implies Classical Coxeter Presentation"
-    statement: "Any reflection system satisfying the Deletion (or Exchange) Property is isomorphic to the classical Coxeter group determined by its pairwise generator orders."
-    lean_symbol: "theorem_3_9_coxeter_presentation"
-    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean#L512"
+    title: "Classical Coxeter Equivalence (Deletion / Exchange / Coxeter Presentation)"
+    statement: "A reflection system is a classical Coxeter system if and only if it satisfies the Deletion Property, if and only if it satisfies the Exchange Property."
+    lean_symbol: "theorem_3_9_classical_iff_deletion"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean#L406"
     python_ref: "find_two_deletions"
     python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L72"
     status: "Verified (Lean 4)"

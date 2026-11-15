@@ -82,6 +82,7 @@ flowchart TD
   Cyc --> Para["ParabolicTransfer.lean<br/>Thm 1.2"]
   Cyc --> Clas["ClassicalDeletion.lean<br/>Thm 3.9, Cor 1.3"]
   Clas --> Pres["CoxeterPresentation.lean<br/>Thm 3.9: Deletion ⇒ Coxeter"]
+  Pres --> CDel["ClassicalCoxeterDeletion.lean<br/>Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
   How --> Spec["SpectralRadius.lean<br/>Ex 3.29, Thm 1.7 / Ex 3.33"]
   Spec --> SCls["SpectralClassification.lean<br/>Thm 3.27, Thm 3.28"]
   Mix --> Rem["RemarksAndClassical.lean"]
@@ -104,7 +105,8 @@ flowchart TD
 | [`CyclesAndDeletion.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean) | Ch. 3 (3.3–3.4) | `tildeAminus2_fails_deletion` (Lem. 3.21), `tildeA2_infinite_order` (Lem. 3.25), `oddCycle_not_O_conjugate` (Thm. 1.6) |
 | [`ParabolicTransfer.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean) | Ch. 1 & 3 (3.3) | `not_deletion_of_contains_tildeAminus2`, `theorem_1_2_tail_family` (Thm. 1.2) |
 | [`ClassicalDeletion.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean) | Ch. 1 & 3 | `deletion_iff_exchange` (Prop. 3.8 / Thm. 3.9), `corollary_1_3_not_conjugate_to_deletion` (Cor. 1.3) |
-| [`CoxeterPresentation.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean) | Ch. 3 | `orderCoxeterMatrix`, `gamma_eq_of_reduced_of_same_length`, `theorem_3_9_coxeter_presentation`, `theorem_3_9_isClassicalCoxeter` (Thm. 3.9) |
+| [`CoxeterPresentation.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean) | Ch. 3 | `orderCoxeterMatrix`, `gamma_eq_of_reduced_of_same_length`, `theorem_3_9_coxeter_presentation`, `theorem_3_9_isClassicalCoxeter` (Thm. 3.9, `(2) ⇒ (1)`) |
+| [`ClassicalCoxeterDeletion.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean) | Ch. 3 | `deletion_of_coxeterSystem`, `theorem_3_9_deletion_of_isClassicalCoxeter` (`(1) ⇒ (2)`), `theorem_3_9_classical_iff_deletion` (`(1) ⇔ (2)`), `theorem_3_9_classical_iff_exchange` (`(1) ⇔ (3)`) |
 | [`SpectralRadius.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean) | Ch. 3 (3.5) | `w_A3_ppm_add_one_cube` (Ex. 3.29), `theorem_3_34_bipartite_exceeds_linear` (Thm. 1.7 / Ex. 3.33) |
 | [`SpectralClassification.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean) | Ch. 3 (3.5.1) | `theorem_3_27_classification` (Thm. 3.27), `theorem_3_28_interlacing` & `theorem_3_28_strict` (Thm. 3.28) |
 | [`RemarksAndClassical.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean) | Ch. 3 (3.3–3.5) | `remark_3_23_card` (Rem. 3.23), `remark_3_26_det_neg_odd_cycle` (Rem. 3.26), `remark_3_30_A2_root_gt`–`A5_roots_lt` (Rem. 3.30) |
