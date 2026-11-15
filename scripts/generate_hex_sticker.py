@@ -150,7 +150,82 @@ def build_png() -> None:
     plt.close(fig)
 
 
+def build_social_card() -> None:
+    """Generate a 1280x640 GitHub social preview card with >=40pt safe margins."""
+    fig, ax = plt.subplots(figsize=(12.8, 6.4), dpi=100)
+    fig.patch.set_facecolor(BG_EDGE)
+    ax.set_facecolor(BG_EDGE)
+    ax.set_xlim(0, 1280)
+    ax.set_ylim(640, 0)
+    ax.axis("off")
+
+    # Subtle inner card frame well inside the 40pt (53px) safe zone
+    ax.add_patch(
+        patches.FancyBboxPatch(
+            (56, 56),
+            1168,
+            528,
+            boxstyle="round,pad=0,rounding_size=24",
+            facecolor=BG_CENTER,
+            edgecolor=GRAPHITE,
+            linewidth=2.0,
+            alpha=0.95,
+        )
+    )
+
+    # Left: embed hex-sticker.png
+    sticker_img = plt.imread(ASSETS / "hex-sticker.png")
+    ax.imshow(sticker_img, extent=(110, 470, 520, 120), zorder=3)
+
+    # Right: title, tagline, and stack pills
+    tx = 530
+    ax.text(tx, 210, "Mixed-Sign", fontsize=44, fontweight="bold", family="serif", color=MATH_TEXT, va="center")
+    ax.text(tx, 272, "Coxeter Systems", fontsize=44, fontweight="bold", family="serif", color=MATH_TEXT, va="center")
+    ax.text(
+        tx,
+        345,
+        "Computation, formal verification, and\nexploration of signed Coxeter dynamics.",
+        fontsize=20,
+        family="sans-serif",
+        color=GRAPHITE,
+        va="center",
+        linespacing=1.4,
+    )
+
+    pills = [
+        (530, "Lean 4 (16 modules)", LEAN_BLUE),
+        (765, "Python + SymPy", GARNET),
+        (965, "Shiny Explorer", GRAPHITE),
+    ]
+    for px, label, color in pills:
+        ax.text(
+            px,
+            435,
+            label,
+            fontsize=13.5,
+            fontweight="bold",
+            color="#FFFFFF",
+            va="center",
+            bbox=dict(boxstyle="round,pad=0.45", facecolor=color, edgecolor="none"),
+        )
+
+    ax.text(
+        tx,
+        505,
+        "jkylearmstrong.github.io/mixed.sign.coxeter.systems",
+        fontsize=14,
+        family="monospace",
+        color=LEAN_BLUE,
+        va="center",
+    )
+
+    fig.subplots_adjust(left=0, right=1, top=1, bottom=0)
+    fig.savefig(ASSETS / "github-social-card.png", dpi=100, facecolor=BG_EDGE)
+    plt.close(fig)
+
+
 if __name__ == "__main__":
     (ASSETS / "hex-sticker.svg").write_text(build_svg(), encoding="utf-8")
     build_png()
-    print("Regenerated:", ASSETS / "hex-sticker.svg", "and", ASSETS / "hex-sticker.png")
+    build_social_card()
+    print("Regenerated:", ASSETS / "hex-sticker.svg", ASSETS / "hex-sticker.png", "and", ASSETS / "github-social-card.png")
