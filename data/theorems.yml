@@ -90,3 +90,25 @@ theorems:
     python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L244"
     status: "Python Verified"
     preset: "example_3_33"
+
+  - id: open_questions_alternating_square
+    dissertation_ref: "Open Qs 2.59, 3.35"
+    title: "Alternating Square Non-Conjugacy & Spectral Non-Minimality"
+    statement: "On C_4(+,-,+,-), the bipartite principal element has rho = 3 + 2 sqrt(2) and is neither conjugate to the cyclic element nor spectrally minimal."
+    lean_symbol: "alternatingSquare_principal_not_conjugate"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/AlternatingSquare.lean"
+    python_ref: "principal_search.alternating_square"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L240"
+    status: "Verified (Lean 4 + Python)"
+    preset: "a_n_alt_4"
+
+  - id: odd_cycle_single_defect
+    dissertation_ref: "General C_{2m+1}(+,-,...,-)"
+    title: "Single-Defect Odd Cycle Minimal Polynomial & Spectral Radius"
+    statement: "For every m >= 1, the principal element w of C_{2m+1}(+,-,...,-) satisfies (w + I)^2 (w^(2m) - I) = 0 with (w + I)(w^(2m) - I) != 0, so every real eigenvalue is +-1."
+    lean_symbol: "oddCycleSinglePlus_minimal_poly"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycleSingleDefect.lean"
+    python_ref: "principal_search.cycle_radius_by_circulation"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"
+    status: "Verified (Lean 4 + Python)"
+    preset: "a_n_alt_4"

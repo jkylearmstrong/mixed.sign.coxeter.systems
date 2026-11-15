@@ -860,6 +860,48 @@ theorem oddCycleSinglePlus_ne_neg_one_poly (m : ℕ) (hm : 1 ≤ m) :
   have h0 := congrFun hmul ⟨0, by omega⟩
   simp [altVec] at h0
 
+/-- Any real eigenvalue `μ` of `w_oddCycleSinglePlus m hm` satisfies `μ = 1 ∨ μ = -1`
+(hence the real spectral radius is `1`). -/
+theorem oddCycleSinglePlus_eigenvalue_mem (m : ℕ) (hm : 1 ≤ m)
+    (μ : ℝ) (v : Fin (2 * m + 1) → ℝ) (hv : v ≠ 0)
+    (heig : (w_oddCycleSinglePlus m hm).mulVec v = μ • v) :
+    μ = 1 ∨ μ = -1 := by
+  have hpow : ∀ k : ℕ, ((w_oddCycleSinglePlus m hm) ^ k).mulVec v = (μ ^ k) • v := by
+    intro k
+    induction k with
+    | zero => simp [Matrix.one_mulVec]
+    | succ k ih =>
+      rw [pow_succ', ← Matrix.mulVec_mulVec, ih, Matrix.mulVec_smul, heig, smul_smul, ← pow_succ]
+  have hadd : (w_oddCycleSinglePlus m hm + 1).mulVec v = (μ + 1) • v := by
+    rw [Matrix.add_mulVec, heig, Matrix.one_mulVec, add_smul, one_smul]
+  have hadd2 : ((w_oddCycleSinglePlus m hm + 1) ^ 2).mulVec v = ((μ + 1) ^ 2) • v := by
+    rw [pow_two, ← Matrix.mulVec_mulVec, hadd, Matrix.mulVec_smul, hadd, smul_smul, ← pow_two]
+  have hsub : ((w_oddCycleSinglePlus m hm) ^ (2 * m) - 1).mulVec v = (μ ^ (2 * m) - 1) • v := by
+    rw [Matrix.sub_mulVec, hpow (2 * m), Matrix.one_mulVec, sub_smul, one_smul]
+  have hmul : (((w_oddCycleSinglePlus m hm + 1) ^ 2 *
+      ((w_oddCycleSinglePlus m hm) ^ (2 * m) - 1)).mulVec v) =
+      ((μ + 1) ^ 2 * (μ ^ (2 * m) - 1)) • v := by
+    rw [← Matrix.mulVec_mulVec, hsub, Matrix.mulVec_smul, hadd2, smul_smul]
+    rw [mul_comm (μ ^ (2 * m) - 1) ((μ + 1) ^ 2)]
+  rw [oddCycleSinglePlus_minimal_poly m hm, Matrix.zero_mulVec] at hmul
+  have hscalar : (μ + 1) ^ 2 * (μ ^ (2 * m) - 1) = 0 := by
+    by_contra hne
+    apply hv
+    have hzero := congrArg (fun x => ((μ + 1) ^ 2 * (μ ^ (2 * m) - 1))⁻¹ • x) hmul.symm
+    rw [smul_smul, inv_mul_cancel₀ hne, one_smul, smul_zero] at hzero
+    exact hzero
+  rcases mul_eq_zero.mp hscalar with h1 | h2
+  · right
+    have : μ + 1 = 0 := sq_eq_zero_iff.mp h1
+    linarith
+  · have hpow_eq : (μ ^ 2) ^ m = (1 : ℝ) ^ m := by
+      rw [← pow_mul, one_pow]
+      exact sub_eq_zero.mp h2
+    have hsq : μ ^ 2 = 1 := by
+      have hm0 : m ≠ 0 := by omega
+      exact (pow_left_inj₀ (sq_nonneg μ) zero_le_one hm0).mp hpow_eq
+    exact sq_eq_one_iff.mp hsq
+
 end OddCycleSingleDefect
 
 end MixedSignCoxeter
