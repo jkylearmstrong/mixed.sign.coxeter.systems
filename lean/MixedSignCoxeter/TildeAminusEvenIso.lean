@@ -6,6 +6,7 @@ import Mathlib.Data.Fin.VecNotation
 import Mathlib.GroupTheory.Perm.Fin
 import Mathlib.Tactic
 import MixedSignCoxeter.RemarksAndClassical
+import MixedSignCoxeter.FiniteReduction
 
 /-!
 # Isomorphism `W(~A_{-n}) ≅ W(D_{n+1})` for Every Even `n ≥ 2`
@@ -538,5 +539,172 @@ theorem appendixDGen_eq_reflectionMatrix (c : Fin 5) :
         (simp [appendixDGen, ReflectionSystem.reflectionMatrix, cycleNegForm]; try norm_num)
 
 end AppendixD
+
+/-! ### Theorem 1.6 (Odd `n`): `W(~A_{-n})` is Infinite for Every Odd `n ≥ 3` -/
+
+section TildeAminusOddInfinite
+
+private def cycleNegSystem (m : ℕ) [NeZero m] (hm : 2 ≤ m) : ReflectionSystem m where
+  B := cycleNegForm m
+  B_symm := by
+    ext i j
+    simp only [transpose_apply, cycleNegForm, of_apply]
+    by_cases hij : i = j
+    · subst hij; simp [eq_comm]
+    · have hji : j ≠ i := Ne.symm hij
+      simp [hij, hji, eq_comm]
+      ring
+  B_diag_ne_zero := by
+    intro i
+    simp only [cycleNegForm, of_apply, ↓reduceIte]
+    have hne1 : i ≠ i + 1 := by
+      intro h
+      have hval := congrArg Fin.val h
+      have hi := i.isLt
+      have h1 : (1 : Fin m).val = 1 := by rw [Fin.val_one']; exact Nat.mod_eq_of_lt (by omega)
+      rw [Fin.val_add, h1] at hval
+      by_cases hlt : i.val + 1 < m
+      · rw [Nat.mod_eq_of_lt hlt] at hval; omega
+      · have : i.val + 1 = m := by omega
+        rw [this, Nat.mod_self] at hval; omega
+    simp [hne1]
+
+private lemma cycleNegSystem_isConnected (m : ℕ) [NeZero m] (hm : 3 ≤ m) :
+    (cycleNegSystem m (by omega)).IsConnected := by
+  intro i j
+  have hstep : ∀ u : Fin m, (cycleNegSystem m (by omega)).B u (u + 1) ≠ 0 := by
+    intro u
+    simp only [cycleNegSystem, cycleNegForm, of_apply]
+    have hne : u ≠ u + 1 := by
+      intro h
+      have hval := congrArg Fin.val h
+      have hu := u.isLt
+      have h1 : (1 : Fin m).val = 1 := by rw [Fin.val_one']; exact Nat.mod_eq_of_lt (by omega)
+      rw [Fin.val_add, h1] at hval
+      by_cases hlt : u.val + 1 < m
+      · rw [Nat.mod_eq_of_lt hlt] at hval; omega
+      · have : u.val + 1 = m := by omega
+        rw [this, Nat.mod_self] at hval; omega
+    have hne2 : u ≠ u + 1 + 1 := by
+      intro h
+      have h20 : (1 : Fin m) + 1 = 0 := by
+        have hadd : u + (1 + 1) = u + 0 := by rw [← add_assoc, ← h, add_zero]
+        exact add_left_cancel hadd
+      have hv := congrArg Fin.val h20
+      have h1 : (1 : Fin m).val = 1 := by rw [Fin.val_one']; exact Nat.mod_eq_of_lt (by omega)
+      rw [Fin.val_add, h1, Fin.val_zero, Nat.mod_eq_of_lt (by omega)] at hv
+      omega
+    have hc1 : (u = u + 1) = False := eq_false hne
+    have hc2 : (u = u + 1 + 1) = False := eq_false hne2
+    simp [hc1, hc2]
+  have hreach_zero : ∀ k : ℕ, ∀ hk : k < m,
+      Relation.ReflTransGen (fun u v => (cycleNegSystem m (by omega)).B u v ≠ 0)
+        ⟨0, by omega⟩ ⟨k, hk⟩ := by
+    intro k hk
+    induction k with
+    | zero => exact Relation.ReflTransGen.refl
+    | succ k ih =>
+      have hk0 : k < m := by omega
+      refine (ih hk0).tail ?_
+      have hsucc : (⟨k, hk0⟩ : Fin m) + 1 = ⟨k + 1, hk⟩ := by
+        ext
+        have h1 : (1 : Fin m).val = 1 := by rw [Fin.val_one']; exact Nat.mod_eq_of_lt (by omega)
+        rw [Fin.val_add, h1, Fin.val_mk, Fin.val_mk, Nat.mod_eq_of_lt hk]
+      rw [← hsucc]
+      exact hstep ⟨k, hk0⟩
+  have hsymm : ∀ a b : Fin m,
+      Relation.ReflTransGen (fun u v => (cycleNegSystem m (by omega)).B u v ≠ 0) a b →
+      Relation.ReflTransGen (fun u v => (cycleNegSystem m (by omega)).B u v ≠ 0) b a := by
+    intro a b hab
+    induction hab with
+    | refl => exact Relation.ReflTransGen.refl
+    | @tail b c _ hbc ih =>
+      have hcb : (cycleNegSystem m (by omega)).B c b ≠ 0 := by
+        have hs := congrFun (congrFun (cycleNegSystem m (by omega)).B_symm c) b
+        simpa using hs ▸ hbc
+      exact Relation.ReflTransGen.head hcb ih
+  have hi := hsymm ⟨0, by omega⟩ i (hreach_zero i.val i.isLt)
+  have hj := hreach_zero j.val j.isLt
+  exact hi.trans hj
+
+/-- **Theorem 1.6 (Odd `n`)**: For every odd `n = 2 * k + 1 ≥ 3` (so `m = n + 1 = 2 * (k + 1)`
+is even), the negative affine cycle group `W(~A_{-n})` is infinite. -/
+theorem theorem_1_6_tildeAminus_odd_infinite (k : ℕ) (hk : 1 ≤ k) :
+    ¬ Finite (W_tildeAminus (2 * k + 2)) := by
+  set m := 2 * k + 2
+  have hm : 3 ≤ m := by omega
+  intro hfin
+  have hfin' : Finite (ReflectionSystem.W_group (cycleNegSystem m (by omega))) := hfin
+  have hdef := ReflectionSystem.finite_connected_isDefinite (cycleNegSystem m (by omega))
+    (by omega) (cycleNegSystem_isConnected m hm) hfin'
+  let v : Fin m → ℝ := fun i => (-1 : ℝ) ^ i.val
+  have hv : v ≠ 0 := by
+    intro h
+    have h0 := congrFun h ⟨0, by omega⟩
+    simp [v] at h0
+  have hquad_zero : ReflectionSystem.quadForm (cycleNegForm m) v = 0 := by
+    have hrow : ∀ i : Fin m, ∑ j : Fin m, cycleNegForm m i j * v j = 0 := by
+      intro i
+      simp only [cycleNegForm, of_apply]
+      have hsplit : ∀ j : Fin m,
+          (-(if i = j then (2 : ℝ) else 0) - (if j = i + 1 then 1 else 0) -
+            (if i = j + 1 then 1 else 0)) * v j =
+          (if j = i then -2 * v j else 0) - (if j = i + 1 then v j else 0) -
+            (if j = i - 1 then v j else 0) := by
+        intro j
+        have heq1 : (i = j) ↔ (j = i) := eq_comm
+        have heq2 : (i = j + 1) ↔ (j = i - 1) := by
+          constructor <;> intro h <;> simp [h]
+        simp only [heq1, heq2]
+        split_ifs <;> ring
+      simp_rw [hsplit, Finset.sum_sub_distrib, Finset.sum_ite_eq', Finset.mem_univ]
+      simp only [↓reduceIte]
+      have hv_succ : v (i + 1) = -v i := by
+        simp only [v]
+        have hi := i.isLt
+        have h1 : (1 : Fin m).val = 1 := by rw [Fin.val_one']; exact Nat.mod_eq_of_lt (by omega)
+        rw [Fin.val_add, h1]
+        by_cases hlt : i.val + 1 < m
+        · rw [Nat.mod_eq_of_lt hlt, pow_succ]; ring
+        · have him : i.val = m - 1 := by omega
+          rw [him, show m - 1 + 1 = m from by omega, Nat.mod_self, pow_zero]
+          have hodd : Odd (m - 1) := ⟨k, by omega⟩
+          rw [hodd.neg_one_pow]
+          norm_num
+      have hv_pred : v (i - 1) = -v i := by
+        have h := hv_succ
+        have hp : (i - 1) + 1 = i := sub_add_cancel i 1
+        have h2 : v ((i - 1) + 1) = -v (i - 1) := by
+          simp only [v]
+          have hlt' : (i - 1).val < m := (i - 1).isLt
+          have h1 : (1 : Fin m).val = 1 := by rw [Fin.val_one']; exact Nat.mod_eq_of_lt (by omega)
+          rw [Fin.val_add, h1]
+          by_cases hlt : (i - 1).val + 1 < m
+          · rw [Nat.mod_eq_of_lt hlt, pow_succ]; ring
+          · have him : (i - 1).val = m - 1 := by omega
+            rw [him, show m - 1 + 1 = m from by omega, Nat.mod_self, pow_zero]
+            have hodd : Odd (m - 1) := ⟨k, by omega⟩
+            rw [hodd.neg_one_pow]
+            norm_num
+        rw [hp] at h2
+        linarith
+      rw [hv_succ, hv_pred]
+      ring
+    unfold ReflectionSystem.quadForm
+    calc ∑ i : Fin m, ∑ j : Fin m, v i * cycleNegForm m i j * v j
+        = ∑ i : Fin m, v i * ∑ j : Fin m, cycleNegForm m i j * v j := by
+            refine Finset.sum_congr rfl fun i _ => ?_
+            rw [Finset.mul_sum]
+            refine Finset.sum_congr rfl fun j _ => by ring
+      _ = 0 := by simp [hrow]
+  rcases hdef with hpos | hneg
+  · have := hpos v hv
+    change 0 < ReflectionSystem.quadForm (cycleNegForm m) v at this
+    linarith
+  · have := hneg v hv
+    change ReflectionSystem.quadForm (cycleNegForm m) v < 0 at this
+    linarith
+
+end TildeAminusOddInfinite
 
 end MixedSignCoxeter

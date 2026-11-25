@@ -55,13 +55,14 @@ LABELS: dict[str, str] = {
     "BipartiteDuality": "bipartite sign-flip duality",
     "TwoDefectCycle": "Cₙ(+,+,−,…,−): ρ(w) &gt; 1",
     "RemarksAndClassical": "Rem 3.23, 3.26, 3.30",
-    "TildeAminusEvenIso": "W(Ã₋ₙ) ≅ W(Dₙ₊₁), n even",
+    "TildeAminusEvenIso": "W(Ã₋ₙ) ≅ W(Dₙ₊₁) &amp; App. D",
+    "FiniteReduction": "Rem A.3, Cor 3.18, GL(V)",
 }
 
 # (heading, modules) for each view.  Every module must appear in exactly one view.
 VIEWS: list[tuple[str, list[str]]] = [
     ("1. Foundations, Mixed Signs & Rank Two",
-     ["Basic", "Bipartite", "MixedSign", "RankTwo", "RankTwoRoots"]),
+     ["Basic", "Bipartite", "MixedSign", "RankTwo", "RankTwoRoots", "FiniteReduction"]),
     ("2. Conjugacy & Graph Structure: Components, Trees & Odd Cycles",
      ["Conjugacy", "ComponentsAndTrees", "TreeConjugacy", "OddCycles"]),
     ("3. Cycles, Deletion & Coxeter Presentation",

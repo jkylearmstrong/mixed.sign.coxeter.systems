@@ -270,6 +270,60 @@ theorem corollary_3_18_mixed_sign_infinite (S : ReflectionSystem n)
     have hval : quadForm S.B ei = S.B i i := by unfold quadForm; simp [ei]
     linarith
 
+/-- **Faithfulness of the geometric representation**: Every element `w ∈ W_group S`
+preserves the bilinear form `S.B` (`wᵀ * B * w = B`). -/
+theorem W_group_preserves_B (S : ReflectionSystem n) {w : Matrix (Fin n) (Fin n) ℝ}
+    (hw : w ∈ W_group S) :
+    wᵀ * S.B * w = S.B := by
+  induction hw using Submonoid.closure_induction with
+  | mem x hx =>
+    obtain ⟨i, rfl⟩ := hx
+    exact reflectionMatrix_preserves_B S i
+  | one => simp
+  | mul x y _ _ ihx ihy =>
+    calc (x * y)ᵀ * S.B * (x * y)
+        = yᵀ * (xᵀ * S.B * x) * y := by rw [Matrix.transpose_mul]; simp only [mul_assoc]
+      _ = yᵀ * S.B * y := by rw [ihx]
+      _ = S.B := ihy
+
+/-- Every element `w ∈ W_group S` is invertible, with its inverse also in `W_group S`. -/
+theorem W_group_has_inv (S : ReflectionSystem n) {w : Matrix (Fin n) (Fin n) ℝ}
+    (hw : w ∈ W_group S) :
+    ∃ v ∈ W_group S, w * v = 1 ∧ v * w = 1 := by
+  induction hw using Submonoid.closure_induction with
+  | mem x hx =>
+    obtain ⟨i, rfl⟩ := hx
+    exact ⟨reflectionMatrix S.B i, Submonoid.subset_closure ⟨i, rfl⟩,
+      reflectionMatrix_mul_self S i, reflectionMatrix_mul_self S i⟩
+  | one => exact ⟨1, (W_group S).one_mem, one_mul 1, one_mul 1⟩
+  | mul x y _ _ ihx ihy =>
+    obtain ⟨vx, hvx, hx1, hx2⟩ := ihx
+    obtain ⟨vy, hvy, hy1, hy2⟩ := ihy
+    refine ⟨vy * vx, (W_group S).mul_mem hvy hvx, ?_, ?_⟩
+    · calc (x * y) * (vy * vx) = x * (y * vy) * vx := by simp only [mul_assoc]
+        _ = x * vx := by rw [hy1, mul_one]
+        _ = 1 := hx1
+    · calc (vy * vx) * (x * y) = vy * (vx * x) * y := by simp only [mul_assoc]
+        _ = vy * y := by rw [hx2, mul_one]
+        _ = 1 := hy2
+
+/-- Every element `w ∈ W_group S` embeds into `GL (Fin n) ℝ` via a faithful (injective)
+monoid homomorphism `W_group S →* Matrix.GeneralLinearGroup (Fin n) ℝ`. -/
+noncomputable def W_group_to_GL (S : ReflectionSystem n) :
+    W_group S →* Matrix.GeneralLinearGroup (Fin n) ℝ where
+  toFun w :=
+    let v := Classical.choose (W_group_has_inv S w.2)
+    have hv := Classical.choose_spec (W_group_has_inv S w.2)
+    ⟨w.1, v, hv.2.1, hv.2.2⟩
+  map_one' := by ext1; rfl
+  map_mul' _ _ := by ext1; rfl
+
+theorem W_group_to_GL_injective (S : ReflectionSystem n) :
+    Function.Injective (W_group_to_GL S) := by
+  intro w₁ w₂ h
+  ext1
+  exact congrArg Units.val h
+
 end FiniteReduction
 
 end ReflectionSystem
