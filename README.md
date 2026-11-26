@@ -59,13 +59,32 @@ print("Bipartite principal spectral radius:", round(g.spectral_radius([0, 3, 5, 
     Linear principal spectral radius:    3.05129
     Bipartite principal spectral radius: 5.55193
 
-## Lean 4 Formalization
+## Lean 4 Formalization & Mathlib4 Upstreaming
 
 ``` bash
 cd lean
 lake exe cache get
 lake build
 ```
+
+General results from `lean/MixedSignCoxeter/` are being upstreamed to
+[`leanprover-community/mathlib4`](https://github.com/leanprover-community/mathlib4)
+across 5 standalone PRs
+([mathlib4#46496](https://github.com/leanprover-community/mathlib4/pull/46496),
+[mathlib4#46497](https://github.com/leanprover-community/mathlib4/pull/46497),
+[mathlib4#46507](https://github.com/leanprover-community/mathlib4/pull/46507),
+[mathlib4#46508](https://github.com/leanprover-community/mathlib4/pull/46508),
+[mathlib4#46513](https://github.com/leanprover-community/mathlib4/pull/46513))
+and 6 stacked draft PRs
+([mathlib4#46498](https://github.com/leanprover-community/mathlib4/pull/46498),
+[mathlib4#46505](https://github.com/leanprover-community/mathlib4/pull/46505),
+[mathlib4#46506](https://github.com/leanprover-community/mathlib4/pull/46506),
+[mathlib4#46509](https://github.com/leanprover-community/mathlib4/pull/46509),
+[mathlib4#46510](https://github.com/leanprover-community/mathlib4/pull/46510),
+[mathlib4#46512](https://github.com/leanprover-community/mathlib4/pull/46512)).
+See the [Lean Proofs & Mathlib4
+Upstreaming](https://jkylearmstrong.github.io/mixed.sign.coxeter.systems/lean-verification.html#mathlib4-upstreaming)
+page for the full breakdown.
 
 ## Interactive Shiny Explorer
 
@@ -87,6 +106,6 @@ pip install -e ".[manim]"
 manim -pql slides/dissertation_deck.py TitleOverviewScene
 
 # Render the full Quarto portal or README.md
-quarto render
+quarto render website
 quarto render README.qmd
 ```

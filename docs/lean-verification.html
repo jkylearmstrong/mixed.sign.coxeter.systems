@@ -69,7 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./../assets/hex-sticker.png" rel="icon" type="image/png">
+<link href="./assets/hex-sticker.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -317,8 +317,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./../assets/hex-sticker.png" alt="" class="navbar-logo light-content">
-    <img src="./../assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
+    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo light-content">
+    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Mixed-Sign Coxeter Systems</span>
@@ -383,12 +383,18 @@ window.Quarto = {
   <li><a href="#building-locally" id="toc-building-locally" class="nav-link" data-scroll-target="#building-locally">Building Locally</a></li>
   <li><a href="#module-dependency-architecture" id="toc-module-dependency-architecture" class="nav-link" data-scroll-target="#module-dependency-architecture">Module Dependency Architecture</a>
   <ul class="collapse">
-  <li><a href="#rank-two-root-systems" id="toc-rank-two-root-systems" class="nav-link" data-scroll-target="#rank-two-root-systems">1. Rank-Two &amp; Root Systems</a></li>
-  <li><a href="#conjugacy-bipartite-tree-structure" id="toc-conjugacy-bipartite-tree-structure" class="nav-link" data-scroll-target="#conjugacy-bipartite-tree-structure">2. Conjugacy, Bipartite &amp; Tree Structure</a></li>
+  <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
+  <li><a href="#foundations-mixed-signs-rank-two" id="toc-foundations-mixed-signs-rank-two" class="nav-link" data-scroll-target="#foundations-mixed-signs-rank-two">1. Foundations, Mixed Signs &amp; Rank Two</a></li>
+  <li><a href="#conjugacy-graph-structure-components-trees-odd-cycles" id="toc-conjugacy-graph-structure-components-trees-odd-cycles" class="nav-link" data-scroll-target="#conjugacy-graph-structure-components-trees-odd-cycles">2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles</a></li>
   <li><a href="#cycles-deletion-coxeter-presentation" id="toc-cycles-deletion-coxeter-presentation" class="nav-link" data-scroll-target="#cycles-deletion-coxeter-presentation">3. Cycles, Deletion &amp; Coxeter Presentation</a></li>
   <li><a href="#howlett-matrix-spectral-radius-cycle-families" id="toc-howlett-matrix-spectral-radius-cycle-families" class="nav-link" data-scroll-target="#howlett-matrix-spectral-radius-cycle-families">4. Howlett Matrix, Spectral Radius &amp; Cycle Families</a></li>
   </ul></li>
   <li><a href="#module-index" id="toc-module-index" class="nav-link" data-scroll-target="#module-index">Module Index</a></li>
+  <li><a href="#mathlib4-upstreaming" id="toc-mathlib4-upstreaming" class="nav-link" data-scroll-target="#mathlib4-upstreaming">Mathlib4 Upstreaming</a>
+  <ul class="collapse">
+  <li><a href="#ready-for-review-standalone" id="toc-ready-for-review-standalone" class="nav-link" data-scroll-target="#ready-for-review-standalone">Ready for Review (Standalone)</a></li>
+  <li><a href="#stacked-draft-prs" id="toc-stacked-draft-prs" class="nav-link" data-scroll-target="#stacked-draft-prs">Stacked Draft PRs</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean-verification.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -446,22 +452,22 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Lean 4 Modules</td>
-<td style="text-align: center;">24</td>
+<td style="text-align: center;">26</td>
 <td style="text-align: left;">✅ <code>lake build</code> passes</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Definitions &amp; Structures</td>
-<td style="text-align: center;">124</td>
+<td style="text-align: center;">133</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Lemmas</td>
-<td style="text-align: center;">264</td>
+<td style="text-align: center;">316</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Theorems</td>
-<td style="text-align: center;">161</td>
+<td style="text-align: center;">182</td>
 <td style="text-align: left;">✅ Complete</td>
 </tr>
 <tr class="odd">
@@ -489,35 +495,35 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>Theorem 1.1</strong>: Howlett’s Principal-Element Formula</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean"><code>howlett_principalElement_eq_neg_inv_mul_transpose</code></a></td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L213"><code>ReflectionSystem.principal_element / howlett_U</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L218"><code>howlett_principalElement_eq_neg_inv_mul_transpose</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L235"><code>ReflectionSystem.principal_element / howlett_U</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
 <td style="text-align: left;">Verified (Lean 4)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Theorem 1.4 / Cor. 1.5</strong>: Bipartite Sign-Negation Conjugacy</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean"><code>bipartite_conjugation_theorem</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L65"><code>bipartite_conjugation_theorem</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L190"><code>ReflectionSystem.bipartite_conjugator</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
 <td style="text-align: left;">Verified (Lean 4)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Theorem 1.6 Remark</strong>: W(~A_{-n}) ≅ W(D_{n+1}) for Even n</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean"><code>theorem_1_6_tildeAminus_iso_D</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean#L369"><code>theorem_1_6_tildeAminus_iso_D</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py#L117"><code>verify_a_tilde_minus_isomorphism</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_tilde_minus_2</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Theorem 3.14 / Prop. 3.15</strong>: Bipartite Principal Ordering Spectral Radius</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211"><code>bipartite_principalElements_conjugate / theorem_3_34_bipartite_exceeds_linear</code></a></td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L148"><code>MixedSignCoxeterGraph.bipartite_principal_order</code></a></td>
+<td style="text-align: left;"><strong>Prop. 3.32 / Theorem 1.7</strong>: Bipartite Principal Ordering Spectral Radius</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L208"><code>bipartite_principalElements_conjugate</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L176"><code>MixedSignCoxeterGraph.bipartite_principal_order</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Lemma 3.21</strong>: Failure of the Deletion Property on ~A_{-2}</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean"><code>tildeAminus2_fails_deletion</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L120"><code>tildeAminus2_fails_deletion</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L72"><code>find_two_deletions</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_tilde_minus_2</code></a></td>
 <td style="text-align: left;">Verified (Lean 4)</td>
@@ -525,57 +531,85 @@ window.Quarto = {
 <tr class="even">
 <td style="text-align: left;"><strong>Example 3.29</strong>: Hyperbolic A_3(+,+,-) with Mahler Measure &gt; 1</td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L72"><code>w_A3_ppm_add_one_cube</code></a></td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L172"><code>MixedSignCoxeterGraph.A_n([1, 1, -1])</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L200"><code>MixedSignCoxeterGraph.A_n([1, 1, -1])</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a3_ppm</code></a></td>
 <td style="text-align: left;">Verified (Lean 4)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Theorem 3.9</strong>: Classical Coxeter Equivalence (Deletion / Exchange / Coxeter Presentation)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean#L406"><code>theorem_3_9_classical_iff_deletion</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean#L407"><code>theorem_3_9_classical_iff_deletion</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L72"><code>find_two_deletions</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
 <td style="text-align: left;">Verified (Lean 4)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Example 3.33</strong>: 6-Node Bipartite Mixed-Sign Benchmark</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211"><code>theorem_3_34_bipartite_exceeds_linear</code></a></td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L244"><code>MixedSignCoxeterGraph.example_3_33</code></a></td>
-<td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
+<td style="text-align: left;"><strong>Proposition 3.10</strong>: Positive Roots and Length in Classical Coxeter Systems</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RootPositivity.lean#L680"><code>prop_3_10</code> / <code>classical_graph_isClassicalCoxeter</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/group.py#L165"><code>verify_prop_3_10</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>e_6_plus</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;"><strong>Example 3.33</strong>: 6-Node Bipartite Mixed-Sign Benchmark</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211"><code>theorem_3_34_bipartite_exceeds_linear</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/mixed_sign.py#L272"><code>MixedSignCoxeterGraph.example_3_33</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>example_3_33</code></a></td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><strong>Open Qs 2.59, 3.35</strong>: Alternating Square Non-Conjugacy &amp; Spectral Non-Minimality</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/AlternatingSquare.lean"><code>alternatingSquare_principal_not_conjugate</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/AlternatingSquare.lean#L101"><code>alternatingSquare_principal_not_conjugate</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L240"><code>principal_search.alternating_square</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><strong>General C_{2m+1}(+,-,…,-)</strong>: Single-Defect Odd Cycle Minimal Polynomial &amp; Spectral Radius</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycleSingleDefect.lean"><code>oddCycleSinglePlus_minimal_poly</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycleSingleDefect.lean#L818"><code>oddCycleSinglePlus_minimal_poly</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"><code>principal_search.cycle_radius_by_circulation</code></a></td>
-<td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
-<td style="text-align: left;">Verified (Lean 4 + Python)</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><strong>General C_{2m}(+,-,…,-)</strong>: Single-Defect Even Cycle Hyperbolic Eigenvalue</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.signed.coxeter.systems/blob/main/lean/MixedSignCoxeter/EvenCycleSingleDefect.lean"><code>evenCycleSinglePlus_has_eigenvalue_lt_neg_one</code></a></td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.signed.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"><code>principal_search.cycle_radius_by_circulation</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>General Bipartite Duality</strong>: Bipartite Sign-Flip Conjugation &amp; Duality</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/BipartiteDuality.lean"><code>principalElement_bipartiteSignFlip</code></a></td>
+<td style="text-align: left;"><strong>General C_{2m}(+,-,…,-)</strong>: Single-Defect Even Cycle Hyperbolic Eigenvalue</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/EvenCycleSingleDefect.lean#L1296"><code>evenCycleSinglePlus_has_eigenvalue_lt_neg_one</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"><code>principal_search.cycle_radius_by_circulation</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Two-Defect Cycles C_k(+,+,-,…,-)</strong>: Two-Defect Cycle Hyperbolicity (All C_n, n ≥ 3)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"><code>evenCycleAdjTwoDefect_complex_eigenvalue_norm_gt_one</code></a></td>
+<td style="text-align: left;"><strong>General Bipartite Duality</strong>: Bipartite Sign-Flip Conjugation &amp; Duality</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/BipartiteDuality.lean#L141"><code>principalElement_bipartiteSignFlip</code></a></td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"><code>principal_search.cycle_radius_by_circulation</code></a></td>
 <td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Two-Defect Cycles C_k(+,+,-,…,-)</strong>: Two-Defect Cycle Hyperbolicity (All C_n, n ≥ 3)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean#L2062"><code>evenCycleAdjTwoDefect_complex_eigenvalue_norm_gt_one</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py#L251"><code>principal_search.cycle_radius_by_circulation</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a_n_alt_4</code></a></td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Theorem 1.6 (Odd n)</strong>: Infinity of W(~A_{-n}) for Odd n &gt;= 3</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean#L632"><code>theorem_1_6_tildeAminus_odd_infinite</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py#L163"><code>a_tilde_minus_is_finite</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a_tilde_minus_2</code></a></td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Appendix A / Rem. A.3 &amp; Cor. 3.18</strong>: Connected Finite Reflection Groups Have Definite Forms</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L198"><code>finite_connected_isDefinite</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/finite_search.py#L221"><code>search_finite_graphs</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a3_ppm</code></a></td>
+<td style="text-align: left;">Verified (Lean 4 + Python)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Appendix D</strong>: 16 GAP Relators for W(~A_{-4})</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean#L528"><code>appendixD_relators_hold</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py#L205"><code>appendix_d_relators_hold</code></a></td>
+<td style="text-align: left;"><a href="./explorer.html"><code>a_tilde_minus_2</code></a></td>
 <td style="text-align: left;">Verified (Lean 4 + Python)</td>
 </tr>
 </tbody>
@@ -589,17 +623,26 @@ window.Quarto = {
 </section>
 <section id="module-dependency-architecture" class="level2">
 <h2 class="anchored" data-anchor-id="module-dependency-architecture">Module Dependency Architecture</h2>
-<p>All branches build on <code>Basic.lean</code> (<code>ReflectionSystem</code>, bilinear form <code>B</code>, reflections). Splitting the graph into four focused views keeps each dependency chain readable:</p>
-<section id="rank-two-root-systems" class="level3">
-<h3 class="anchored" data-anchor-id="rank-two-root-systems">1. Rank-Two &amp; Root Systems</h3>
+<p>Every module ultimately builds on <code>Basic.lean</code> (<code>ReflectionSystem</code>, bilinear form <code>B</code>, reflections). The graph is split into four views to keep each dependency chain readable.</p>
+<!-- BEGIN lean-module-graph (generated by scripts/lean_module_graph.py; do not edit) -->
+<p>These diagrams are generated from the <code>import</code> lines of all 26 modules (29 direct imports between them). Each module appears in exactly one view. The overview shows how the four views connect; each arrow is labelled with the imports that cross between them, and the views below show the imports inside each one.</p>
+<section id="overview" class="level3">
+<h3 class="anchored" data-anchor-id="overview">Overview</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
-<pre class="mermaid mermaid-js">flowchart TB
-  Basic["Basic.lean&lt;br/&gt;ReflectionSystem, B, reflections"] --&gt; R2["RankTwo.lean"]
-  R2 --&gt; R2R["RankTwoRoots.lean"]
+<pre class="mermaid mermaid-js">flowchart LR
+  V1["&lt;b&gt;1. Foundations, Mixed Signs &amp; Rank Two&lt;/b&gt;&lt;br/&gt;6 modules"]
+  V2["&lt;b&gt;2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles&lt;/b&gt;&lt;br/&gt;4 modules"]
+  V3["&lt;b&gt;3. Cycles, Deletion &amp; Coxeter Presentation&lt;/b&gt;&lt;br/&gt;8 modules"]
+  V4["&lt;b&gt;4. Howlett Matrix, Spectral Radius &amp; Cycle Families&lt;/b&gt;&lt;br/&gt;8 modules"]
+  V1 --&gt;|"Basic → ComponentsAndTrees&lt;br/&gt;Basic → Conjugacy&lt;br/&gt;Bipartite → TreeConjugacy"| V2
+  V1 --&gt;|"FiniteReduction → TildeAminusEvenIso&lt;br/&gt;MixedSign → CyclesAndDeletion&lt;br/&gt;RankTwoRoots → RootPositivity"| V3
+  V1 --&gt;|"Basic → Howlett&lt;br/&gt;Basic → OddCycleSingleDefect&lt;br/&gt;MixedSign → SpectralRadius"| V4
+  V2 --&gt;|"Conjugacy → CyclesAndDeletion"| V3
+  V4 --&gt;|"SpectralRadius → RemarksAndClassical"| V3
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -607,20 +650,45 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="conjugacy-bipartite-tree-structure" class="level3">
-<h3 class="anchored" data-anchor-id="conjugacy-bipartite-tree-structure">2. Conjugacy, Bipartite &amp; Tree Structure</h3>
+<section id="foundations-mixed-signs-rank-two" class="level3">
+<h3 class="anchored" data-anchor-id="foundations-mixed-signs-rank-two">1. Foundations, Mixed Signs &amp; Rank Two</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
-  Conj["Conjugacy.lean"] --&gt; Bip["Bipartite.lean&lt;br/&gt;Thm 1.4, Prop 3.32"]
-  Conj --&gt; Comp["ComponentsAndTrees.lean"]
-  Comp --&gt; Tree["TreeConjugacy.lean&lt;br/&gt;Thm 2.58"]
-  Bip --&gt; Mix["MixedSign.lean&lt;br/&gt;Cor 1.5, Prop 3.5"]
-  Mix --&gt; Rem["RemarksAndClassical.lean"]
-  Rem --&gt; TildeIso["TildeAminusEvenIso.lean&lt;br/&gt;Thm 1.6 Rem: W(~A_{-n}) ≅ W(D_{n+1})"]
+  Basic["Basic.lean&lt;br/&gt;ReflectionSystem, B, reflections"]
+  Bipartite["Bipartite.lean&lt;br/&gt;Thm 1.4, Prop 3.32"]
+  MixedSign["MixedSign.lean&lt;br/&gt;Cor 1.5, Prop 3.5"]
+  RankTwo["RankTwo.lean&lt;br/&gt;Lem 3.14, 3.17, Cor 3.18"]
+  RankTwoRoots["RankTwoRoots.lean&lt;br/&gt;Prop 3.11"]
+  FiniteReduction["FiniteReduction.lean&lt;br/&gt;Rem A.3, Cor 3.18, GL(V)"]
+  Basic --&gt; Bipartite
+  Bipartite --&gt; MixedSign
+  MixedSign --&gt; RankTwo
+  Basic --&gt; RankTwoRoots
+  Basic --&gt; FiniteReduction
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="conjugacy-graph-structure-components-trees-odd-cycles" class="level3">
+<h3 class="anchored" data-anchor-id="conjugacy-graph-structure-components-trees-odd-cycles">2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  Conjugacy["Conjugacy.lean&lt;br/&gt;Cor 2.38, Cor 2.46"]
+  ComponentsAndTrees["ComponentsAndTrees.lean&lt;br/&gt;Prop 2.45"]
+  TreeConjugacy["TreeConjugacy.lean&lt;br/&gt;Thm 2.58"]
+  OddCycles["OddCycles.lean&lt;br/&gt;Prop 2.41"]
+  TreeConjugacy --&gt; OddCycles
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -636,11 +704,21 @@ window.Quarto = {
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
-  Odd["OddCycles.lean"] --&gt; Cyc["CyclesAndDeletion.lean&lt;br/&gt;Lem 3.21, Thm 1.6"]
-  Cyc --&gt; Para["ParabolicTransfer.lean&lt;br/&gt;Thm 1.2"]
-  Cyc --&gt; Clas["ClassicalDeletion.lean&lt;br/&gt;Thm 3.9, Cor 1.3"]
-  Clas --&gt; Pres["CoxeterPresentation.lean&lt;br/&gt;Thm 3.9: Deletion ⇒ Coxeter"]
-  Pres --&gt; CDel["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
+  CyclesAndDeletion["CyclesAndDeletion.lean&lt;br/&gt;Lem 3.21, Thm 1.6"]
+  ParabolicTransfer["ParabolicTransfer.lean&lt;br/&gt;Thm 1.2"]
+  ClassicalDeletion["ClassicalDeletion.lean&lt;br/&gt;Prop 3.8, Cor 1.3"]
+  CoxeterPresentation["CoxeterPresentation.lean&lt;br/&gt;Thm 3.9: Deletion ⇒ Coxeter"]
+  ClassicalCoxeterDeletion["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
+  RootPositivity["RootPositivity.lean&lt;br/&gt;Prop 3.10: Φ⁺ ⇔ ℓ(w sᵢ) &amp;gt; ℓ(w)"]
+  RemarksAndClassical["RemarksAndClassical.lean&lt;br/&gt;Rem 3.23, 3.26, 3.30"]
+  TildeAminusEvenIso["TildeAminusEvenIso.lean&lt;br/&gt;W(Ã₋ₙ) ≅ W(Dₙ₊₁) &amp;amp; App. D"]
+  ClassicalDeletion --&gt; ParabolicTransfer
+  CyclesAndDeletion --&gt; ClassicalDeletion
+  ClassicalDeletion --&gt; CoxeterPresentation
+  CoxeterPresentation --&gt; ClassicalCoxeterDeletion
+  ClassicalCoxeterDeletion --&gt; RootPositivity
+  CyclesAndDeletion --&gt; RemarksAndClassical
+  RemarksAndClassical --&gt; TildeAminusEvenIso
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -656,19 +734,26 @@ window.Quarto = {
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
-  How["Howlett.lean&lt;br/&gt;Thm 1.1: w = -U⁻¹ Uᵀ"] --&gt; Spec["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
-  How --&gt; EvenDef["EvenCycleSingleDefect.lean&lt;br/&gt;C_{2m}(+,−,…,−): ∃λ ∈ (−5, −1)"]
-  How --&gt; TwoDef["TwoDefectCycle.lean&lt;br/&gt;Cₙ(+,+,−,…,−): ρ(w) &amp;gt; 1 (n ≥ 3)"]
-  Spec --&gt; AltSq["AlternatingSquare.lean&lt;br/&gt;Q2.59 &amp;amp; Q3.35: C₄(+,−,+,−)"]
-  Spec --&gt; SCls["SpectralClassification.lean&lt;br/&gt;Thm 3.27, Thm 3.28"]
-  EvenDef --&gt; BipDual["BipartiteDuality.lean&lt;br/&gt;Bipartite sign-flip duality"]
-  Basic["Basic.lean"] --&gt; OddDef["OddCycleSingleDefect.lean&lt;br/&gt;C_{2m+1}(+,−,…,−): (w−I)^{2m}(w+I)=0"]
+  Howlett["Howlett.lean&lt;br/&gt;Thm 1.1: w = −U⁻¹Uᵀ"]
+  SpectralRadius["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
+  SpectralClassification["SpectralClassification.lean&lt;br/&gt;Thm 3.27, 3.28"]
+  AlternatingSquare["AlternatingSquare.lean&lt;br/&gt;Q 2.59 &amp;amp; Q 3.35: C₄(+,−,+,−)"]
+  OddCycleSingleDefect["OddCycleSingleDefect.lean&lt;br/&gt;C₂ₘ₊₁(+,−,…,−)"]
+  EvenCycleSingleDefect["EvenCycleSingleDefect.lean&lt;br/&gt;C₂ₘ(+,−,…,−): ∃λ ∈ (−5, −1)"]
+  BipartiteDuality["BipartiteDuality.lean&lt;br/&gt;bipartite sign-flip duality"]
+  TwoDefectCycle["TwoDefectCycle.lean&lt;br/&gt;Cₙ(+,+,−,…,−): ρ(w) &amp;gt; 1"]
+  SpectralRadius --&gt; SpectralClassification
+  SpectralRadius --&gt; AlternatingSquare
+  Howlett --&gt; EvenCycleSingleDefect
+  EvenCycleSingleDefect --&gt; BipartiteDuality
+  Howlett --&gt; TwoDefectCycle
 </pre>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
+<!-- END lean-module-graph -->
 </section>
 </section>
 <section id="module-index" class="level2">
@@ -733,79 +818,176 @@ window.Quarto = {
 <td style="text-align: left;"><code>prop_3_11_general</code>, <code>prop_3_11_infinite_order</code> (Prop. 3.11 in arbitrary rank)</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RootPositivity.lean"><code>RootPositivity.lean</code></a></td>
+<td style="text-align: left;">Ch. 3 (3.1)</td>
+<td style="text-align: left;"><code>prop_3_10</code>, <code>prop_3_10_classical</code> (Prop. 3.10 in full generality), <code>root_pos_or_neg</code> (<span class="math inline">\(\Phi = \Phi^+ \sqcup -\Phi^+\)</span>), <code>wordProd_altList_two_mul</code> (braid relation), <code>exchange_of_isCoxeterForm</code>, <code>classical_graph_isClassicalCoxeter</code> (every classical Coxeter graph gives a Coxeter group)</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean"><code>CyclesAndDeletion.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.3–3.4)</td>
 <td style="text-align: left;"><code>tildeAminus2_fails_deletion</code> (Lem. 3.21), <code>tildeA2_infinite_order</code> (Lem. 3.25), <code>oddCycle_not_O_conjugate</code> (Thm. 1.6)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean"><code>ParabolicTransfer.lean</code></a></td>
 <td style="text-align: left;">Ch. 1 &amp; 3 (3.3)</td>
 <td style="text-align: left;"><code>not_deletion_of_contains_tildeAminus2</code>, <code>theorem_1_2_tail_family</code> (Thm. 1.2)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean"><code>ClassicalDeletion.lean</code></a></td>
 <td style="text-align: left;">Ch. 1 &amp; 3</td>
 <td style="text-align: left;"><code>deletion_iff_exchange</code> (Prop. 3.8 / Thm. 3.9), <code>corollary_1_3_not_conjugate_to_deletion</code> (Cor. 1.3)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean"><code>CoxeterPresentation.lean</code></a></td>
 <td style="text-align: left;">Ch. 3</td>
 <td style="text-align: left;"><code>orderCoxeterMatrix</code>, <code>gamma_eq_of_reduced_of_same_length</code>, <code>theorem_3_9_coxeter_presentation</code>, <code>theorem_3_9_isClassicalCoxeter</code> (Thm. 3.9, <code>(2) ⇒ (1)</code>)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean"><code>ClassicalCoxeterDeletion.lean</code></a></td>
 <td style="text-align: left;">Ch. 3</td>
 <td style="text-align: left;"><code>deletion_of_coxeterSystem</code>, <code>theorem_3_9_deletion_of_isClassicalCoxeter</code> (<code>(1) ⇒ (2)</code>), <code>theorem_3_9_classical_iff_deletion</code> (<code>(1) ⇔ (2)</code>), <code>theorem_3_9_classical_iff_exchange</code> (<code>(1) ⇔ (3)</code>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean"><code>SpectralRadius.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.5)</td>
 <td style="text-align: left;"><code>w_A3_ppm_add_one_cube</code> (Ex. 3.29), <code>theorem_3_34_bipartite_exceeds_linear</code> (Thm. 1.7 / Ex. 3.33)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/AlternatingSquare.lean"><code>AlternatingSquare.lean</code></a></td>
 <td style="text-align: left;">Open Qs 2.59, 3.35</td>
 <td style="text-align: left;"><code>alternatingSquare_principal_not_conjugate</code>, <code>alternatingSquare_bipartite_not_min</code> (<span class="math inline">\(C_4(+,-,+,-)\)</span>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycleSingleDefect.lean"><code>OddCycleSingleDefect.lean</code></a></td>
 <td style="text-align: left;">General <span class="math inline">\(C_{2m+1}\)</span></td>
 <td style="text-align: left;"><code>oddCycleSinglePlus_minimal_poly</code>, <code>oddCycleSinglePlus_ne_neg_one_poly</code> (<span class="math inline">\(C_{2m+1}(+,-,\dots,-)\)</span>)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/EvenCycleSingleDefect.lean"><code>EvenCycleSingleDefect.lean</code></a></td>
 <td style="text-align: left;">General <span class="math inline">\(C_{2m}\)</span></td>
 <td style="text-align: left;"><code>evenCycleSinglePlus_charpoly_at_neg_one</code>, <code>evenCycleSinglePlus_charpoly_at_neg_five</code>, <code>evenCycleSinglePlus_has_eigenvalue_lt_neg_one</code> (<span class="math inline">\(C_{2m}(+,-,\dots,-)\)</span>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/BipartiteDuality.lean"><code>BipartiteDuality.lean</code></a></td>
 <td style="text-align: left;">General Bipartite</td>
 <td style="text-align: left;"><code>principalElement_bipartiteSignFlip</code>, <code>charpoly_eval_bipartiteSignFlip</code>, <code>evenCycleSingleMinus_has_eigenvalue_lt_neg_one</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TwoDefectCycle.lean"><code>TwoDefectCycle.lean</code></a></td>
 <td style="text-align: left;">Two-Defect Cycles</td>
 <td style="text-align: left;"><code>c3_twoDefect_has_eigenvalue_lt_neg_one</code>, <code>c4_adjTwoDefect_complex_eigenvalue_norm_gt_one</code>, <code>c5_adjTwoDefect_has_eigenvalue_lt_neg_one</code>, <code>oddCycleAdjTwoDefect_has_eigenvalue_lt_neg_one</code> (<span class="math inline">\(C_{2m+1}(+,+,-,\dots,-)\)</span>), <code>evenCycleAdjTwoDefect_complex_eigenvalue_norm_gt_one</code> (<span class="math inline">\(C_{2m}(+,+,-,\dots,-)\)</span>)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean"><code>SpectralClassification.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.5.1)</td>
 <td style="text-align: left;"><code>theorem_3_27_classification</code> (Thm. 3.27), <code>theorem_3_28_interlacing</code> &amp; <code>theorem_3_28_strict</code> (Thm. 3.28)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean"><code>RemarksAndClassical.lean</code></a></td>
 <td style="text-align: left;">Ch. 3 (3.3–3.5)</td>
 <td style="text-align: left;"><code>remark_3_23_card</code> (Rem. 3.23), <code>remark_3_26_det_neg_odd_cycle</code> (Rem. 3.26), <code>remark_3_30_A2_root_gt</code>–<code>A5_roots_lt</code> (Rem. 3.30)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean"><code>TildeAminusEvenIso.lean</code></a></td>
-<td style="text-align: left;">Ch. 1 (1.6 Rem.)</td>
-<td style="text-align: left;"><code>theorem_1_6_tildeAminus_iso_D</code> (<span class="math inline">\(W(\widetilde{A}_{-n}) \cong W(D_{n+1})\)</span> for all even <span class="math inline">\(n \ge 2\)</span>)</td>
+<td style="text-align: left;">Ch. 1 (1.6 Rem.) &amp; App. D</td>
+<td style="text-align: left;"><code>theorem_1_6_tildeAminus_iso_D</code> (<span class="math inline">\(W(\widetilde{A}_{-n}) \cong W(D_{n+1})\)</span> for all even <span class="math inline">\(n \ge 2\)</span>), <code>appendixD_relators_hold</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean"><code>FiniteReduction.lean</code></a></td>
+<td style="text-align: left;">App. A (Rem. A.3) &amp; Cor. 3.18</td>
+<td style="text-align: left;"><code>finite_connected_isDefinite</code>, <code>corollary_3_18_mixed_sign_infinite</code></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="mathlib4-upstreaming" class="level2">
+<h2 class="anchored" data-anchor-id="mathlib4-upstreaming">Mathlib4 Upstreaming</h2>
+<p>The general Coxeter, graph-theory, and reflection-system results from this formalization are being upstreamed to <a href="https://github.com/leanprover-community/mathlib4"><code>leanprover-community/mathlib4</code></a> in 11 focused PRs (5 standalone PRs ready for review, plus 6 stacked draft PRs):</p>
+<section id="ready-for-review-standalone" class="level3">
+<h3 class="anchored" data-anchor-id="ready-for-review-standalone">Ready for Review (Standalone)</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">PR</th>
+<th style="text-align: left;">Branch</th>
+<th style="text-align: left;">Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46496">mathlib4#46496</a></td>
+<td style="text-align: left;"><code>coxeter-deletion</code></td>
+<td style="text-align: left;">Exchange and Deletion properties for <code>CoxeterSystem</code></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46497">mathlib4#46497</a></td>
+<td style="text-align: left;"><code>reflection-system</code></td>
+<td style="text-align: left;"><code>ReflectionSystem</code> over symmetric matrices and faithful <code>toGL</code> embedding</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46507">mathlib4#46507</a></td>
+<td style="text-align: left;"><code>bipartite-no-odd-cycle</code></td>
+<td style="text-align: left;">Characterize bipartite <code>SimpleGraph</code>s by absence of odd cycles</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46508">mathlib4#46508</a></td>
+<td style="text-align: left;"><code>coxeter-tree-conjugacy</code></td>
+<td style="text-align: left;">Conjugacy of Coxeter elements for acyclic Coxeter graphs</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46513">mathlib4#46513</a></td>
+<td style="text-align: left;"><code>coxeter-spectral-classification</code></td>
+<td style="text-align: left;">Spectral classification and interlacing for bipartite Coxeter elements</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="stacked-draft-prs" class="level3">
+<h3 class="anchored" data-anchor-id="stacked-draft-prs">Stacked Draft PRs</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th style="text-align: left;">PR</th>
+<th style="text-align: left;">Branch</th>
+<th style="text-align: left;">Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46498">mathlib4#46498</a></td>
+<td style="text-align: left;"><code>finite-reduction</code></td>
+<td style="text-align: left;">Finiteness reduction for connected reflection systems</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46505">mathlib4#46505</a></td>
+<td style="text-align: left;"><code>howlett</code></td>
+<td style="text-align: left;">Howlett’s formula (<span class="math inline">\(w = -U^{-1}U^T\)</span>) for <code>ReflectionSystem</code></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46506">mathlib4#46506</a></td>
+<td style="text-align: left;"><code>coxeter-presentation</code></td>
+<td style="text-align: left;">Construct <code>CoxeterSystem</code> from Deletion and Exchange properties</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46509">mathlib4#46509</a></td>
+<td style="text-align: left;"><code>coxeter-geometric-rep</code></td>
+<td style="text-align: left;">Faithfulness of the geometric representation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46510">mathlib4#46510</a></td>
+<td style="text-align: left;"><code>coxeter-bipartite</code></td>
+<td style="text-align: left;">Sign-flip conjugation for bipartite reflection systems</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46512">mathlib4#46512</a></td>
+<td style="text-align: left;"><code>coxeter-parabolic-transfer</code></td>
+<td style="text-align: left;">Subdiagram relation transfer for reflection systems</td>
 </tr>
 </tbody>
 </table>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

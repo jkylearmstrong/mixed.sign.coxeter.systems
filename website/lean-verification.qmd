@@ -193,3 +193,28 @@ flowchart TB
 | [`RemarksAndClassical.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean) | Ch. 3 (3.3–3.5) | `remark_3_23_card` (Rem. 3.23), `remark_3_26_det_neg_odd_cycle` (Rem. 3.26), `remark_3_30_A2_root_gt`–`A5_roots_lt` (Rem. 3.30) |
 | [`TildeAminusEvenIso.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean) | Ch. 1 (1.6 Rem.) & App. D | `theorem_1_6_tildeAminus_iso_D` ($W(\widetilde{A}_{-n}) \cong W(D_{n+1})$ for all even $n \ge 2$), `appendixD_relators_hold` |
 | [`FiniteReduction.lean`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean) | App. A (Rem. A.3) & Cor. 3.18 | `finite_connected_isDefinite`, `corollary_3_18_mixed_sign_infinite` |
+
+## Mathlib4 Upstreaming {#mathlib4-upstreaming}
+
+The general Coxeter, graph-theory, and reflection-system results from this formalization are being upstreamed to [`leanprover-community/mathlib4`](https://github.com/leanprover-community/mathlib4) in 11 focused PRs (5 standalone PRs ready for review, plus 6 stacked draft PRs):
+
+### Ready for Review (Standalone)
+
+| PR | Branch | Scope |
+| :--- | :--- | :--- |
+| [mathlib4#46496](https://github.com/leanprover-community/mathlib4/pull/46496) | `coxeter-deletion` | Exchange and Deletion properties for `CoxeterSystem` |
+| [mathlib4#46497](https://github.com/leanprover-community/mathlib4/pull/46497) | `reflection-system` | `ReflectionSystem` over symmetric matrices and faithful `toGL` embedding |
+| [mathlib4#46507](https://github.com/leanprover-community/mathlib4/pull/46507) | `bipartite-no-odd-cycle` | Characterize bipartite `SimpleGraph`s by absence of odd cycles |
+| [mathlib4#46508](https://github.com/leanprover-community/mathlib4/pull/46508) | `coxeter-tree-conjugacy` | Conjugacy of Coxeter elements for acyclic Coxeter graphs |
+| [mathlib4#46513](https://github.com/leanprover-community/mathlib4/pull/46513) | `coxeter-spectral-classification` | Spectral classification and interlacing for bipartite Coxeter elements |
+
+### Stacked Draft PRs
+
+| PR | Branch | Scope |
+| :--- | :--- | :--- |
+| [mathlib4#46498](https://github.com/leanprover-community/mathlib4/pull/46498) | `finite-reduction` | Finiteness reduction for connected reflection systems |
+| [mathlib4#46505](https://github.com/leanprover-community/mathlib4/pull/46505) | `howlett` | Howlett's formula ($w = -U^{-1}U^T$) for `ReflectionSystem` |
+| [mathlib4#46506](https://github.com/leanprover-community/mathlib4/pull/46506) | `coxeter-presentation` | Construct `CoxeterSystem` from Deletion and Exchange properties |
+| [mathlib4#46509](https://github.com/leanprover-community/mathlib4/pull/46509) | `coxeter-geometric-rep` | Faithfulness of the geometric representation |
+| [mathlib4#46510](https://github.com/leanprover-community/mathlib4/pull/46510) | `coxeter-bipartite` | Sign-flip conjugation for bipartite reflection systems |
+| [mathlib4#46512](https://github.com/leanprover-community/mathlib4/pull/46512) | `coxeter-parabolic-transfer` | Subdiagram relation transfer for reflection systems |
