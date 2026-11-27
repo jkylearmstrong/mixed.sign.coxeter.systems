@@ -1,3 +1,11 @@
 import MathlibDraft.ReflectionSystem
 import MathlibDraft.FiniteReduction
+import MathlibDraft.Howlett
+import MathlibDraft.Bipartite
+import MathlibDraft.ParabolicTransfer
 import MathlibDraft.CoxeterDeletion
+import MathlibDraft.Presentation
+import MathlibDraft.GeometricRep
+import MathlibDraft.CoxeterElement
+import MathlibDraft.BipartiteSpectrum
+import MathlibDraft.BipartiteOddCycles
