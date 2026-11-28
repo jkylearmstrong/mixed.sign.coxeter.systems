@@ -274,3 +274,45 @@ theorem theorem_1_2_extended_family (k : ℕ) :
       MixedSignCoxeterGraph.toReflectionSystem]
 
 end MixedSignCoxeter
+
+namespace ReflectionSystem
+
+variable {n : ℕ}
+
+/-! ### Definition 2.56: Node Deletion `Γ / (r_i)` -/
+
+section NodeDeletion
+
+/-- **Definition 2.56**: The reflection system `Γ / (r_i)` obtained by deleting node `i`
+and all incident edges from `S : ReflectionSystem (n + 1)`. -/
+def deleteNode (S : ReflectionSystem (n + 1)) (i : Fin (n + 1)) : ReflectionSystem n where
+  B := S.B.submatrix i.succAbove i.succAbove
+  B_symm := by
+    ext j k
+    simp only [Matrix.transpose_apply, Matrix.submatrix_apply]
+    exact congr_fun (congr_fun S.B_symm (i.succAbove j)) (i.succAbove k)
+  B_diag_ne_zero j := S.B_diag_ne_zero (i.succAbove j)
+
+@[simp]
+lemma deleteNode_B (S : ReflectionSystem (n + 1)) (i : Fin (n + 1)) (j k : Fin n) :
+    (S.deleteNode i).B j k = S.B (i.succAbove j) (i.succAbove k) := rfl
+
+/-- Any relation among the remaining generators in `Γ` already holds in `Γ / (r_i)`. -/
+theorem deleteNode_wordProd_sub_of_map (S : ReflectionSystem (n + 1)) (i : Fin (n + 1))
+    (w₁ w₂ : List (Fin n))
+    (h : wordProd S (w₁.map i.succAbove) = wordProd S (w₂.map i.succAbove)) :
+    wordProd (S.deleteNode i) w₁ = wordProd (S.deleteNode i) w₂ :=
+  wordProd_sub_eq_of_map S.B i.succAbove Fin.succAbove_right_injective w₁ w₂ h
+
+/-- When `B(Γ / (r_i))` is nonsingular, relations in `Γ` on the remaining generators coincide
+with relations in `Γ / (r_i)`. -/
+theorem deleteNode_wordProd_eq_iff (S : ReflectionSystem (n + 1)) (i : Fin (n + 1))
+    (hdet : (S.deleteNode i).B.det ≠ 0) (w₁ w₂ : List (Fin n)) :
+    wordProd S (w₁.map i.succAbove) = wordProd S (w₂.map i.succAbove) ↔
+      wordProd (S.deleteNode i) w₁ = wordProd (S.deleteNode i) w₂ :=
+  ⟨deleteNode_wordProd_sub_of_map S i w₁ w₂,
+   wordProd_map_eq_of_sub S.B i.succAbove hdet w₁ w₂⟩
+
+end NodeDeletion
+
+end ReflectionSystem

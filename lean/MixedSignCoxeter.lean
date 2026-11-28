@@ -1,4 +1,4 @@
-import MixedSignCoxeter.Basic
+import MixedSignCoxeter.ReflectionSystem
 import MixedSignCoxeter.Conjugacy
 import MixedSignCoxeter.Bipartite
 import MixedSignCoxeter.ComponentsAndTrees
@@ -25,4 +25,3 @@ import MixedSignCoxeter.TwoDefectCycle
 import MixedSignCoxeter.TildeAminusEvenIso
 import MixedSignCoxeter.RootPositivity
 import MixedSignCoxeter.FiniteReduction
-import MixedSignCoxeter.Chapter2Foundations

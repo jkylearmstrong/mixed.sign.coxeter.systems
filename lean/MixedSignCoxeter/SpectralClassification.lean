@@ -898,3 +898,352 @@ theorem theorem_3_28_strict {p' q' : ℕ} (f : Fin p' → Fin p) (g : Fin q' →
   exact hl
 
 end MixedSignCoxeter
+
+namespace ReflectionSystem
+
+open Matrix BigOperators
+
+variable {n : ℕ}
+
+/-! ### Definitions 2.47 & 2.51: Eigenvalue Signature Triple and 4-Way Classification -/
+
+section Signature
+
+/-- Every `ReflectionSystem` has a real Hermitian (symmetric) bilinear form matrix `S.B`. -/
+lemma B_isHermitian (S : ReflectionSystem n) : S.B.IsHermitian := by
+  rw [Matrix.IsHermitian, Matrix.conjTranspose_eq_transpose_of_trivial, S.B_symm]
+
+/-- Number of strictly positive eigenvalues of `S.B` (counted with multiplicity). -/
+noncomputable def posEigenCount (S : ReflectionSystem n) : ℕ :=
+  (Finset.univ.filter fun i : Fin n => 0 < S.B_isHermitian.eigenvalues i).card
+
+/-- Number of strictly negative eigenvalues of `S.B` (counted with multiplicity). -/
+noncomputable def negEigenCount (S : ReflectionSystem n) : ℕ :=
+  (Finset.univ.filter fun i : Fin n => S.B_isHermitian.eigenvalues i < 0).card
+
+/-- Number of zero eigenvalues of `S.B` (nullity). -/
+noncomputable def zeroEigenCount (S : ReflectionSystem n) : ℕ :=
+  (Finset.univ.filter fun i : Fin n => S.B_isHermitian.eigenvalues i = 0).card
+
+/-- **Definition 2.47**: The signature `sig(B) = (p, q, l)` of the bilinear form `B`, where
+`p`, `q`, `l` are the counts of positive, negative, and zero eigenvalues of `B`. -/
+noncomputable def signature (S : ReflectionSystem n) : ℕ × ℕ × ℕ :=
+  (S.posEigenCount, S.negEigenCount, S.zeroEigenCount)
+
+/-- The eigenvalue counts satisfy `p + q + l = n`. -/
+theorem signature_sum (S : ReflectionSystem n) :
+    S.posEigenCount + S.negEigenCount + S.zeroEigenCount = n := by
+  unfold posEigenCount negEigenCount zeroEigenCount
+  have hd12 : Disjoint
+      (Finset.univ.filter fun i : Fin n => 0 < S.B_isHermitian.eigenvalues i)
+      (Finset.univ.filter fun i : Fin n => S.B_isHermitian.eigenvalues i < 0) := by
+    rw [Finset.disjoint_filter]
+    intro i _ h1 h2; linarith
+  have hd12_3 : Disjoint
+      ((Finset.univ.filter fun i : Fin n => 0 < S.B_isHermitian.eigenvalues i) ∪
+        (Finset.univ.filter fun i : Fin n => S.B_isHermitian.eigenvalues i < 0))
+      (Finset.univ.filter fun i : Fin n => S.B_isHermitian.eigenvalues i = 0) := by
+    rw [Finset.disjoint_left]
+    intro i hi1 hi2
+    simp only [Finset.mem_union, Finset.mem_filter, Finset.mem_univ, true_and] at hi1 hi2
+    rcases hi1 with h | h <;> linarith
+  rw [← Finset.card_union_of_disjoint hd12, ← Finset.card_union_of_disjoint hd12_3]
+  have hunion :
+      ((Finset.univ.filter fun i : Fin n => 0 < S.B_isHermitian.eigenvalues i) ∪
+        (Finset.univ.filter fun i : Fin n => S.B_isHermitian.eigenvalues i < 0)) ∪
+      (Finset.univ.filter fun i : Fin n => S.B_isHermitian.eigenvalues i = 0) = Finset.univ := by
+    ext i
+    simp only [Finset.mem_union, Finset.mem_filter, Finset.mem_univ, true_and, iff_true]
+    rcases lt_trichotomy (S.B_isHermitian.eigenvalues i) 0 with h | h | h
+    · exact Or.inl (Or.inr h)
+    · exact Or.inr h
+    · exact Or.inl (Or.inl h)
+  rw [hunion, Finset.card_univ, Fintype.card_fin]
+
+lemma isPosDef_iff_posDef (S : ReflectionSystem n) :
+    S.IsPosDef ↔ S.B.PosDef := by
+  rw [Matrix.posDef_iff_dotProduct_mulVec]
+  constructor
+  · intro h
+    refine ⟨S.B_isHermitian, fun v hv => ?_⟩
+    simpa [quadForm_eq_dotProduct] using h v hv
+  · intro h v hv
+    simpa [quadForm_eq_dotProduct] using h.2 hv
+
+/-- `S` is positive definite iff `sig(B) = (n, 0, 0)`. -/
+theorem isPosDef_iff_signature (S : ReflectionSystem n) :
+    S.IsPosDef ↔ S.signature = (n, 0, 0) := by
+  rw [isPosDef_iff_posDef, S.B_isHermitian.posDef_iff_eigenvalues_pos]
+  constructor
+  · intro hpos
+    have hp : S.posEigenCount = n := by
+      unfold posEigenCount
+      rw [Finset.filter_true_of_mem fun i _ => hpos i, Finset.card_univ, Fintype.card_fin]
+    have hsum := S.signature_sum
+    have hq : S.negEigenCount = 0 := by omega
+    have hl : S.zeroEigenCount = 0 := by omega
+    simp [signature, hp, hq, hl]
+  · intro hsig i
+    have hp : S.posEigenCount = n := congr_arg Prod.fst hsig
+    unfold posEigenCount at hp
+    have hall : (Finset.univ.filter fun j : Fin n => 0 < S.B_isHermitian.eigenvalues j) =
+        Finset.univ := Finset.eq_univ_of_card _ (by simpa using hp)
+    have hi : i ∈ Finset.univ.filter fun j : Fin n => 0 < S.B_isHermitian.eigenvalues j := by
+      rw [hall]; exact Finset.mem_univ i
+    exact (Finset.mem_filter.mp hi).2
+
+/-- `S` is negative definite iff `sig(B) = (0, n, 0)`. -/
+theorem isNegDef_iff_signature (S : ReflectionSystem n) :
+    S.IsNegDef ↔ S.signature = (0, n, 0) := by
+  have hneg : S.IsNegDef ↔ (-S.B).PosDef := by
+    rw [Matrix.posDef_iff_dotProduct_mulVec]
+    constructor
+    · intro h
+      have hH : (-S.B).IsHermitian := by
+        rw [Matrix.IsHermitian, Matrix.conjTranspose_neg,
+          Matrix.conjTranspose_eq_transpose_of_trivial, S.B_symm]
+      refine ⟨hH, fun v hv => ?_⟩
+      have h1 := h v hv
+      rw [quadForm_eq_dotProduct] at h1
+      simpa [Matrix.neg_mulVec, dotProduct_neg] using h1
+    · intro h v hv
+      have h1 := h.2 hv
+      rw [quadForm_eq_dotProduct]
+      simpa [Matrix.neg_mulVec, dotProduct_neg] using h1
+  have hall_neg : (-S.B).PosDef ↔ ∀ i : Fin n, S.B_isHermitian.eigenvalues i < 0 := by
+    rw [Matrix.posDef_iff_dotProduct_mulVec]
+    constructor
+    · intro hpos i
+      have hv_ne : (⇑(S.B_isHermitian.eigenvectorBasis i) : Fin n → ℝ) ≠ 0 := by
+        intro h0
+        apply S.B_isHermitian.eigenvectorBasis.orthonormal.ne_zero i
+        ext j; simpa using congr_fun h0 j
+      have h1 := hpos.2 hv_ne
+      have heig := S.B_isHermitian.mulVec_eigenvectorBasis i
+      rw [star_trivial, Matrix.neg_mulVec, heig, dotProduct_neg, dotProduct_smul,
+        smul_eq_mul] at h1
+      have hnorm : 0 < dotProduct (⇑(S.B_isHermitian.eigenvectorBasis i) : Fin n → ℝ)
+          (⇑(S.B_isHermitian.eigenvectorBasis i) : Fin n → ℝ) := by
+        have hnn : 0 ≤ dotProduct (⇑(S.B_isHermitian.eigenvectorBasis i) : Fin n → ℝ)
+            (⇑(S.B_isHermitian.eigenvectorBasis i) : Fin n → ℝ) :=
+          Finset.sum_nonneg fun j _ => mul_self_nonneg _
+        rcases lt_or_eq_of_le hnn with hlt | heq
+        · exact hlt
+        · exfalso
+          apply hv_ne
+          ext j
+          have hj0 : (S.B_isHermitian.eigenvectorBasis i j) *
+              (S.B_isHermitian.eigenvectorBasis i j) = 0 :=
+            (Finset.sum_eq_zero_iff_of_nonneg (fun k _ => mul_self_nonneg
+              (S.B_isHermitian.eigenvectorBasis i k))).mp heq.symm j (Finset.mem_univ j)
+          exact mul_self_eq_zero.mp hj0
+      nlinarith
+    · intro hall
+      have hH : (-S.B).IsHermitian := by
+        rw [Matrix.IsHermitian, Matrix.conjTranspose_neg,
+          Matrix.conjTranspose_eq_transpose_of_trivial, S.B_symm]
+      refine ⟨hH, fun v hv => ?_⟩
+      let U : Matrix (Fin n) (Fin n) ℝ := S.B_isHermitian.eigenvectorUnitary.1
+      have hU : S.B = U * Matrix.diagonal S.B_isHermitian.eigenvalues * star U :=
+        S.B_isHermitian.spectral_theorem
+      have hUU : U * star U = 1 := by
+        exact Unitary.coe_mul_star_self S.B_isHermitian.eigenvectorUnitary
+      have hv' : (star U) *ᵥ v ≠ 0 := by
+        intro h0
+        apply hv
+        have hmul := congr_arg (fun w => U *ᵥ w) h0
+        rw [Matrix.mulVec_mulVec, hUU, Matrix.one_mulVec, Matrix.mulVec_zero] at hmul
+        exact hmul
+      set y := (star U) *ᵥ v
+      have hquad : dotProduct v (S.B *ᵥ v) = ∑ i : Fin n, S.B_isHermitian.eigenvalues i * (y i) ^ 2 := by
+        conv_lhs => rw [hU]
+        rw [Matrix.mul_assoc, ← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec,
+          Matrix.dotProduct_mulVec]
+        have hvec : v ᵥ* U = y := by
+          ext j
+          simp only [y, Matrix.vecMul, Matrix.mulVec, dotProduct, Matrix.star_apply,
+            star_trivial]
+          exact Finset.sum_congr rfl fun x _ => mul_comm _ _
+        rw [hvec]
+        simp only [dotProduct, Matrix.mulVec_diagonal]
+        refine Finset.sum_congr rfl fun i _ => by ring
+      have hneg_sum : dotProduct v (S.B *ᵥ v) < 0 := by
+        rw [hquad]
+        have hex : ∃ i : Fin n, y i ≠ 0 := by
+          by_contra h
+          push Not at h
+          exact hv' (funext h)
+        rcases hex with ⟨i₀, hi₀⟩
+        have hle : ∀ i ∈ (Finset.univ : Finset (Fin n)),
+            S.B_isHermitian.eigenvalues i * (y i) ^ 2 ≤ (0 : ℝ) := fun i _ =>
+          mul_nonpos_of_nonpos_of_nonneg (le_of_lt (hall i)) (sq_nonneg _)
+        have hlt : S.B_isHermitian.eigenvalues i₀ * (y i₀) ^ 2 < (0 : ℝ) :=
+          mul_neg_of_neg_of_pos (hall i₀) (sq_pos_of_ne_zero hi₀)
+        have hsum := Finset.sum_lt_sum hle ⟨i₀, Finset.mem_univ i₀, hlt⟩
+        simpa using hsum
+      simpa [Matrix.neg_mulVec, dotProduct_neg] using hneg_sum
+  rw [hneg, hall_neg]
+  constructor
+  · intro hneg_eigs
+    have hq : S.negEigenCount = n := by
+      unfold negEigenCount
+      rw [Finset.filter_true_of_mem fun i _ => hneg_eigs i, Finset.card_univ, Fintype.card_fin]
+    have hsum := S.signature_sum
+    have hp : S.posEigenCount = 0 := by omega
+    have hl : S.zeroEigenCount = 0 := by omega
+    simp [signature, hp, hq, hl]
+  · intro hsig i
+    have hq : S.negEigenCount = n := congr_arg (fun t => t.2.1) hsig
+    unfold negEigenCount at hq
+    have hall : (Finset.univ.filter fun j : Fin n => S.B_isHermitian.eigenvalues j < 0) =
+        Finset.univ := Finset.eq_univ_of_card _ (by simpa using hq)
+    have hi : i ∈ Finset.univ.filter fun j : Fin n => S.B_isHermitian.eigenvalues j < 0 := by
+      rw [hall]; exact Finset.mem_univ i
+    exact (Finset.mem_filter.mp hi).2
+
+/-- **Definition 2.51**: The four signature classes of a reflection system:
+`spherical`, `affine`, `hyperbolic`, and `higherRank`. -/
+inductive SignatureType
+  | spherical
+  | affine
+  | hyperbolic
+  | higherRank
+  deriving DecidableEq, Repr
+
+/-- **Definition 2.51**: Classification of a rank-`n` reflection system by its signature
+`sig(B) = (p, q, l)`:
+1. `spherical` if `sig = (n, 0, 0)` or `(0, n, 0)`;
+2. `affine` if `sig = (n - 1, 0, 1)` or `(0, n - 1, 1)`;
+3. `hyperbolic` if `2 ≤ n` and `sig = (n - 1, 1, 0)` or `(1, n - 1, 0)`;
+4. `higherRank` otherwise. -/
+noncomputable def signatureType (S : ReflectionSystem n) : SignatureType :=
+  if S.signature = (n, 0, 0) ∨ S.signature = (0, n, 0) then .spherical
+  else if 1 ≤ n ∧ (S.signature = (n - 1, 0, 1) ∨ S.signature = (0, n - 1, 1)) then .affine
+  else if 2 ≤ n ∧ (S.signature = (n - 1, 1, 0) ∨ S.signature = (1, n - 1, 0)) then .hyperbolic
+  else .higherRank
+
+/-- A reflection system is spherical iff it is positive or negative definite. -/
+theorem signatureType_eq_spherical_iff (S : ReflectionSystem n) :
+    S.signatureType = .spherical ↔ S.IsPosDef ∨ S.IsNegDef := by
+  unfold signatureType
+  rw [isPosDef_iff_signature, isNegDef_iff_signature]
+  split_ifs <;> simp_all
+
+/-- A reflection system is hyperbolic iff `2 ≤ n` and `sig(B) = (n - 1, 1, 0)` or `(1, n - 1, 0)`. -/
+theorem signatureType_eq_hyperbolic_iff (S : ReflectionSystem n) :
+    S.signatureType = .hyperbolic ↔
+      2 ≤ n ∧ (S.signature = (n - 1, 1, 0) ∨ S.signature = (1, n - 1, 0)) := by
+  unfold signatureType
+  constructor
+  · intro h
+    split_ifs at h with h1 h2 h3
+    exact h3
+  · rintro ⟨hn, hsig⟩
+    have hnot1 : ¬ (S.signature = (n, 0, 0) ∨ S.signature = (0, n, 0)) := by
+      rcases hsig with h | h <;> rw [h] <;> simp <;> omega
+    have hnot2 : ¬ (1 ≤ n ∧ (S.signature = (n - 1, 0, 1) ∨ S.signature = (0, n - 1, 1))) := by
+      rintro ⟨_, h2⟩
+      rcases hsig with h | h <;> rw [h] at h2 <;> simp at h2
+    simp only [hnot1, hnot2, hn, hsig, and_self, ↓reduceIte]
+
+/-- Any reflection system with at least 2 positive and at least 2 negative eigenvalues is
+`higherRank` (explicitly separating higher-rank from hyperbolic indefinite systems). -/
+theorem signatureType_eq_higherRank_of_two_pos_two_neg (S : ReflectionSystem n)
+    (hp : 2 ≤ S.posEigenCount) (hq : 2 ≤ S.negEigenCount) :
+    S.signatureType = .higherRank := by
+  unfold signatureType
+  have h1 : ¬ (S.signature = (n, 0, 0) ∨ S.signature = (0, n, 0)) := by
+    simp only [signature, Prod.mk.injEq]; omega
+  have h2 : ¬ (1 ≤ n ∧ (S.signature = (n - 1, 0, 1) ∨ S.signature = (0, n - 1, 1))) := by
+    rintro ⟨_, h⟩; simp only [signature, Prod.mk.injEq] at h; omega
+  have h3 : ¬ (2 ≤ n ∧ (S.signature = (n - 1, 1, 0) ∨ S.signature = (1, n - 1, 0))) := by
+    rintro ⟨_, h⟩; simp only [signature, Prod.mk.injEq] at h; omega
+  simp only [h1, h2, h3, ↓reduceIte]
+
+end Signature
+
+/-! ### Definition 2.61: Spectral Radius `λ(w)` -/
+
+section SpectralRadius
+
+/-- **Definition 2.61**: The spectral radius `λ(M) = sup {‖μ‖ | μ is a complex eigenvalue of M}`
+of a real `n × n` matrix `M` (in particular, of a principal element `w ∈ W`). -/
+noncomputable def spectralRadius (M : Matrix (Fin n) (Fin n) ℝ) : ℝ :=
+  sSup { r : ℝ | ∃ μ : ℂ, MixedSignCoxeter.HasEigenC M μ ∧ r = ‖μ‖ }
+
+/-- Every complex eigenvalue `μ` of `M` is bounded in modulus by `∑ i, ∑ j, ‖M i j‖`. -/
+lemma norm_le_l1_of_hasEigenC (M : Matrix (Fin n) (Fin n) ℝ) {μ : ℂ}
+    (hμ : MixedSignCoxeter.HasEigenC M μ) :
+    ‖μ‖ ≤ ∑ i : Fin n, ∑ j : Fin n, ‖M i j‖ := by
+  rcases hμ with ⟨v, hv, heig⟩
+  have hne : (Finset.univ : Finset (Fin n)).Nonempty := by
+    by_contra hemp
+    rw [Finset.not_nonempty_iff_eq_empty] at hemp
+    apply hv
+    ext i
+    exact absurd (Finset.mem_univ i) (by rw [hemp]; simp)
+  obtain ⟨i₀, _, hi₀max⟩ := Finset.exists_max_image Finset.univ (fun i => ‖v i‖) hne
+  have hvi₀ : 0 < ‖v i₀‖ := by
+    by_contra hle
+    push Not at hle
+    apply hv
+    ext j
+    have hj : ‖v j‖ ≤ 0 := le_trans (hi₀max j (Finset.mem_univ j)) hle
+    exact norm_eq_zero.mp (le_antisymm hj (norm_nonneg _))
+  have hrow := congr_fun heig i₀
+  simp only [Matrix.mulVec, dotProduct, Matrix.map_apply, Pi.smul_apply, smul_eq_mul] at hrow
+  have hbound : ‖μ‖ * ‖v i₀‖ ≤ (∑ j : Fin n, ‖M i₀ j‖) * ‖v i₀‖ := by
+    rw [← norm_mul, ← hrow]
+    calc
+      ‖∑ j : Fin n, (M i₀ j : ℂ) * v j‖
+        ≤ ∑ j : Fin n, ‖(M i₀ j : ℂ) * v j‖ := norm_sum_le _ _
+      _ = ∑ j : Fin n, ‖M i₀ j‖ * ‖v j‖ := by
+          refine Finset.sum_congr rfl fun j _ => by rw [norm_mul, Complex.norm_real]
+      _ ≤ ∑ j : Fin n, ‖M i₀ j‖ * ‖v i₀‖ :=
+          Finset.sum_le_sum fun j _ =>
+            mul_le_mul_of_nonneg_left (hi₀max j (Finset.mem_univ j)) (norm_nonneg _)
+      _ = (∑ j : Fin n, ‖M i₀ j‖) * ‖v i₀‖ := (Finset.sum_mul _ _ _).symm
+  have hrow_le : ‖μ‖ ≤ ∑ j : Fin n, ‖M i₀ j‖ := le_of_mul_le_mul_right hbound hvi₀
+  have hsum_le : ∑ j : Fin n, ‖M i₀ j‖ ≤ ∑ i : Fin n, ∑ j : Fin n, ‖M i j‖ :=
+    Finset.single_le_sum (f := fun i => ∑ j : Fin n, ‖M i j‖)
+      (fun i _ => Finset.sum_nonneg fun j _ => norm_nonneg _) (Finset.mem_univ i₀)
+  exact le_trans hrow_le hsum_le
+
+lemma hasEigenC_norms_bddAbove (M : Matrix (Fin n) (Fin n) ℝ) :
+    BddAbove { r : ℝ | ∃ μ : ℂ, MixedSignCoxeter.HasEigenC M μ ∧ r = ‖μ‖ } := by
+  refine ⟨∑ i : Fin n, ∑ j : Fin n, ‖M i j‖, ?_⟩
+  rintro r ⟨μ, hμ, rfl⟩
+  exact norm_le_l1_of_hasEigenC M hμ
+
+/-- Every complex eigenvalue `μ` of `M` satisfies `‖μ‖ ≤ spectralRadius M`. -/
+theorem norm_le_spectralRadius (M : Matrix (Fin n) (Fin n) ℝ) {μ : ℂ}
+    (hμ : MixedSignCoxeter.HasEigenC M μ) :
+    ‖μ‖ ≤ spectralRadius M :=
+  le_csSup (hasEigenC_norms_bddAbove M) ⟨μ, hμ, rfl⟩
+
+/-- If every complex eigenvalue of `M` has modulus `≤ C` (with `0 ≤ C`), then
+`spectralRadius M ≤ C`. -/
+theorem spectralRadius_le_of_forall (M : Matrix (Fin n) (Fin n) ℝ) {C : ℝ} (hC : 0 ≤ C)
+    (h : ∀ μ : ℂ, MixedSignCoxeter.HasEigenC M μ → ‖μ‖ ≤ C) :
+    spectralRadius M ≤ C := by
+  apply Real.sSup_le
+  · rintro r ⟨μ, hμ, rfl⟩
+    exact h μ hμ
+  · exact hC
+
+/-- The spectral radius of any real matrix is nonnegative. -/
+theorem spectralRadius_nonneg (M : Matrix (Fin n) (Fin n) ℝ) :
+    0 ≤ spectralRadius M := by
+  apply Real.sSup_nonneg
+  rintro r ⟨μ, _, rfl⟩
+  exact norm_nonneg μ
+
+/-- If `M` has a complex eigenvalue `μ` with `c < ‖μ‖`, then `c < spectralRadius M`. -/
+theorem lt_spectralRadius_of_eigen (M : Matrix (Fin n) (Fin n) ℝ) {μ : ℂ} {c : ℝ}
+    (hμ : MixedSignCoxeter.HasEigenC M μ) (hc : c < ‖μ‖) :
+    c < spectralRadius M :=
+  lt_of_lt_of_le hc (norm_le_spectralRadius M hμ)
+
+end SpectralRadius
+
+end ReflectionSystem

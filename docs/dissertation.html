@@ -438,12 +438,12 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Propositions 2.17, 2.21, 2.22, 2.28, 2.45</strong>, <strong>Lemmas 2.31, 2.32, 2.37</strong>, &amp; <strong>Mixed-Sign Faithfulness</strong> (<span class="math inline">\(W \hookrightarrow \mathrm{GL}(V)\)</span>)</td>
-<td style="text-align: left;"><code>Basic.lean</code>, <code>Conjugacy.lean</code>, <code>ComponentsAndTrees.lean</code>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L321"><code>W_group_to_GL_injective</code></a></td>
+<td style="text-align: left;"><code>ReflectionSystem.lean</code>, <code>Conjugacy.lean</code>, <code>ComponentsAndTrees.lean</code>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L321"><code>W_group_to_GL_injective</code></a></td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Corollary 2.46 &amp; Definitions 2.12, 2.47, 2.51, 2.56, 2.61</strong> (<span class="math inline">\(k\)</span>-component direct product, roots <span class="math inline">\(\Phi\)</span>, signature <span class="math inline">\((p,q,l)\)</span>, 4-way classification, <span class="math inline">\(\Gamma/(r_i)\)</span>, spectral radius)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean"><code>Chapter2Foundations.lean</code></a> (<code>k_component_mulEquiv</code>, <code>roots</code>, <code>signature</code>, <code>signatureType</code>, <code>deleteNode</code>, <code>spectralRadius</code>)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L301"><code>ReflectionSystem.lean</code></a> (<code>roots</code>), <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L379"><code>ComponentsAndTrees.lean</code></a> (<code>k_component_mulEquiv</code>), <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L288"><code>ParabolicTransfer.lean</code></a> (<code>deleteNode</code>), <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L930"><code>SpectralClassification.lean</code></a> (<code>signature</code>, <code>signatureType</code>, <code>spectralRadius</code>)</td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="odd">
@@ -689,7 +689,7 @@ Standard linear algebra definition; in Lean/Mathlib bilinear forms are represent
 p. 8 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L32" target="_blank" rel="noopener">Basic.lean</a>: <code>ReflectionSystem</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L32" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>ReflectionSystem</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L50" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>ReflectionSystem</code>
 </div>
@@ -717,7 +717,7 @@ Orthogonality relative to B is expressed directly as B i j = 0 or dotProduct v (
 p. 9 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L44" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply_self</code>, <code>reflectionMatrix_mul_self</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L44" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply_self</code>, <code>reflectionMatrix_mul_self</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L64" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply_self</code>, <code>reflectionMatrix_mul_self</code>
 </div>
@@ -733,7 +733,7 @@ Matrix form of generating reflections s_{e_i}, together with linearity, negation
 p. 9 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-info text-dark">Formalized (remark)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L88" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_preserves_B</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L88" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_preserves_B</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L110" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_preserves_form</code>
 </div>
@@ -754,7 +754,7 @@ p. 9 · §2.1 Basic definitions and properties
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/GeometricRep.lean#L407" target="_blank" rel="noopener">GeometricRep.lean</a>: <code>geomRefl_mulVec</code>
 </div>
 <div class="small text-muted mt-1">
-Explicit coordinate-wise action of s_i on a vector v; see also Basic.lean (reflectionMatrix_apply).
+Explicit coordinate-wise action of s_i on a vector v; see also ReflectionSystem.lean (reflectionMatrix_apply).
 </div></td>
 </tr>
 <tr class="even" data-chapter="2" data-type="Remark" data-status="Formalized (definition)">
@@ -765,7 +765,7 @@ Explicit coordinate-wise action of s_i on a vector v; see also Basic.lean (refle
 p. 10 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L44" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L44" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L64" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply</code>
 </div>
@@ -794,7 +794,7 @@ Signed permutation matrices permuting {±e_1, ..., ±e_n}.
 p. 10 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L44" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L44" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L64" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>
 </div>
@@ -842,7 +842,7 @@ Embeds W faithfully into GL_n(R) preserving the bilinear form B.
 p. 10 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L48" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>roots</code>, <code>simple_mem_roots</code>, <code>roots_mulVec_mem</code>, <code>roots_neg_mem</code>, <code>roots_quadForm_eq</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L301" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>roots</code>, <code>simple_mem_roots</code>, <code>roots_mulVec_mem</code>, <code>roots_neg_mem</code>, <code>roots_quadForm_eq</code>
 <div class="small text-muted mt-1">
 Defines Phi = {w e_i | w in W} as ReflectionSystem.roots with W-invariance, negation closure, non-vanishing, and quadratic-form invariance.
 </div></td>
@@ -887,7 +887,7 @@ Bilinear-form invariance w^T * B * w = B for all w in W.
 p. 10 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L199" target="_blank" rel="noopener">Basic.lean</a>: <code>wordProd</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L199" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>wordProd</code>
 <div class="small text-muted mt-1">
 Evaluation of a word (List (Fin n)) in the generating reflections.
 </div></td>
@@ -921,7 +921,7 @@ p. 11 · §2.1 Basic definitions and properties
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L186" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>group_preserves_form</code>
 </div>
 <div class="small text-muted mt-1">
-Generator case proved in Basic.lean (reflectionMatrix_preserves_B); extended to all w in W.
+Generator case proved in ReflectionSystem.lean (reflectionMatrix_preserves_B); extended to all w in W.
 </div></td>
 </tr>
 <tr class="odd" data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
@@ -932,7 +932,7 @@ Generator case proved in Basic.lean (reflectionMatrix_preserves_B); extended to 
 p. 12 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L32" target="_blank" rel="noopener">Basic.lean</a>: <code>ReflectionSystem</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L32" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>ReflectionSystem</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L50" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>ReflectionSystem</code>
 </div>
@@ -960,7 +960,7 @@ Notation convention S(B), W(B); realized by taking ReflectionSystem as the prima
 p. 12 · §2.2 Relations in W
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-success">Verified</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L66" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_mul_self</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L66" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_mul_self</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L87" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_mul_self</code>
 </div>
@@ -976,7 +976,7 @@ Each generating reflection satisfies s_i * s_i = 1.
 p. 12 · §2.2 Relations in W
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-success">Verified</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L216" target="_blank" rel="noopener">Basic.lean</a>: <code>odd_word_ne_one</code>, <code>det_wordProd</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L216" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>odd_word_ne_one</code>, <code>det_wordProd</code>
 <div class="small text-muted mt-1">
 Proved via det(s_i) = -1 (det_reflectionMatrix) and det(wordProd w) = (-1)^w.length.
 </div></td>
@@ -989,7 +989,7 @@ Proved via det(s_i) = -1 (det_reflectionMatrix) and det(wordProd w) = (-1)^w.len
 p. 13 · §2.2 Relations in W
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-success">Verified</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L121" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_comm_of_orthogonal</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L121" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_comm_of_orthogonal</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L147" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_comm_of_orthogonal</code>
 </div>
@@ -1068,7 +1068,7 @@ Notation convention for S(B), W(B), S(Gamma), W(Gamma).
 p. 14 · §2.3 Conjugate reflection systems and reflection diagrams
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-success">Verified</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L225" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_comm_of_not_adjacent</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L225" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_comm_of_not_adjacent</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L147" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_comm_of_orthogonal</code>
 </div>
@@ -1110,7 +1110,7 @@ Proves P^T * P = 1 for all P in O. (Note: P = P^T holds for symmetric P such as 
 p. 15 · §2.3 Conjugate reflection systems and reflection diagrams
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-success">Verified</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L60" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_neg</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L60" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_neg</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L79" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_neg</code>
 </div>
@@ -1320,7 +1320,7 @@ Proves every word factors into commuting component words and each component poin
 p. 22 · §2.5.1 Irreducible reflection systems
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-success">Verified</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L396" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>k_component_mulEquiv</code>, <code>wordProd_split_k_components</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L379" target="_blank" rel="noopener">ComponentsAndTrees.lean</a>: <code>k_component_mulEquiv</code>, <code>wordProd_split_k_components</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L250" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>prod_map_reflectionMatrix_split</code>
 </div>
@@ -1336,7 +1336,7 @@ Proves full k-component word factorization and explicit group isomorphism W(Gamm
 p. 22 · §2.5.2 Classification by signature
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L471" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>signature</code>, <code>signature_sum</code>, <code>isPosDef_iff_signature</code>, <code>isNegDef_iff_signature</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L930" target="_blank" rel="noopener">SpectralClassification.lean</a>: <code>signature</code>, <code>signature_sum</code>, <code>isPosDef_iff_signature</code>, <code>isNegDef_iff_signature</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/FiniteReduction.lean#L48" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>IsPosDef</code>, <code>IsNegDef</code>
 </div>
@@ -1352,7 +1352,7 @@ Eigenvalue signature triple sig(B) = (p, q, l) via Matrix.IsHermitian.eigenvalue
 p. 22 · §2.5.2 Classification by signature
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L232" target="_blank" rel="noopener">Basic.lean</a>: <code>quadForm</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L232" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>quadForm</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/FiniteReduction.lean#L44" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>quadForm</code>
 </div>
@@ -1384,7 +1384,7 @@ Invariance of Q(v) follows directly from w^T * B * w = B.
 p. 22 · §2.5.2 Classification by signature
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-info text-dark">Formalized (remark)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L237" target="_blank" rel="noopener">Basic.lean</a>: <code>IsPosDef</code>, <code>IsIndefinite</code>, <code>example_2_52_A2_pm_indefinite</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L237" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>IsPosDef</code>, <code>IsIndefinite</code>, <code>example_2_52_A2_pm_indefinite</code>
 <div class="small text-muted mt-1">
 Defines positive definiteness and indefiniteness and verifies indefinite example A_2(+,-).
 </div></td>
@@ -1397,7 +1397,7 @@ Defines positive definiteness and indefiniteness and verifies indefinite example
 p. 23 · §2.5.2 Classification by signature
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L647" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>SignatureType</code>, <code>signatureType</code>, <code>signatureType_eq_spherical_iff</code>, <code>signatureType_eq_hyperbolic_iff</code>, <code>signatureType_eq_higherRank_of_two_pos_two_neg</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1106" target="_blank" rel="noopener">SpectralClassification.lean</a>: <code>SignatureType</code>, <code>signatureType</code>, <code>signatureType_eq_spherical_iff</code>, <code>signatureType_eq_hyperbolic_iff</code>, <code>signatureType_eq_higherRank_of_two_pos_two_neg</code>
 <div class="small text-muted mt-1">
 Full 4-way classification (spherical, affine, hyperbolic, higherRank) explicitly separating hyperbolic from higher-rank indefinite systems.
 </div></td>
@@ -1410,7 +1410,7 @@ Full 4-way classification (spherical, affine, hyperbolic, higherRank) explicitly
 p. 23 · §2.5.2 Classification by signature
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-info text-dark">Formalized (example)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L271" target="_blank" rel="noopener">Basic.lean</a>: <code>example_2_52_A2_pp_posDef</code>, <code>example_2_52_A2_pm_indefinite</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L271" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>example_2_52_A2_pp_posDef</code>, <code>example_2_52_A2_pm_indefinite</code>
 <div class="small text-muted mt-1">
 Verifies positive definiteness of A_2(+,+) and indefiniteness of A_2(+,-).
 </div></td>
@@ -1464,7 +1464,7 @@ Tail-join construction for Gamma_n = Gamma_{n-1} *_{r_{n-1}} {r_n}; general subd
 p. 24 · §2.6 Principal elements
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L712" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>deleteNode</code>, <code>deleteNode_wordProd_sub_of_map</code>, <code>deleteNode_wordProd_eq_iff</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L288" target="_blank" rel="noopener">ParabolicTransfer.lean</a>: <code>deleteNode</code>, <code>deleteNode_wordProd_sub_of_map</code>, <code>deleteNode_wordProd_eq_iff</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ParabolicTransfer.lean#L59" target="_blank" rel="noopener">ParabolicTransfer.lean</a>: <code>submatrix</code>
 </div>
@@ -1537,7 +1537,7 @@ Uses Mathlib Matrix.charpoly for the principal polynomial.
 p. 26 · §2.6.2 Principal polynomials
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L748" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>spectralRadius</code>, <code>norm_le_spectralRadius</code>, <code>spectralRadius_le_of_forall</code>, <code>spectralRadius_nonneg</code>, <code>lt_spectralRadius_of_eigen</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1171" target="_blank" rel="noopener">SpectralClassification.lean</a>: <code>spectralRadius</code>, <code>norm_le_spectralRadius</code>, <code>spectralRadius_le_of_forall</code>, <code>spectralRadius_nonneg</code>, <code>lt_spectralRadius_of_eigen</code>
 <div class="small text-muted mt-1">
 MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/BipartiteSpectrum.lean#L62" target="_blank" rel="noopener">BipartiteSpectrum.lean</a>: <code>HasComplexEigenvalue</code>
 </div>

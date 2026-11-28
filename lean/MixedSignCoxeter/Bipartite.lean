@@ -2,7 +2,7 @@
 Copyright (c) 2026 Johnathon Kyle Armstrong. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import MixedSignCoxeter.Basic
+import MixedSignCoxeter.ReflectionSystem
 
 /-!
 # Bipartite Reflection Diagrams and Theorem 1.4

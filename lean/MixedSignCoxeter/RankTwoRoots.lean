@@ -2,7 +2,7 @@
 Copyright (c) 2026 Johnathon Kyle Armstrong. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
-import MixedSignCoxeter.Basic
+import MixedSignCoxeter.ReflectionSystem
 
 /-!
 # Positivity of `(s_i s_j)^k e_i` for infinite dihedral pairs (Proposition 3.11, general)
