@@ -77,4 +77,4 @@ The 10 scenes in `SCENE_ORDER` (`slides/dissertation_deck.py`) cover all headlin
 
 ### 11. `FormalizationScene`
 
-> Finally, every number shown in this deck is computed live by the `mixed_sign_coxeter` Python package, and all numbered results from Chapters 1–3 of the dissertation are formally verified—`sorry`-free—in Lean 4 (`v4.35.0`) across 27 modules, alongside Python verifications for Appendices A, B, and D, the general even-$n$ isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$, and exhaustive searches for Remark A.3 and Question 3.35.
+> Finally, every number shown in this deck is computed live by the `mixed_sign_coxeter` Python package, and all numbered results from Chapters 1–3 of the dissertation are formally verified—`sorry`-free—in Lean 4 (`v4.35.0`) across 26 modules, alongside Python verifications for Appendices A, B, and D, the general even-$n$ isomorphism $W(\widetilde{A_{-n}}) \cong W(D_{n+1})$, and exhaustive searches for Remark A.3 and Question 3.35.

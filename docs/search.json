@@ -102,7 +102,7 @@
     "href": "lean-verification.html",
     "title": "Lean 4 Formalization",
     "section": "",
-    "text": "The Lean 4 formalization lives in lean/MixedSignCoxeter/ and builds cleanly (3663 jobs, zero sorry, zero axiom) against Lean v4.35.0 and Mathlib."
+    "text": "The Lean 4 formalization lives in lean/MixedSignCoxeter/ and builds cleanly (3662 jobs, zero sorry, zero axiom) against Lean v4.35.0 and Mathlib."
   },
   {
     "objectID": "lean-verification.html#formalization-progress",

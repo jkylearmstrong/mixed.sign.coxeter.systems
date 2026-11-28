@@ -4,7 +4,7 @@ subtitle: "Sorry-free formalization in Lean v4.35.0 + Mathlib"
 jupyter: python3
 ---
 
-The Lean 4 formalization lives in [`lean/MixedSignCoxeter/`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/tree/main/lean/MixedSignCoxeter) and builds cleanly (`3663` jobs, zero `sorry`, zero `axiom`) against **Lean `v4.35.0`** and Mathlib.
+The Lean 4 formalization lives in [`lean/MixedSignCoxeter/`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/tree/main/lean/MixedSignCoxeter) and builds cleanly (`3662` jobs, zero `sorry`, zero `axiom`) against **Lean `v4.35.0`** and Mathlib.
 
 ## Formalization Progress
 
