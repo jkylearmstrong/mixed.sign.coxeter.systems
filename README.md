@@ -34,7 +34,7 @@ presentation, and Quarto research portal supporting:
 | `slides/` | 11-scene Manim presentation (`dissertation_deck.py`) backed by exact package computations (`deck_content.py`) and speaker script (`SCRIPT.md`) |
 | `website/` | Quarto research portal source (`_quarto.yml`, `index.qmd`, `dissertation.qmd`, `lean-verification.qmd`, `spectral-results.qmd`, `examples.qmd`, `explorer.qmd`) rendering to `docs/` |
 | `docs/` | Rendered Quarto research portal HTML output, plus the full writeup (`mixed_sign_coxeter.qmd` source with `bib.bib`, and its HTML/PDF/DOCX) and `verifications.md` |
-| `scripts/` | Maintenance scripts: `sync_theorem_registry.py` (refreshes `data/theorems.yml` source links), `lean_module_graph.py` (regenerates the Lean dependency diagrams), `generate_hex_sticker.py` |
+| `scripts/` | Maintenance & analysis scripts: `sync_theorem_registry.py` (refreshes `data/theorems.yml` source links), `lean_module_graph.py` (regenerates the Lean dependency diagrams), `statement_clusters.py` (TF-IDF clustering of the 107 dissertation statements vs. sections and Lean views), `generate_hex_sticker.py` |
 
 ## Python Package & Tests
 
