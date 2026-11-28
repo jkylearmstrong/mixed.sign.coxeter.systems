@@ -173,7 +173,7 @@ theorems:
     title: "Connected Finite Reflection Groups Have Definite Forms"
     statement: "If a connected reflection system generates a finite group, its bilinear form B is definite (positive or negative); hence any connected mixed-sign system with both + and - nodes generates an infinite group."
     lean_symbol: "finite_connected_isDefinite"
-    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L198"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L193"
     python_ref: "search_finite_graphs"
     python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/finite_search.py#L221"
     status: "Verified (Lean 4 + Python)"
