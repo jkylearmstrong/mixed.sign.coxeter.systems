@@ -111,13 +111,13 @@ flowchart TB
   classDef ext stroke-dasharray: 5 5
   ext_ParabolicTransfer(["ParabolicTransfer.lean<br/>(View 3)"])
   ext_SpectralClassification(["SpectralClassification.lean<br/>(View 5)"])
-  Basic["Basic.lean<br/>ReflectionSystem, B, reflections"]
-  Bipartite["Bipartite.lean<br/>Thm 1.4, Prop 3.32"]
-  MixedSign["MixedSign.lean<br/>Cor 1.5, Prop 3.5"]
-  RankTwo["RankTwo.lean<br/>Lem 3.14, 3.17, Cor 3.18"]
+  Basic["Basic.lean<br/>Prop 2.21, 2.22, 2.28; Lem 2.31 (+11 more)"]
+  Bipartite["Bipartite.lean<br/>Thm 1.4; Prop 3.32; Def 2.40, 2.43 (+1 more)"]
+  MixedSign["MixedSign.lean<br/>Prop 3.5; Cor 1.5; Def 2.24, 3.1 (+3 more)"]
+  RankTwo["RankTwo.lean<br/>Prop 3.12; Lem 3.14, 3.17; Ex 3.13 (+2 more)"]
   RankTwoRoots["RankTwoRoots.lean<br/>Prop 3.11"]
-  FiniteReduction["FiniteReduction.lean<br/>Rem A.3, Cor 3.18, GL(V)"]
-  Chapter2Foundations["Chapter2Foundations.lean<br/>Defs 2.12, 2.47, 2.51, 2.56, 2.61, Cor 2.46"]
+  FiniteReduction["FiniteReduction.lean<br/>Prop 2.17; Cor 3.18; Rem 2.11, 2.49 (+3 more)"]
+  Chapter2Foundations["Chapter2Foundations.lean<br/>Cor 2.46; Def 2.12, 2.47, 2.51 (+2 more)"]
   Basic --> Bipartite
   Bipartite --> MixedSign
   MixedSign --> RankTwo
@@ -137,9 +137,9 @@ flowchart TB
   classDef ext stroke-dasharray: 5 5
   ext_Basic(["Basic.lean<br/>(View 1)"])
   ext_Bipartite(["Bipartite.lean<br/>(View 1)"])
-  Conjugacy["Conjugacy.lean<br/>Cor 2.38, Cor 2.46"]
+  Conjugacy["Conjugacy.lean<br/>Cor 2.38; Lem 2.32, 2.37; Ex 2.36 (+5 more)"]
   ComponentsAndTrees["ComponentsAndTrees.lean<br/>Prop 2.45"]
-  TreeConjugacy["TreeConjugacy.lean<br/>Thm 2.58"]
+  TreeConjugacy["TreeConjugacy.lean<br/>Thm 2.58; Def 2.23, 2.25"]
   OddCycles["OddCycles.lean<br/>Prop 2.41"]
   ext_Basic -.-> Conjugacy
   ext_Basic -.-> ComponentsAndTrees
@@ -158,14 +158,14 @@ flowchart TB
   ext_MixedSign(["MixedSign.lean<br/>(View 1)"])
   ext_RankTwoRoots(["RankTwoRoots.lean<br/>(View 1)"])
   ext_SpectralRadius(["SpectralRadius.lean<br/>(View 5)"])
-  CyclesAndDeletion["CyclesAndDeletion.lean<br/>Lem 3.21, Thm 1.6"]
-  ParabolicTransfer["ParabolicTransfer.lean<br/>Thm 1.2"]
-  ClassicalDeletion["ClassicalDeletion.lean<br/>Prop 3.8, Cor 1.3"]
+  CyclesAndDeletion["CyclesAndDeletion.lean<br/>Thm 1.6; Lem 3.21, 3.25; Rem 3.20 (+2 more)"]
+  ParabolicTransfer["ParabolicTransfer.lean<br/>Thm 1.2; Def 2.55"]
+  ClassicalDeletion["ClassicalDeletion.lean<br/>Prop 3.7, 3.8, 3.19; Cor 1.3 (+1 more)"]
   CoxeterPresentation["CoxeterPresentation.lean<br/>Thm 3.9: Deletion ⇒ Coxeter"]
-  ClassicalCoxeterDeletion["ClassicalCoxeterDeletion.lean<br/>Thm 3.9: Coxeter ⇔ Deletion ⇔ Exchange"]
-  RootPositivity["RootPositivity.lean<br/>Prop 3.10: Φ⁺ ⇔ ℓ(w sᵢ) &gt; ℓ(w)"]
-  RemarksAndClassical["RemarksAndClassical.lean<br/>Rem 3.23, 3.26, 3.30"]
-  TildeAminusEvenIso["TildeAminusEvenIso.lean<br/>W(Ã₋ₙ) ≅ W(Dₙ₊₁) &amp; App. D"]
+  ClassicalCoxeterDeletion["ClassicalCoxeterDeletion.lean<br/>Thm 3.9"]
+  RootPositivity["RootPositivity.lean<br/>Prop 3.10; Rem 2.6; Def 2.13"]
+  RemarksAndClassical["RemarksAndClassical.lean<br/>Rem 3.23, 3.30"]
+  TildeAminusEvenIso["TildeAminusEvenIso.lean<br/>Rem 3.26"]
   ext_Conjugacy -.-> CyclesAndDeletion
   ext_MixedSign -.-> CyclesAndDeletion
   ClassicalDeletion --> ParabolicTransfer
@@ -187,7 +187,7 @@ flowchart TB
 flowchart TB
   classDef ext stroke-dasharray: 5 5
   ext_Basic(["Basic.lean<br/>(View 1)"])
-  Howlett["Howlett.lean<br/>Thm 1.1: w = −U⁻¹Uᵀ"]
+  Howlett["Howlett.lean<br/>Thm 1.1; Lem 2.63; Def 2.53, 2.60"]
   OddCycleSingleDefect["OddCycleSingleDefect.lean<br/>C₂ₘ₊₁(+,−,…,−)"]
   EvenCycleSingleDefect["EvenCycleSingleDefect.lean<br/>C₂ₘ(+,−,…,−): ∃λ ∈ (−5, −1)"]
   BipartiteDuality["BipartiteDuality.lean<br/>bipartite sign-flip duality"]
@@ -206,9 +206,9 @@ flowchart TB
 flowchart TB
   classDef ext stroke-dasharray: 5 5
   ext_MixedSign(["MixedSign.lean<br/>(View 1)"])
-  SpectralRadius["SpectralRadius.lean<br/>Ex 3.29, Thm 1.7 / Ex 3.33"]
+  SpectralRadius["SpectralRadius.lean<br/>Thm 1.7, 3.34; Ex 3.29, 3.33"]
   SpectralClassification["SpectralClassification.lean<br/>Thm 3.27, 3.28"]
-  AlternatingSquare["AlternatingSquare.lean<br/>Q 2.59 &amp; Q 3.35: C₄(+,−,+,−)"]
+  AlternatingSquare["AlternatingSquare.lean<br/>Q 2.59, 3.35"]
   ext_MixedSign -.-> SpectralRadius
   SpectralRadius --> SpectralClassification
   SpectralRadius --> AlternatingSquare
