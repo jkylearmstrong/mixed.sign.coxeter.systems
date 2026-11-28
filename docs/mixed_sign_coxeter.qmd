@@ -387,19 +387,83 @@ In every case, the first coordinate of $(s_0 s_1)^k e_0$ is $(-1)^k G_{2k+1}(a)$
 
 #### Python Verification {.unnumbered}
 
-Below we construct $A_2(+,-)[3]$ in Python, plot its 2-node signed diagram, and verify the generalized Fibonacci matrix identity $(s_0 s_1)^k = (-1)^k \begin{pmatrix} G_{2k+1}(a) & G_{2k}(a) \\ G_{2k}(a) & G_{2k-1}(a) \end{pmatrix}$ symbolically for $m \in \{3, 4, 6, \infty\}$ (and $k = 1, \dots, 4$):
+Below we construct $A_2(-,+)[3]$ and $A_2(+,-)[3]$ in Python, plot the 2-node signed diagram of $A_2(-,+)[3]$ alongside its hyperbolic "unit circle" $\{v \in \mathbb{R}^2 : B(v, v) = \pm 2\}$ (showing the null cone $B(v,v) = 0$ with golden-ratio asymptotes, the reflecting lines $H_{e_1}, H_{e_2}$, and the oscillating Fibonacci root orbits $w^k e_1, w^k e_2$), and verify the generalized Fibonacci matrix identity symbolically for $m \in \{3, 4, 6, \infty\}$ (and $k = 1, \dots, 4$):
 
 ```{python}
 #| label: rank2-fibonacci
 #| echo: false
-g_fib = MixedSignCoxeterGraph.I_2(3, signs=("+", "-"))
-s0, s1 = g_fib.generators()
+g_mp = MixedSignCoxeterGraph.I_2(3, signs=("-", "+"))
+s0_mp, s1_mp = g_mp.generators()
+B_mp = np.array(g_mp.B.tolist(), dtype=float)
+S0_mp = np.array(s0_mp.tolist(), dtype=float)
+S1_mp = np.array(s1_mp.tolist(), dtype=float)
+W_mp = S0_mp @ S1_mp
+W_mp_inv = np.linalg.inv(W_mp)
 
-fig, ax = plt.subplots(figsize=(4.0, 2.0))
-draw_signed_graph(g_fib, [(0, 0), (1.4, 0)], labels=["1(+)", "2(-)"],
-                  title="Example 3.16: $A_2(+, -)[3]$", ax=ax)
+fig, (ax_g, ax_u) = plt.subplots(1, 2, figsize=(10.5, 4.4), gridspec_kw={"width_ratios": [1.0, 1.55]})
+
+# Left panel: signed Coxeter graph A_2(-, +)[3]
+draw_signed_graph(g_mp, [(0, 0), (1.4, 0)], labels=["1(-)", "2(+)"],
+                  title=r"Signed Graph $A_2(-,+)[3]$", ax=ax_g)
+
+# Right panel: hyperbolic "unit circle" Q(x, y) = B(v, v) = +-2 and root orbits
+lim = 5.5
+xs = np.linspace(-lim, lim, 400)
+ys = np.linspace(-lim, lim, 400)
+X, Y = np.meshgrid(xs, ys)
+Q = B_mp[0, 0] * X**2 + 2 * B_mp[0, 1] * X * Y + B_mp[1, 1] * Y**2
+
+# Level curves Q = -2 (red, negative-norm roots), Q = +2 (blue, positive-norm roots), Q = 0 (null cone)
+ax_u.contour(X, Y, Q, levels=[-2.0], colors=["#d62728"], linewidths=1.8)
+ax_u.contour(X, Y, Q, levels=[2.0], colors=["#1f77b4"], linewidths=1.8)
+ax_u.contour(X, Y, Q, levels=[0.0], colors=["#777777"], linewidths=1.0, linestyles=":")
+
+# Reflecting hyperplanes H_{e_1}: -2x - y = 0 and H_{e_2}: -x + 2y = 0
+t_line = np.linspace(-lim, lim, 200)
+ax_u.plot(t_line, -2.0 * t_line, color="#d62728", ls="--", lw=1.0, alpha=0.55, label=r"$H_{e_1}$ ($B(e_1,v)=0$)")
+ax_u.plot(t_line, 0.5 * t_line, color="#1f77b4", ls="--", lw=1.0, alpha=0.55, label=r"$H_{e_2}$ ($B(e_2,v)=0$)")
+
+# Proxy handles for the hyperbola branches and null cone
+ax_u.plot([], [], color="#d62728", lw=1.8, label=r"$B(v,v) = -2$ (neg. roots)")
+ax_u.plot([], [], color="#1f77b4", lw=1.8, label=r"$B(v,v) = +2$ (pos. roots)")
+ax_u.plot([], [], color="#777777", lw=1.0, ls=":", label=r"Null cone $B(v,v) = 0$")
+
+# Plot root orbits w^k e_1 (red) and w^k e_2 (blue) for k in {-1, 0, 1, 2}
+e1 = np.array([1.0, 0.0])
+e2 = np.array([0.0, 1.0])
+for vec, col, base_lbl in [(e1, "#d62728", "e_1"), (e2, "#1f77b4", "e_2")]:
+    pts = {}
+    for k in (-1, 0, 1, 2):
+        M = np.linalg.matrix_power(W_mp, k) if k >= 0 else np.linalg.matrix_power(W_mp_inv, -k)
+        v = M @ vec
+        pts[k] = v
+        if abs(v[0]) <= lim and abs(v[1]) <= lim:
+            ax_u.scatter([v[0]], [v[1]], color=col, edgecolor="black", s=55, zorder=5)
+            lbl = rf"${base_lbl}$" if k == 0 else (rf"$w {base_lbl}$" if k == 1 else rf"$w^{{{k}}} {base_lbl}$")
+            dx = 0.22 if v[0] >= 0 else -0.85
+            dy = 0.22 if v[1] >= 0 else -0.42
+            ax_u.text(v[0] + dx, v[1] + dy, lbl, color=col, fontsize=9, fontweight="bold", zorder=6)
+    # Draw arrow from k=0 to k=1 illustrating sign oscillation across branches
+    v0, v1 = pts[0], pts[1]
+    ax_u.annotate("", xy=(v1[0], v1[1]), xytext=(v0[0], v0[1]),
+                  arrowprops=dict(arrowstyle="->", color=col, lw=1.2, alpha=0.65, shrinkA=6, shrinkB=6))
+
+ax_u.axhline(0, color="gray", lw=0.5, alpha=0.5)
+ax_u.axvline(0, color="gray", lw=0.5, alpha=0.5)
+ax_u.set_xlim(-lim, lim)
+ax_u.set_ylim(-lim, lim)
+ax_u.set_aspect("equal")
+ax_u.set_xlabel(r"$x$ (coord. of $e_1$)")
+ax_u.set_ylabel(r"$y$ (coord. of $e_2$)")
+ax_u.set_title(r'Hyperbolic "Unit Circle" $B(v,v) = \pm 2$ & Root Orbits')
+ax_u.legend(loc="upper left", fontsize=8, framealpha=0.9)
+ax_u.grid(alpha=0.2)
+
 plt.tight_layout()
 plt.show()
+
+g_fib = MixedSignCoxeterGraph.I_2(3, signs=("+", "-"))
+s0, s1 = g_fib.generators()
 
 def gen_fib(a, n):
     g0, g1 = sp.Integer(0), sp.Integer(1)
@@ -684,7 +748,59 @@ theorem pBpEx333_has_root_gt_four :
 
 ## Summary of Lean 4 Modules
 
-| **Module** | **Coverage** | **Key Formalized Results** |
+```{python}
+#| echo: false
+#| output: asis
+#| tbl-cap: Mixed-Sign Coxeter Statements
+#| tbl-colwidths: [10, 5, 55, 30]
+
+import re
+from pathlib import Path
+import pandas as pd
+
+csv_file = next(
+    p for p in (
+        Path("../original/mixed_sign_coxeter_statements_lean.csv"),
+        Path("original/mixed_sign_coxeter_statements_lean.csv"),
+    )
+    if p.exists()
+)
+
+# Wrap bare LaTeX macros (and their brace arguments) in $...$ so Pandoc/LuaLaTeX
+# renders them in math mode across HTML, DOCX, and PDF without "Missing $ inserted".
+_BR = r"\{(?:[^{}]|\{[^{}]*\})*\}"
+_BARE_TEX = re.compile(
+    rf"\\(?:frac{_BR}{_BR}|"
+    rf"(?:mathbb|mathcal|mathrm|widetilde|hat|sqrt){_BR}|"
+    r"[A-Za-z]+|[{}])"
+)
+
+def format_statement(s: str) -> str:
+    s = _BARE_TEX.sub(lambda m: f"${m.group(0)}$", s)
+    return s.replace("|", r"\|")
+
+df = pd.read_csv(csv_file)
+table = (
+    df.assign(
+        statement=lambda d: d["statement"].fillna("").map(format_statement),
+        lean_file=lambda d: (
+            d["lean_file"]
+            .fillna("—")
+            .str.replace("lean/MixedSignCoxeter/", "", regex=False)
+        ),
+    )[["type", "number", "statement", "lean_file"]]
+    .rename(columns={
+        "type": "Type",
+        "number": "#",
+        "statement": "Statement",
+        "lean_file": "Lean File",
+    })
+)
+
+print(table.to_markdown(index=False))
+```
+
+<!-- | **Module** | **Coverage** | **Key Formalized Results** |
 | :--- | :--- | :--- |
 | `ReflectionSystem.lean` | Ch. 2 (2.1–2.2) | [`reflectionMatrix_neg`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L60) (Lem. 2.31), [`reflectionMatrix_preserves_B`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L88) (Prop. 2.17), [`odd_word_ne_one`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L216) (Prop. 2.21), [`reflectionMatrix_comm_of_orthogonal`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L121) (Prop. 2.22), [`reflectionMatrix_comm_of_not_adjacent`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L225) (Prop. 2.28) |
 | `ReflectionSystem.lean` | Ch. 2 (2.4) | [`IsPosDef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L237), [`IsPosSemidefDegenerate`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L242), [`IsNegDef`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L246), [`IsIndefinite`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L251) (Defs. 2.47–2.51, Ex. 2.52) |
@@ -716,7 +832,8 @@ theorem pBpEx333_has_root_gt_four :
 | `ReflectionSystem.lean` / `ComponentsAndTrees.lean` / `ParabolicTransfer.lean` / `SpectralClassification.lean` | Ch. 2 (2.1, 2.5–2.6) | [`roots`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L326) (Def. 2.12), [`k_component_mulEquiv`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L379) (Cor. 2.46), [`signature`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L930) & [`signatureType`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1119) (Defs. 2.47, 2.51), [`deleteNode`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L288) (Def. 2.56), [`spectralRadius`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1171) (Def. 2.61) |
 
 : Lean 4 formalization modules in `lean/MixedSignCoxeter/` and their dissertation coverage. {tbl-colwidths="[22, 16, 62]"}
-
+ -->
+ 
 ## Formalization Scope, Python Coverage, and Dissertation Omissions
 
 To maintain a transparent audit trail between the dissertation [@armstrong2012], the Python package, and the Lean 4 formalization:
