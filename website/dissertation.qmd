@@ -79,7 +79,8 @@ summary_pills = " ".join(
     for k, v in sorted(statuses.items(), key=lambda kv: -kv[1])
 )
 
-print(f"""
+fence = "`" * 3
+print(f"""{fence}{{=html}}
 <div class="mb-3">
   {summary_pills}
 </div>
@@ -208,5 +209,5 @@ print("""
   sEl.addEventListener('change', apply);
 })();
 </script>
-""")
+""" + fence)
 ```
