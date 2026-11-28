@@ -384,11 +384,11 @@ window.Quarto = {
   <li><a href="#module-dependency-architecture" id="toc-module-dependency-architecture" class="nav-link" data-scroll-target="#module-dependency-architecture">Module Dependency Architecture</a>
   <ul class="collapse">
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
-  <li><a href="#foundations-mixed-signs-rank-two" id="toc-foundations-mixed-signs-rank-two" class="nav-link" data-scroll-target="#foundations-mixed-signs-rank-two">1. Foundations, Mixed Signs &amp; Rank Two</a></li>
-  <li><a href="#conjugacy-graph-structure-components-trees-odd-cycles" id="toc-conjugacy-graph-structure-components-trees-odd-cycles" class="nav-link" data-scroll-target="#conjugacy-graph-structure-components-trees-odd-cycles">2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles</a></li>
-  <li><a href="#coxeter-presentation-deletion-cycles" id="toc-coxeter-presentation-deletion-cycles" class="nav-link" data-scroll-target="#coxeter-presentation-deletion-cycles">3. Coxeter Presentation, Deletion, &amp; Cycles</a></li>
-  <li><a href="#howlett-matrix-cycle-families" id="toc-howlett-matrix-cycle-families" class="nav-link" data-scroll-target="#howlett-matrix-cycle-families">4. Howlett Matrix &amp; Cycle Families</a></li>
-  <li><a href="#spectral-radius" id="toc-spectral-radius" class="nav-link" data-scroll-target="#spectral-radius">5. Spectral Radius</a></li>
+  <li><a href="#reflection-systems-graph-structure-ch.-2" id="toc-reflection-systems-graph-structure-ch.-2" class="nav-link" data-scroll-target="#reflection-systems-graph-structure-ch.-2">1. Reflection Systems &amp; Graph Structure (Ch. 2)</a></li>
+  <li><a href="#mixed-sign-systems-rank-two-finiteness-ch.-3.13.2" id="toc-mixed-sign-systems-rank-two-finiteness-ch.-3.13.2" class="nav-link" data-scroll-target="#mixed-sign-systems-rank-two-finiteness-ch.-3.13.2">2. Mixed-Sign Systems, Rank Two &amp; Finiteness (Ch. 3.1–3.2)</a></li>
+  <li><a href="#howlett-matrix-cycle-families" id="toc-howlett-matrix-cycle-families" class="nav-link" data-scroll-target="#howlett-matrix-cycle-families">3. Howlett Matrix &amp; Cycle Families</a></li>
+  <li><a href="#spectral-radius-classification-ch.-3.5" id="toc-spectral-radius-classification-ch.-3.5" class="nav-link" data-scroll-target="#spectral-radius-classification-ch.-3.5">4. Spectral Radius &amp; Classification (Ch. 3.5)</a></li>
+  <li><a href="#coxeter-presentation-deletion-cycles-ch.-3.33.4" id="toc-coxeter-presentation-deletion-cycles-ch.-3.33.4" class="nav-link" data-scroll-target="#coxeter-presentation-deletion-cycles-ch.-3.33.4">5. Coxeter Presentation, Deletion &amp; Cycles (Ch. 3.3–3.4)</a></li>
   </ul></li>
   <li><a href="#module-index" id="toc-module-index" class="nav-link" data-scroll-target="#module-index">Module Index</a></li>
   </ul>
@@ -476,13 +476,24 @@ window.Quarto = {
 </section>
 <section id="end-to-end-traceability-datatheorems.yml" class="level2">
 <h2 class="anchored" data-anchor-id="end-to-end-traceability-datatheorems.yml">End-to-End Traceability (<code>data/theorems.yml</code>)</h2>
-<pre class="{text}"><code>Dissertation Theorem
-        ⇓
-Lean 4 Formalization
-        ⇓
-Python Implementation
-        ⇓
-Interactive Explorer</code></pre>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    A[Dissertation Theorem]
+    B[Lean 4 Formalization]
+    C[Python Implementation]
+    D[Interactive Explorer]
+
+    A --&gt; B --&gt; C --&gt; D
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
 <p>The table below is generated directly from <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/data/theorems.yml"><code>data/theorems.yml</code></a>, the same registry used by the Shiny Explorer’s Theorem Checker. For the full statement-by-statement mapping of all 107 numbered items in Chapters 1–3 of the dissertation, see the <a href="./dissertation.html#complete-statement-index">Complete 107-Statement Index</a> (<a href="assets/mixed_sign_coxeter_statements_lean.csv">download CSV</a>).</p>
 <table class="caption-top table">
 <thead>
@@ -626,9 +637,9 @@ Interactive Explorer</code></pre>
 </section>
 <section id="building-locally" class="level2">
 <h2 class="anchored" data-anchor-id="building-locally">Building Locally</h2>
-<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> lean</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> exe cache get</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> build</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> lean</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> exe cache get</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">lake</span> build</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </section>
 <section id="module-dependency-architecture" class="level2">
 <h2 class="anchored" data-anchor-id="module-dependency-architecture">Module Dependency Architecture</h2>
@@ -644,17 +655,17 @@ Interactive Explorer</code></pre>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-  V1["&lt;b&gt;1. Foundations, Mixed Signs &amp; Rank Two&lt;/b&gt;&lt;br/&gt;6 modules"]
-  V2["&lt;b&gt;2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles&lt;/b&gt;&lt;br/&gt;4 modules"]
-  V3["&lt;b&gt;3. Coxeter Presentation, Deletion, &amp; Cycles&lt;/b&gt;&lt;br/&gt;8 modules"]
-  V4["&lt;b&gt;4. Howlett Matrix &amp; Cycle Families&lt;/b&gt;&lt;br/&gt;5 modules"]
-  V5["&lt;b&gt;5. Spectral Radius&lt;/b&gt;&lt;br/&gt;3 modules"]
+  V1["&lt;b&gt;1. Reflection Systems &amp; Graph Structure (Ch. 2)&lt;/b&gt;&lt;br/&gt;6 modules"]
+  V2["&lt;b&gt;2. Mixed-Sign Systems, Rank Two &amp; Finiteness (Ch. 3.1–3.2)&lt;/b&gt;&lt;br/&gt;4 modules"]
+  V3["&lt;b&gt;3. Howlett Matrix &amp; Cycle Families&lt;/b&gt;&lt;br/&gt;5 modules"]
+  V4["&lt;b&gt;4. Spectral Radius &amp; Classification (Ch. 3.5)&lt;/b&gt;&lt;br/&gt;3 modules"]
+  V5["&lt;b&gt;5. Coxeter Presentation, Deletion &amp; Cycles (Ch. 3.3–3.4)&lt;/b&gt;&lt;br/&gt;8 modules"]
   V1 --&gt;|"Bipartite, ReflectionSystem&lt;br/&gt;(3 imports)"| V2
-  V1 --&gt;|"FiniteReduction, MixedSign, RankTwoRoots&lt;br/&gt;(3 imports)"| V3
-  V1 --&gt;|"ReflectionSystem&lt;br/&gt;(2 imports)"| V4
-  V1 --&gt;|"MixedSign&lt;br/&gt;(1 import)"| V5
-  V2 --&gt;|"Conjugacy&lt;br/&gt;(1 import)"| V3
-  V5 --&gt;|"SpectralRadius&lt;br/&gt;(1 import)"| V3
+  V1 --&gt;|"ReflectionSystem&lt;br/&gt;(2 imports)"| V3
+  V1 --&gt;|"Conjugacy&lt;br/&gt;(1 import)"| V5
+  V2 --&gt;|"MixedSign&lt;br/&gt;(1 import)"| V4
+  V2 --&gt;|"FiniteReduction, MixedSign, RankTwoRoots&lt;br/&gt;(3 imports)"| V5
+  V4 --&gt;|"SpectralRadius&lt;br/&gt;(1 import)"| V5
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -662,8 +673,8 @@ Interactive Explorer</code></pre>
 </div>
 </div>
 </section>
-<section id="foundations-mixed-signs-rank-two" class="level3">
-<h3 class="anchored" data-anchor-id="foundations-mixed-signs-rank-two">1. Foundations, Mixed Signs &amp; Rank Two</h3>
+<section id="reflection-systems-graph-structure-ch.-2" class="level3">
+<h3 class="anchored" data-anchor-id="reflection-systems-graph-structure-ch.-2">1. Reflection Systems &amp; Graph Structure (Ch. 2)</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -671,16 +682,16 @@ Interactive Explorer</code></pre>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
   ReflectionSystem["ReflectionSystem.lean&lt;br/&gt;Prop 2.21, 2.22, 2.28; Lem 2.31 (+16 more)"]
+  Conjugacy["Conjugacy.lean&lt;br/&gt;Cor 2.38; Lem 2.32, 2.37; Ex 2.36 (+6 more)"]
+  ComponentsAndTrees["ComponentsAndTrees.lean&lt;br/&gt;Prop 2.45; Cor 2.46"]
   Bipartite["Bipartite.lean&lt;br/&gt;Thm 1.4; Prop 3.32; Def 2.40, 2.43 (+1 more)"]
-  MixedSign["MixedSign.lean&lt;br/&gt;Prop 3.5; Cor 1.5; Def 2.24, 3.1 (+3 more)"]
-  RankTwo["RankTwo.lean&lt;br/&gt;Prop 3.12; Lem 3.14, 3.17; Ex 3.13 (+2 more)"]
-  RankTwoRoots["RankTwoRoots.lean&lt;br/&gt;Prop 3.11"]
-  FiniteReduction["FiniteReduction.lean&lt;br/&gt;Prop 2.17; Cor 3.18; Rem 2.11, 2.49 (+3 more)"]
+  TreeConjugacy["TreeConjugacy.lean&lt;br/&gt;Thm 2.58; Def 2.23, 2.25"]
+  OddCycles["OddCycles.lean&lt;br/&gt;Prop 2.41"]
+  ReflectionSystem --&gt; Conjugacy
+  ReflectionSystem --&gt; ComponentsAndTrees
   ReflectionSystem --&gt; Bipartite
-  Bipartite --&gt; MixedSign
-  MixedSign --&gt; RankTwo
-  ReflectionSystem --&gt; RankTwoRoots
-  ReflectionSystem --&gt; FiniteReduction
+  Bipartite --&gt; TreeConjugacy
+  TreeConjugacy --&gt; OddCycles
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -688,8 +699,8 @@ Interactive Explorer</code></pre>
 </div>
 </div>
 </section>
-<section id="conjugacy-graph-structure-components-trees-odd-cycles" class="level3">
-<h3 class="anchored" data-anchor-id="conjugacy-graph-structure-components-trees-odd-cycles">2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles</h3>
+<section id="mixed-sign-systems-rank-two-finiteness-ch.-3.13.2" class="level3">
+<h3 class="anchored" data-anchor-id="mixed-sign-systems-rank-two-finiteness-ch.-3.13.2">2. Mixed-Sign Systems, Rank Two &amp; Finiteness (Ch. 3.1–3.2)</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -699,14 +710,14 @@ Interactive Explorer</code></pre>
   classDef ext stroke-dasharray: 5 5
   ext_Bipartite(["Bipartite.lean&lt;br/&gt;(View 1)"])
   ext_ReflectionSystem(["ReflectionSystem.lean&lt;br/&gt;(View 1)"])
-  Conjugacy["Conjugacy.lean&lt;br/&gt;Cor 2.38; Lem 2.32, 2.37; Ex 2.36 (+6 more)"]
-  ComponentsAndTrees["ComponentsAndTrees.lean&lt;br/&gt;Prop 2.45; Cor 2.46"]
-  TreeConjugacy["TreeConjugacy.lean&lt;br/&gt;Thm 2.58; Def 2.23, 2.25"]
-  OddCycles["OddCycles.lean&lt;br/&gt;Prop 2.41"]
-  ext_ReflectionSystem -.-&gt; Conjugacy
-  ext_ReflectionSystem -.-&gt; ComponentsAndTrees
-  ext_Bipartite -.-&gt; TreeConjugacy
-  TreeConjugacy --&gt; OddCycles
+  MixedSign["MixedSign.lean&lt;br/&gt;Prop 3.5; Cor 1.5; Def 2.24, 3.1 (+3 more)"]
+  RankTwo["RankTwo.lean&lt;br/&gt;Prop 3.12; Lem 3.14, 3.17; Ex 3.13 (+2 more)"]
+  RankTwoRoots["RankTwoRoots.lean&lt;br/&gt;Prop 3.11"]
+  FiniteReduction["FiniteReduction.lean&lt;br/&gt;Prop 2.17; Cor 3.18; Rem 2.11, 2.49 (+3 more)"]
+  ext_Bipartite -.-&gt; MixedSign
+  MixedSign --&gt; RankTwo
+  ext_ReflectionSystem -.-&gt; RankTwoRoots
+  ext_ReflectionSystem -.-&gt; FiniteReduction
   class ext_Bipartite,ext_ReflectionSystem ext
 </pre>
 </div>
@@ -715,50 +726,8 @@ Interactive Explorer</code></pre>
 </div>
 </div>
 </section>
-<section id="coxeter-presentation-deletion-cycles" class="level3">
-<h3 class="anchored" data-anchor-id="coxeter-presentation-deletion-cycles">3. Coxeter Presentation, Deletion, &amp; Cycles</h3>
-<div class="cell" data-layout-align="default">
-<div class="cell-output-display">
-<div>
-<p></p><figure class="figure"><p></p>
-<div>
-<pre class="mermaid mermaid-js">flowchart TB
-  classDef ext stroke-dasharray: 5 5
-  ext_Conjugacy(["Conjugacy.lean&lt;br/&gt;(View 2)"])
-  ext_FiniteReduction(["FiniteReduction.lean&lt;br/&gt;(View 1)"])
-  ext_MixedSign(["MixedSign.lean&lt;br/&gt;(View 1)"])
-  ext_RankTwoRoots(["RankTwoRoots.lean&lt;br/&gt;(View 1)"])
-  ext_SpectralRadius(["SpectralRadius.lean&lt;br/&gt;(View 5)"])
-  CyclesAndDeletion["CyclesAndDeletion.lean&lt;br/&gt;Thm 1.6; Lem 3.21, 3.25; Rem 3.20 (+2 more)"]
-  ParabolicTransfer["ParabolicTransfer.lean&lt;br/&gt;Thm 1.2; Def 2.55, 2.56"]
-  ClassicalDeletion["ClassicalDeletion.lean&lt;br/&gt;Prop 3.7, 3.8, 3.19; Cor 1.3 (+1 more)"]
-  CoxeterPresentation["CoxeterPresentation.lean&lt;br/&gt;Thm 3.9: Deletion ⇒ Coxeter"]
-  ClassicalCoxeterDeletion["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9"]
-  RootPositivity["RootPositivity.lean&lt;br/&gt;Prop 3.10; Rem 2.6; Def 2.13"]
-  RemarksAndClassical["RemarksAndClassical.lean&lt;br/&gt;Rem 3.23, 3.30"]
-  TildeAminusEvenIso["TildeAminusEvenIso.lean&lt;br/&gt;Rem 3.26"]
-  ext_Conjugacy -.-&gt; CyclesAndDeletion
-  ext_MixedSign -.-&gt; CyclesAndDeletion
-  ClassicalDeletion --&gt; ParabolicTransfer
-  CyclesAndDeletion --&gt; ClassicalDeletion
-  ClassicalDeletion --&gt; CoxeterPresentation
-  CoxeterPresentation --&gt; ClassicalCoxeterDeletion
-  ClassicalCoxeterDeletion --&gt; RootPositivity
-  ext_RankTwoRoots -.-&gt; RootPositivity
-  CyclesAndDeletion --&gt; RemarksAndClassical
-  ext_SpectralRadius -.-&gt; RemarksAndClassical
-  RemarksAndClassical --&gt; TildeAminusEvenIso
-  ext_FiniteReduction -.-&gt; TildeAminusEvenIso
-  class ext_Conjugacy,ext_FiniteReduction,ext_MixedSign,ext_RankTwoRoots,ext_SpectralRadius ext
-</pre>
-</div>
-<p></p></figure><p></p>
-</div>
-</div>
-</div>
-</section>
 <section id="howlett-matrix-cycle-families" class="level3">
-<h3 class="anchored" data-anchor-id="howlett-matrix-cycle-families">4. Howlett Matrix &amp; Cycle Families</h3>
+<h3 class="anchored" data-anchor-id="howlett-matrix-cycle-families">3. Howlett Matrix &amp; Cycle Families</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -785,8 +754,8 @@ Interactive Explorer</code></pre>
 </div>
 </div>
 </section>
-<section id="spectral-radius" class="level3">
-<h3 class="anchored" data-anchor-id="spectral-radius">5. Spectral Radius</h3>
+<section id="spectral-radius-classification-ch.-3.5" class="level3">
+<h3 class="anchored" data-anchor-id="spectral-radius-classification-ch.-3.5">4. Spectral Radius &amp; Classification (Ch. 3.5)</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -794,7 +763,7 @@ Interactive Explorer</code></pre>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
   classDef ext stroke-dasharray: 5 5
-  ext_MixedSign(["MixedSign.lean&lt;br/&gt;(View 1)"])
+  ext_MixedSign(["MixedSign.lean&lt;br/&gt;(View 2)"])
   SpectralRadius["SpectralRadius.lean&lt;br/&gt;Thm 1.7, 3.34; Ex 3.29, 3.33"]
   SpectralClassification["SpectralClassification.lean&lt;br/&gt;Thm 3.27, 3.28; Rem 2.39; Def 2.47 (+4 more)"]
   AlternatingSquare["AlternatingSquare.lean&lt;br/&gt;Q 2.59, 3.35"]
@@ -802,6 +771,48 @@ Interactive Explorer</code></pre>
   SpectralRadius --&gt; SpectralClassification
   SpectralRadius --&gt; AlternatingSquare
   class ext_MixedSign ext
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="coxeter-presentation-deletion-cycles-ch.-3.33.4" class="level3">
+<h3 class="anchored" data-anchor-id="coxeter-presentation-deletion-cycles-ch.-3.33.4">5. Coxeter Presentation, Deletion &amp; Cycles (Ch. 3.3–3.4)</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  classDef ext stroke-dasharray: 5 5
+  ext_Conjugacy(["Conjugacy.lean&lt;br/&gt;(View 1)"])
+  ext_FiniteReduction(["FiniteReduction.lean&lt;br/&gt;(View 2)"])
+  ext_MixedSign(["MixedSign.lean&lt;br/&gt;(View 2)"])
+  ext_RankTwoRoots(["RankTwoRoots.lean&lt;br/&gt;(View 2)"])
+  ext_SpectralRadius(["SpectralRadius.lean&lt;br/&gt;(View 4)"])
+  CyclesAndDeletion["CyclesAndDeletion.lean&lt;br/&gt;Thm 1.6; Lem 3.21, 3.25; Rem 3.20 (+2 more)"]
+  ParabolicTransfer["ParabolicTransfer.lean&lt;br/&gt;Thm 1.2; Def 2.55, 2.56"]
+  ClassicalDeletion["ClassicalDeletion.lean&lt;br/&gt;Prop 3.7, 3.8, 3.19; Cor 1.3 (+1 more)"]
+  CoxeterPresentation["CoxeterPresentation.lean&lt;br/&gt;Thm 3.9: Deletion ⇒ Coxeter"]
+  ClassicalCoxeterDeletion["ClassicalCoxeterDeletion.lean&lt;br/&gt;Thm 3.9"]
+  RootPositivity["RootPositivity.lean&lt;br/&gt;Prop 3.10; Rem 2.6; Def 2.13"]
+  RemarksAndClassical["RemarksAndClassical.lean&lt;br/&gt;Rem 3.23, 3.30"]
+  TildeAminusEvenIso["TildeAminusEvenIso.lean&lt;br/&gt;Rem 3.26"]
+  ext_Conjugacy -.-&gt; CyclesAndDeletion
+  ext_MixedSign -.-&gt; CyclesAndDeletion
+  ClassicalDeletion --&gt; ParabolicTransfer
+  CyclesAndDeletion --&gt; ClassicalDeletion
+  ClassicalDeletion --&gt; CoxeterPresentation
+  CoxeterPresentation --&gt; ClassicalCoxeterDeletion
+  ClassicalCoxeterDeletion --&gt; RootPositivity
+  ext_RankTwoRoots -.-&gt; RootPositivity
+  CyclesAndDeletion --&gt; RemarksAndClassical
+  ext_SpectralRadius -.-&gt; RemarksAndClassical
+  RemarksAndClassical --&gt; TildeAminusEvenIso
+  ext_FiniteReduction -.-&gt; TildeAminusEvenIso
+  class ext_Conjugacy,ext_FiniteReduction,ext_MixedSign,ext_RankTwoRoots,ext_SpectralRadius ext
 </pre>
 </div>
 <p></p></figure><p></p>

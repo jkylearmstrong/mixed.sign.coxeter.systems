@@ -36,16 +36,16 @@ print(f"| Remaining `sorry` | {counts['sorry']} | ✅ 100% sorry-free |")
 
 ## End-to-End Traceability (`data/theorems.yml`)
 
-```{text}
-Dissertation Theorem
-        ⇓
-Lean 4 Formalization
-        ⇓
-Python Implementation
-        ⇓
-Interactive Explorer
-```
 
+```{mermaid}
+flowchart TD
+    A[Dissertation Theorem]
+    B[Lean 4 Formalization]
+    C[Python Implementation]
+    D[Interactive Explorer]
+
+    A --> B --> C --> D
+```
 
 The table below is generated directly from [`data/theorems.yml`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/data/theorems.yml), the same registry used by the Shiny Explorer's Theorem Checker. For the full statement-by-statement mapping of all 107 numbered items in Chapters 1–3 of the dissertation, see the [Complete 107-Statement Index](dissertation.qmd#complete-statement-index) ([download CSV](assets/mixed_sign_coxeter_statements_lean.csv)).
 
@@ -91,64 +91,98 @@ These diagrams are generated from the `import` lines of all 26 modules (29 direc
 
 ```{mermaid}
 flowchart LR
-  V1["<b>1. Foundations, Mixed Signs & Rank Two</b><br/>6 modules"]
-  V2["<b>2. Conjugacy & Graph Structure: Components, Trees & Odd Cycles</b><br/>4 modules"]
-  V3["<b>3. Coxeter Presentation, Deletion, & Cycles</b><br/>8 modules"]
-  V4["<b>4. Howlett Matrix & Cycle Families</b><br/>5 modules"]
-  V5["<b>5. Spectral Radius</b><br/>3 modules"]
+  V1["<b>1. Reflection Systems & Graph Structure (Ch. 2)</b><br/>6 modules"]
+  V2["<b>2. Mixed-Sign Systems, Rank Two & Finiteness (Ch. 3.1–3.2)</b><br/>4 modules"]
+  V3["<b>3. Howlett Matrix & Cycle Families</b><br/>5 modules"]
+  V4["<b>4. Spectral Radius & Classification (Ch. 3.5)</b><br/>3 modules"]
+  V5["<b>5. Coxeter Presentation, Deletion & Cycles (Ch. 3.3–3.4)</b><br/>8 modules"]
   V1 -->|"Bipartite, ReflectionSystem<br/>(3 imports)"| V2
-  V1 -->|"FiniteReduction, MixedSign, RankTwoRoots<br/>(3 imports)"| V3
-  V1 -->|"ReflectionSystem<br/>(2 imports)"| V4
-  V1 -->|"MixedSign<br/>(1 import)"| V5
-  V2 -->|"Conjugacy<br/>(1 import)"| V3
-  V5 -->|"SpectralRadius<br/>(1 import)"| V3
+  V1 -->|"ReflectionSystem<br/>(2 imports)"| V3
+  V1 -->|"Conjugacy<br/>(1 import)"| V5
+  V2 -->|"MixedSign<br/>(1 import)"| V4
+  V2 -->|"FiniteReduction, MixedSign, RankTwoRoots<br/>(3 imports)"| V5
+  V4 -->|"SpectralRadius<br/>(1 import)"| V5
 ```
 
-### 1. Foundations, Mixed Signs & Rank Two
+### 1. Reflection Systems & Graph Structure (Ch. 2)
 
 ```{mermaid}
 flowchart TB
   ReflectionSystem["ReflectionSystem.lean<br/>Prop 2.21, 2.22, 2.28; Lem 2.31 (+16 more)"]
+  Conjugacy["Conjugacy.lean<br/>Cor 2.38; Lem 2.32, 2.37; Ex 2.36 (+6 more)"]
+  ComponentsAndTrees["ComponentsAndTrees.lean<br/>Prop 2.45; Cor 2.46"]
   Bipartite["Bipartite.lean<br/>Thm 1.4; Prop 3.32; Def 2.40, 2.43 (+1 more)"]
-  MixedSign["MixedSign.lean<br/>Prop 3.5; Cor 1.5; Def 2.24, 3.1 (+3 more)"]
-  RankTwo["RankTwo.lean<br/>Prop 3.12; Lem 3.14, 3.17; Ex 3.13 (+2 more)"]
-  RankTwoRoots["RankTwoRoots.lean<br/>Prop 3.11"]
-  FiniteReduction["FiniteReduction.lean<br/>Prop 2.17; Cor 3.18; Rem 2.11, 2.49 (+3 more)"]
+  TreeConjugacy["TreeConjugacy.lean<br/>Thm 2.58; Def 2.23, 2.25"]
+  OddCycles["OddCycles.lean<br/>Prop 2.41"]
+  ReflectionSystem --> Conjugacy
+  ReflectionSystem --> ComponentsAndTrees
   ReflectionSystem --> Bipartite
-  Bipartite --> MixedSign
-  MixedSign --> RankTwo
-  ReflectionSystem --> RankTwoRoots
-  ReflectionSystem --> FiniteReduction
+  Bipartite --> TreeConjugacy
+  TreeConjugacy --> OddCycles
 ```
 
-### 2. Conjugacy & Graph Structure: Components, Trees & Odd Cycles
+### 2. Mixed-Sign Systems, Rank Two & Finiteness (Ch. 3.1–3.2)
 
 ```{mermaid}
 flowchart TB
   classDef ext stroke-dasharray: 5 5
   ext_Bipartite(["Bipartite.lean<br/>(View 1)"])
   ext_ReflectionSystem(["ReflectionSystem.lean<br/>(View 1)"])
-  Conjugacy["Conjugacy.lean<br/>Cor 2.38; Lem 2.32, 2.37; Ex 2.36 (+6 more)"]
-  ComponentsAndTrees["ComponentsAndTrees.lean<br/>Prop 2.45; Cor 2.46"]
-  TreeConjugacy["TreeConjugacy.lean<br/>Thm 2.58; Def 2.23, 2.25"]
-  OddCycles["OddCycles.lean<br/>Prop 2.41"]
-  ext_ReflectionSystem -.-> Conjugacy
-  ext_ReflectionSystem -.-> ComponentsAndTrees
-  ext_Bipartite -.-> TreeConjugacy
-  TreeConjugacy --> OddCycles
+  MixedSign["MixedSign.lean<br/>Prop 3.5; Cor 1.5; Def 2.24, 3.1 (+3 more)"]
+  RankTwo["RankTwo.lean<br/>Prop 3.12; Lem 3.14, 3.17; Ex 3.13 (+2 more)"]
+  RankTwoRoots["RankTwoRoots.lean<br/>Prop 3.11"]
+  FiniteReduction["FiniteReduction.lean<br/>Prop 2.17; Cor 3.18; Rem 2.11, 2.49 (+3 more)"]
+  ext_Bipartite -.-> MixedSign
+  MixedSign --> RankTwo
+  ext_ReflectionSystem -.-> RankTwoRoots
+  ext_ReflectionSystem -.-> FiniteReduction
   class ext_Bipartite,ext_ReflectionSystem ext
 ```
 
-### 3. Coxeter Presentation, Deletion, & Cycles
+### 3. Howlett Matrix & Cycle Families
 
 ```{mermaid}
 flowchart TB
   classDef ext stroke-dasharray: 5 5
-  ext_Conjugacy(["Conjugacy.lean<br/>(View 2)"])
-  ext_FiniteReduction(["FiniteReduction.lean<br/>(View 1)"])
-  ext_MixedSign(["MixedSign.lean<br/>(View 1)"])
-  ext_RankTwoRoots(["RankTwoRoots.lean<br/>(View 1)"])
-  ext_SpectralRadius(["SpectralRadius.lean<br/>(View 5)"])
+  ext_ReflectionSystem(["ReflectionSystem.lean<br/>(View 1)"])
+  Howlett["Howlett.lean<br/>Thm 1.1; Lem 2.63; Def 2.53, 2.60 (+1 more)"]
+  OddCycleSingleDefect["OddCycleSingleDefect.lean<br/>C₂ₘ₊₁(+,−,…,−)"]
+  EvenCycleSingleDefect["EvenCycleSingleDefect.lean<br/>C₂ₘ(+,−,…,−): ∃λ ∈ (−5, −1)"]
+  BipartiteDuality["BipartiteDuality.lean<br/>bipartite sign-flip duality"]
+  TwoDefectCycle["TwoDefectCycle.lean<br/>Cₙ(+,+,−,…,−): ρ(w) &gt; 1"]
+  ext_ReflectionSystem -.-> Howlett
+  ext_ReflectionSystem -.-> OddCycleSingleDefect
+  Howlett --> EvenCycleSingleDefect
+  EvenCycleSingleDefect --> BipartiteDuality
+  Howlett --> TwoDefectCycle
+  class ext_ReflectionSystem ext
+```
+
+### 4. Spectral Radius & Classification (Ch. 3.5)
+
+```{mermaid}
+flowchart TB
+  classDef ext stroke-dasharray: 5 5
+  ext_MixedSign(["MixedSign.lean<br/>(View 2)"])
+  SpectralRadius["SpectralRadius.lean<br/>Thm 1.7, 3.34; Ex 3.29, 3.33"]
+  SpectralClassification["SpectralClassification.lean<br/>Thm 3.27, 3.28; Rem 2.39; Def 2.47 (+4 more)"]
+  AlternatingSquare["AlternatingSquare.lean<br/>Q 2.59, 3.35"]
+  ext_MixedSign -.-> SpectralRadius
+  SpectralRadius --> SpectralClassification
+  SpectralRadius --> AlternatingSquare
+  class ext_MixedSign ext
+```
+
+### 5. Coxeter Presentation, Deletion & Cycles (Ch. 3.3–3.4)
+
+```{mermaid}
+flowchart TB
+  classDef ext stroke-dasharray: 5 5
+  ext_Conjugacy(["Conjugacy.lean<br/>(View 1)"])
+  ext_FiniteReduction(["FiniteReduction.lean<br/>(View 2)"])
+  ext_MixedSign(["MixedSign.lean<br/>(View 2)"])
+  ext_RankTwoRoots(["RankTwoRoots.lean<br/>(View 2)"])
+  ext_SpectralRadius(["SpectralRadius.lean<br/>(View 4)"])
   CyclesAndDeletion["CyclesAndDeletion.lean<br/>Thm 1.6; Lem 3.21, 3.25; Rem 3.20 (+2 more)"]
   ParabolicTransfer["ParabolicTransfer.lean<br/>Thm 1.2; Def 2.55, 2.56"]
   ClassicalDeletion["ClassicalDeletion.lean<br/>Prop 3.7, 3.8, 3.19; Cor 1.3 (+1 more)"]
@@ -170,40 +204,6 @@ flowchart TB
   RemarksAndClassical --> TildeAminusEvenIso
   ext_FiniteReduction -.-> TildeAminusEvenIso
   class ext_Conjugacy,ext_FiniteReduction,ext_MixedSign,ext_RankTwoRoots,ext_SpectralRadius ext
-```
-
-### 4. Howlett Matrix & Cycle Families
-
-```{mermaid}
-flowchart TB
-  classDef ext stroke-dasharray: 5 5
-  ext_ReflectionSystem(["ReflectionSystem.lean<br/>(View 1)"])
-  Howlett["Howlett.lean<br/>Thm 1.1; Lem 2.63; Def 2.53, 2.60 (+1 more)"]
-  OddCycleSingleDefect["OddCycleSingleDefect.lean<br/>C₂ₘ₊₁(+,−,…,−)"]
-  EvenCycleSingleDefect["EvenCycleSingleDefect.lean<br/>C₂ₘ(+,−,…,−): ∃λ ∈ (−5, −1)"]
-  BipartiteDuality["BipartiteDuality.lean<br/>bipartite sign-flip duality"]
-  TwoDefectCycle["TwoDefectCycle.lean<br/>Cₙ(+,+,−,…,−): ρ(w) &gt; 1"]
-  ext_ReflectionSystem -.-> Howlett
-  ext_ReflectionSystem -.-> OddCycleSingleDefect
-  Howlett --> EvenCycleSingleDefect
-  EvenCycleSingleDefect --> BipartiteDuality
-  Howlett --> TwoDefectCycle
-  class ext_ReflectionSystem ext
-```
-
-### 5. Spectral Radius
-
-```{mermaid}
-flowchart TB
-  classDef ext stroke-dasharray: 5 5
-  ext_MixedSign(["MixedSign.lean<br/>(View 1)"])
-  SpectralRadius["SpectralRadius.lean<br/>Thm 1.7, 3.34; Ex 3.29, 3.33"]
-  SpectralClassification["SpectralClassification.lean<br/>Thm 3.27, 3.28; Rem 2.39; Def 2.47 (+4 more)"]
-  AlternatingSquare["AlternatingSquare.lean<br/>Q 2.59, 3.35"]
-  ext_MixedSign -.-> SpectralRadius
-  SpectralRadius --> SpectralClassification
-  SpectralRadius --> AlternatingSquare
-  class ext_MixedSign ext
 ```
 
 <!-- END lean-module-graph -->

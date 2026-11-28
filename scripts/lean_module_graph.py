@@ -81,19 +81,19 @@ _OPTIONS_RE = re.compile(re.escape(_OPTIONS_COMMENT) + r"\s*(.*?)\s*-->")
 # Keep the "N. Title" heading format (the number is reused by the overview nodes),
 # and list modules deps-first so the top-down layout inside a view reads well.
 VIEWS: list[tuple[str, list[str]]] = [
-    ("1. Foundations, Mixed Signs & Rank Two",
-     ["ReflectionSystem", "Bipartite", "MixedSign", "RankTwo", "RankTwoRoots", "FiniteReduction"]),
-    ("2. Conjugacy & Graph Structure: Components, Trees & Odd Cycles",
-     ["Conjugacy", "ComponentsAndTrees", "TreeConjugacy", "OddCycles"]),
-    ("3. Coxeter Presentation, Deletion, & Cycles",
+    ("1. Reflection Systems & Graph Structure (Ch. 2)",
+     ["ReflectionSystem", "Conjugacy", "ComponentsAndTrees", "Bipartite", "TreeConjugacy", "OddCycles"]),
+    ("2. Mixed-Sign Systems, Rank Two & Finiteness (Ch. 3.1–3.2)",
+     ["MixedSign", "RankTwo", "RankTwoRoots", "FiniteReduction"]),
+    ("3. Howlett Matrix & Cycle Families",
+     ["Howlett",
+      "OddCycleSingleDefect", "EvenCycleSingleDefect", "BipartiteDuality", "TwoDefectCycle"]),
+    ("4. Spectral Radius & Classification (Ch. 3.5)",
+     ["SpectralRadius", "SpectralClassification", "AlternatingSquare"]),
+    ("5. Coxeter Presentation, Deletion & Cycles (Ch. 3.3–3.4)",
      ["CyclesAndDeletion", "ParabolicTransfer", "ClassicalDeletion", "CoxeterPresentation",
       "ClassicalCoxeterDeletion", "RootPositivity", "RemarksAndClassical",
       "TildeAminusEvenIso"]),
-    ("4. Howlett Matrix & Cycle Families",
-     ["Howlett",
-      "OddCycleSingleDefect", "EvenCycleSingleDefect", "BipartiteDuality", "TwoDefectCycle"]),
-    ("5. Spectral Radius",
-     ["SpectralRadius", "SpectralClassification", "AlternatingSquare"]),
 ]
 
 _IMPORT = re.compile(r"(?m)^import\s+MixedSignCoxeter\.(\w+)\s*$")
