@@ -8,7 +8,7 @@ theorems:
     title: "Howlett's Principal-Element Formula"
     statement: "For any reflection system with upper-triangular U obtained from B, the principal element w = s_1 s_2 ... s_n satisfies w = -U^{-1} U^T."
     lean_symbol: "howlett_principalElement_eq_neg_inv_mul_transpose"
-    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L218"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L219"
     python_ref: "ReflectionSystem.principal_element / howlett_U"
     python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L235"
     status: "Verified (Lean 4)"

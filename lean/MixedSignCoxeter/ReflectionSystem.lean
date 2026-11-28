@@ -452,4 +452,76 @@ theorem roots_quadForm_eq (S : ReflectionSystem n) {v : Fin n → ℝ} (hv : v �
 
 end Roots
 
+/-! ### Definition 2.3: Orthogonality and Hyperplanes `H_v` -/
+
+section Orthogonality
+
+/-- **Definition 2.3**: Vectors `u` and `v` are orthogonal relative to `B` if `B(v, u) = 0`. -/
+def IsOrthogonal (B : Matrix (Fin n) (Fin n) ℝ) (u v : Fin n → ℝ) : Prop :=
+  dotProduct u (B *ᵥ v) = 0
+
+/-- **Definition 2.3**: The orthogonal hyperplane `H_v := { u ∈ ℝⁿ | B(v, u) = 0 }`. -/
+def orthHyperplane (B : Matrix (Fin n) (Fin n) ℝ) (v : Fin n → ℝ) : Set (Fin n → ℝ) :=
+  { u | IsOrthogonal B v u }
+
+/-- Each generating reflection `s_i` fixes the orthogonal hyperplane `H_{e_i}` pointwise. -/
+theorem reflectionMatrix_fixes_orthHyperplane (S : ReflectionSystem n) (i : Fin n)
+    {u : Fin n → ℝ} (hu : u ∈ orthHyperplane S.B (Pi.single i (1 : ℝ))) :
+    reflectionMatrix S.B i *ᵥ u = u := by
+  have hBiu : ∑ j : Fin n, S.B i j * u j = 0 := by
+    have h0 : dotProduct (Pi.single i (1 : ℝ)) (S.B *ᵥ u) = 0 := hu
+    simpa [dotProduct, Matrix.mulVec, Pi.single_apply, Finset.sum_ite_eq'] using h0
+  ext r
+  simp only [Matrix.mulVec, dotProduct]
+  by_cases hri : r = i
+  · subst hri
+    have hrow : ∀ j : Fin n, reflectionMatrix S.B r r j * u j =
+        (if r = j then u j else 0) - (2 / S.B r r) * (S.B r j * u j) := by
+      intro j
+      rw [reflectionMatrix_apply]
+      simp only [↓reduceIte]
+      split_ifs <;> ring
+    rw [Finset.sum_congr rfl fun j _ => hrow j, Finset.sum_sub_distrib,
+      ← Finset.mul_sum, hBiu, mul_zero, sub_zero]
+    simp [Finset.sum_ite_eq]
+  · have hrow : ∀ j : Fin n, reflectionMatrix S.B i r j * u j =
+        if r = j then u j else 0 := by
+      intro j
+      rw [reflectionMatrix_apply]
+      simp [hri]
+    rw [Finset.sum_congr rfl fun j _ => hrow j]
+    simp [Finset.sum_ite_eq]
+
+end Orthogonality
+
+/-! ### Remark 2.54: Number of Principal Elements -/
+
+section PrincipalElementsCount
+
+/-- The principal element `w_σ = s_{σ(0)} s_{σ(1)} ⋯ s_{σ(n-1)}` associated with a
+permutation `σ : Equiv.Perm (Fin n)` of the generators. -/
+noncomputable def principalElementOfPerm (S : ReflectionSystem n) (σ : Equiv.Perm (Fin n)) :
+    Matrix (Fin n) (Fin n) ℝ :=
+  wordProd S ((List.finRange n).map σ)
+
+/-- The set of all principal elements of a reflection system `S`. -/
+def principalElements (S : ReflectionSystem n) : Set (Matrix (Fin n) (Fin n) ℝ) :=
+  Set.range (principalElementOfPerm S)
+
+/-- **Remark 2.54**: A rank-`n` reflection system has between `1` and `n!` principal elements. -/
+theorem card_principalElements_bounds (S : ReflectionSystem n) :
+    1 ≤ (principalElements S).ncard ∧ (principalElements S).ncard ≤ n.factorial := by
+  have hrange : principalElements S = ↑(Finset.univ.image (principalElementOfPerm S)) := by
+    ext M
+    simp [principalElements]
+  rw [hrange, Set.ncard_coe_finset]
+  constructor
+  · exact Finset.card_pos.mpr ⟨_, Finset.mem_image_of_mem _ (Finset.mem_univ 1)⟩
+  · calc
+      (Finset.univ.image (principalElementOfPerm S)).card
+        ≤ (Finset.univ : Finset (Equiv.Perm (Fin n))).card := Finset.card_image_le
+      _ = n.factorial := by simp [Fintype.card_perm]
+
+end PrincipalElementsCount
+
 end ReflectionSystem

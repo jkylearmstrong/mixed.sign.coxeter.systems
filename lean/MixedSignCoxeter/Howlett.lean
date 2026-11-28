@@ -2,6 +2,7 @@
 Copyright (c) 2026 Johnathon Kyle Armstrong. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 -/
+import Mathlib.Algebra.Polynomial.Reverse
 import MixedSignCoxeter.ReflectionSystem
 
 /-!
@@ -225,6 +226,39 @@ theorem howlett_principalElement_eq_neg_inv_mul_transpose (S : ReflectionSystem 
     _ = (howlettU S.B)⁻¹ * (howlettU S.B * principalElement S) := Matrix.mul_assoc _ _ _
     _ = (howlettU S.B)⁻¹ * (-(howlettU S.B)ᵀ) := by rw [howlett_U_mul_principalElement]
     _ = -(howlettU S.B)⁻¹ * (howlettU S.B)ᵀ := by rw [Matrix.mul_neg, Matrix.neg_mul]
+
+/-! ### Definition 2.64: Palindromic Polynomials -/
+
+/-- **Definition 2.64**: A polynomial `f(x) = ∑_{i=0}^n a_i x^i` is palindromic of degree `n`
+if `a_i = a_{n - i}` for all `i ≤ n`. -/
+def IsPalindromic (p : Polynomial ℝ) (n : ℕ) : Prop :=
+  ∀ i : ℕ, i ≤ n → p.coeff i = p.coeff (n - i)
+
+/-- Every constant polynomial is palindromic of degree `0`. -/
+theorem isPalindromic_zero_deg (p : Polynomial ℝ) : IsPalindromic p 0 := by
+  intro i hi
+  have : i = 0 := Nat.le_zero.mp hi
+  subst this
+  rfl
+
+/-- A polynomial of `natDegree = n` is palindromic of degree `n` iff it equals its
+reciprocal `p.reverse`. -/
+theorem isPalindromic_iff_reverse_eq (p : Polynomial ℝ) (hdeg : p.natDegree = n) :
+    IsPalindromic p n ↔ p.reverse = p := by
+  constructor
+  · intro hpal
+    ext k
+    rw [Polynomial.coeff_reverse]
+    by_cases hk : k ≤ p.natDegree
+    · rw [Polynomial.revAt_le hk, hdeg]
+      exact (hpal k (hdeg ▸ hk)).symm
+    · show p.coeff (if k ≤ p.natDegree then p.natDegree - k else k) = p.coeff k
+      simp [hk]
+  · intro hrev i hi
+    have hi' : i ≤ p.natDegree := hdeg.symm ▸ hi
+    have h1 := congr_arg (fun q : Polynomial ℝ => q.coeff i) hrev
+    rw [Polynomial.coeff_reverse, Polynomial.revAt_le hi', hdeg] at h1
+    exact h1.symm
 
 end ReflectionSystem
 

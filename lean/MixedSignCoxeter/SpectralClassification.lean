@@ -1244,6 +1244,69 @@ theorem lt_spectralRadius_of_eigen (M : Matrix (Fin n) (Fin n) ℝ) {μ : ℂ} {
     c < spectralRadius M :=
   lt_of_lt_of_le hc (norm_le_spectralRadius M hμ)
 
+/-! ### Definition 2.62: Minimal Principal Spectral Radius `Λ(Γ)` -/
+
+/-- **Definition 2.62**: The minimal spectral radius `Λ(Γ) = min { λ(w) | w principal in W(Γ) }`
+over all `n!` principal elements of a reflection system `S`. -/
+noncomputable def minPrincipalSpectralRadius (S : ReflectionSystem n) : ℝ :=
+  Finset.univ.inf' Finset.univ_nonempty
+    (fun σ : Equiv.Perm (Fin n) => spectralRadius (principalElementOfPerm S σ))
+
+/-- `Λ(Γ) ≤ λ(w_σ)` for every principal element `w_σ`. -/
+theorem minPrincipalSpectralRadius_le (S : ReflectionSystem n) (σ : Equiv.Perm (Fin n)) :
+    minPrincipalSpectralRadius S ≤ spectralRadius (principalElementOfPerm S σ) :=
+  Finset.inf'_le _ (Finset.mem_univ σ)
+
+/-- The minimum `Λ(Γ)` is attained by some principal element `w_σ`. -/
+theorem exists_principal_eq_minPrincipalSpectralRadius (S : ReflectionSystem n) :
+    ∃ σ : Equiv.Perm (Fin n),
+      spectralRadius (principalElementOfPerm S σ) = minPrincipalSpectralRadius S := by
+  obtain ⟨σ, _, hσ⟩ := Finset.exists_mem_eq_inf' Finset.univ_nonempty
+    (fun σ : Equiv.Perm (Fin n) => spectralRadius (principalElementOfPerm S σ))
+  exact ⟨σ, hσ.symm⟩
+
+/-- `0 ≤ Λ(Γ)` for every reflection system `S`. -/
+theorem minPrincipalSpectralRadius_nonneg (S : ReflectionSystem n) :
+    0 ≤ minPrincipalSpectralRadius S := by
+  obtain ⟨σ, hσ⟩ := exists_principal_eq_minPrincipalSpectralRadius S
+  rw [← hσ]
+  exact spectralRadius_nonneg _
+
+/-! ### Definition 2.65: Mahler Measure `M(f)` -/
+
+/-- **Definition 2.65**: The Mahler measure
+`M(f) = |a_d| · ∏ max(1, |λ_i|)` of a complex polynomial `f`, where the product runs over
+the multiset of complex roots of `f` (counted with multiplicity). -/
+noncomputable def mahlerMeasure (p : Polynomial ℂ) : ℝ :=
+  ‖p.leadingCoeff‖ * (p.roots.map fun z : ℂ => max (1 : ℝ) ‖z‖).prod
+
+/-- The Mahler measure of any polynomial is nonnegative. -/
+theorem mahlerMeasure_nonneg (p : Polynomial ℂ) : 0 ≤ mahlerMeasure p := by
+  unfold mahlerMeasure
+  refine mul_nonneg (norm_nonneg _) ?_
+  exact Multiset.prod_nonneg fun r hr => by
+    rcases Multiset.mem_map.mp hr with ⟨z, _, rfl⟩
+    exact le_trans zero_le_one (le_max_left 1 ‖z‖)
+
+/-- Every monic polynomial has Mahler measure `≥ 1`. -/
+theorem one_le_mahlerMeasure_of_monic {p : Polynomial ℂ} (hp : p.Monic) :
+    1 ≤ mahlerMeasure p := by
+  unfold mahlerMeasure
+  rw [hp.leadingCoeff, norm_one, one_mul]
+  have hprod : ∀ s : Multiset ℝ, (∀ r ∈ s, (1 : ℝ) ≤ r) → (1 : ℝ) ≤ s.prod := by
+    intro s
+    induction s using Multiset.induction_on with
+    | empty => intro _; simp
+    | cons a s ih =>
+      intro h
+      rw [Multiset.prod_cons]
+      have ha : 1 ≤ a := h a (Multiset.mem_cons_self a s)
+      have hs : 1 ≤ s.prod := ih fun r hr => h r (Multiset.mem_cons_of_mem hr)
+      nlinarith
+  exact hprod _ fun r hr => by
+    rcases Multiset.mem_map.mp hr with ⟨z, _, rfl⟩
+    exact le_max_left 1 ‖z‖
+
 end SpectralRadius
 
 end ReflectionSystem
