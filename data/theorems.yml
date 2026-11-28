@@ -189,3 +189,14 @@ theorems:
     python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py#L205"
     status: "Verified (Lean 4 + Python)"
     preset: "a_tilde_minus_2"
+
+  - id: chapter2_foundations
+    dissertation_ref: "Cor. 2.46 & Defs. 2.12, 2.47, 2.51, 2.56, 2.61"
+    title: "k-Component Direct Product, Root System, Signature Classification, Node Deletion & Spectral Radius"
+    statement: "If a reflection diagram has k disconnected components, W(Gamma) is isomorphic to the direct product of its k component subgroups; plus full definitions of roots Phi, eigenvalue signature (p,q,l), 4-way classification (spherical/affine/hyperbolic/higher-rank), node deletion Gamma/(r_i), and spectral radius lambda(w)."
+    lean_symbol: "k_component_mulEquiv"
+    lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L396"
+    python_ref: "ReflectionSystem.signature / spectral_radius"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L140"
+    status: "Verified (Lean 4)"
+    preset: "a3_ppm"

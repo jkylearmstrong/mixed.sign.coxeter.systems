@@ -69,7 +69,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./../assets/hex-sticker.png" rel="icon" type="image/png">
+<link href="./assets/hex-sticker.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -316,8 +316,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./../assets/hex-sticker.png" alt="" class="navbar-logo light-content">
-    <img src="./../assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
+    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo light-content">
+    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Mixed-Sign Coxeter Systems</span>
@@ -413,9 +413,6 @@ window.Quarto = {
         <p class="affiliation">
             Florida State University
           </p>
-        <p class="affiliation">
-            Lewis Katz School of Medicine at Temple University Center for Biostatistics &amp; Epidemiology
-          </p>
       </div>
   </div>
 
@@ -434,7 +431,7 @@ window.Quarto = {
 <p>All code blocks below execute directly against <code>src/mixed_sign_coxeter/</code> during <code>quarto render</code>.</p>
 <section id="howletts-formula-theorem-1.1" class="level2">
 <h2 class="anchored" data-anchor-id="howletts-formula-theorem-1.1">1. Howlett’s Formula (Theorem 1.1)</h2>
-<div id="bbe38083" class="cell" data-execution_count="1">
+<div id="edd2e809" class="cell" data-execution_count="1">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">"../src"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sys.path.insert(<span class="dv">0</span>, <span class="st">"src"</span>)</span>
@@ -460,7 +457,7 @@ Principal polynomial: Poly(x**3 + x**2 + x + 1, x, domain='ZZ')</code></pre>
 </section>
 <section id="failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21" class="level2">
 <h2 class="anchored" data-anchor-id="failure-of-the-deletion-property-on-widetildea_-2-lemma-3.21">2. Failure of the Deletion Property on <span class="math inline">\(\widetilde{A_{-2}}\)</span> (Lemma 3.21)</h2>
-<div id="166d64ff" class="cell" data-execution_count="2">
+<div id="ec0b1c80" class="cell" data-execution_count="2">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter.group <span class="im">import</span> evaluate_word, find_two_deletions</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>w_word <span class="op">=</span> (<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">0</span>)</span>
@@ -475,7 +472,7 @@ Valid 2-letter deletions of (0,1,0,2,0): []</code></pre>
 </section>
 <section id="wwidetildea_-n-cong-wd_n1-for-even-n" class="level2">
 <h2 class="anchored" data-anchor-id="wwidetildea_-n-cong-wd_n1-for-even-n">3. <span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span> for Even <span class="math inline">\(n\)</span></h2>
-<div id="158976a2" class="cell" data-execution_count="3">
+<div id="42018dc9" class="cell" data-execution_count="3">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mixed_sign_coxeter.isomorphisms <span class="im">import</span> verify_a_tilde_minus_isomorphism</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> (<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>):</span>
@@ -492,7 +489,7 @@ n = 6: gram_ok=True, conj_ok=True, orbit_is_D=True, |W(D_7)|=322560</code></pre>
 <section id="single-defect-cycle-parity-dichotomy" class="level2">
 <h2 class="anchored" data-anchor-id="single-defect-cycle-parity-dichotomy">4. Single-Defect Cycle Parity Dichotomy</h2>
 <p>On a single cycle <span class="math inline">\(C_k(+, -, \dots, -)\)</span> with one positive vertex and <span class="math inline">\(k - 1\)</span> negative vertices, the spectral radius of the standard principal element <span class="math inline">\(w = s_{k-1}\cdots s_1 s_0\)</span> depends on the parity of <span class="math inline">\(k\)</span>: <span class="math inline">\(\rho(w) = 1\)</span> for odd <span class="math inline">\(k = 2m+1\)</span> (<code>OddCycleSingleDefect.lean</code>), whereas <span class="math inline">\(\rho(w) &gt; 1\)</span> for even <span class="math inline">\(k = 2m \ge 4\)</span> (<code>EvenCycleSingleDefect.lean</code>).</p>
-<div id="ddea7468" class="cell" data-execution_count="4">
+<div id="a9fc5339" class="cell" data-execution_count="4">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> k <span class="kw">in</span> (<span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>):</span>
@@ -523,16 +520,16 @@ C_8(+,-,...,-) [even]: rho = 4.236377, min real eig = -4.236377</code></pre>
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Overview</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Howlett’s Formula</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Single-Defect Parity Dichotomy</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Spectral Radius Separation (Ex. 3.33)</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../assets/slides/TitleOverviewScene.mp4"></video></div>
+<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="assets/slides/TitleOverviewScene.mp4"></video></div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../assets/slides/HowlettFormulaScene.mp4"></video></div>
+<div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="assets/slides/HowlettFormulaScene.mp4"></video></div>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="quarto-video"><video id="video_shortcode_videojs_video3" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../assets/slides/SingleDefectParityScene.mp4"></video></div>
+<div class="quarto-video"><video id="video_shortcode_videojs_video3" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="assets/slides/SingleDefectParityScene.mp4"></video></div>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<div class="quarto-video"><video id="video_shortcode_videojs_video4" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="../assets/slides/SpectralRadiusSeparationScene.mp4"></video></div>
+<div class="quarto-video"><video id="video_shortcode_videojs_video4" class="video-js vjs-default-skin vjs-big-play-centered vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="assets/slides/SpectralRadiusSeparationScene.mp4"></video></div>
 </div>
 </div>
 </div>

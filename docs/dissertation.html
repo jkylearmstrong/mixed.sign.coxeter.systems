@@ -34,7 +34,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./../assets/hex-sticker.png" rel="icon" type="image/png">
+<link href="./assets/hex-sticker.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -279,8 +279,8 @@ window.Quarto = {
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./../assets/hex-sticker.png" alt="" class="navbar-logo light-content">
-    <img src="./../assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
+    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo light-content">
+    <img src="./assets/hex-sticker.png" alt="" class="navbar-logo dark-content">
     </a>
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Mixed-Sign Coxeter Systems</span>
@@ -342,6 +342,7 @@ window.Quarto = {
   <ul>
   <li><a href="#headline-audit-summary" id="toc-headline-audit-summary" class="nav-link active" data-scroll-target="#headline-audit-summary">Headline Audit Summary</a></li>
   <li><a href="#dissertation-lean-4-python-audit-table" id="toc-dissertation-lean-4-python-audit-table" class="nav-link" data-scroll-target="#dissertation-lean-4-python-audit-table">Dissertation ↔︎ Lean 4 ↔︎ Python Audit Table</a></li>
+  <li><a href="#complete-statement-index" id="toc-complete-statement-index" class="nav-link" data-scroll-target="#complete-statement-index">Complete 107-Statement Index</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/dissertation.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -370,9 +371,6 @@ window.Quarto = {
         <p class="affiliation">
             Florida State University
           </p>
-        <p class="affiliation">
-            Lewis Katz School of Medicine at Temple University Center for Biostatistics &amp; Epidemiology
-          </p>
       </div>
   </div>
 
@@ -391,10 +389,11 @@ window.Quarto = {
 <ul>
 <li><strong>Original Dissertation</strong>: <a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/view">FSU Digital Library PDF</a> (<a href="https://repository.lib.fsu.edu/islandora/object/fsu:182755/datastream/PDF/download">Download</a>)</li>
 <li><strong>Combined Writeup</strong>: <a href="mixed_sign_coxeter.html">HTML</a> · <a href="mixed_sign_coxeter.pdf">PDF</a> · <a href="mixed_sign_coxeter.docx">DOCX</a></li>
+<li><strong>Statement-by-Statement Linked CSV (all 107 items)</strong>: <a href="assets/mixed_sign_coxeter_statements_lean.csv">Download CSV</a> · <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/original/mixed_sign_coxeter_statements_lean.csv">View on GitHub</a></li>
 </ul>
 <section id="headline-audit-summary" class="level2">
 <h2 class="anchored" data-anchor-id="headline-audit-summary">Headline Audit Summary</h2>
-<p>Every numbered theorem, proposition, lemma, corollary, definition, example, and remark in <strong>Chapters 1–3</strong> of the dissertation has a <code>sorry</code>-free Lean 4 verification (<code>lake build</code>, <code>3390</code> jobs in Lean <code>v4.35.0</code>). Appendices A, B, and D—plus the general even-<span class="math inline">\(n\)</span> isomorphism <span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span>—are verified in Python (<code>pytest</code>).</p>
+<p>Every numbered theorem, proposition, lemma, corollary, definition, example, and remark in <strong>Chapters 1–3</strong> (where the dissertation ends; there is no Chapter 4+, and <strong>Appendix C</strong> contains no mathematical theorems or proofs) has a <code>sorry</code>-free Lean 4 verification (<code>lake build</code> in Lean <code>v4.35.0</code>). Appendices A (connected finite reduction), B, and D (16-relator check), plus both the even-<span class="math inline">\(n\)</span> and odd-<span class="math inline">\(n\)</span> cases of Theorem 1.6, are also verified in Lean 4 and Python (<code>pytest</code>).</p>
 </section>
 <section id="dissertation-lean-4-python-audit-table" class="level2">
 <h2 class="anchored" data-anchor-id="dissertation-lean-4-python-audit-table">Dissertation ↔︎ Lean 4 ↔︎ Python Audit Table</h2>
@@ -414,7 +413,7 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Theorem 1.2</strong> (<span class="math inline">\(\widetilde{A_{-2}}\)</span> containment &amp; tail family <span class="math inline">\(\Gamma_{3+k}\)</span> fail Deletion)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L195"><code>not_deletion_of_contains_tildeAminus2</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L253"><code>theorem_1_2_tail_family</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L195"><code>not_deletion_of_contains_tildeAminus2</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L253"><code>theorem_1_2_tail_family</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L267"><code>theorem_1_2_extended_family</code></a></td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="odd">
@@ -428,9 +427,9 @@ window.Quarto = {
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Theorem 1.6</strong> (Odd cycles <span class="math inline">\(\widetilde{A_{-n}}\)</span> and <span class="math inline">\(\widetilde{A_n}\)</span> not <span class="math inline">\(\mathcal{O}\)</span>-conjugate)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L479"><code>oddCycle_not_O_conjugate</code></a></td>
-<td style="text-align: left;">✅ Lean 4</td>
+<td style="text-align: left;"><strong>Theorem 1.6</strong> (Odd cycles <span class="math inline">\(\widetilde{A_{-n}}\)</span> and <span class="math inline">\(\widetilde{A_n}\)</span> not <span class="math inline">\(\mathcal{O}\)</span>-conjugate; odd-<span class="math inline">\(n\)</span> infinity)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L479"><code>oddCycle_not_O_conjugate</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean#L632"><code>theorem_1_6_tildeAminus_odd_infinite</code></a></td>
+<td style="text-align: left;">✅ Lean 4 + Python</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Theorem 1.7 / 3.34 &amp; Example 3.33</strong> (Bipartite element need not minimize <span class="math inline">\(\lambda\)</span>)</td>
@@ -438,33 +437,43 @@ window.Quarto = {
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Propositions 2.17, 2.21, 2.22, 2.28, 2.45</strong> &amp; <strong>Lemmas 2.31, 2.32, 2.37</strong></td>
-<td style="text-align: left;"><code>Basic.lean</code>, <code>Conjugacy.lean</code>, <code>ComponentsAndTrees.lean</code></td>
+<td style="text-align: left;"><strong>Propositions 2.17, 2.21, 2.22, 2.28, 2.45</strong>, <strong>Lemmas 2.31, 2.32, 2.37</strong>, &amp; <strong>Mixed-Sign Faithfulness</strong> (<span class="math inline">\(W \hookrightarrow \mathrm{GL}(V)\)</span>)</td>
+<td style="text-align: left;"><code>Basic.lean</code>, <code>Conjugacy.lean</code>, <code>ComponentsAndTrees.lean</code>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L321"><code>W_group_to_GL_injective</code></a></td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Proposition 2.41</strong> (Bipartite <span class="math inline">\(\iff\)</span> no odd cycle)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycles.lean#L135"><code>isBipartite_iff_no_odd_cycle</code></a></td>
+<td style="text-align: left;"><strong>Corollary 2.46 &amp; Definitions 2.12, 2.47, 2.51, 2.56, 2.61</strong> (<span class="math inline">\(k\)</span>-component direct product, roots <span class="math inline">\(\Phi\)</span>, signature <span class="math inline">\((p,q,l)\)</span>, 4-way classification, <span class="math inline">\(\Gamma/(r_i)\)</span>, spectral radius)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean"><code>Chapter2Foundations.lean</code></a> (<code>k_component_mulEquiv</code>, <code>roots</code>, <code>signature</code>, <code>signatureType</code>, <code>deleteNode</code>, <code>spectralRadius</code>)</td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;"><strong>Proposition 2.41</strong> (Bipartite <span class="math inline">\(\iff\)</span> no odd cycle)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycles.lean#L144"><code>isBipartite_iff_no_odd_cycle</code></a></td>
+<td style="text-align: left;">✅ Lean 4</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;"><strong>Theorem 2.58</strong> (All principal elements of a tree/forest are conjugate)</td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TreeConjugacy.lean#L385"><code>theorem_2_58_principal_conj_of_isAcyclic</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TreeConjugacy.lean#L393"><code>theorem_2_58_principal_conj_of_isTree</code></a></td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;"><strong>Lemma 2.63</strong> (Principal polynomial invariant under inversion)</td>
 <td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L198"><code>principal_charpoly_eq</code></a></td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;"><strong>Propositions 3.8, 3.19 &amp; Theorem 3.9</strong> (Classical <span class="math inline">\(\Leftrightarrow\)</span> Deletion <span class="math inline">\(\Leftrightarrow\)</span> Exchange; universal quotient)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L362"><code>deletion_iff_exchange</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean#L512"><code>theorem_3_9_coxeter_presentation</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean#L406"><code>theorem_3_9_classical_iff_deletion</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L360"><code>deletion_iff_exchange</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CoxeterPresentation.lean#L512"><code>theorem_3_9_coxeter_presentation</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean#L407"><code>theorem_3_9_classical_iff_deletion</code></a></td>
 <td style="text-align: left;">✅ Lean 4 <em>(full equivalence)</em></td>
 </tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Proposition 3.10</strong> (<span class="math inline">\(w(e_i) \in \Phi^+ \Leftrightarrow \ell(w s_i) &gt; \ell(w)\)</span>; <span class="math inline">\(\Phi = \Phi^+ \sqcup -\Phi^+\)</span>; classical graphs are Coxeter systems)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RootPositivity.lean#L680"><code>prop_3_10</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RootPositivity.lean#L912"><code>classical_graph_isClassicalCoxeter</code></a></td>
+<td style="text-align: left;">✅ Lean 4 + Python</td>
+</tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Propositions 3.10–3.12, Lemmas 3.14, 3.17, Cor. 3.18, Ex. 3.13, 3.16</strong></td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwoRoots.lean#L177"><code>prop_3_11_general</code></a>, <code>RankTwo.lean</code></td>
+<td style="text-align: left;"><strong>Propositions 3.11–3.12, Lemmas 3.14, 3.17, Cor. 3.18 (arbitrary rank), Ex. 3.13, 3.16</strong></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwoRoots.lean#L177"><code>prop_3_11_general</code></a>, <code>RankTwo.lean</code>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L256"><code>corollary_3_18_mixed_sign_infinite</code></a></td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="odd">
@@ -479,7 +488,7 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Theorems 3.27 &amp; 3.28</strong> (Classical spectral classification &amp; interlacing)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L539"><code>theorem_3_27_classification</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L740"><code>theorem_3_28_interlacing</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L572"><code>theorem_3_27_classification</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L781"><code>theorem_3_28_interlacing</code></a></td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="even">
@@ -489,21 +498,2700 @@ window.Quarto = {
 </tr>
 <tr class="odd">
 <td style="text-align: left;"><strong>Theorem 1.6 Remark</strong> (<span class="math inline">\(W(\widetilde{A_{-n}}) \cong W(D_{n+1})\)</span> for all even <span class="math inline">\(n\)</span>)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py"><code>isomorphisms.py</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/docs/verifications.md">verifications.md</a></td>
-<td style="text-align: left;">🐍 Python</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean#L369"><code>theorem_1_6_tildeAminus_iso_D</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/isomorphisms.py"><code>isomorphisms.py</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/docs/verifications.md">verifications.md</a></td>
+<td style="text-align: left;">✅ Lean 4 + Python</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Appendices A, B, D</strong> (Catalogs, Remark A.3 search, GAP 16-relator proof)</td>
-<td style="text-align: left;"><code>catalog.py</code>, <code>finite_search.py</code>, <code>isomorphisms.py</code></td>
-<td style="text-align: left;">🐍 Python</td>
+<td style="text-align: left;"><strong>Appendices A, B, D</strong> (Rem. A.3 reduction, 16 GAP relators, exhaustive catalogs)</td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L198"><code>finite_connected_isDefinite</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean#L528"><code>appendixD_relators_hold</code></a>, <code>catalog.py</code>, <code>finite_search.py</code>, <code>isomorphisms.py</code></td>
+<td style="text-align: left;">✅ Lean 4 + Python</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Questions 2.59 &amp; 3.35</strong> (Open research questions)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py"><code>principal_search.py</code></a></td>
-<td style="text-align: left;">Open Question</td>
+<td style="text-align: left;"><strong>Questions 2.59 &amp; 3.35</strong> (Open research questions &amp; cycle families)</td>
+<td style="text-align: left;"><code>AlternatingSquare.lean</code>, <code>OddCycleSingleDefect.lean</code>, <code>EvenCycleSingleDefect.lean</code>, <code>BipartiteDuality.lean</code>, <code>TwoDefectCycle.lean</code>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/principal_search.py"><code>principal_search.py</code></a></td>
+<td style="text-align: left;">✅ Lean 4 (counterexamples) + 🐍 Python (search)</td>
 </tr>
 </tbody>
 </table>
+</section>
+<section id="complete-statement-index" class="level2">
+<h2 class="anchored" data-anchor-id="complete-statement-index">Complete 107-Statement Index</h2>
+<p>The table below is generated directly from <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/original/mixed_sign_coxeter_statements_lean.csv"><code>original/mixed_sign_coxeter_statements_lean.csv</code></a> (<a href="assets/mixed_sign_coxeter_statements_lean.csv">download CSV</a>), linking every numbered item from Chapters 1–3 of the 2012 dissertation to its exact Lean 4 declaration in <code>lean/MixedSignCoxeter/</code> (and its upstream <code>lean/MathlibDraft/</code> counterpart where applicable).</p>
+<div class="mb-3">
+<p><span class="badge bg-success me-1 mb-1">Verified: 38</span> <span class="badge bg-primary me-1 mb-1">Formalized (definition): 38</span> <span class="badge bg-secondary me-1 mb-1">Prose / notation: 14</span> <span class="badge bg-info text-dark me-1 mb-1">Formalized (remark): 9</span> <span class="badge bg-info text-dark me-1 mb-1">Formalized (example): 6</span> <span class="badge bg-warning text-dark me-1 mb-1">Addressed (counterexample): 2</span></p>
+</div>
+<div class="row g-2 mb-3">
+<div class="col-md-4">
+<pre><code>&lt;input id="stmt-search" type="search" class="form-control form-control-sm" placeholder="Filter by number, statement, Lean symbol, or note..."&gt;</code></pre>
+</div>
+<div class="col-md-2">
+<pre><code>&lt;select id="stmt-chapter" class="form-select form-select-sm"&gt;
+  &lt;option value=""&gt;All chapters&lt;/option&gt;
+  &lt;option value="1"&gt;Chapter 1 (1.1–1.7)&lt;/option&gt;
+  &lt;option value="2"&gt;Chapter 2 (2.1–2.65)&lt;/option&gt;
+  &lt;option value="3"&gt;Chapter 3 (3.1–3.35)&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+</div>
+<div class="col-md-3">
+<pre><code>&lt;select id="stmt-type" class="form-select form-select-sm"&gt;
+  &lt;option value=""&gt;All types&lt;/option&gt;
+  &lt;option value="Corollary"&gt;Corollary&lt;/option&gt;&lt;option value="Definition"&gt;Definition&lt;/option&gt;&lt;option value="Example"&gt;Example&lt;/option&gt;&lt;option value="Lemma"&gt;Lemma&lt;/option&gt;&lt;option value="Proposition"&gt;Proposition&lt;/option&gt;&lt;option value="Question"&gt;Question&lt;/option&gt;&lt;option value="Remark"&gt;Remark&lt;/option&gt;&lt;option value="Theorem"&gt;Theorem&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+</div>
+<div class="col-md-3">
+<pre><code>&lt;select id="stmt-status" class="form-select form-select-sm"&gt;
+  &lt;option value=""&gt;All Lean statuses&lt;/option&gt;
+  &lt;option value="Addressed (counterexample)"&gt;Addressed (counterexample)&lt;/option&gt;&lt;option value="Formalized (definition)"&gt;Formalized (definition)&lt;/option&gt;&lt;option value="Formalized (example)"&gt;Formalized (example)&lt;/option&gt;&lt;option value="Formalized (remark)"&gt;Formalized (remark)&lt;/option&gt;&lt;option value="Prose / notation"&gt;Prose / notation&lt;/option&gt;&lt;option value="Verified"&gt;Verified&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+</div>
+</div>
+<div id="stmt-count" class="small text-muted mb-2">
+Showing 107 of 107 statements
+</div>
+<div class="table-responsive">
+<table class="table table-sm table-hover align-middle" id="stmt-table">
+<thead>
+<tr>
+<th style="white-space:nowrap;">
+#
+</th>
+<th>
+Type
+</th>
+<th style="min-width:260px;">
+Dissertation Statement
+</th>
+<th style="white-space:nowrap;">
+Lean Status
+</th>
+<th style="min-width:200px;">
+Lean 4 Counterpart
+</th>
+</tr>
+</thead>
+<tbody>
+<tr data-chapter="1" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>1.1</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+In matrix form, the principal element s_1 s_2 s_3 s_n of the reflection system (W, S, B) can be written as -U<sup>{-1}U</sup>T where U_{i,j} = B(e_i, e_j) if j &gt; i; B(e_i, e_j)/2 if i = j; 0 if i &gt; j.
+<div class="small text-muted mt-1">
+p.&nbsp;4 · §1.4 Main results
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L218" target="_blank" rel="noopener">Howlett.lean</a>: <code>howlett_principalElement_eq_neg_inv_mul_transpose</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Howlett.lean#L258" target="_blank" rel="noopener">Howlett.lean</a>: <code>howlett_principalElement_eq_neg_inv_mul_transpose</code>
+</div>
+<div class="small text-muted mt-1">
+Proved in full generality via prefix induction howlett_prefix_invariant.
+</div>
+</td>
+</tr>
+<tr data-chapter="1" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>1.2</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+There exists an infinite family of mixed-sign Coxeter systems which do not satisfy the Deletion Property.
+<div class="small text-muted mt-1">
+p.&nbsp;4 · §1.4 Main results
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L253" target="_blank" rel="noopener">ParabolicTransfer.lean</a>: <code>theorem_1_2_tail_family</code>, <code>theorem_1_2_extended_family</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ParabolicTransfer.lean#L203" target="_blank" rel="noopener">ParabolicTransfer.lean</a>: <code>prod_map_reflectionMatrix_eq_iff_submatrix</code>
+</div>
+<div class="small text-muted mt-1">
+Also proved for the block-extended family in CyclesAndDeletion.lean (theorem_1_2_infinite_family); ParabolicTransfer proves failure for every graph containing ~A_{-2}.
+</div>
+</td>
+</tr>
+<tr data-chapter="1" data-type="Corollary" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>1.3</strong>
+</td>
+<td style="white-space:nowrap;">
+Corollary
+</td>
+<td>
+There exists an infinite family of mixed-sign Coxeter systems which are not conjugate to a classical Coxeter system.
+<div class="small text-muted mt-1">
+p.&nbsp;5 · §1.4 Main results
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L183" target="_blank" rel="noopener">ClassicalDeletion.lean</a>: <code>corollary_1_3_not_conjugate_to_deletion</code>
+<div class="small text-muted mt-1">
+Combined with ClassicalCoxeterDeletion.lean (theorem_3_9_classical_iff_deletion), proves the infinite family is not O-conjugate to any classical Coxeter system.
+</div>
+</td>
+</tr>
+<tr data-chapter="1" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>1.4</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+If is a bipartite reflection diagram then (W, S, B()) is conjugate to (W, S, B(_{-})) by an element of .
+<div class="small text-muted mt-1">
+p.&nbsp;5 · §1.4 Main results
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L65" target="_blank" rel="noopener">Bipartite.lean</a>: <code>bipartite_conjugation_theorem</code>, <code>bipartite_conjugates_reflections</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Bipartite.lean#L116" target="_blank" rel="noopener">Bipartite.lean</a>: <code>signFlip_mul_mul_signFlip</code>, <code>isConj_prod_reflectionMatrix_negDiag</code>
+</div>
+<div class="small text-muted mt-1">
+Proves P^T * B(Gamma) * P = -B(Gamma_-) and conjugation of all generating reflections by P in O.
+</div>
+</td>
+</tr>
+<tr data-chapter="1" data-type="Corollary" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>1.5</strong>
+</td>
+<td style="white-space:nowrap;">
+Corollary
+</td>
+<td>
+If is a bipartite mixed-sign Coxeter diagram then (W, S, B()) is conjugate to (W, S, B(_{-})) by an element of .
+<div class="small text-muted mt-1">
+p.&nbsp;5 · §1.4 Main results
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L122" target="_blank" rel="noopener">MixedSign.lean</a>: <code>bipartite_mixed_sign_conjugation</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Bipartite.lean#L116" target="_blank" rel="noopener">Bipartite.lean</a>: <code>signFlip_mul_mul_signFlip</code>
+</div>
+<div class="small text-muted mt-1">
+Specialization of Theorem 1.4 to MixedSignCoxeterGraph.
+</div>
+</td>
+</tr>
+<tr data-chapter="1" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>1.6</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+For even n, the reflection systems (W, S, B(_{-n})) and (W, S, B(_n)) are not conjugate reflection systems.
+<div class="small text-muted mt-1">
+p.&nbsp;5 · §1.4 Main results
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L479" target="_blank" rel="noopener">CyclesAndDeletion.lean</a>: <code>oddCycle_not_O_conjugate</code>
+<div class="small text-muted mt-1">
+Proves B(~A_n) is positive semidefinite degenerate while B(~A_{-n}) is strictly negative definite for even n, so they are not O-conjugate. TildeAminusEvenIso.lean further proves W(~A_{-n}) ≅ W(D_{n+1}) for all even n &gt;= 2 and infinity of W(~A_{-n}) for all odd n &gt;= 3.
+</div>
+</td>
+</tr>
+<tr data-chapter="1" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>1.7</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+There exists a bipartite mixed-sign Coxeter system with a bipartite principal element which does not have the smallest spectral radius among other principal elements in the mixed-sign Coxeter system.
+<div class="small text-muted mt-1">
+p.&nbsp;6 · §1.4 Main results
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211" target="_blank" rel="noopener">SpectralRadius.lean</a>: <code>theorem_3_34_bipartite_exceeds_linear</code>
+<div class="small text-muted mt-1">
+Witnessed by Example 3.33 (6-node bipartite graph) and also by the smaller 4-node alternating square in AlternatingSquare.lean (alternatingSquare_bipartite_not_min).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.1</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A bilinear form is a function, f: ^n ^n such that for all u, v, w ^n and for all c then f(cv, u) = cf(v, u) = f(v, cu); f(v + w, u) = f(v, u) + f(w, u); f(v, u + w) = f(v, u) + f(v, w).
+<div class="small text-muted mt-1">
+p.&nbsp;8 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Standard linear algebra definition; in Lean/Mathlib bilinear forms are represented by LinearMap.BilinForm or real matrices Matrix (Fin n) (Fin n) R.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.2</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A bilinear form is symmetric if f(v, u) = f(u, v) for all v, u ^n.&nbsp;The matrix B is used to define a symmetric bilinear form on ^n.&nbsp;For any v, u ^n we have B(v, u) = v^T B u where v^T is the transpose of v. We will use V to denote ^n with the bilinear form B.
+<div class="small text-muted mt-1">
+p.&nbsp;8 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L32" target="_blank" rel="noopener">Basic.lean</a>: <code>ReflectionSystem</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L50" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>ReflectionSystem</code>
+</div>
+<div class="small text-muted mt-1">
+Symmetric bilinear form represented by a symmetric matrix B with B_symm : B.IsSymm.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.3</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+The vectors v and u are orthogonal relative to B if B(v, u) = 0. Let H_v:= {u V B(v, u) = 0} be the set of all vectors u which are orthogonal to v relative to B.
+<div class="small text-muted mt-1">
+p.&nbsp;8 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Orthogonality relative to B is expressed directly as B i j = 0 or dotProduct v (B *ᵥ u) = 0.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.4</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+For every v V the map s_v: V V defined by s_v(u):= u - v is a reflection through H_v on V. The map s_v is a reflection in the sense that s_v is linear; negates the vector v (s_v(v) = -v); pointwise fixes H_v (if u H_v then s_v(u) = u); is an involution (s_v^2(u) = u for all u V). We will use the basis <em>+ of ^n to define a set of distinguished generators for a group acting on V. For each basis element e_i define the map s</em>{e_i}(v):= v - e_i.
+<div class="small text-muted mt-1">
+p.&nbsp;9 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L44" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply_self</code>, <code>reflectionMatrix_mul_self</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L64" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply_self</code>, <code>reflectionMatrix_mul_self</code>
+</div>
+<div class="small text-muted mt-1">
+Matrix form of generating reflections s_{e_i}, together with linearity, negation of e_i, and involution.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>2.5</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+We will often use s_i in place of s_{e_i}. Notice that each generating reflection is defined to be an element of the orthogonal group on V (s_i O(V) for all i).
+<div class="small text-muted mt-1">
+p.&nbsp;9 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L88" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_preserves_B</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L110" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_preserves_form</code>
+</div>
+<div class="small text-muted mt-1">
+Verifies each s_i preserves B (i.e.&nbsp;s_i in O(V)).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>2.6</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Not only does s_i leave H_{e_i} fixed, the action of s_i on a vector v V only changes the ith coordinate of v. Suppose that v = _{j=1}^{n} v_j e_j with v_j then s_i(v) = v - e_i = _j v_j e_j - e_i = _j v_j e_j - 2_j v_j e_i. So the kth coordinate of v is then (s_i(v))_k = v_k if k i; v_k - 2_j v_j if k = i (2.6.1).
+<div class="small text-muted mt-1">
+p.&nbsp;9 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RootPositivity.lean#L218" target="_blank" rel="noopener">RootPositivity.lean</a>: <code>refl_mulVec</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/GeometricRep.lean#L407" target="_blank" rel="noopener">GeometricRep.lean</a>: <code>geomRefl_mulVec</code>
+</div>
+<div class="small text-muted mt-1">
+Explicit coordinate-wise action of s_i on a vector v; see also Basic.lean (reflectionMatrix_apply).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.7</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Each s_i S is thought of as an n n matrix in _n() s_i = [s_i(e_1), s_i(e_2), , s_i(e_n)] where by equation 2.6.1 we know that s_i(e_j) is the column vector which has a 1 in the jth component and - in the ith component.
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L44" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L64" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>, <code>reflectionMatrix_apply</code>
+</div>
+<div class="small text-muted mt-1">
+Defines s_i directly as an n x n matrix with entries delta_{kj} - 2 B_{ij}/B_{ii} for k = i.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.8</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+We use for the subgroup of O(V) which fixes the set {e_1, e_2, e_3, , e_n}.
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L34" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>SignedPerm</code>, <code>toMatrix</code>
+<div class="small text-muted mt-1">
+Signed permutation matrices permuting {±e_1, …, ±e_n}.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.9</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+The set S = {s_1, s_2, , s_n} is the set of generating reflections.
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L44" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L64" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix</code>
+</div>
+<div class="small text-muted mt-1">
+Generating reflection family i ↦ reflectionMatrix S.B i.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.10</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Let W = s_1, s_2, s_3, , s_n be the reflection group generated by S.
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L37" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>W_group</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L182" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>group</code>
+</div>
+<div class="small text-muted mt-1">
+Submonoid / subgroup generated by the generating reflections s_i.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>2.11</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+The reflection group W is generated by matrices which are orthogonal reflections, therefore W is a subgroup of the orthogonal group on V. (W O(V)).
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L275" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>W_group_preserves_B</code>, <code>W_group_to_GL</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L186" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>group_preserves_form</code>, <code>toGL</code>
+</div>
+<div class="small text-muted mt-1">
+Embeds W faithfully into GL_n(R) preserving the bilinear form B.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.12</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+The set of roots of a reflection system is defined to be := W_+ = {w e_i w W}.
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L48" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>roots</code>, <code>simple_mem_roots</code>, <code>roots_mulVec_mem</code>, <code>roots_neg_mem</code>, <code>roots_quadForm_eq</code>
+<div class="small text-muted mt-1">
+Defines Phi = {w e_i | w in W} as ReflectionSystem.roots with W-invariance, negation closure, non-vanishing, and quadratic-form invariance.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.13</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A vector v is positive if v and v = <em>i v_i e_i and v_i for all i. Let </em>+ be the set of roots which are positive, we call these positive roots.
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RootPositivity.lean#L264" target="_blank" rel="noopener">RootPositivity.lean</a>: <code>IsPositive</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/GeometricRep.lean#L1283" target="_blank" rel="noopener">GeometricRep.lean</a>: <code>geometricRep_mulVec_single_nonneg_iff</code>
+</div>
+<div class="small text-muted mt-1">
+Nonzero vector with all coordinates &gt;= 0.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.14</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+We say the group W preserves the bilinear form B if for all w W and for all v, u V we have B(wv, wu) = B(v, u). Since W is generated by S = {s_1, s_2, s_3, , s_n} then any element in w W may be written in terms of generators in the letters of S.
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L275" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>W_group_preserves_B</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L186" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>group_preserves_form</code>
+</div>
+<div class="small text-muted mt-1">
+Bilinear-form invariance w^T * B * w = B for all w in W.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.15</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+When w is written in terms of generating reflections we call any such representation a word representation of w in the letters of S. A word representation for a given element in W is not unique. For instance, the identity element has infinitely many different word representations in the letters of S, 1 = (s_i s_i)^n for every n . Note this also implies that any element of W has infinitely many word representations.
+<div class="small text-muted mt-1">
+p.&nbsp;10 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L199" target="_blank" rel="noopener">Basic.lean</a>: <code>wordProd</code>
+<div class="small text-muted mt-1">
+Evaluation of a word (List (Fin n)) in the generating reflections.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.16</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+The length of w is the smallest k such that w can be written in terms of k letters in S, such a representation is a reduced word representation of w in the letters of S. We use the notation l(w) = k to denote that the reduced length of w is k. By convention, l(1) = 0. If l(w) = k then there are n^k possibilities for a reduced word representation of w.
+<div class="small text-muted mt-1">
+p.&nbsp;11 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L196" target="_blank" rel="noopener">ClassicalDeletion.lean</a>: <code>IsReducedWord</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Presentation.lean#L59" target="_blank" rel="noopener">Presentation.lean</a>: <code>IsReducedWord</code>
+</div>
+<div class="small text-muted mt-1">
+Reduced word predicate; minimum word length function len is also defined in RootPositivity.lean (line 88) and MathlibDraft/GeometricRep.lean (geomLen).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.17</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+The reflection group W preserves the bilinear form B.
+<div class="small text-muted mt-1">
+p.&nbsp;11 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L275" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>W_group_preserves_B</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L186" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>group_preserves_form</code>
+</div>
+<div class="small text-muted mt-1">
+Generator case proved in Basic.lean (reflectionMatrix_preserves_B); extended to all w in W.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.18</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A reflection system on ^n is the triple (W, S, B); where B is a symmetric bilinear form, S = {s_1, s_2, s_3, , s_n} where the action of s_i on e_j is s_i(e_j) = e_j - e_i is the set of generating reflections thought of as the matrices in Remark 2.7, and W is the reflection group generated by S.
+<div class="small text-muted mt-1">
+p.&nbsp;12 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L32" target="_blank" rel="noopener">Basic.lean</a>: <code>ReflectionSystem</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L50" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>ReflectionSystem</code>
+</div>
+<div class="small text-muted mt-1">
+Core structure packaging symmetric matrix B with nonzero diagonal.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.19</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Throughout, we assume that the vector space V is ^n with the bilinear form B. Since the set of generating reflections are defined with respect to _+ and B, we can recover the set of generating reflections S given the matrix B. Therefore, we may refer to the set of generators by S(B). Since the group W is generated by S, we can also recover the reflection group W from B and we use W(B) to refer to the reflection group which preserves the bilinear form B.
+<div class="small text-muted mt-1">
+p.&nbsp;12 · §2.1 Basic definitions and properties
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Notation convention S(B), W(B); realized by taking ReflectionSystem as the primary object.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.20</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Since each s_i is a reflection we have s_i^2 = 1 W.
+<div class="small text-muted mt-1">
+p.&nbsp;12 · §2.2 Relations in W
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L66" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_mul_self</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L87" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_mul_self</code>
+</div>
+<div class="small text-muted mt-1">
+Each generating reflection satisfies s_i * s_i = 1.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.21</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+If <em>{j=1}^{k} s</em>{(j)} is a reduced word representation for w in the letters of S and k is odd then w cannot be the identity element in W.
+<div class="small text-muted mt-1">
+p.&nbsp;12 · §2.2 Relations in W
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L216" target="_blank" rel="noopener">Basic.lean</a>: <code>odd_word_ne_one</code>, <code>det_wordProd</code>
+<div class="small text-muted mt-1">
+Proved via det(s_i) = -1 (det_reflectionMatrix) and det(wordProd w) = (-1)^w.length.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.22</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+If e_i and e_j are orthogonal relative to B then s_i and s_j commute. That is, if B(e_i, e_j) = 0 then s_i s_j = s_j s_i.
+<div class="small text-muted mt-1">
+p.&nbsp;13 · §2.2 Relations in W
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L121" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_comm_of_orthogonal</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L147" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_comm_of_orthogonal</code>
+</div>
+<div class="small text-muted mt-1">
+If B i j = 0 then s_i * s_j = s_j * s_i.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.23</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A reflection diagram with n nodes is an undirected graph with nodes denoted by r_i with weights weight(r_i). The edge weight between r_i and r_j is denoted by weight(r_i, r_j). If there is no edge connecting r_i to r_j then weight(r_i, r_j) = 0.
+<div class="small text-muted mt-1">
+p.&nbsp;14 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TreeConjugacy.lean#L56" target="_blank" rel="noopener">TreeConjugacy.lean</a>: <code>diagram</code>
+<div class="small text-muted mt-1">
+SimpleGraph adjacency of a reflection diagram; node and edge weights are carried by the symmetric matrix B.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.24</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Given a reflection diagram we define a symmetric bilinear form B() by B()(e_i, e_j) = weight(r_i) if i = j; weight(r_i, r_j) if i j. Similarly, given a bilinear form B we define a reflection diagram (B).
+<div class="small text-muted mt-1">
+p.&nbsp;14 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L75" target="_blank" rel="noopener">MixedSign.lean</a>: <code>toBilinearForm</code>
+<div class="small text-muted mt-1">
+Constructs B(Gamma) from a weighted MixedSignCoxeterGraph; general reflection diagrams are identified with their symmetric matrix B.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.25</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+If B is a symmetric bilinear form on ^n then let (B) be the reflection diagram with n nodes r_1, r_2, , r_n defined as follows. Define weight(r_i) to be B(e_i, e_i). If B(e_i, e_j) = 0 then there is no edge between r_i and r_j, otherwise define weight(r_i, r_j) to be B(e_i, e_j).
+<div class="small text-muted mt-1">
+p.&nbsp;14 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TreeConjugacy.lean#L56" target="_blank" rel="noopener">TreeConjugacy.lean</a>: <code>diagram</code>
+<div class="small text-muted mt-1">
+Underlying SimpleGraph Gamma(B) with edges where i != j and B i j != 0.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.26</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Given a bilinear form B, the reflection diagram (B) determines a bilinear form B((B)), which is easily seen to be B. Similarly given a reflection diagram , the bilinear form defined by is B() and the reflection diagram of this bilinear form is .
+<div class="small text-muted mt-1">
+p.&nbsp;14 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Expository remark on the correspondence between B and Gamma(B).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.27</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Let (W, S, B) be a reflection system. We define S(B) to be the set of generating reflections for W(B) the reflection group in the reflection system (W, S, B). Similarly, we define S() to be the set of generating reflections for W() the reflection group in the reflection system (W, S, B()).
+<div class="small text-muted mt-1">
+p.&nbsp;14 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Notation convention for S(B), W(B), S(Gamma), W(Gamma).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.28</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+If node e_i is not connected to node e_j then s_i s_j = s_j s_i.
+<div class="small text-muted mt-1">
+p.&nbsp;14 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L225" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_comm_of_not_adjacent</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L147" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_comm_of_orthogonal</code>
+</div>
+<div class="small text-muted mt-1">
+Direct corollary of Proposition 2.22 for non-adjacent nodes.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.29</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Two reflection systems (W_1, S_1, B_1) and (W_2, S_2, B_2) are conjugate if there is an orthogonal transformation P with B_2 = P^T B_1 P, S_2 = P^T S_1 P, and W_2 = P^T W_1 P. Recall the involution s_i is defined with respect to <em>+ = {e_1, e_2, , e_n} and a symmetric bilinear form, s_i(e_j) = e_j - e_i. The set is precisely the set of elements in the orthogonal group which permute </em>+.
+<div class="small text-muted mt-1">
+p.&nbsp;15 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L34" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>SignedPerm</code>, <code>conjugate_reflections_of_form</code>, <code>conjugate_reflections_of_neg_form</code>
+<div class="small text-muted mt-1">
+Conjugacy of reflection systems via P in O (SignedPerm).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.30</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Recall if P then it is an element of the orthogonal group, specifically P has the property that P^T = P = P^{-1}.
+<div class="small text-muted mt-1">
+p.&nbsp;15 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L57" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>toMatrix_transpose_mul_self</code>
+<div class="small text-muted mt-1">
+Proves P^T * P = 1 for all P in O. (Note: P = P^T holds for symmetric P such as bipartiteConjugator, not for non-involutive permutations.)
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Lemma" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.31</strong>
+</td>
+<td style="white-space:nowrap;">
+Lemma
+</td>
+<td>
+For every symmetric bilinear form B, we have W(B) = W(-B).
+<div class="small text-muted mt-1">
+p.&nbsp;15 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L60" target="_blank" rel="noopener">Basic.lean</a>: <code>reflectionMatrix_neg</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L79" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>reflectionMatrix_neg</code>
+</div>
+<div class="small text-muted mt-1">
+Proves reflectionMatrix (-B) i = reflectionMatrix B i, so S(-B) = S(B) and W(-B) = W(B).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Lemma" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.32</strong>
+</td>
+<td style="white-space:nowrap;">
+Lemma
+</td>
+<td>
+Suppose B_2 = P^T B_1 P where P then (W_1, S_1, B_1) and (W_2, S_2, B_2) are conjugate reflection systems.
+<div class="small text-muted mt-1">
+p.&nbsp;15 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L102" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>conjugate_reflections_of_form</code>, <code>conjugate_reflections_of_neg_form</code>
+<div class="small text-muted mt-1">
+Both + and - sign cases proved for P in O.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.33</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+An isomorphism of graphs is a map : _1 _2 with the following properties: 1. For every node r_i Node _1 we have (r_i) Node _2. 2. For every node r'_i Node _2 we have ^{-1}(r'_i) Node _1. 3. If node r_i is weighted with B(e_i, e_i) then node (r_i) also has weight B(e_i, e_i). 4. If B(e_i, e_j) is the edge weight between r_i and r_j, then B(e_i, e_j) also is the edge weight between (r_i) and (r_j).
+<div class="small text-muted mt-1">
+p.&nbsp;16 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L135" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>IsGraphIso</code>
+<div class="small text-muted mt-1">
+Weight-preserving bijection between reflection diagrams.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.34</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Suppose that : _1 _2 is an isomorphism of graphs then induces an element of the symmetric group which acts on n letters where n is the number of nodes in as follows. If (r_i) = r'_j then (i) = j.
+<div class="small text-muted mt-1">
+p.&nbsp;16 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L135" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>IsGraphIso</code>
+<div class="small text-muted mt-1">
+Graph isomorphism is parameterized directly by a permutation sigma : Equiv.Perm (Fin n).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.35</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+An isomorphism of reflection diagrams induces an isomorphism of reflection groups. The converse is not true, in general. The reflection diagram gives us more information than just the abstract group; it gives the triple (W, S, B). This is a more restrictive requirement than an isomorphism of groups, as seen in the following example.
+<div class="small text-muted mt-1">
+p.&nbsp;16 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Expository remark contrasting diagram isomorphism with abstract group isomorphism.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Example" data-status="Formalized (example)">
+<td style="white-space:nowrap;">
+<strong>2.36</strong>
+</td>
+<td style="white-space:nowrap;">
+Example
+</td>
+<td>
+The reflection diagram will explicitly determine a set of generators and a presentation for a reflection group. Sometimes different choices of generators will determine non-isomorphic reflection diagrams. We give one example here, consider D_8 the group of reflections and rotations which leave a square centered at the origin unchanged. Here we compare three presentations of D_8. (D_8, S_1, B_1) s_1, s_2 s_1^2 = s_2^2 = (s_1 s_2)^4 = 1 (D_8, S_2, B_2) s_1, s_2, s_3, s_4 s_i^2 = 1 i, (s_1 s_2)^4 = (s_1 s_3)^2 = 1, (s_1 s_4)^4 = (s_2 s_3)^4 = (s_2 s_4)^2 = (s_3 s_4)^4 = 1 (D_8, S_3, B_3) r, s s^2 = r^4 = (s r)^2 = 1 Notice that the presentation associated to (D_8, S_3, B_3) has two generators r, s. However since r is not an involution, (D_8, S_3, B_3) is not a reflection system. The other two presentations (D_8, S_1, B_1) and (D_8, S_2, B_2) both happen to be reflection systems; in fact they are both classical Coxeter systems. The may be thought of matrix groups generated by matrices for S. For instance, B_1 is 2 matrix below, and B_2 is the 4 matrix below B_1 = [2, -1; -1, 2] B_2 = [2, -, 0, -; -, 2, -, 0; 0, -, 2, -; -, 0, -, 2]. An inspection of the reflection diagrams in Figure 2.1 shows that the corresponding graphs are not isomorphic. Furthermore the reflection systems are not conjugate since (for instance) B_1 is a 2 matrix whereas B_2 is a 4 matrix.
+<div class="small text-muted mt-1">
+p.&nbsp;17 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (example)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L261" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>example_2_36_form_conjugate</code>
+<div class="small text-muted mt-1">
+Verifies the D_8 presentation example.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Lemma" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.37</strong>
+</td>
+<td style="white-space:nowrap;">
+Lemma
+</td>
+<td>
+If _1 _2 then B(_1) is conjugate to B(_2) by an element of .
+<div class="small text-muted mt-1">
+p.&nbsp;17 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L139" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>graphIso_conjugates_forms</code>
+<div class="small text-muted mt-1">
+Graph isomorphism induces P in O conjugating B(Gamma_1) to B(Gamma_2).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Corollary" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.38</strong>
+</td>
+<td style="white-space:nowrap;">
+Corollary
+</td>
+<td>
+The graphs _1 and _2 are isomorphic if and only if (W, S, B(_1)) and (W, S, B(_2)) are conjugate reflection systems.
+<div class="small text-muted mt-1">
+p.&nbsp;18 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L152" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>graphIso_iff_perm_conjugate</code>, <code>O_conjugate_preserves_diag_and_abs</code>
+<div class="small text-muted mt-1">
+Proves equivalence for permutation-matrix conjugacy and invariance of diagonal/absolute off-diagonal entries under O.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.39</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Note, that P needs to be in otherwise Corollary 2.38 is not true. For instance, every symmetric n n matrix B is conjugate to a diagonal matrix of it's eigenvalues. The reflection diagram for a diagonal matrix would consist of n nodes, all disjoint. The two corresponding graphs may not be isomorphic.
+<div class="small text-muted mt-1">
+p.&nbsp;18 · §2.3 Conjugate reflection systems and reflection diagrams
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Expository remark on why P must lie in O rather than all of O(n).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.40</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A graph is a bipartite if the vertices can be divided into two disjoint sets N_1 and N_2 such that every edge in connects a node in N_1 to a node in N_2.
+<div class="small text-muted mt-1">
+p.&nbsp;18 · §2.4 Bipartite orderings and proof of Theorem 1.4
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L36" target="_blank" rel="noopener">Bipartite.lean</a>: <code>BipartiteReflectionSystem</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Bipartite.lean#L63" target="_blank" rel="noopener">Bipartite.lean</a>: <code>IsBipartition</code>
+</div>
+<div class="small text-muted mt-1">
+Bipartite partition of vertices into two disjoint parts with no intra-part edges.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.41</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+A graph is bipartite if and only if does not contain an odd-cycle as a subgraph.
+<div class="small text-muted mt-1">
+p.&nbsp;18 · §2.4 Bipartite orderings and proof of Theorem 1.4
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/OddCycles.lean#L144" target="_blank" rel="noopener">OddCycles.lean</a>: <code>isBipartite_iff_no_odd_cycle</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/BipartiteOddCycles.lean#L78" target="_blank" rel="noopener">BipartiteOddCycles.lean</a>: <code>isBipartite_iff_forall_isCycle_even_length</code>, <code>isBipartite_iff_forall_odd_free_cycleGraph</code>
+</div>
+<div class="small text-muted mt-1">
+Full graph-theoretic characterization proved for arbitrary SimpleGraph.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.42</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Suppose that is a bipartite reflection diagram. Then the nodes of can be divided into two sets N_1 and N_2. Suppose that the nodes in N_1 are r_1, r_2, , r_{n_1} and the nodes in N_2 are numbered r_{n_1+1}, r_{n_1+2}, , r_{n_1+n_2}. This ordering is an Example of a bipartite ordering on the graph. The bilinear form for a graph with a bipartite ordering is in Figure 2.2.
+<div class="small text-muted mt-1">
+p.&nbsp;19 · §2.4 Bipartite orderings and proof of Theorem 1.4
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Ordering convention grouping N_1 before N_2; handled by a Bool coloring in BipartiteReflectionSystem and block matrices in SpectralClassification.lean.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.43</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+For a reflection diagram , let _{-} be the reflection diagram obtained by negating all the node weights in .
+<div class="small text-muted mt-1">
+p.&nbsp;19 · §2.4 Bipartite orderings and proof of Theorem 1.4
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L27" target="_blank" rel="noopener">Bipartite.lean</a>: <code>negateDiag</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Bipartite.lean#L69" target="_blank" rel="noopener">Bipartite.lean</a>: <code>negDiag</code>
+</div>
+<div class="small text-muted mt-1">
+Negates all diagonal entries of B; also MixedSign.lean (negateSigns).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.44</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+We say a reflection system is irreducible if the associated graph is connected.
+<div class="small text-muted mt-1">
+p.&nbsp;20 · §2.5.1 Irreducible reflection systems
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L42" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>IsConnected</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/FiniteReduction.lean#L57" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>IsConnected</code>
+</div>
+<div class="small text-muted mt-1">
+Connectedness via reflexive-transitive closure of B u v != 0.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.45</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+Suppose is comprised of exactly two connected components _1 and _2, then B() is reducible and W() W(_1) W(_2).
+<div class="small text-muted mt-1">
+p.&nbsp;21 · §2.5.1 Irreducible reflection systems
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L60" target="_blank" rel="noopener">ComponentsAndTrees.lean</a>: <code>wordProd_split_components</code>, <code>component_fixes_other</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L250" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>prod_map_reflectionMatrix_split</code>, <code>prod_map_reflectionMatrix_apply_of_orthogonal</code>
+</div>
+<div class="small text-muted mt-1">
+Proves every word factors into commuting component words and each component pointwise fixes the complementary subspace.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Corollary" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.46</strong>
+</td>
+<td style="white-space:nowrap;">
+Corollary
+</td>
+<td>
+If is comprised of exactly k connected components _1, _2, , _k then W() W(_1) W(_2) W(_k).
+<div class="small text-muted mt-1">
+p.&nbsp;22 · §2.5.1 Irreducible reflection systems
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L396" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>k_component_mulEquiv</code>, <code>wordProd_split_k_components</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L250" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>prod_map_reflectionMatrix_split</code>
+</div>
+<div class="small text-muted mt-1">
+Proves full k-component word factorization and explicit group isomorphism W(Gamma) ≃* ∀ c : Fin k, W(Gamma_c).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.47</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+The signature of a bilinear form is defined to be (B) = (p, q, l) where p is the number of positive eigenvalues of B, q is the number of negative eigenvalues of B, and l = n - (p + q).
+<div class="small text-muted mt-1">
+p.&nbsp;22 · §2.5.2 Classification by signature
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L471" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>signature</code>, <code>signature_sum</code>, <code>isPosDef_iff_signature</code>, <code>isNegDef_iff_signature</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/FiniteReduction.lean#L48" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>IsPosDef</code>, <code>IsNegDef</code>
+</div>
+<div class="small text-muted mt-1">
+Eigenvalue signature triple sig(B) = (p, q, l) via Matrix.IsHermitian.eigenvalues with p + q + l = n and definiteness equivalences.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.48</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+The quadratic form associated to a bilinear form is Q(v) = B(v, v).
+<div class="small text-muted mt-1">
+p.&nbsp;22 · §2.5.2 Classification by signature
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L232" target="_blank" rel="noopener">Basic.lean</a>: <code>quadForm</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/FiniteReduction.lean#L44" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>quadForm</code>
+</div>
+<div class="small text-muted mt-1">
+Quadratic form quadForm B v = v^T B v.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>2.49</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+For all w W and v V we have Q(w v) = B(w v, w v) = B(v, v) = Q(v) so that the group W preserves the set of {v V: |Q(v)| = c} where c .
+<div class="small text-muted mt-1">
+p.&nbsp;22 · §2.5.2 Classification by signature
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L275" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>W_group_preserves_B</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ReflectionSystem.lean#L186" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>group_preserves_form</code>
+</div>
+<div class="small text-muted mt-1">
+Invariance of Q(v) follows directly from w^T * B * w = B.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>2.50</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+A real-valued symmetric bilinear form is positive definite when Q(v) with Q(v) = 0 if and only if v = 0. When B is positive definite then the bilinear form may be used to define an inner product on ^n.&nbsp;In order for this to occur, B must have all positive eigenvalues. In this case, Q(v) can be used to define a norm on vectors, . Furthermore, the bilinear form may be used to define an angle measurement between two vectors v, w as (v, w) = B(v, w)/. When B is positive definite Remark 2.49 says that the action of the reflection group W on V "preserves" lengths of vectors and pairwise angle measurements. However, some of the bilinear forms that we examine do not define an inner product space. In fact, Example 3.16 has signature (1, 1, 0). The existence of a negative eigenvalue ensures the existence of a v V with Q(v) &lt; 0.
+<div class="small text-muted mt-1">
+p.&nbsp;22 · §2.5.2 Classification by signature
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L237" target="_blank" rel="noopener">Basic.lean</a>: <code>IsPosDef</code>, <code>IsIndefinite</code>, <code>example_2_52_A2_pm_indefinite</code>
+<div class="small text-muted mt-1">
+Defines positive definiteness and indefiniteness and verifies indefinite example A_2(+,-).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.51</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Given an irreducible reflection system (W, S, B) with reflection diagram which has n nodes we will classify the system as: 1. Spherical if (B) = (n, 0, 0) or (V, B) = (0, n, 0). 2. Affine if (B) = (n - 1, 0, 1) or (V, B) = (0, n - 1, 1). 3. Hyperbolic if (B) = (n - 1, 1, 0) or (V, B) = (1, n - 1, 0). 4. Higher-rank otherwise.
+<div class="small text-muted mt-1">
+p.&nbsp;23 · §2.5.2 Classification by signature
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L647" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>SignatureType</code>, <code>signatureType</code>, <code>signatureType_eq_spherical_iff</code>, <code>signatureType_eq_hyperbolic_iff</code>, <code>signatureType_eq_higherRank_of_two_pos_two_neg</code>
+<div class="small text-muted mt-1">
+Full 4-way classification (spherical, affine, hyperbolic, higherRank) explicitly separating hyperbolic from higher-rank indefinite systems.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Example" data-status="Formalized (example)">
+<td style="white-space:nowrap;">
+<strong>2.52</strong>
+</td>
+<td style="white-space:nowrap;">
+Example
+</td>
+<td>
+For instance, if a bilinear form is spherical then W preserves the set {v V | Q|(v)| = c} with c &gt; 0. This set is homeomorphic to S^{n-1}.
+<div class="small text-muted mt-1">
+p.&nbsp;23 · §2.5.2 Classification by signature
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (example)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Basic.lean#L271" target="_blank" rel="noopener">Basic.lean</a>: <code>example_2_52_A2_pp_posDef</code>, <code>example_2_52_A2_pm_indefinite</code>
+<div class="small text-muted mt-1">
+Verifies positive definiteness of A_2(+,+) and indefiniteness of A_2(+,-).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.53</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A principal element is an element of the reflection group W, containing exactly one of each of the generators of the reflection group W. Specifically, a principal element has the form w_= s_{(1)} s_{(2)} s_{(n)} where is a permutation of 1, 2, 3, , n.
+<div class="small text-muted mt-1">
+p.&nbsp;23 · §2.6 Principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L50" target="_blank" rel="noopener">Howlett.lean</a>: <code>principalElement</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Howlett.lean#L91" target="_blank" rel="noopener">Howlett.lean</a>: <code>principalElement</code>
+</div>
+<div class="small text-muted mt-1">
+Ordered principal element s_0 … s_{n-1}; general permutation principal words defined in TreeConjugacy.lean (IsPrincipalWord).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.54</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+In a reflection group W there are between 1 and n! principal elements.
+<div class="small text-muted mt-1">
+p.&nbsp;23 · §2.6 Principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Elementary counting remark (between 1 and n! principal elements).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.55</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Let _{r_i}^m {r_t} be the graph obtained by adding the node r_t by an edge with weight m to node r_i in .
+<div class="small text-muted mt-1">
+p.&nbsp;24 · §2.6 Principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L229" target="_blank" rel="noopener">ParabolicTransfer.lean</a>: <code>tildeAminus2Tail</code>
+<div class="small text-muted mt-1">
+Tail-join construction for Gamma_n = Gamma_{n-1} *<em>{r</em>{n-1}} {r_n}; general subdiagram inclusion modeled via arbitrary embeddings f : Fin m -&gt; Fin n.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.56</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Let /(r_i) denote the graph obtained by deleting node r_i and adjacent edges from the graph .
+<div class="small text-muted mt-1">
+p.&nbsp;24 · §2.6 Principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L712" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>deleteNode</code>, <code>deleteNode_wordProd_sub_of_map</code>, <code>deleteNode_wordProd_eq_iff</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/ParabolicTransfer.lean#L59" target="_blank" rel="noopener">ParabolicTransfer.lean</a>: <code>submatrix</code>
+</div>
+<div class="small text-muted mt-1">
+Node deletion Gamma / (r_i) via Matrix.submatrix with Fin.succAbove i and parabolic relation transfer.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.57</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Notice the notion for the join and the deletion of a node. The joining of a node to a graph will change the reflection group by an amalgamated product. Similarly, the removal of node r_i and adjacent edges will add the relation s_i = 1 to the presentation of the reflection group.
+<div class="small text-muted mt-1">
+p.&nbsp;24 · §2.6 Principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Expository remark on amalgamated products and quotient relations.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.58</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+Suppose that is a reflection diagram which is a tree, then all of the principal elements of W() are in the same conjugacy class.
+<div class="small text-muted mt-1">
+p.&nbsp;24 · §2.6 Principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TreeConjugacy.lean#L393" target="_blank" rel="noopener">TreeConjugacy.lean</a>: <code>theorem_2_58_principal_conj_of_isTree</code>, <code>theorem_2_58_principal_conj_of_isAcyclic</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/CoxeterElement.lean#L358" target="_blank" rel="noopener">CoxeterElement.lean</a>: <code>isConj_wordProd_of_isTree</code>, <code>isConj_coxeterElement_of_isAcyclic</code>
+</div>
+<div class="small text-muted mt-1">
+Full proof for arbitrary forests/trees via combinatorial commutation/cyclic-shift moves; leaf step also in ComponentsAndTrees.lean (leaf_insert_conj).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Question" data-status="Addressed (counterexample)">
+<td style="white-space:nowrap;">
+<strong>2.59</strong>
+</td>
+<td style="white-space:nowrap;">
+Question
+</td>
+<td>
+In [Shi01], Coxeter graphs are used to study the conjugacy classes of Coxeter elements using Coxeter graphs. Similarly, [MM08] gives a formula which uses the Coxeter graph to calculate the number of conjugacy classes of Coxeter elements. These methods might be extended and generalized to study the number of conjugacy classes of principal elements in a reflection group.
+<div class="small text-muted mt-1">
+p.&nbsp;25 · §2.6 Principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-warning text-dark">Addressed (counterexample)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/AlternatingSquare.lean#L101" target="_blank" rel="noopener">AlternatingSquare.lean</a>: <code>alternatingSquare_principal_not_conjugate</code>
+<div class="small text-muted mt-1">
+Open question in thesis; Lean proves C_4(+,-,+,-) has at least two distinct conjugacy classes of principal elements (traces -8 and -7).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.60</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A principal polynomial is the characteristic polynomial of the matrix representation of a principal element w_denoted by (w_, x).
+<div class="small text-muted mt-1">
+p.&nbsp;26 · §2.6.2 Principal polynomials
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L198" target="_blank" rel="noopener">Howlett.lean</a>: <code>principal_charpoly_eq</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Howlett.lean#L272" target="_blank" rel="noopener">Howlett.lean</a>: <code>principal_charpoly_eq</code>
+</div>
+<div class="small text-muted mt-1">
+Uses Mathlib Matrix.charpoly for the principal polynomial.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>2.61</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Suppose that _i are the eigenvalues of a matrix representation of w then the spectral radius of w is defined as {|_i|}, it is denoted (w).
+<div class="small text-muted mt-1">
+p.&nbsp;26 · §2.6.2 Principal polynomials
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L748" target="_blank" rel="noopener">Chapter2Foundations.lean</a>: <code>spectralRadius</code>, <code>norm_le_spectralRadius</code>, <code>spectralRadius_le_of_forall</code>, <code>spectralRadius_nonneg</code>, <code>lt_spectralRadius_of_eigen</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/BipartiteSpectrum.lean#L62" target="_blank" rel="noopener">BipartiteSpectrum.lean</a>: <code>HasComplexEigenvalue</code>
+</div>
+<div class="small text-muted mt-1">
+Spectral radius lambda(M) = sSup {||mu|| | HasEigenC M mu} with boundedness, nonnegativity, and upper/lower-bound theorems.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.62</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+Let () = {(w): w is a principal element in W()}
+<div class="small text-muted mt-1">
+p.&nbsp;26 · §2.6.2 Principal polynomials
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Minimal spectral radius Lambda(Gamma); compared directly across principal elements in SpectralRadius.lean and AlternatingSquare.lean.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Lemma" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>2.63</strong>
+</td>
+<td style="white-space:nowrap;">
+Lemma
+</td>
+<td>
+Up to scalar multiplication, the principal polynomial is (Ux + U^T) where U is as in Theorem 1.1.
+<div class="small text-muted mt-1">
+p.&nbsp;27 · §2.6.2 Principal polynomials
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Howlett.lean#L198" target="_blank" rel="noopener">Howlett.lean</a>: <code>principal_charpoly_eq</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Howlett.lean#L272" target="_blank" rel="noopener">Howlett.lean</a>: <code>principal_charpoly_eq</code>
+</div>
+<div class="small text-muted mt-1">
+Proves det(xI - w) = det(U)^{-1} * det(xU + U^T).
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.64</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A polynomial f(x) = <em>{i=0}^n a_i x^i is palindromic if a_i = a</em>{n-i} for i = 0, 1, n, that is the coefficients of the principal polynomial read the same forward and backward.
+<div class="small text-muted mt-1">
+p.&nbsp;27 · §2.6.2 Principal polynomials
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Definition of palindromic polynomial; explicit palindromic characteristic polynomials verified in SpectralRadius.lean and TwoDefectCycle.lean.
+</div>
+</td>
+</tr>
+<tr data-chapter="2" data-type="Definition" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>2.65</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+For a polynomial f(x) = a_d <em>{i=1}^n (x - <em>I) define the Mahler measure of f to be M(f) = |a_d| </em>{i=1}^n {1, |<em>i|}. Principal polynomials arise in the study of Lehmer's problem. The first chapter of [EW99] gives a good introduction to Lehmer's problem and Mahler's measure. Lehmer's number </em>{} is the largest real root of the polynomial x^{10} + x^9 - x^7 - x^6 - x^5 - x^4 - x^3 + x + 1. Lehmer's problem asks the question if there exists a c &gt; 1 such that every polynomial f with integer coefficients and M(f) &gt; 1 has M(f) c.&nbsp;Currently, no polynomial has been found with a smaller Mahler measure than Lehmer's number. The problem has been reduced to studying the Mahler measure of reciprocal polynomials, see [Smy] and [Hir09]. Since every principal polynomial is reciprocal, principal polynomials make good candidates to further study the problem. Lehmer's number makes an appearance in Coxeter groups as it is the minimal spectral radius of a Coxeter element in (W, S, B(E</em>{10})).
+<div class="small text-muted mt-1">
+p.&nbsp;27 · §2.6.2 Principal polynomials
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Definition of Mahler measure and discussion of Lehmer problem.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.1</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A mixed-sign Coxeter system is a reflection system (W, S, B) where the bilinear form B has the following properties: B(e_i, e_i) = _i 2 where _i is either + or -. Here, _i is the sign of node i and B(e_i, e_j) = -2(/m(i,j)) where m(i, j) {2, 3, , }. For the case when m(i, j) = we define B(e_i, e_j) = -2.
+<div class="small text-muted mt-1">
+p.&nbsp;28 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L64" target="_blank" rel="noopener">MixedSign.lean</a>: <code>MixedSignCoxeterGraph</code>, <code>toBilinearForm</code>, <code>toReflectionSystem</code>
+<div class="small text-muted mt-1">
+Full definition of mixed-sign Coxeter system with B(e_i,e_i) = ±2 and B(e_i,e_j) = -2 cos(pi/m(i,j)) or -2.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.2</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A mixed-sign Coxeter graph is a reflection diagram for a mixed-sign Coxeter system.
+<div class="small text-muted mt-1">
+p.&nbsp;28 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L64" target="_blank" rel="noopener">MixedSign.lean</a>: <code>MixedSignCoxeterGraph</code>
+<div class="small text-muted mt-1">
+Weighted graph with node signs and edge labels m(i,j) in {2,3,…,infty}.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Remark" data-status="Prose / notation">
+<td style="white-space:nowrap;">
+<strong>3.3</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Because mixed-sign Coxeter systems always have this form we will simplify the notation in a mixed-sign Coxeter graph. Since |B(e_i, e_i)| = 2 we will use + or - for the weight of node r_i corresponding to 2 and -2 respectively. In the case where there is no label we will assume +. Since B(e_i, e_j) = -2(/m(i,j)) we will use m(i, j) for the weight of node m(i, j). When m(i, j) = 3 we will not label the edge with a number.
+<div class="small text-muted mt-1">
+p.&nbsp;28 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-secondary">Prose / notation</span>
+</td>
+<td>
+<div class="small text-muted mt-1">
+Diagram shorthand conventions (+, -, unlabeled edge = 3).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.4</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A Coxeter system or classical Coxeter system is a reflection system (W, S, B) where the bilinear form B has the following properties: B_{i,i} = 2; B_{i,j} = -2(/m(i,j)) where m(i, j) {2, 3, , }. For the case when m(i, j) = we define B_{i,j} = -2.
+<div class="small text-muted mt-1">
+p.&nbsp;29 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L176" target="_blank" rel="noopener">MixedSign.lean</a>: <code>MixedSignCoxeterGraph.IsClassical</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/GeometricRep.lean#L68" target="_blank" rel="noopener">GeometricRep.lean</a>: <code>geometricForm</code>
+</div>
+<div class="small text-muted mt-1">
+Classical Coxeter system with all positive nodes; see also RootPositivity.lean (IsCoxeterForm).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.5</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+A classical Coxeter system is a mixed-sign Coxeter system when all of the nodes on a mixed-sign Coxeter graph are positive.
+<div class="small text-muted mt-1">
+p.&nbsp;29 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L182" target="_blank" rel="noopener">MixedSign.lean</a>: <code>proposition_3_5_classical_form</code>
+<div class="small text-muted mt-1">
+Proves all-positive MixedSignCoxeterGraph produces the classical Coxeter bilinear form.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.6</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+A Coxeter graph is the mixed-sign Coxeter graph of a Coxeter system.
+<div class="small text-muted mt-1">
+p.&nbsp;30 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/MixedSign.lean#L176" target="_blank" rel="noopener">MixedSign.lean</a>: <code>MixedSignCoxeterGraph.IsClassical</code>
+<div class="small text-muted mt-1">
+MixedSignCoxeterGraph with all node signs positive.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Proposition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.7</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+(Deletion Property) Given an expression w = s_1 s_k with l(w) &lt; k (that is that w is not reduced), then there exist indices 1 i &lt; j k such that w = s_1 _i _j s_k (here hat denotes omission).
+<div class="small text-muted mt-1">
+p.&nbsp;30 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L67" target="_blank" rel="noopener">ClassicalDeletion.lean</a>: <code>SatisfiesDeletionProperty</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/CoxeterDeletion.lean#L350" target="_blank" rel="noopener">CoxeterDeletion.lean</a>: <code>deletion</code>
+</div>
+<div class="small text-muted mt-1">
+Deletion Property defined in ClassicalDeletion.lean and proved for every CoxeterSystem in ClassicalCoxeterDeletion.lean (deletion_of_coxeterSystem) and MathlibDraft/CoxeterDeletion.lean.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Proposition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.8</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+(Exchange Property) Let w = s_1 s_2 s_k be a reduced expression and s S. If l(sw) l(w), then sw = s_1 _i s_k for some i {1, 2, 3, , k} (again, here hat denotes omission).
+<div class="small text-muted mt-1">
+p.&nbsp;30 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L202" target="_blank" rel="noopener">ClassicalDeletion.lean</a>: <code>SatisfiesExchangeProperty</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/CoxeterDeletion.lean#L250" target="_blank" rel="noopener">CoxeterDeletion.lean</a>: <code>exchange</code>
+</div>
+<div class="small text-muted mt-1">
+Exchange Property defined in ClassicalDeletion.lean and proved for every CoxeterSystem in ClassicalCoxeterDeletion.lean (exchange_of_coxeterSystem) and MathlibDraft/CoxeterDeletion.lean.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.9</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+Let (W, S, B) be a reflection system. Suppose that W is a group generated by a set of involutions S, then the following are equivalent: 1. (W, S, B) is a classical Coxeter system. 2. (W, S, B) satisfies the Deletion Property. 3. (W, S, B) has the Exchange Property.
+<div class="small text-muted mt-1">
+p.&nbsp;31 · §3 Mixed-sign Coxeter systems (chapter introduction)
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalCoxeterDeletion.lean#L407" target="_blank" rel="noopener">ClassicalCoxeterDeletion.lean</a>: <code>theorem_3_9_classical_iff_deletion</code>, <code>theorem_3_9_classical_iff_exchange</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Presentation.lean#L689" target="_blank" rel="noopener">Presentation.lean</a>: <code>exists_coxeterSystem_iff_hasDeletionProperty</code>, <code>exists_coxeterSystem_iff_hasExchangeProperty</code>
+</div>
+<div class="small text-muted mt-1">
+Full 3-way equivalence proved across ClassicalDeletion.lean, CoxeterPresentation.lean, and ClassicalCoxeterDeletion.lean.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.10</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+If (W, S, B) is a classical Coxeter system with w W and s_i S then w(e_i) ^+ l(ws_i) &gt; l(w).
+<div class="small text-muted mt-1">
+p.&nbsp;31 · §3.1 Root systems of rank 2 mixed-sign Coxeter systems
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RootPositivity.lean#L680" target="_blank" rel="noopener">RootPositivity.lean</a>: <code>prop_3_10</code>, <code>prop_3_10_classical</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/GeometricRep.lean#L1283" target="_blank" rel="noopener">GeometricRep.lean</a>: <code>geometricRep_mulVec_single_nonneg_iff</code>
+</div>
+<div class="small text-muted mt-1">
+Proved in full generality for all classical Coxeter forms (and arbitrary CoxeterSystem in MathlibDraft/GeometricRep.lean).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.11</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+Suppose (W, S, B) is a classical Coxeter system where s_1 s_2 W has infinite order and define w_k = (s_1 s_2)^k. Then w_k e_1 ^+ for all k.
+<div class="small text-muted mt-1">
+p.&nbsp;31 · §3.1 Root systems of rank 2 mixed-sign Coxeter systems
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwoRoots.lean#L177" target="_blank" rel="noopener">RankTwoRoots.lean</a>: <code>prop_3_11_general</code>, <code>prop_3_11_infinite_order</code>
+<div class="small text-muted mt-1">
+Proved for any rank-n reflection system and any infinite-dihedral pair (s_i, s_j) via Chebyshev sequences.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.12</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+Let e_1 be the positive root in the root system for A_2(-, +) in Example 3.16. There is a sequence of principal elements {w_p} such that w_{p+1} = s_i w_p (where i = 1 or 2, depending on k) and l(w_{p+1}) &gt; l(w_p) and there are infinitely many p such that w_p(e_i) ^+
+<div class="small text-muted mt-1">
+p.&nbsp;32 · §3.1 Root systems of rank 2 mixed-sign Coxeter systems
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L374" target="_blank" rel="noopener">RankTwo.lean</a>: <code>prop_3_12_root_oscillation</code>
+<div class="small text-muted mt-1">
+Explicitly proves sign oscillation of the root orbit in A_2(+,-)[3].
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Example" data-status="Formalized (example)">
+<td style="white-space:nowrap;">
+<strong>3.13</strong>
+</td>
+<td style="white-space:nowrap;">
+Example
+</td>
+<td>
+When m = 3 we have six roots in total. The roots e_1, e_2, and e_1 + e_2 are positive roots whereas, -e_1, -(e_1 + e_2), and -e_2 are negative roots. Figure 3.1.1 shows these six roots along with the set B(v, v) = 2. Figure 3.1.1 gives a geometric interpretation about the angle between e_1 and e_2 in V.
+<div class="small text-muted mt-1">
+p.&nbsp;33 · §3.1.1 Positive node case
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (example)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L408" target="_blank" rel="noopener">RankTwo.lean</a>: <code>example_3_13_A2_3_order_three</code>, <code>example_3_13_A2_inf_infinite_order</code>
+<div class="small text-muted mt-1">
+Verifies order 3 for A_2(+,+)[3] and infinite order for A_2(+,+)[infty].
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Lemma" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.14</strong>
+</td>
+<td style="white-space:nowrap;">
+Lemma
+</td>
+<td>
+The mixed-sign Coxeter group associated to the graph A_2(+, -)[m] has presentation s_1, s_2 s_1^2 = s_2^2 = 1 for m {3, 4, , }.
+<div class="small text-muted mt-1">
+p.&nbsp;36 · §3.1.3 Mixed-sign case
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L143" target="_blank" rel="noopener">RankTwo.lean</a>: <code>rank2_pm_infinite_order</code>, <code>edgeEntry_ne_zero_of_three_le</code>, <code>edgeEntry_none_ne_zero</code>
+<div class="small text-muted mt-1">
+Proves (s_1 s_2)^k != 1 for all k &gt;= 1 when m in {3,4,…,infty}, yielding the infinite dihedral presentation.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>3.15</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+This appears to also be the first example of a rank 2 hyperbolic reflection system, a reflection system (W, S, B) where sigB = (1, 1, 0).
+<div class="small text-muted mt-1">
+p.&nbsp;36 · §3.1.3 Mixed-sign case
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L84" target="_blank" rel="noopener">RankTwo.lean</a>: <code>det_rank2_pm_neg</code>
+<div class="small text-muted mt-1">
+Proves det B(A_2(+,-)[m]) = -(4 + c^2) &lt; 0, confirming signature (1,1,0).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Example" data-status="Formalized (example)">
+<td style="white-space:nowrap;">
+<strong>3.16</strong>
+</td>
+<td style="white-space:nowrap;">
+Example
+</td>
+<td>
+This is an explicit example of a hyperbolic rank 2 mixed-sign Coxeter system. This example shows Proposition 3.12. A comparison of the root structure here gives some intuition as to why the Deletion Property does not extend to the mixed-sign case. Consider the mixed-sign Coxeter graph A_2(+, -) in Figure 3.9. The bilinear form associated to this mixed-sign Coxeter graph is B = [2, -1; -1, -2]. The generating reflections are s_1 = [-1, 1; 0, 1] and s_2 = [1, 0; -1, -1]. We have (s_1 s_2)^k = (-1)^k [f_{2k+1}, f_{2k}; f_{2k}, f_{2k-1}] where f_0 = 0, f_1 = 1, and f_n = f_{n-1} + f_{n-2} so that f_n is the nth Fibonacci number. This is a sequence of elements in the mixed-sign Coxeter group is never the identity. Furthermore, we also have s_2(s_1 s_2)^k = [f_{2k+1}, f_{2k}; -f_{2k+2}, -f_{2k+1}]. Thus, we have a found matrix representations for every element in the mixed-sign Coxeter group in terms of Fibonacci numbers. Notice in particular that s_2(s_1 s_2)^k e_1 = [f_{2k+1}; -f_{2k+2}]. The roots of this reflection system are therefore We_1 = {(-1)^k [f_{2k+1}; f_{2k}], [f_{2k+1}; -f_{2k+2}]} and We_2 = {(-1)^k [f_{2k}; f_{2k-1}], [f_{2k}; -f_{2k-1}]}. Let w_1 = s_2, w_2 = s_1 s_2, w_3 = s_2 s_1 s_2, w_4 = (s_1 s_2)^2, above. This gives a sequence of words in the mixed-sign Coxeter group that grows in length. However, notice the orbit of e_1 under these elements does not remain in ^+, this shows Proposition 3.12. Figure 3.10 shows seven roots of the A_2(-, +)[3] mixed-sign Coxeter system.
+<div class="small text-muted mt-1">
+p.&nbsp;37 · §3.1.3 Mixed-sign case
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (example)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L187" target="_blank" rel="noopener">RankTwo.lean</a>: <code>a2_pm_3_fibonacci_powers</code>, <code>prop_3_12_root_oscillation</code>
+<div class="small text-muted mt-1">
+Exact closed-form Fibonacci matrix formula for (s_1 s_2)^k and root-orbit sign oscillation.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Lemma" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.17</strong>
+</td>
+<td style="white-space:nowrap;">
+Lemma
+</td>
+<td>
+The element s_i s_j has order m(i, j) when m(i, j) is finite and _i _j = 1. If m(i, j) = or _i _j = -1 then the element s_i s_j has infinite order.
+<div class="small text-muted mt-1">
+p.&nbsp;38 · §3.2 Presentation of mixed-sign Coxeter groups
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L229" target="_blank" rel="noopener">RankTwo.lean</a>: <code>adjacent_pm_infinite_order</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/GeometricRep.lean#L725" target="_blank" rel="noopener">GeometricRep.lean</a>: <code>orderOf_geometricReflection_mul</code>
+</div>
+<div class="small text-muted mt-1">
+Opposite-sign infinite-order case in RankTwo.lean; same-sign finite/infinite order case in RootPositivity.lean (wordProd_altList_two_mul) and MathlibDraft/GeometricRep.lean (orderOf_geometricReflection_mul).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Corollary" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.18</strong>
+</td>
+<td style="white-space:nowrap;">
+Corollary
+</td>
+<td>
+Suppose that is a connected mixed-sign Coxeter graph with at least one positive and one negative node. Then W() is infinite.
+<div class="small text-muted mt-1">
+p.&nbsp;39 · §3.2 Presentation of mixed-sign Coxeter groups
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/FiniteReduction.lean#L256" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>corollary_3_18_mixed_sign_infinite</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/FiniteReduction.lean#L270" target="_blank" rel="noopener">FiniteReduction.lean</a>: <code>mixed_sign_infinite_of_isConnected</code>
+</div>
+<div class="small text-muted mt-1">
+Proved in full generality for any connected ReflectionSystem with both a positive and a negative node.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.19</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+If (W, S, B) is a mixed-sign Coxeter group, then W is the quotient of a classical Coxeter group.
+<div class="small text-muted mt-1">
+p.&nbsp;39 · §3.2 Presentation of mixed-sign Coxeter groups
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ClassicalDeletion.lean#L52" target="_blank" rel="noopener">ClassicalDeletion.lean</a>: <code>freeCoxeterQuotient</code>, <code>reflectionSystem_isLiftable_freeCoxeter</code>
+<div class="small text-muted mt-1">
+Constructs the canonical surjection from the universal Coxeter group W(K_n[infty]) onto W(S).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Remark" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.20</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+The <em>n mixed-sign Coxeter graphs are cycles with n + 1 positive nodes. The </em>{-n} mixed-sign Coxeter graphs are cycles with n + 1 negative nodes. See Figure A for example.
+<div class="small text-muted mt-1">
+p.&nbsp;39 · §3.2 Presentation of mixed-sign Coxeter groups
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L318" target="_blank" rel="noopener">CyclesAndDeletion.lean</a>: <code>cyclePosForm</code>, <code>cycleNegForm</code>
+<div class="small text-muted mt-1">
+Bilinear forms of the positive and negative cycle graphs ~A_n and ~A_{-n}.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Lemma" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.21</strong>
+</td>
+<td style="white-space:nowrap;">
+Lemma
+</td>
+<td>
+There exists a mixed-sign Coxeter system which does not satisfy the Deletion Property.
+<div class="small text-muted mt-1">
+p.&nbsp;40 · §3.3 The Deletion Property and proof of Theorem 1.2
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L120" target="_blank" rel="noopener">CyclesAndDeletion.lean</a>: <code>tildeAminus2_fails_deletion</code>
+<div class="small text-muted mt-1">
+Explicit length-5 word s_1 s_2 s_1 s_3 s_1 = s_3 s_1 s_2 with no 2-letter deletion; also MixedSign.lean (tildeAminus2_principal_order_four) and RemarksAndClassical.lean (remark_3_23_tildeAminus2_iso_S4).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>3.22</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Recall in Theorem 1.4 we show that if is bipartite then (W, S, B()) is conjugate to (W, S, B(_{-})). The previous example indicates that without the bipartite condition this theorem fails in a non-trivial way, the Coxeter graph <em>2 corresponds to an infinite order reflection group whereas we just proved that </em>{-2} has finite order. We extend this example in Section 3.4 to prove Theorem 1.6.
+<div class="small text-muted mt-1">
+p.&nbsp;42 · §3.3 The Deletion Property and proof of Theorem 1.2
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L597" target="_blank" rel="noopener">CyclesAndDeletion.lean</a>: <code>tildeA2_infinite_order</code>
+<div class="small text-muted mt-1">
+Shows W(~A_2) is infinite whereas W(~A_{-2}) ≅ S_4 has order 24 (RemarksAndClassical.lean, remark_3_23_card).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>3.23</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+Interestingly, the group S_4 already appears in classic Coxeter theory as the group that arises from the graph in Figure 3.12. The presentation of W(A_3) is W(A_3) = t_1, t_2, t_3 where t_1:= [-1, 1, 0; 0, 1, 0; 0, 0, 1], t_2:= [1, 0, 0; 1, -1, 1; 0, 0, 1], t_3:= [1, 0, 0; 0, 1, 0; 0, 1, -1]. Again the computational software GAP [GAP08] gives an isomorphism between S_4 and W(A_3) via (1, 2) t_1, (2, 3) t_2, (3, 4) t_3. We now show one family of mixed-sign Coxeter systems which does not satisfy the Deletion Property, proving Theorem 1.2.
+<div class="small text-muted mt-1">
+p.&nbsp;42 · §3.3 The Deletion Property and proof of Theorem 1.2
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean#L186" target="_blank" rel="noopener">RemarksAndClassical.lean</a>: <code>remark_3_23_tildeAminus2_iso_S4</code>, <code>remark_3_23_card</code>
+<div class="small text-muted mt-1">
+Explicit isomorphism W(~A_{-2}) ≅ S_4 and cardinality 24.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.24</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+The <em>n mixed-sign Coxeter graph is the cycle consisting of n + 1 positive nodes. The </em>{-n} mixed-sign Coxeter graph is the cycle consisting of n + 1 negative nodes. Notice that a graph is not bipartite exactly when the graph contains an even cycle. The mixed-sign Coxeter graph <em>n where n is even is therefore not bipartite. We show that (W, S, B(<em>n)) is not conjugate to (W, S, B(</em>{-n})). Furthermore we justify our claim n = 2, 4, 6 </em>{-(n)} the mixed-sign Coxeter graph associates to a group which is finite and is isomorphic to finite classical Coxeter group W(D_{n+1}). The GAP [GAP08] code for the n = 4 case is in the appendix, see section D. In [Hum90] it is shown for every n that the _n associates to a classical Coxeter system; the bilinear forms are positive semi-definite and the associated reflection groups have infinite order. As we indicated in the proof of Lemma 3.21 we are also able to state the following lemma.
+<div class="small text-muted mt-1">
+p.&nbsp;43 · §3.4 Odd cycles with negative nodes
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L318" target="_blank" rel="noopener">CyclesAndDeletion.lean</a>: <code>cyclePosForm</code>, <code>cycleNegForm</code>
+<div class="small text-muted mt-1">
+Cycle forms ~A_n and ~A_{-n}; see also TildeAminusEvenIso.lean (cycleNegSystem).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Lemma" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.25</strong>
+</td>
+<td style="white-space:nowrap;">
+Lemma
+</td>
+<td>
+There exists an odd-cycle mixed-sign Coxeter graph with W() not isomorphic to W(_{-}).
+<div class="small text-muted mt-1">
+p.&nbsp;44 · §3.4 Odd cycles with negative nodes
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/CyclesAndDeletion.lean#L597" target="_blank" rel="noopener">CyclesAndDeletion.lean</a>: <code>tildeA2_infinite_order</code>
+<div class="small text-muted mt-1">
+Combined with RemarksAndClassical.lean (remark_3_23_card, |W(~A_{-2})| = 24), proves W(~A_2) is infinite while W(~A_{-2}) is finite, hence non-isomorphic.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Remark" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.26</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+In Lemma 3.21 we show that (W, S, B(<em>{-2})) does not satisfy the Deletion Property. In doing so, we also show that W(</em>{-2}) is a finite order group whereas W(<em>2) is an infinite order group. We further remark that W(</em>{-n}) when n = 4 and n = 6 also has finite order. Again, we use the computer algebra system GAP [GAP08] to determine that the orders are 1920 and 322560, respectively. This implies that the groups are finite reflection groups. From standard Coxeter theory, the only Coxeter groups with these orders correspond to the D_5 and D_7 classical Coxeter graphs in A.1. Appendix D contains GAP code which shows explicitly shows the isomorphism between W(<em>{-4}) and W(D_5). We conjecture that if n is even then W(<em>n) has finite order and W(</em>{-n}) is isomorphic to W(D</em>{n+1}) where D_n is the classical Coxeter graph in Table A.1.
+<div class="small text-muted mt-1">
+p.&nbsp;45 · §3.4 Odd cycles with negative nodes
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/TildeAminusEvenIso.lean#L369" target="_blank" rel="noopener">TildeAminusEvenIso.lean</a>: <code>theorem_1_6_tildeAminus_iso_D</code>, <code>appendixD_relators_hold</code>
+<div class="small text-muted mt-1">
+Resolves the thesis conjecture in full generality: W(~A_{-n}) ≅ W(D_{n+1}) for ALL even n &gt;= 2, plus det(-B(~A_{-n})) = 4 (RemarksAndClassical.lean, remark_3_26_det_neg_odd_cycle) and all 16 Appendix D GAP relators for ~A_{-4}.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.27</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+Suppose w is a Coxeter element in a classical Coxeter group W then: If w has eigenvalues of modulus 1, and 1 is not an eigenvalue then the Coxeter system is spherical; If w has eigenvalues of modulus 1 and 1 is an eigenvalue then the Coxeter system is affine; If w has eigenvalues which are greater than 1 then the Coxeter system is hyperbolic or higher-rank. Furthermore, the eigenvalue of the graph of a classical Coxeter system is directly related to the spectral radius of Coxeter elements. Let _1 and _2 be two classical Coxeter graphs. We say that _1 _2 if there is a map : _1 _2 such that : Nodes(_1) Nodes(_2) is injective; m(i, j) = m((i), (j)) when (i) and (j) are defined.
+<div class="small text-muted mt-1">
+p.&nbsp;45 · §3.5 Classification by principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L572" target="_blank" rel="noopener">SpectralClassification.lean</a>: <code>theorem_3_27_classification</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/BipartiteSpectrum.lean#L565" target="_blank" rel="noopener">BipartiteSpectrum.lean</a>: <code>posDef_form_iff</code>, <code>posSemidef_and_not_posDef_form_iff</code>, <code>not_posSemidef_form_iff</code>
+</div>
+<div class="small text-muted mt-1">
+Full spectral trichotomy (spherical / affine / indefinite) proved for bipartite classical Coxeter elements; see also SpectralRadius.lean (theorem_3_27_bipartite_coxeter_eigenvalue).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.28</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+(Interlacing Theorem for classical Coxeter graphs) Suppose is a classical Coxeter graph and w_1 is a Coxeter element of W(). Suppose r_i Nodeand w_2 is a Coxeter element of W(/(r_i)) then (w_1) &gt; (w_2).
+<div class="small text-muted mt-1">
+p.&nbsp;46 · §3.5 Classification by principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L781" target="_blank" rel="noopener">SpectralClassification.lean</a>: <code>theorem_3_28_interlacing</code>, <code>theorem_3_28_strict</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/BipartiteSpectrum.lean#L745" target="_blank" rel="noopener">BipartiteSpectrum.lean</a>: <code>exists_eigenvalue_norm_le_of_submatrix</code>, <code>exists_eigenvalue_norm_lt_of_submatrix</code>
+</div>
+<div class="small text-muted mt-1">
+Weak and strict spectral-radius interlacing for induced subgraphs of bipartite classical Coxeter graphs; see also SpectralRadius.lean (theorem_3_28_spectral_radius_strict_mono).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Example" data-status="Formalized (example)">
+<td style="white-space:nowrap;">
+<strong>3.29</strong>
+</td>
+<td style="white-space:nowrap;">
+Example
+</td>
+<td>
+Consider the A_3(+, +, -) mixed-sign Coxeter graph in Figure 3.14. The mixed-sign Coxeter graph A_3(+, +, -) has an associated bilinear form B = [2, -1, 0; -1, 2, -1; 0, -1, -2] which has signature (2, 1, 0). Therefore, A_3(+, +, -) is a hyperbolic mixed-sign Coxeter graph. The spectral radius of a principal element in the A_3(+, +, -) system is 1. This indicates that the method of using the spectral radius of a principal element given by [A'C76] in Theorem 3.27, will not extend to the mixed-sign case. Furthermore, recall the A_2(+, -) mixed-sign Coxeter graph in Figure 3.9. Notice that, A_2(+, -) A_3(+, +, -). After some computations we find (A_2(+, -), x) = x^2 + 3x + 1 and (A_3(+, +, -), x) = x^3 + 3x^2 + 3x + 1 and we notice 1 = (A_3(+, +, -)) &lt; (A_2(+, -)) = (3 + )/2 so Theorem 3.28 also fails to extend to mixed-sign Coxeter systems.
+<div class="small text-muted mt-1">
+p.&nbsp;46 · §3.5.1 Eigenvalues of principal elements in An-type mixed-sign Coxeter systems
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (example)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L48" target="_blank" rel="noopener">SpectralRadius.lean</a>: <code>det_B_A3_ppm</code>, <code>w_A3_ppm_add_one_cube</code>, <code>w_A3_ppm_eigenvalue_eq_neg_one</code>
+<div class="small text-muted mt-1">
+Proves A_3(+,+,-) is hyperbolic (det B = -10 &lt; 0) yet (w + I)^3 = 0 so every eigenvalue is -1 (spectral radius 1).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Remark" data-status="Formalized (remark)">
+<td style="white-space:nowrap;">
+<strong>3.30</strong>
+</td>
+<td style="white-space:nowrap;">
+Remark
+</td>
+<td>
+We refer to Table B.1 and Table B.2 notice that we have a sequence of graphs A_2(+, -) A_3(-, +, +) A_4(-, +, +, +) A_5(-, +, +, +, +) whith 2.618 (A_2(+, -)) &gt; (A_3(-, +, +)) = 1, 1 = (A_3(-, +, +)) &lt; (A_4(-, +, +, +)) and 2.153 (A_4(-, +, +, +)) &gt; (A_5(-, +, +, +, +)) . That is, each of the A_n-type graphs above is obtained by adding a positive node to the preceding graph. However, The spectral radius of the graphs is not monotone.
+<div class="small text-muted mt-1">
+p.&nbsp;47 · §3.5.1 Eigenvalues of principal elements in An-type mixed-sign Coxeter systems
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (remark)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RemarksAndClassical.lean#L488" target="_blank" rel="noopener">RemarksAndClassical.lean</a>: <code>remark_3_30_A2_root_gt</code>, <code>remark_3_30_A4_root_gt</code>, <code>remark_3_30_A5_roots_lt</code>
+<div class="small text-muted mt-1">
+Exact annihilating polynomials and strict spectral-radius oscillation along A_2(+,-) ⊂ A_3(-,+,+) ⊂ A_4(-,+,+,+) ⊂ A_5(-,+,+,+,+).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Definition" data-status="Formalized (definition)">
+<td style="white-space:nowrap;">
+<strong>3.31</strong>
+</td>
+<td style="white-space:nowrap;">
+Definition
+</td>
+<td>
+For a bipartite mixed-sign Coxeter graph define a bipartite principal element to be a principal element which has the form rg where r = <em>{i N_1} s</em>{(i)} and g = <em>{j N_2} s</em>{(j)} where N_1 and N_2 are disjoint set of nodes for a bipartite ordering of .
+<div class="small text-muted mt-1">
+p.&nbsp;47 · §3.5.2 Bipartite principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-primary">Formalized (definition)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L208" target="_blank" rel="noopener">Bipartite.lean</a>: <code>bipartite_principalElements_conjugate</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Bipartite.lean#L224" target="_blank" rel="noopener">Bipartite.lean</a>: <code>isConj_prod_append_comm</code>
+</div>
+<div class="small text-muted mt-1">
+Bipartite principal element formulated as wordProd l1 * wordProd l2 over the two parts N_1, N_2.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Proposition" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.32</strong>
+</td>
+<td style="white-space:nowrap;">
+Proposition
+</td>
+<td>
+All bipartite principal elements are in the same conjugacy class.
+<div class="small text-muted mt-1">
+p.&nbsp;48 · §3.5.2 Bipartite principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Bipartite.lean#L208" target="_blank" rel="noopener">Bipartite.lean</a>: <code>bipartite_principalElements_conjugate</code>
+<div class="small text-muted mt-1">
+MathlibDraft <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MathlibDraft/Bipartite.lean#L224" target="_blank" rel="noopener">Bipartite.lean</a>: <code>isConj_prod_append_comm</code>
+</div>
+<div class="small text-muted mt-1">
+Proves all bipartite principal elements of a bipartite reflection system are conjugate.
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Example" data-status="Formalized (example)">
+<td style="white-space:nowrap;">
+<strong>3.33</strong>
+</td>
+<td style="white-space:nowrap;">
+Example
+</td>
+<td>
+Consider the bipartite mixed-sign Coxeter graph in Figure 3.15 and Table 3.1. Table 3.1 gives the Coxeter element corresponding to the node labeling in Figure 3.15, the spectral radius of the Coxeter element, and the "type of Coxeter element". As the table indicates, the spectral radius of the bipartite principal element is not the smallest spectral radius among other principal elements listed.
+<div class="small text-muted mt-1">
+p.&nbsp;48 · §3.5.2 Bipartite principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-info text-dark">Formalized (example)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L196" target="_blank" rel="noopener">SpectralRadius.lean</a>: <code>wLinEx333Z_annihilated</code>, <code>wBpEx333Z_annihilated</code>, <code>pBpEx333_has_root_gt_four</code>, <code>pLinEx333_no_root_ge_four</code>
+<div class="small text-muted mt-1">
+Exact annihilating polynomials for linear and bipartite principal elements of Example 3.33 showing rho(w_bp) &gt; 4 &gt; rho(w_lin).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Theorem" data-status="Verified">
+<td style="white-space:nowrap;">
+<strong>3.34</strong>
+</td>
+<td style="white-space:nowrap;">
+Theorem
+</td>
+<td>
+There exists a bipartite mixed-sign Coxeter graph which has a bipartite principal element whose spectral radius does not minimize spectral radius among other spectral radii of other principal elements in the reflection group.
+<div class="small text-muted mt-1">
+p.&nbsp;49 · §3.5.2 Bipartite principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-success">Verified</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralRadius.lean#L211" target="_blank" rel="noopener">SpectralRadius.lean</a>: <code>theorem_3_34_bipartite_exceeds_linear</code>
+<div class="small text-muted mt-1">
+Restatement of Theorem 1.7; also witnessed by the 4-node alternating square in AlternatingSquare.lean (alternatingSquare_bipartite_not_min).
+</div>
+</td>
+</tr>
+<tr data-chapter="3" data-type="Question" data-status="Addressed (counterexample)">
+<td style="white-space:nowrap;">
+<strong>3.35</strong>
+</td>
+<td style="white-space:nowrap;">
+Question
+</td>
+<td>
+Is there a "type" of principal element which minimizes the spectral radius among principal elements in a mixed-sign Coxeter system?
+<div class="small text-muted mt-1">
+p.&nbsp;49 · §3.5.2 Bipartite principal elements
+</div>
+</td>
+<td style="white-space:nowrap;">
+<span class="badge bg-warning text-dark">Addressed (counterexample)</span>
+</td>
+<td>
+<a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/AlternatingSquare.lean#L182" target="_blank" rel="noopener">AlternatingSquare.lean</a>: <code>alternatingSquare_bipartite_not_min</code>
+<div class="small text-muted mt-1">
+Open question in thesis; Lean proves bipartite is not minimal on C_4(+,-,+,-) and analyzes single- and two-defect cycle families in OddCycleSingleDefect.lean, EvenCycleSingleDefect.lean, BipartiteDuality.lean, and TwoDefectCycle.lean.
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<script>
+(function() {
+  const qEl = document.getElementById('stmt-search');
+  const chEl = document.getElementById('stmt-chapter');
+  const tEl = document.getElementById('stmt-type');
+  const sEl = document.getElementById('stmt-status');
+  const countEl = document.getElementById('stmt-count');
+  const rows = Array.from(document.querySelectorAll('#stmt-table tbody tr'));
+  function apply() {
+    const q = (qEl.value || '').trim().toLowerCase();
+    const ch = chEl.value;
+    const t = tEl.value;
+    const s = sEl.value;
+    let shown = 0;
+    for (const tr of rows) {
+      const okCh = !ch || tr.dataset.chapter === ch;
+      const okT = !t || tr.dataset.type === t;
+      const okS = !s || tr.dataset.status === s;
+      const okQ = !q || tr.textContent.toLowerCase().includes(q);
+      const vis = okCh && okT && okS && okQ;
+      tr.style.display = vis ? '' : 'none';
+      if (vis) shown++;
+    }
+    countEl.textContent = `Showing ${shown} of ${rows.length} statements`;
+  }
+  qEl.addEventListener('input', apply);
+  chEl.addEventListener('change', apply);
+  tEl.addEventListener('change', apply);
+  sEl.addEventListener('change', apply);
+})();
+</script>
 
 
 </section>

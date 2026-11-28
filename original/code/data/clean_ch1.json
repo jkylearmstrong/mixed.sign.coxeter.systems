@@ -1,0 +1,72 @@
+[
+ {
+  "number": "1.1",
+  "type": "Theorem",
+  "title": "",
+  "page": 4,
+  "section": "1.4",
+  "statement": "In matrix form, the principal element s_1 s_2 s_3 \\cdots s_n of the reflection system (W, S, B) can be written as -U^{-1}U^T where U_{i,j} = B(e_i, e_j) if j > i; B(e_i, e_j)/2 if i = j; 0 if i > j.",
+  "proof": "Note that U = [L_i^T, X_i; 0, V_i] where L_i is an i \\times i block such that L_i = [L_{i-1}, 0; -a_i, 1] and V_i is an (n - i) \\times (n - i) block such that V_i = [1, -b_i; 0, V_{i+1}]. We now show that U s_1 s_2 s_3 \\cdots s_i = [-L_i, 0; 0, V_i] for all i. We proceed by induction. If i = 0 then there is nothing to prove. Assuming true for i - 1 we have that U s_1 s_2 s_3 \\cdots s_{i-1} s_i = [-L_{i-1}, 0; 0, V_{i-1}][I_{i-1}, 0, 0; a_i, -1, b_i; 0, 0, I_{n-i}] = [-L_{i-1}, 0, 0; 0, 1, -b_i; 0, 0, V_i][I_{i-1}, 0, 0; a_i, -1, b_i; 0, 0, I_{n-i}] = [-L_{i-1}, 0, 0; a_i, -1, -0; 0, 0, V_i] = [-L_i, 0; 0, V_i]. So we have that U s_1 s_2 s_3 \\cdots s_i = [-L_i, 0; 0, V_i] for all i, in the case that i = n we have L_n = U and that U(s_1 s_2 s_3 \\cdots s_n) = -U^T so that s_1 s_2 s_3 \\cdots s_n = -U^{-1}U^T.",
+  "notes": "Proof located in Section 2.6.1 (pages 25-26); block matrices inlined; '-0' as printed."
+ },
+ {
+  "number": "1.2",
+  "type": "Theorem",
+  "title": "",
+  "page": 4,
+  "section": "1.4",
+  "statement": "There exists an infinite family of mixed-sign Coxeter systems which do not satisfy the Deletion Property.",
+  "proof": "To obtain a family of mixed-sign Coxeter systems which fail to satisfy the Deletion Property we construct the following sequence of mixed-sign Coxeter graphs. Let \\Gamma_3 := \\widetilde{A}_{-2}, let \\Gamma_4 := \\widetilde{A}_{-2} \\ast_{r_3} \\{r_4\\} and for n > 4 define \\Gamma_n := \\Gamma_{n-1} \\ast_{r_{n-1}} \\{r_n\\}. Each of these mixed-sign Coxeter groups contain the same relation in the above example, and fail to satisfy the Deletion Property in the same way as in the example above. More families can be constructed in a similar manner, in fact, if \\Gamma is a graph and \\Gamma contains \\widetilde{A}_{-2} then W(\\Gamma) contains the three generators associated to \\widetilde{A}_{-2} and the word will appear in the associated mixed-sign Coxeter group.",
+  "notes": "Proof located in Section 3.3 (page 43); Figure 3.12 (A_3 graph) omitted."
+ },
+ {
+  "number": "1.3",
+  "type": "Corollary",
+  "title": "",
+  "page": 5,
+  "section": "1.4",
+  "statement": "There exists an infinite family of mixed-sign Coxeter systems which are not conjugate to a classical Coxeter system.",
+  "proof": "By Theorem 3.9 a reflection system (W, S, B) is a classical Coxeter system if and only if it does not satisfy the Deletion Property. Since the family of mixed-sign Coxeter systems above do not have the Deletion Property by 1.6, then they cannot be classical Coxeter systems.",
+  "notes": "Proof located in Section 3.3 (page 44); 'by 1.6' as printed."
+ },
+ {
+  "number": "1.4",
+  "type": "Theorem",
+  "title": "",
+  "page": 5,
+  "section": "1.4",
+  "statement": "If \\Gamma is a bipartite reflection diagram then (W, S, B(\\Gamma)) is conjugate to (W, S, B(\\Gamma_{-})) by an element of \\mathcal{O}.",
+  "proof": "We will use the bipartite ordering on \\Gamma from Remark 2.42 and Figure 2.2. B(\\Gamma) = [\\Delta^{(1)}, B_*; (B_*)^T, \\Delta^{(2)}]. Notice the bilinear form of the bipartite ordering of \\Gamma_{-} is B(\\Gamma_{-}) = [-\\Delta^{(1)}, B_*; (B_*)^T, -\\Delta^{(2)}]. Let P = [-I_{n_1}, 0; 0, I_{n_1+n_2}] where I_q is the q \\times q identity matrix. Notice again we have P^{-1} = P = P^T. Then P^{-1} B(\\Gamma) P = [-I_{n_1}, 0; 0, I_{n_1+n_2}][\\Delta^{(1)}, B_*; (B_*)^T, \\Delta^{(2)}][-I_{n_1}, 0; 0, I_{n_1+n_2}] = [\\Delta^{(1)}, -B_*; -(B_*)^T, \\Delta^{(2)}] = -B(\\Gamma_{-}). This shows that P^T B(\\Gamma) P = -B(\\Gamma_{-}). We use Lemma 2.32 to obtain that the two reflection systems are conjugate.",
+  "notes": "Proof located in Section 2.4 (pages 19-20); block matrices inlined."
+ },
+ {
+  "number": "1.5",
+  "type": "Corollary",
+  "title": "",
+  "page": 5,
+  "section": "1.4",
+  "statement": "If \\Gamma is a bipartite mixed-sign Coxeter diagram then (W, S, B(\\Gamma)) is conjugate to (W, S, B(\\Gamma_{-})) by an element of \\mathcal{O}.",
+  "proof": "",
+  "notes": "No proof given; follows from Theorem 1.4."
+ },
+ {
+  "number": "1.6",
+  "type": "Theorem",
+  "title": "",
+  "page": 5,
+  "section": "1.4",
+  "statement": "For even n, the reflection systems (W, S, B(\\widetilde{A}_{-n})) and (W, S, B(\\widetilde{A}_n)) are not conjugate reflection systems.",
+  "proof": "First the bilinear form for \\widetilde{A}_{-n} with n even is always negative definite as the signature is (0, n, 0). The bilinear form B(\\widetilde{A}_{-n}) has the form B(\\widetilde{A}_{-n}) = [-2, -1, 0, 0, \\cdots, -1; -1, -2, -1, 0, \\cdots, 0; 0, -1, \\ddots, -1, \\cdots, 0; \\ldots, \\ldots, \\ddots, \\ddots, \\ddots, \\ldots; -1, 0, \\cdots, \\cdots, -1, -2]. Let B_n = -B(\\widetilde{A}_{-n}). We will use Sylvesters criterion. We show that -B_n is positive definite. The determinant of the upper k \\times k corner of B_n is k+1, additionally the determinant of B_n is 4. This implies that B_n is positive definite for all n. This, in turn, implies that B(\\widetilde{A}_{-n}) is negative definite for all n. Since B(\\widetilde{A}_n) is positive semi-definite we conclude that B(\\widetilde{A}_n) and B(\\widetilde{A}_{-n}) cannot be conjugate, let alone conjugate by an orthogonal transformation. Therefore, the reflection systems are not conjugate.",
+  "notes": "Proof located in Section 3.4 (pages 44-45); 'Sylvesters' as printed; cycle matrix inlined."
+ },
+ {
+  "number": "1.7",
+  "type": "Theorem",
+  "title": "",
+  "page": 6,
+  "section": "1.4",
+  "statement": "There exists a bipartite mixed-sign Coxeter system with a bipartite principal element which does not have the smallest spectral radius among other principal elements in the mixed-sign Coxeter system.",
+  "proof": "",
+  "notes": "No formal proof; demonstrated via Example 3.33 in Section 3.5.2."
+ }
+]

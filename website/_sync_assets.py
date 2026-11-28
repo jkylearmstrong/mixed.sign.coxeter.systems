@@ -18,6 +18,10 @@ WEBSITE = Path(__file__).resolve().parent
 SOURCE = WEBSITE.parent / "assets"
 TARGET = WEBSITE / "assets"
 PATTERNS = ("*.png", "*.svg", "slides/*.mp4")
+EXTRA_FILES = (
+    (WEBSITE.parent / "original" / "mixed_sign_coxeter_statements_lean.csv",
+     TARGET / "mixed_sign_coxeter_statements_lean.csv"),
+)
 
 
 def sync() -> list[Path]:
@@ -31,6 +35,15 @@ def sync() -> list[Path]:
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(src, dst)
             copied.append(dst)
+    for src, dst in EXTRA_FILES:
+        if not src.exists():
+            continue
+        if dst.exists() and dst.stat().st_size == src.stat().st_size \
+                and dst.stat().st_mtime >= src.stat().st_mtime:
+            continue
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+        copied.append(dst)
     return copied
 
 

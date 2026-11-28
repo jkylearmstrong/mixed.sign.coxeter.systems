@@ -57,6 +57,7 @@ LABELS: dict[str, str] = {
     "RemarksAndClassical": "Rem 3.23, 3.26, 3.30",
     "TildeAminusEvenIso": "W(Ã₋ₙ) ≅ W(Dₙ₊₁) &amp; App. D",
     "FiniteReduction": "Rem A.3, Cor 3.18, GL(V)",
+    "Chapter2Foundations": "Defs 2.12, 2.47, 2.51, 2.56, 2.61, Cor 2.46",
 }
 
 # (heading, modules) for each view.  Every module must appear in exactly one view.
@@ -64,7 +65,7 @@ VIEWS: list[tuple[str, list[str]]] = [
     ("1. Foundations, Mixed Signs & Rank Two",
      ["Basic", "Bipartite", "MixedSign", "RankTwo", "RankTwoRoots", "FiniteReduction"]),
     ("2. Conjugacy & Graph Structure: Components, Trees & Odd Cycles",
-     ["Conjugacy", "ComponentsAndTrees", "TreeConjugacy", "OddCycles"]),
+     ["Conjugacy", "ComponentsAndTrees", "TreeConjugacy", "OddCycles", "Chapter2Foundations"]),
     ("3. Cycles, Deletion & Coxeter Presentation",
      ["CyclesAndDeletion", "ParabolicTransfer", "ClassicalDeletion", "CoxeterPresentation",
       "ClassicalCoxeterDeletion", "RootPositivity", "RemarksAndClassical",

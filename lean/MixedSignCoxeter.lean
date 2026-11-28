@@ -25,3 +25,4 @@ import MixedSignCoxeter.TwoDefectCycle
 import MixedSignCoxeter.TildeAminusEvenIso
 import MixedSignCoxeter.RootPositivity
 import MixedSignCoxeter.FiniteReduction
+import MixedSignCoxeter.Chapter2Foundations
