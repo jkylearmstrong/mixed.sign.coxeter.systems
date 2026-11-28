@@ -1307,6 +1307,35 @@ theorem one_le_mahlerMeasure_of_monic {p : Polynomial ℂ} (hp : p.Monic) :
     rcases Multiset.mem_map.mp hr with ⟨z, _, rfl⟩
     exact le_max_left 1 ‖z‖
 
+/-! ### Remark 2.39: Orthogonal Diagonalization of Symmetric Bilinear Forms -/
+
+/-- **Remark 2.39**: Every symmetric bilinear form `S.B` is orthogonally conjugate to the
+diagonal matrix of its eigenvalues (`Uᵀ * S.B * U = diagonal (eigenvalues)` with
+`U * Uᵀ = 1` and `Uᵀ * U = 1`), showing why `P ∈ 𝒪` (signed permutation matrices) is
+necessary in Corollary 2.38. -/
+theorem exists_orthogonal_diagonal_conj (S : ReflectionSystem n) :
+    ∃ U : Matrix (Fin n) (Fin n) ℝ,
+      U * Uᵀ = 1 ∧ Uᵀ * U = 1 ∧ Uᵀ * S.B * U = Matrix.diagonal S.B_isHermitian.eigenvalues := by
+  let U : Matrix (Fin n) (Fin n) ℝ := S.B_isHermitian.eigenvectorUnitary.1
+  have hstar : star U = Uᵀ := Matrix.conjTranspose_eq_transpose_of_trivial U
+  have hUU : U * Uᵀ = 1 := by
+    rw [← hstar]
+    exact Unitary.coe_mul_star_self S.B_isHermitian.eigenvectorUnitary
+  have hUtU : Uᵀ * U = 1 := by
+    rw [← hstar]
+    exact Unitary.coe_star_mul_self S.B_isHermitian.eigenvectorUnitary
+  have hspec : S.B = U * Matrix.diagonal S.B_isHermitian.eigenvalues * Uᵀ := by
+    rw [← hstar]
+    exact S.B_isHermitian.spectral_theorem
+  refine ⟨U, hUU, hUtU, ?_⟩
+  conv_lhs => rw [hspec]
+  calc
+    Uᵀ * (U * Matrix.diagonal S.B_isHermitian.eigenvalues * Uᵀ) * U
+      = (Uᵀ * U) * Matrix.diagonal S.B_isHermitian.eigenvalues * (Uᵀ * U) := by
+          simp [Matrix.mul_assoc]
+    _ = Matrix.diagonal S.B_isHermitian.eigenvalues := by
+          rw [hUtU, Matrix.one_mul, Matrix.mul_one]
+
 end SpectralRadius
 
 end ReflectionSystem

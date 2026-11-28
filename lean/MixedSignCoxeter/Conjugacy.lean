@@ -269,4 +269,139 @@ theorem example_2_36_form_conjugate (a b c : ℝ) :
   fin_cases i <;> fin_cases j <;>
     simp [B₁, B₂, P, SignedPerm.signReal]
 
+/-! ### Remark 2.35: Diagram Isomorphism Induces Reflection Group Isomorphism -/
+
+private lemma signedPerm_toMatrix_mul_transpose (P : SignedPerm n) :
+    P.toMatrix * P.toMatrixᵀ = 1 := by
+  ext r c
+  simp only [Matrix.mul_apply, Matrix.transpose_apply, SignedPerm.toMatrix_apply, Matrix.one_apply]
+  have hterm : ∀ k : Fin n,
+      (if r = P.perm k then P.signReal k else 0) *
+        (if c = P.perm k then P.signReal k else 0) =
+      if k = P.perm.symm r then (if r = c then 1 else 0) else 0 := by
+    intro k
+    by_cases hk : k = P.perm.symm r
+    · subst hk
+      have hpk : P.perm (P.perm.symm r) = r := P.perm.apply_symm_apply r
+      by_cases hrc : r = c
+      · subst hrc; simp [hpk, P.signReal_mul_self]
+      · simp [hpk, hrc, Ne.symm hrc]
+    · have hne : r ≠ P.perm k := fun h => hk (P.perm.eq_symm_apply.mpr h.symm)
+      simp [hk, hne]
+  rw [Finset.sum_congr rfl fun k _ => hterm k]
+  simp
+
+/-- Conjugating a generating reflection of `S₁` by a diagram isomorphism `φ : Γ(B₁) ≅ Γ(B₂)`
+yields the corresponding generating reflection of `S₂`. -/
+theorem reflectionMatrix_conj_by_graphIso (S₁ S₂ : ReflectionSystem n)
+    {φ : Equiv.Perm (Fin n)} (hφ : IsGraphIso S₁.B S₂.B φ) (i : Fin n) :
+    let P : SignedPerm n := ⟨φ, fun _ => false⟩
+    P.toMatrixᵀ * reflectionMatrix S₁.B (φ i) * P.toMatrix = reflectionMatrix S₂.B i := by
+  intro P
+  ext r c
+  rw [P.toMatrix_conj_apply]
+  have hsr : P.signReal r = 1 := rfl
+  have hsc : P.signReal c = 1 := rfl
+  rw [hsr, hsc, one_mul, one_mul]
+  rw [reflectionMatrix_apply, reflectionMatrix_apply]
+  have hrc : (φ r = φ c) ↔ (r = c) := φ.injective.eq_iff
+  have hri : (φ r = φ i) ↔ (r = i) := φ.injective.eq_iff
+  simp only [P]
+  rw [hφ i c, hφ i i]
+  by_cases h1 : r = c <;> by_cases h2 : r = i <;>
+    simp [hrc, hri, h1, h2]
+
+/-- **Remark 2.35 (forward direction)**: An isomorphism of reflection diagrams `Γ(B₁) ≅ Γ(B₂)`
+induces an isomorphism of reflection groups `W(B₁) ≃* W(B₂)` via matrix conjugation. -/
+noncomputable def graphIso_mulEquiv (S₁ S₂ : ReflectionSystem n)
+    {φ : Equiv.Perm (Fin n)} (hφ : IsGraphIso S₁.B S₂.B φ) :
+    W_group S₁ ≃* W_group S₂ := by
+  let P : SignedPerm n := ⟨φ, fun _ => false⟩
+  have hPtP : P.toMatrixᵀ * P.toMatrix = 1 := P.toMatrix_transpose_mul_self
+  have hPPt : P.toMatrix * P.toMatrixᵀ = 1 := signedPerm_toMatrix_mul_transpose P
+  have hmem_fwd : ∀ M ∈ W_group S₁, P.toMatrixᵀ * M * P.toMatrix ∈ W_group S₂ := by
+    intro M hM
+    induction hM using Submonoid.closure_induction with
+    | mem x hx =>
+      rcases hx with ⟨j, rfl⟩
+      have hconj := reflectionMatrix_conj_by_graphIso S₁ S₂ hφ (φ.symm j)
+      simp only [Equiv.apply_symm_apply] at hconj
+      change P.toMatrixᵀ * reflectionMatrix S₁.B j * P.toMatrix ∈ W_group S₂
+      rw [hconj]
+      exact Submonoid.subset_closure ⟨φ.symm j, rfl⟩
+    | one =>
+      simp only [Matrix.mul_one, hPtP]
+      exact (W_group S₂).one_mem
+    | mul x y _ _ ihx ihy =>
+      have hmul : P.toMatrixᵀ * (x * y) * P.toMatrix =
+          (P.toMatrixᵀ * x * P.toMatrix) * (P.toMatrixᵀ * y * P.toMatrix) := by
+        calc
+          P.toMatrixᵀ * (x * y) * P.toMatrix
+            = P.toMatrixᵀ * x * (1 * y) * P.toMatrix := by simp [Matrix.mul_assoc]
+          _ = P.toMatrixᵀ * x * ((P.toMatrix * P.toMatrixᵀ) * y) * P.toMatrix := by rw [hPPt]
+          _ = (P.toMatrixᵀ * x * P.toMatrix) * (P.toMatrixᵀ * y * P.toMatrix) := by
+                simp [Matrix.mul_assoc]
+      rw [hmul]
+      exact (W_group S₂).mul_mem ihx ihy
+  have hmem_bwd : ∀ N ∈ W_group S₂, P.toMatrix * N * P.toMatrixᵀ ∈ W_group S₁ := by
+    intro N hN
+    induction hN using Submonoid.closure_induction with
+    | mem y hy =>
+      rcases hy with ⟨i, rfl⟩
+      have hconj := reflectionMatrix_conj_by_graphIso S₁ S₂ hφ i
+      have hinv : P.toMatrix * reflectionMatrix S₂.B i * P.toMatrixᵀ =
+          reflectionMatrix S₁.B (φ i) := by
+        rw [← hconj]
+        calc
+          P.toMatrix * (P.toMatrixᵀ * reflectionMatrix S₁.B (φ i) * P.toMatrix) * P.toMatrixᵀ
+            = (P.toMatrix * P.toMatrixᵀ) * reflectionMatrix S₁.B (φ i) *
+                (P.toMatrix * P.toMatrixᵀ) := by simp [Matrix.mul_assoc]
+          _ = reflectionMatrix S₁.B (φ i) := by rw [hPPt, Matrix.one_mul, Matrix.mul_one]
+      rw [hinv]
+      exact Submonoid.subset_closure ⟨φ i, rfl⟩
+    | one =>
+      simp only [Matrix.mul_one, hPPt]
+      exact (W_group S₁).one_mem
+    | mul x y _ _ ihx ihy =>
+      have hmul : P.toMatrix * (x * y) * P.toMatrixᵀ =
+          (P.toMatrix * x * P.toMatrixᵀ) * (P.toMatrix * y * P.toMatrixᵀ) := by
+        calc
+          P.toMatrix * (x * y) * P.toMatrixᵀ
+            = P.toMatrix * x * (1 * y) * P.toMatrixᵀ := by simp [Matrix.mul_assoc]
+          _ = P.toMatrix * x * ((P.toMatrixᵀ * P.toMatrix) * y) * P.toMatrixᵀ := by rw [hPtP]
+          _ = (P.toMatrix * x * P.toMatrixᵀ) * (P.toMatrix * y * P.toMatrixᵀ) := by
+                simp [Matrix.mul_assoc]
+      rw [hmul]
+      exact (W_group S₁).mul_mem ihx ihy
+  exact
+    { toFun := fun M => ⟨P.toMatrixᵀ * M.1 * P.toMatrix, hmem_fwd M.1 M.2⟩
+      invFun := fun N => ⟨P.toMatrix * N.1 * P.toMatrixᵀ, hmem_bwd N.1 N.2⟩
+      left_inv := fun M => by
+        ext1
+        show P.toMatrix * (P.toMatrixᵀ * M.1 * P.toMatrix) * P.toMatrixᵀ = M.1
+        calc
+          P.toMatrix * (P.toMatrixᵀ * M.1 * P.toMatrix) * P.toMatrixᵀ
+            = (P.toMatrix * P.toMatrixᵀ) * M.1 * (P.toMatrix * P.toMatrixᵀ) := by
+                simp [Matrix.mul_assoc]
+          _ = M.1 := by rw [hPPt, Matrix.one_mul, Matrix.mul_one]
+      right_inv := fun N => by
+        ext1
+        show P.toMatrixᵀ * (P.toMatrix * N.1 * P.toMatrixᵀ) * P.toMatrix = N.1
+        calc
+          P.toMatrixᵀ * (P.toMatrix * N.1 * P.toMatrixᵀ) * P.toMatrix
+            = (P.toMatrixᵀ * P.toMatrix) * N.1 * (P.toMatrixᵀ * P.toMatrix) := by
+                simp [Matrix.mul_assoc]
+          _ = N.1 := by rw [hPtP, Matrix.one_mul, Matrix.mul_one]
+      map_mul' := fun M₁ M₂ => by
+        ext1
+        show P.toMatrixᵀ * (M₁.1 * M₂.1) * P.toMatrix =
+          (P.toMatrixᵀ * M₁.1 * P.toMatrix) * (P.toMatrixᵀ * M₂.1 * P.toMatrix)
+        calc
+          P.toMatrixᵀ * (M₁.1 * M₂.1) * P.toMatrix
+            = P.toMatrixᵀ * M₁.1 * (1 * M₂.1) * P.toMatrix := by simp [Matrix.mul_assoc]
+          _ = P.toMatrixᵀ * M₁.1 * ((P.toMatrix * P.toMatrixᵀ) * M₂.1) * P.toMatrix := by
+                rw [hPPt]
+          _ = (P.toMatrixᵀ * M₁.1 * P.toMatrix) * (P.toMatrixᵀ * M₂.1 * P.toMatrix) := by
+                simp [Matrix.mul_assoc] }
+
 end ReflectionSystem

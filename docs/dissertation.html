@@ -443,7 +443,7 @@ window.Quarto = {
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Corollary 2.46 &amp; Definitions 2.12, 2.47, 2.51, 2.56, 2.61</strong> (<span class="math inline">\(k\)</span>-component direct product, roots <span class="math inline">\(\Phi\)</span>, signature <span class="math inline">\((p,q,l)\)</span>, 4-way classification, <span class="math inline">\(\Gamma/(r_i)\)</span>, spectral radius)</td>
-<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L322"><code>roots</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L379"><code>k_component_mulEquiv</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L288"><code>deleteNode</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L930"><code>signature</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1119"><code>signatureType</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1171"><code>spectralRadius</code></a></td>
+<td style="text-align: left;"><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L326"><code>roots</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ComponentsAndTrees.lean#L379"><code>k_component_mulEquiv</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ParabolicTransfer.lean#L288"><code>deleteNode</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L930"><code>signature</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1119"><code>signatureType</code></a>, <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1171"><code>spectralRadius</code></a></td>
 <td style="text-align: left;">✅ Lean 4</td>
 </tr>
 <tr class="odd">
@@ -518,7 +518,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="complete-statement-index">Complete 107-Statement Index</h2>
 <p>The table below is generated directly from <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/original/mixed_sign_coxeter_statements_lean.csv"><code>original/mixed_sign_coxeter_statements_lean.csv</code></a> (<a href="assets/mixed_sign_coxeter_statements_lean.csv">download CSV</a>), linking every numbered item from Chapters 1–3 of the 2012 dissertation to its exact Lean 4 declaration in <code>lean/MixedSignCoxeter/</code> (and its upstream <code>lean/MathlibDraft/</code> counterpart where applicable).</p>
 <div class="mb-3">
-  <span class="badge bg-primary me-1 mb-1">Formalized (definition): 42</span> <span class="badge bg-success me-1 mb-1">Verified: 38</span> <span class="badge bg-info text-dark me-1 mb-1">Formalized (remark): 10</span> <span class="badge bg-secondary me-1 mb-1">Prose / notation: 9</span> <span class="badge bg-info text-dark me-1 mb-1">Formalized (example): 6</span> <span class="badge bg-warning text-dark me-1 mb-1">Addressed (counterexample): 2</span>
+  <span class="badge bg-primary me-1 mb-1">Formalized (definition): 44</span> <span class="badge bg-success me-1 mb-1">Verified: 38</span> <span class="badge bg-info text-dark me-1 mb-1">Formalized (remark): 12</span> <span class="badge bg-info text-dark me-1 mb-1">Formalized (example): 6</span> <span class="badge bg-secondary me-1 mb-1">Prose / notation: 5</span> <span class="badge bg-warning text-dark me-1 mb-1">Addressed (counterexample): 2</span>
 </div>
 <div class="row g-2 mb-3">
   <div class="col-md-4">
@@ -669,16 +669,17 @@ p. 6 · §1.4 Main results
 Witnessed by Example 3.33 (6-node bipartite graph) and also by the smaller 4-node alternating square in AlternatingSquare.lean (alternatingSquare_bipartite_not_min).
 </div></td>
 </tr>
-<tr class="even" data-chapter="2" data-type="Definition" data-status="Prose / notation">
+<tr class="even" data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
 <td style="white-space: nowrap"><strong>2.1</strong></td>
 <td style="white-space: nowrap">Definition</td>
 <td>A bilinear form is a function, f: \mathbb{R}^n \times \mathbb{R}^n \to \mathbb{R} such that for all u, v, w \in \mathbb{R}^n and for all c \in \mathbb{R} then f(cv, u) = cf(v, u) = f(v, cu); f(v + w, u) = f(v, u) + f(w, u); f(v, u + w) = f(v, u) + f(v, w).
 <div class="small text-muted mt-1">
 p. 8 · §2.1 Basic definitions and properties
 </div></td>
-<td style="white-space: nowrap"><span class="badge bg-secondary">Prose / notation</span></td>
-<td><div class="small text-muted mt-1">
-Standard linear algebra definition; in Lean/Mathlib bilinear forms are represented by LinearMap.BilinForm or real matrices Matrix (Fin n) (Fin n) R.
+<td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L465" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>bilinForm</code>, <code>bilinForm_smul_left</code>, <code>bilinForm_smul_right</code>, <code>bilinForm_add_left</code>, <code>bilinForm_add_right</code>
+<div class="small text-muted mt-1">
+Defines bilinear form B(u, v) = u^T B v and proves all four bilinearity axioms.
 </div></td>
 </tr>
 <tr class="odd" data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
@@ -705,7 +706,7 @@ Symmetric bilinear form represented by a symmetric matrix B with B_symm : B.IsSy
 p. 8 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L460" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>IsOrthogonal</code>, <code>orthHyperplane</code>, <code>reflectionMatrix_fixes_orthHyperplane</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L485" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>IsOrthogonal</code>, <code>orthHyperplane</code>, <code>reflectionMatrix_fixes_orthHyperplane</code>
 <div class="small text-muted mt-1">
 Defines B-orthogonality, hyperplane H_v, and proves s_i fixes H_{e_i} pointwise.
 </div></td>
@@ -843,7 +844,7 @@ Embeds W faithfully into GL_n(R) preserving the bilinear form B.
 p. 10 · §2.1 Basic definitions and properties
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L322" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>roots</code>, <code>simple_mem_roots</code>, <code>roots_mulVec_mem</code>, <code>roots_neg_mem</code>, <code>roots_quadForm_eq</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L326" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>roots</code>, <code>simple_mem_roots</code>, <code>roots_mulVec_mem</code>, <code>roots_neg_mem</code>, <code>roots_quadForm_eq</code>
 <div class="small text-muted mt-1">
 Defines Phi = {w e_i | w in W} as ReflectionSystem.roots with W-invariance, negation closure, non-vanishing, and quadratic-form invariance.
 </div></td>
@@ -1049,16 +1050,17 @@ p. 14 · §2.3 Conjugate reflection systems and reflection diagrams
 Expository remark on the correspondence between B and Gamma(B).
 </div></td>
 </tr>
-<tr class="even" data-chapter="2" data-type="Definition" data-status="Prose / notation">
+<tr class="even" data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
 <td style="white-space: nowrap"><strong>2.27</strong></td>
 <td style="white-space: nowrap">Definition</td>
 <td>Let (W, S, B) be a reflection system. We define S(B) to be the set of generating reflections for W(B) the reflection group in the reflection system (W, S, B). Similarly, we define S(\Gamma) to be the set of generating reflections for W(\Gamma) the reflection group in the reflection system (W, S, B(\Gamma)).
 <div class="small text-muted mt-1">
 p. 14 · §2.3 Conjugate reflection systems and reflection diagrams
 </div></td>
-<td style="white-space: nowrap"><span class="badge bg-secondary">Prose / notation</span></td>
-<td><div class="small text-muted mt-1">
-Notation convention for S(B), W(B), S(Gamma), W(Gamma).
+<td style="white-space: nowrap"><span class="badge bg-primary">Formalized (definition)</span></td>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L300" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>generatingReflections</code>, <code>W_group</code>
+<div class="small text-muted mt-1">
+Defines generating reflections S(B) and reflection group W(B) generated by S(B).
 </div></td>
 </tr>
 <tr class="odd" data-chapter="2" data-type="Proposition" data-status="Verified">
@@ -1158,16 +1160,17 @@ p. 16 · §2.3 Conjugate reflection systems and reflection diagrams
 Graph isomorphism is parameterized directly by a permutation sigma : Equiv.Perm (Fin n).
 </div></td>
 </tr>
-<tr class="even" data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<tr class="even" data-chapter="2" data-type="Remark" data-status="Formalized (remark)">
 <td style="white-space: nowrap"><strong>2.35</strong></td>
 <td style="white-space: nowrap">Remark</td>
 <td>An isomorphism of reflection diagrams induces an isomorphism of reflection groups. The converse is not true, in general. The reflection diagram gives us more information than just the abstract group; it gives the triple (W, S, B). This is a more restrictive requirement than an isomorphism of groups, as seen in the following example.
 <div class="small text-muted mt-1">
 p. 16 · §2.3 Conjugate reflection systems and reflection diagrams
 </div></td>
-<td style="white-space: nowrap"><span class="badge bg-secondary">Prose / notation</span></td>
-<td><div class="small text-muted mt-1">
-Expository remark contrasting diagram isomorphism with abstract group isomorphism.
+<td style="white-space: nowrap"><span class="badge bg-info text-dark">Formalized (remark)</span></td>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Conjugacy.lean#L316" target="_blank" rel="noopener">Conjugacy.lean</a>: <code>reflectionMatrix_conj_by_graphIso</code>, <code>graphIso_mulEquiv</code>
+<div class="small text-muted mt-1">
+Proves diagram isomorphism induces W(B_1) ~=* W(B_2); converse counterexample is Example 2.36.
 </div></td>
 </tr>
 <tr class="odd" data-chapter="2" data-type="Example" data-status="Formalized (example)">
@@ -1209,16 +1212,17 @@ p. 18 · §2.3 Conjugate reflection systems and reflection diagrams
 Proves equivalence for permutation-matrix conjugacy and invariance of diagonal/absolute off-diagonal entries under O.
 </div></td>
 </tr>
-<tr class="even" data-chapter="2" data-type="Remark" data-status="Prose / notation">
+<tr class="even" data-chapter="2" data-type="Remark" data-status="Formalized (remark)">
 <td style="white-space: nowrap"><strong>2.39</strong></td>
 <td style="white-space: nowrap">Remark</td>
 <td>Note, that P needs to be in \mathcal{O} otherwise Corollary 2.38 is not true. For instance, every symmetric n \times n matrix B is conjugate to a diagonal matrix of it's eigenvalues. The reflection diagram for a diagonal matrix would consist of n nodes, all disjoint. The two corresponding graphs may not be isomorphic.
 <div class="small text-muted mt-1">
 p. 18 · §2.3 Conjugate reflection systems and reflection diagrams
 </div></td>
-<td style="white-space: nowrap"><span class="badge bg-secondary">Prose / notation</span></td>
-<td><div class="small text-muted mt-1">
-Expository remark on why P must lie in O rather than all of O(n).
+<td style="white-space: nowrap"><span class="badge bg-info text-dark">Formalized (remark)</span></td>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/SpectralClassification.lean#L1316" target="_blank" rel="noopener">SpectralClassification.lean</a>: <code>exists_orthogonal_diagonal_conj</code>
+<div class="small text-muted mt-1">
+Proves every symmetric B is orthogonally conjugate to diagonal(eigenvalues), showing why P in O is required in Cor. 2.38.
 </div></td>
 </tr>
 <tr class="odd" data-chapter="2" data-type="Definition" data-status="Formalized (definition)">
@@ -1440,7 +1444,7 @@ Ordered principal element s_0 ... s_{n-1}; general permutation principal words d
 p. 23 · §2.6 Principal elements
 </div></td>
 <td style="white-space: nowrap"><span class="badge bg-info text-dark">Formalized (remark)</span></td>
-<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L512" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>principalElementOfPerm</code>, <code>principalElements</code>, <code>card_principalElements_bounds</code>
+<td><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/ReflectionSystem.lean#L537" target="_blank" rel="noopener">ReflectionSystem.lean</a>: <code>principalElementOfPerm</code>, <code>principalElements</code>, <code>card_principalElements_bounds</code>
 <div class="small text-muted mt-1">
 Proves 1 &lt;= |principalElements S| &lt;= n! for any rank-n reflection system.
 </div></td>
