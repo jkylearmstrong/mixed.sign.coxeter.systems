@@ -197,6 +197,6 @@ theorems:
     lean_symbol: "k_component_mulEquiv"
     lean_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/Chapter2Foundations.lean#L396"
     python_ref: "ReflectionSystem.signature / spectral_radius"
-    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L140"
+    python_url: "https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/src/mixed_sign_coxeter/reflection_system.py#L269"
     status: "Verified (Lean 4)"
     preset: "a3_ppm"
