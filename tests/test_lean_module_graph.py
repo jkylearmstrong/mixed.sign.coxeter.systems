@@ -38,15 +38,33 @@ def test_rendered_edges_match_imports():
     imports = graph.module_imports()
     block = graph.render(imports)
     where = graph.view_of(imports)
+    crossing_pairs = set()
     for mod, deps in imports.items():
         for dep in deps:
             if where[dep] == where[mod]:
                 assert block.count(f"  {dep} --> {mod}\n") == 1
             else:
-                assert block.count(f"{dep} → {mod}") == 1
+                crossing_pairs.add((where[dep], where[mod]))
                 assert block.count(f"  ext_{dep} -.-> {mod}\n") == 1
+    for src, dst in crossing_pairs:
+        assert f"| V{dst + 1}\n" in block and f"  V{src + 1} -->|" in block
     assert block.count(" --> ") == sum(1 for m, ds in imports.items() for d in ds if where[d] == where[m])
     assert block.count(" -.-> ") == sum(1 for m, ds in imports.items() for d in ds if where[d] != where[m])
+
+
+def test_detail_and_reduce_options():
+    """--detail lists every crossing pair; --reduce hides transitive overview edges only."""
+    imports = graph.module_imports()
+    where = graph.view_of(imports)
+    detailed = graph.render(imports, {"detail": True})
+    for mod, deps in imports.items():
+        for dep in deps:
+            if where[dep] != where[mod]:
+                assert detailed.count(f"{dep} → {mod}") == 1
+
+    reduced = graph.render(imports, {"reduce": True})
+    assert reduced.count(" -.-> ") == sum(1 for m, ds in imports.items() for d in ds if where[d] != where[m])
+    assert "reduce=true" in reduced
 
 
 def test_each_module_is_owned_once():

@@ -4,17 +4,23 @@ The Mermaid diagrams in ``website/lean-verification.qmd`` are generated from the
 actual ``import MixedSignCoxeter.*`` lines in ``lean/MixedSignCoxeter/*.lean``
 and the statement index in ``original/mixed_sign_coxeter_statements_lean.csv``,
 so neither edges nor captions can drift from the code.  Modules are partitioned
-into four views: an overview graph has one node per view with cross-view imports
-as edge labels, and each view draws its own modules together with dashed stub
-nodes for any direct upstream imports from other views so no module appears
-disconnected.
+into views (the ``VIEWS`` list below): an overview graph has one node per view
+with each edge summarizing the direct imports that cross between the two views,
+and each view draws its own modules together with dashed stub nodes for any
+direct upstream imports from other views so no module appears disconnected.
 
 Usage::
 
-    python scripts/lean_module_graph.py          # rewrite the diagrams in place
-    python scripts/lean_module_graph.py --check  # exit 1 if the page is stale
+    python scripts/lean_module_graph.py           # rewrite the diagrams in place
+    python scripts/lean_module_graph.py --check   # exit 1 if the page is stale
+    python scripts/lean_module_graph.py --detail  # label every crossing import pair
+    python scripts/lean_module_graph.py --reduce  # hide overview edges implied by chains
 
-``tests/test_lean_module_graph.py`` runs the check in CI.
+Overview options are recorded in a comment inside the generated block, so a plain
+``--check`` (as run by ``tests/test_lean_module_graph.py`` in CI) validates the page
+with the same options it was generated with.  Pass ``--detail``/``--no-detail`` or
+``--reduce``/``--no-reduce`` to switch a view explicitly; omitted flags keep the
+recorded options.
 """
 
 from __future__ import annotations
@@ -65,6 +71,33 @@ FALLBACK_LABELS: dict[str, str] = {
     "TwoDefectCycle": "Cₙ(+,+,−,…,−): ρ(w) &gt; 1",
 }
 
+# Overview-graph options, persisted in the generated block so that ``--check``
+# always validates the page with the options it was generated with.
+DEFAULT_OPTIONS: dict[str, bool] = {"detail": False, "reduce": False}
+_OPTIONS_COMMENT = "lean-module-graph options:"
+_OPTIONS_RE = re.compile(re.escape(_OPTIONS_COMMENT) + r"\s*(.*?)\s*-->")
+
+# (heading, modules) for each view.  Every module must appear in exactly one view.
+# Keep the "N. Title" heading format (the number is reused by the overview nodes),
+# and list modules deps-first so the top-down layout inside a view reads well.
+VIEWS: list[tuple[str, list[str]]] = [
+    ("1. Foundations, Mixed Signs & Rank Two",
+     ["ReflectionSystem", "Bipartite", "MixedSign", "RankTwo", "RankTwoRoots", "FiniteReduction"]),
+    ("2. Conjugacy & Graph Structure: Components, Trees & Odd Cycles",
+     ["Conjugacy", "ComponentsAndTrees", "TreeConjugacy", "OddCycles"]),
+    ("3. Coxeter Presentation, Deletion, & Cycles",
+     ["CyclesAndDeletion", "ParabolicTransfer", "ClassicalDeletion", "CoxeterPresentation",
+      "ClassicalCoxeterDeletion", "RootPositivity", "RemarksAndClassical",
+      "TildeAminusEvenIso"]),
+    ("4. Howlett Matrix & Cycle Families",
+     ["Howlett",
+      "OddCycleSingleDefect", "EvenCycleSingleDefect", "BipartiteDuality", "TwoDefectCycle"]),
+    ("5. Spectral Radius",
+     ["SpectralRadius", "SpectralClassification", "AlternatingSquare"]),
+]
+
+_IMPORT = re.compile(r"(?m)^import\s+MixedSignCoxeter\.(\w+)\s*$")
+
 
 def _format_csv_caption(items: list[tuple[str, str]], limit: int = 4) -> str:
     """Summarize a module's dissertation statements into a compact box caption."""
@@ -101,30 +134,11 @@ def module_labels() -> dict[str, str]:
 
 LABELS: dict[str, str] = module_labels()
 
-# (heading, modules) for each view.  Every module must appear in exactly one view.
-VIEWS: list[tuple[str, list[str]]] = [
-    ("1. Foundations, Mixed Signs & Rank Two",
-     ["ReflectionSystem", "Bipartite", "MixedSign", "RankTwo", "RankTwoRoots", "FiniteReduction"]),
-    ("2. Conjugacy & Graph Structure: Components, Trees & Odd Cycles",
-     ["Conjugacy", "ComponentsAndTrees", "TreeConjugacy", "OddCycles"]),
-    ("3. Coxeter Presentation, Deletion, & Cycles ",
-     ["CyclesAndDeletion", "ParabolicTransfer", "ClassicalDeletion", "CoxeterPresentation",
-      "ClassicalCoxeterDeletion", "RootPositivity", "RemarksAndClassical",
-      "TildeAminusEvenIso"]),
-    ("4. Howlett Matrix & Cycle Families",
-     ["Howlett",
-      "OddCycleSingleDefect", "EvenCycleSingleDefect", "BipartiteDuality", "TwoDefectCycle"]),
-    ("5. Spectral Radius",
-     ["SpectralRadius", "SpectralClassification", "AlternatingSquare"])  
-]
-
-_IMPORT = re.compile(r"(?m)^import\s+MixedSignCoxeter\.(\w+)\s*$")
-
 
 def module_imports() -> dict[str, list[str]]:
-    """Map each module to the project modules it imports directly."""
+    """Map each module to the project modules it imports directly (duplicates removed)."""
     return {
-        path.stem: _IMPORT.findall(path.read_text(encoding="utf-8"))
+        path.stem: list(dict.fromkeys(_IMPORT.findall(path.read_text(encoding="utf-8"))))
         for path in sorted(LEAN_DIR.glob("*.lean"))
     }
 
@@ -153,20 +167,114 @@ def view_of(imports: dict[str, list[str]]) -> dict[str, int]:
     return {mod: i for i, (_, mods) in enumerate(VIEWS) for mod in mods}
 
 
-def render_overview(imports: dict[str, list[str]]) -> str:
-    """One node per view; each edge lists the imports that cross between views."""
+def page_options(text: str) -> dict[str, bool]:
+    """Overview options recorded in the page's generated block (defaults when absent)."""
+    options = dict(DEFAULT_OPTIONS)
+    match = _OPTIONS_RE.search(text)
+    if match:
+        for token in match.group(1).split():
+            key, sep, value = token.partition("=")
+            if key in options and sep:
+                options[key] = value.strip().lower() in {"1", "true", "yes", "on"}
+    return options
+
+
+def _options_comment(options: dict[str, bool]) -> str:
+    pairs = " ".join(f"{key}={str(value).lower()}" for key, value in options.items())
+    return f"<!-- {_OPTIONS_COMMENT} {pairs} -->"
+
+
+def options_args(options: dict[str, bool]) -> str:
+    """CLI flags reproducing ``options`` (used in the stale-page hint)."""
+    flags = [f"--{'' if value else 'no-'}{key}" for key, value in options.items()]
+    return (" " + " ".join(flags)) if flags else ""
+
+
+def transitive_reduction(edges: set[tuple[int, int]]) -> set[tuple[int, int]] | None:
+    """View-level edges implied by a longer chain of other view-level edges.
+
+    Returns ``None`` when the view graph contains a cycle (transitive reduction is
+    only well defined for DAGs); callers should then keep every edge.
+    """
+    if not edges:
+        return set()
+    nodes = {n for edge in edges for n in edge}
+    adjacency: dict[int, set[int]] = {n: set() for n in nodes}
+    indegree = {n: 0 for n in nodes}
+    for src, dst in edges:
+        if dst not in adjacency[src]:
+            adjacency[src].add(dst)
+            indegree[dst] += 1
+    # Cycle check (Kahn's algorithm).
+    queue = [n for n in sorted(nodes) if indegree[n] == 0]
+    processed = 0
+    while queue:
+        node = queue.pop()
+        processed += 1
+        for nxt in adjacency[node]:
+            indegree[nxt] -= 1
+            if indegree[nxt] == 0:
+                queue.append(nxt)
+    if processed != len(nodes):
+        return None
+
+    def reachable(src: int, dst: int, skipped: tuple[int, int]) -> bool:
+        stack, visited = [src], set()
+        while stack:
+            node = stack.pop()
+            if node == dst:
+                return True
+            if node in visited:
+                continue
+            visited.add(node)
+            stack.extend(n for n in adjacency[node]
+                         if (node, n) != skipped and n not in visited)
+        return False
+
+    return {edge for edge in edges if reachable(edge[0], edge[1], edge)}
+
+
+def render_overview(imports: dict[str, list[str]], options: dict[str, bool]) -> str:
+    """One node per view; each edge summarizes the imports crossing between two views.
+
+    The per-view diagrams below already show every individual import edge, so the
+    overview only aggregates: the label names the upstream view-modules involved
+    (deduplicated, at most four shown) plus the number of crossing imports.  This
+    keeps labels to 2-3 lines; listing every ``dep → mod`` pair instead produces
+    huge label boxes that wreck the flowchart layout (use ``--detail`` to restore
+    that behaviour deliberately).  With ``--reduce``, view-level edges that are
+    implied by a chain of other view-level edges are hidden for readability.
+    """
     where = view_of(imports)
-    crossing: dict[tuple[int, int], list[str]] = {}
+    seen: dict[tuple[int, int], set[tuple[str, str]]] = {}
     for mod, deps in imports.items():
-        for dep in deps:
+        for dep in set(deps):  # robust to duplicate import lines
             if where[dep] != where[mod]:
-                crossing.setdefault((where[dep], where[mod]), []).append(f"{dep} → {mod}")
+                seen.setdefault((where[dep], where[mod]), set()).add((dep, mod))
+    edges = dict(seen)
+    if options["reduce"]:
+        dropped = transitive_reduction(set(edges))
+        if dropped is None:
+            print("warning: view-level import cycle detected; keeping all overview edges",
+                  file=sys.stderr)
+        else:
+            edges = {key: pairs for key, pairs in edges.items() if key not in dropped}
     lines = ["```{mermaid}", "flowchart LR"]
     for i, (heading, mods) in enumerate(VIEWS):
-        title = heading.split(". ", 1)[-1]
+        title = heading.split(". ", 1)[-1].strip()
         lines.append(f'  V{i + 1}["<b>{i + 1}. {title}</b><br/>{len(mods)} modules"]')
-    for (src, dst), pairs in sorted(crossing.items()):
-        lines.append(f'  V{src + 1} -->|"{"<br/>".join(sorted(pairs))}"| V{dst + 1}')
+    for (src, dst), pairs in sorted(edges.items()):
+        if options["detail"]:
+            label = "<br/>".join(f"{dep} → {mod}" for dep, mod in sorted(pairs))
+        else:
+            upstream = sorted({dep for dep, _ in pairs})
+            shown = upstream[:4]
+            label = ", ".join(shown)
+            if len(upstream) > len(shown):
+                label += f" +{len(upstream) - len(shown)} more"
+            n = len(pairs)
+            label = f"{label}<br/>({n} import{'s' if n != 1 else ''})"
+        lines.append(f'  V{src + 1} -->|"{label}"| V{dst + 1}')
     lines.append("```")
     return "\n".join(lines)
 
@@ -199,23 +307,34 @@ def render_view(
     return "\n".join(lines)
 
 
-def render(imports: dict[str, list[str]]) -> str:
+def render(imports: dict[str, list[str]], options: dict[str, bool] | None = None) -> str:
+    options = {**DEFAULT_OPTIONS, **(options or {})}
     total = sum(len(v) for v in imports.values())
     where = view_of(imports)
+    intro = (
+        f"These diagrams are generated from the `import` lines of all {len(imports)} modules "
+        f"({total} direct imports between them). Each module belongs to one of {len(VIEWS)} views. "
+        f"The overview shows how the {len(VIEWS)} views connect; each view below shows its own modules "
+        "(solid boxes and arrows) along with dashed stubs for direct upstream imports from other views."
+    )
+    if options["reduce"]:
+        intro += (
+            " Overview edges implied by a chain of other view-level edges are hidden; "
+            "the per-view diagrams still show every direct import."
+        )
     parts = [
         BEGIN,
         "",
-        f"These diagrams are generated from the `import` lines of all {len(imports)} modules "
-        f"({total} direct imports between them). Each module belongs to one view. "
-        "The overview shows how the four views connect; each view below shows its own modules "
-        "(solid boxes and arrows) along with dashed stubs for direct upstream imports from other views.",
+        _options_comment(options),
+        "",
+        intro,
         "",
         "### Overview",
         "",
-        render_overview(imports),
+        render_overview(imports, options),
     ]
     for heading, modules in VIEWS:
-        parts += ["", f"### {heading}", "", render_view(modules, imports, where)]
+        parts += ["", f"### {heading.strip()}", "", render_view(modules, imports, where)]
     parts += ["", END]
     return "\n".join(parts)
 
@@ -231,6 +350,12 @@ def updated_page(text: str, block: str) -> str:
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--check", action="store_true", help="exit 1 if the page is stale")
+    parser.add_argument("--detail", action=argparse.BooleanOptionalAction, default=None,
+                        help="overview edge labels list every crossing 'dep → mod' pair "
+                             "instead of the summarized upstream modules + import count")
+    parser.add_argument("--reduce", action=argparse.BooleanOptionalAction, default=None,
+                        help="hide overview edges implied by a chain of other view-level "
+                             "edges (kept as-is when the views form a cycle)")
     args = parser.parse_args(argv)
 
     imports = module_imports()
@@ -240,11 +365,17 @@ def main(argv: list[str] | None = None) -> int:
     if errors:
         return 1
     text = PAGE.read_text(encoding="utf-8")
-    new = updated_page(text, render(imports))
+    recorded = page_options(text)
+    options = {
+        key: getattr(args, key) if getattr(args, key) is not None else recorded[key]
+        for key in DEFAULT_OPTIONS
+    }
+    new = updated_page(text, render(imports, options))
     if new == text:
         return 0
     if args.check:
-        print(f"{PAGE.relative_to(ROOT)} is stale; run python scripts/lean_module_graph.py",
+        print(f"{PAGE.relative_to(ROOT)} is stale; "
+              f"run python scripts/lean_module_graph.py{options_args(options)}",
               file=sys.stderr)
         return 1
     PAGE.write_text(new, encoding="utf-8")
