@@ -427,7 +427,7 @@ class FormalizationScene(Scene):
     def construct(self) -> None:
         title = header("How the results are checked", GREEN)
         lean = VGroup(
-            Text("Lean 4 + Mathlib (16 modules, sorry-free)", font_size=26, color=BLUE),
+            Text("Lean 4 + Mathlib (27 modules, sorry-free)", font_size=26, color=BLUE),
             Text("Theorems 1.1, 1.2, 1.4, 1.6, 1.7, 2.58, 3.9, 3.27, 3.28, 3.34", font_size=20),
             Text("Corollaries 1.3, 1.5, 3.18; Props 2.41, 3.11; Remarks 3.23, 3.26, 3.30", font_size=20),
             Text("All numbered Ch. 1–3 results, decide, and IVT root bounds", font_size=20, color=GREY_B),
