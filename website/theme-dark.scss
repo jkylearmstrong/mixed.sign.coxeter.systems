@@ -1,0 +1,13 @@
+/*-- scss:defaults --*/
+$code-bg: #2f3337;
+$code-color: #7dd3fc;
+
+/*-- scss:rules --*/
+:not(pre) > code {
+  color: $code-color;
+  background-color: $code-bg;
+}
+
+a > code {
+  color: inherit;
+}

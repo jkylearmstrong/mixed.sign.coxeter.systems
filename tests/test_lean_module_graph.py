@@ -34,7 +34,7 @@ def test_lean_verification_page_diagrams_are_current():
 
 
 def test_rendered_edges_match_imports():
-    """Every import is drawn exactly once: inside a view, or on an overview edge."""
+    """Every import is drawn: solid inside a view, dashed from an external stub & on overview."""
     imports = graph.module_imports()
     block = graph.render(imports)
     where = graph.view_of(imports)
@@ -44,10 +44,24 @@ def test_rendered_edges_match_imports():
                 assert block.count(f"  {dep} --> {mod}\n") == 1
             else:
                 assert block.count(f"{dep} → {mod}") == 1
+                assert block.count(f"  ext_{dep} -.-> {mod}\n") == 1
     assert block.count(" --> ") == sum(1 for m, ds in imports.items() for d in ds if where[d] == where[m])
+    assert block.count(" -.-> ") == sum(1 for m, ds in imports.items() for d in ds if where[d] != where[m])
 
 
-def test_each_module_is_drawn_once():
+def test_each_module_is_owned_once():
     block = graph.render(graph.module_imports())
     for mod in graph.module_imports():
         assert block.count(f'  {mod}["') == 1
+
+
+def test_no_view_has_isolated_modules():
+    """Every module in every view has at least one incident edge in its view diagram."""
+    imports = graph.module_imports()
+    where = graph.view_of(imports)
+    for _, mods in graph.VIEWS:
+        view = graph.render_view(mods, imports, where)
+        for mod in mods:
+            has_incoming = f"--> {mod}\n" in view or f"-.-> {mod}\n" in view
+            has_outgoing = f"  {mod} --> " in view
+            assert has_incoming or has_outgoing, f"{mod} is isolated in its view"

@@ -2,10 +2,10 @@
 
 The Mermaid diagrams in ``website/lean-verification.qmd`` are generated from the
 actual ``import MixedSignCoxeter.*`` lines in ``lean/MixedSignCoxeter/*.lean``,
-so they cannot drift from the code.  Modules are split into four views and each
-module is drawn exactly once: an overview graph has one node per view, with the
-imports that cross between views as edge labels, and each view draws the imports
-among its own modules.
+so they cannot drift from the code.  Modules are partitioned into four views:
+an overview graph has one node per view with cross-view imports as edge labels,
+and each view draws its own modules together with dashed stub nodes for any
+direct upstream imports from other views so no module appears disconnected.
 
 Usage::
 
@@ -63,16 +63,18 @@ LABELS: dict[str, str] = {
 # (heading, modules) for each view.  Every module must appear in exactly one view.
 VIEWS: list[tuple[str, list[str]]] = [
     ("1. Foundations, Mixed Signs & Rank Two",
-     ["Basic", "Bipartite", "MixedSign", "RankTwo", "RankTwoRoots", "FiniteReduction"]),
+     ["Basic", "Bipartite", "MixedSign", "RankTwo", "RankTwoRoots", "FiniteReduction", "Chapter2Foundations"]),
     ("2. Conjugacy & Graph Structure: Components, Trees & Odd Cycles",
-     ["Conjugacy", "ComponentsAndTrees", "TreeConjugacy", "OddCycles", "Chapter2Foundations"]),
-    ("3. Cycles, Deletion & Coxeter Presentation",
+     ["Conjugacy", "ComponentsAndTrees", "TreeConjugacy", "OddCycles"]),
+    ("3. Coxeter Presentation, Deletion, & Cycles ",
      ["CyclesAndDeletion", "ParabolicTransfer", "ClassicalDeletion", "CoxeterPresentation",
       "ClassicalCoxeterDeletion", "RootPositivity", "RemarksAndClassical",
       "TildeAminusEvenIso"]),
-    ("4. Howlett Matrix, Spectral Radius & Cycle Families",
-     ["Howlett", "SpectralRadius", "SpectralClassification", "AlternatingSquare",
+    ("4. Howlett Matrix & Cycle Families",
+     ["Howlett",
       "OddCycleSingleDefect", "EvenCycleSingleDefect", "BipartiteDuality", "TwoDefectCycle"]),
+    ("5. Spectral Radius",
+     ["SpectralRadius", "SpectralClassification", "AlternatingSquare"])  
 ]
 
 _IMPORT = re.compile(r"(?m)^import\s+MixedSignCoxeter\.(\w+)\s*$")
@@ -128,34 +130,51 @@ def render_overview(imports: dict[str, list[str]]) -> str:
     return "\n".join(lines)
 
 
-def render_view(modules: list[str], imports: dict[str, list[str]]) -> str:
-    """Modules of one view with the imports between them (each module drawn once)."""
+def render_view(
+    modules: list[str],
+    imports: dict[str, list[str]],
+    where: dict[str, int],
+) -> str:
+    """Modules of one view, plus dashed stubs for direct upstream cross-view imports."""
     inside = set(modules)
+    externals = sorted({dep for mod in modules for dep in imports[mod] if dep not in inside})
     lines = ["```{mermaid}", "flowchart TB"]
+    if externals:
+        lines.append("  classDef ext stroke-dasharray: 5 5")
+        for dep in externals:
+            lines.append(f'  ext_{dep}(["{dep}.lean<br/>(View {where[dep] + 1})"])')
     for mod in modules:
         label = f"{mod}.lean<br/>{LABELS[mod]}" if mod in LABELS else f"{mod}.lean"
         lines.append(f'  {mod}["{label}"]')
-    lines.extend(f"  {dep} --> {mod}" for mod in modules for dep in imports[mod] if dep in inside)
+    for mod in modules:
+        for dep in imports[mod]:
+            if dep in inside:
+                lines.append(f"  {dep} --> {mod}")
+            else:
+                lines.append(f"  ext_{dep} -.-> {mod}")
+    if externals:
+        lines.append(f"  class {','.join(f'ext_{dep}' for dep in externals)} ext")
     lines.append("```")
     return "\n".join(lines)
 
 
 def render(imports: dict[str, list[str]]) -> str:
     total = sum(len(v) for v in imports.values())
+    where = view_of(imports)
     parts = [
         BEGIN,
         "",
         f"These diagrams are generated from the `import` lines of all {len(imports)} modules "
-        f"({total} direct imports between them). Each module appears in exactly one view. "
-        "The overview shows how the four views connect; each arrow is labelled with the "
-        "imports that cross between them, and the views below show the imports inside each one.",
+        f"({total} direct imports between them). Each module belongs to one view. "
+        "The overview shows how the four views connect; each view below shows its own modules "
+        "(solid boxes and arrows) along with dashed stubs for direct upstream imports from other views.",
         "",
         "### Overview",
         "",
         render_overview(imports),
     ]
     for heading, modules in VIEWS:
-        parts += ["", f"### {heading}", "", render_view(modules, imports)]
+        parts += ["", f"### {heading}", "", render_view(modules, imports, where)]
     parts += ["", END]
     return "\n".join(parts)
 

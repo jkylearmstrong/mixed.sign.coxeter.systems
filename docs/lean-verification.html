@@ -82,7 +82,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-e8964db687007ca8dd88d9d9ce58e3ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-dark-442fcd69684410e828fae3cdcd1ff1f1.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-a0f9fd0d421825b736dc1bbcbcba2219.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
@@ -386,15 +386,11 @@ window.Quarto = {
   <li><a href="#overview" id="toc-overview" class="nav-link" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#foundations-mixed-signs-rank-two" id="toc-foundations-mixed-signs-rank-two" class="nav-link" data-scroll-target="#foundations-mixed-signs-rank-two">1. Foundations, Mixed Signs &amp; Rank Two</a></li>
   <li><a href="#conjugacy-graph-structure-components-trees-odd-cycles" id="toc-conjugacy-graph-structure-components-trees-odd-cycles" class="nav-link" data-scroll-target="#conjugacy-graph-structure-components-trees-odd-cycles">2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles</a></li>
-  <li><a href="#cycles-deletion-coxeter-presentation" id="toc-cycles-deletion-coxeter-presentation" class="nav-link" data-scroll-target="#cycles-deletion-coxeter-presentation">3. Cycles, Deletion &amp; Coxeter Presentation</a></li>
-  <li><a href="#howlett-matrix-spectral-radius-cycle-families" id="toc-howlett-matrix-spectral-radius-cycle-families" class="nav-link" data-scroll-target="#howlett-matrix-spectral-radius-cycle-families">4. Howlett Matrix, Spectral Radius &amp; Cycle Families</a></li>
+  <li><a href="#coxeter-presentation-deletion-cycles" id="toc-coxeter-presentation-deletion-cycles" class="nav-link" data-scroll-target="#coxeter-presentation-deletion-cycles">3. Coxeter Presentation, Deletion, &amp; Cycles</a></li>
+  <li><a href="#howlett-matrix-cycle-families" id="toc-howlett-matrix-cycle-families" class="nav-link" data-scroll-target="#howlett-matrix-cycle-families">4. Howlett Matrix &amp; Cycle Families</a></li>
+  <li><a href="#spectral-radius" id="toc-spectral-radius" class="nav-link" data-scroll-target="#spectral-radius">5. Spectral Radius</a></li>
   </ul></li>
   <li><a href="#module-index" id="toc-module-index" class="nav-link" data-scroll-target="#module-index">Module Index</a></li>
-  <li><a href="#mathlib4-upstreaming" id="toc-mathlib4-upstreaming" class="nav-link" data-scroll-target="#mathlib4-upstreaming">Mathlib4 Upstreaming</a>
-  <ul class="collapse">
-  <li><a href="#ready-for-review-standalone" id="toc-ready-for-review-standalone" class="nav-link" data-scroll-target="#ready-for-review-standalone">Ready for Review (Standalone)</a></li>
-  <li><a href="#stacked-draft-prs" id="toc-stacked-draft-prs" class="nav-link" data-scroll-target="#stacked-draft-prs">Stacked Draft PRs</a></li>
-  </ul></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean-verification.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -480,7 +476,13 @@ window.Quarto = {
 </section>
 <section id="end-to-end-traceability-datatheorems.yml" class="level2">
 <h2 class="anchored" data-anchor-id="end-to-end-traceability-datatheorems.yml">End-to-End Traceability (<code>data/theorems.yml</code>)</h2>
-<pre class="text"><code>Dissertation Theorem  ──▶  Lean 4 Theorem  ──▶  Python Implementation  ──▶  Interactive Explorer</code></pre>
+<pre class="{text}"><code>Dissertation Theorem
+        ⇓
+Lean 4 Formalization
+        ⇓
+Python Implementation
+        ⇓
+Interactive Explorer</code></pre>
 <p>The table below is generated directly from <a href="https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/data/theorems.yml"><code>data/theorems.yml</code></a>, the same registry used by the Shiny Explorer’s Theorem Checker. For the full statement-by-statement mapping of all 107 numbered items in Chapters 1–3 of the dissertation, see the <a href="./dissertation.html#complete-statement-index">Complete 107-Statement Index</a> (<a href="assets/mixed_sign_coxeter_statements_lean.csv">download CSV</a>).</p>
 <table class="caption-top table">
 <thead>
@@ -632,7 +634,7 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="module-dependency-architecture">Module Dependency Architecture</h2>
 <p>Every module ultimately builds on <code>Basic.lean</code> (<code>ReflectionSystem</code>, bilinear form <code>B</code>, reflections). The graph is split into four views to keep each dependency chain readable.</p>
 <!-- BEGIN lean-module-graph (generated by scripts/lean_module_graph.py; do not edit) -->
-<p>These diagrams are generated from the <code>import</code> lines of all 27 modules (33 direct imports between them). Each module appears in exactly one view. The overview shows how the four views connect; each arrow is labelled with the imports that cross between them, and the views below show the imports inside each one.</p>
+<p>These diagrams are generated from the <code>import</code> lines of all 27 modules (33 direct imports between them). Each module belongs to one view. The overview shows how the four views connect; each view below shows its own modules (solid boxes and arrows) along with dashed stubs for direct upstream imports from other views.</p>
 <section id="overview" class="level3">
 <h3 class="anchored" data-anchor-id="overview">Overview</h3>
 <div class="cell" data-layout-align="default">
@@ -641,17 +643,19 @@ window.Quarto = {
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart LR
-  V1["&lt;b&gt;1. Foundations, Mixed Signs &amp; Rank Two&lt;/b&gt;&lt;br/&gt;6 modules"]
-  V2["&lt;b&gt;2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles&lt;/b&gt;&lt;br/&gt;5 modules"]
-  V3["&lt;b&gt;3. Cycles, Deletion &amp; Coxeter Presentation&lt;/b&gt;&lt;br/&gt;8 modules"]
-  V4["&lt;b&gt;4. Howlett Matrix, Spectral Radius &amp; Cycle Families&lt;/b&gt;&lt;br/&gt;8 modules"]
-  V1 --&gt;|"Basic → Chapter2Foundations&lt;br/&gt;Basic → ComponentsAndTrees&lt;br/&gt;Basic → Conjugacy&lt;br/&gt;Bipartite → TreeConjugacy&lt;br/&gt;FiniteReduction → Chapter2Foundations"| V2
+  V1["&lt;b&gt;1. Foundations, Mixed Signs &amp; Rank Two&lt;/b&gt;&lt;br/&gt;7 modules"]
+  V2["&lt;b&gt;2. Conjugacy &amp; Graph Structure: Components, Trees &amp; Odd Cycles&lt;/b&gt;&lt;br/&gt;4 modules"]
+  V3["&lt;b&gt;3. Coxeter Presentation, Deletion, &amp; Cycles &lt;/b&gt;&lt;br/&gt;8 modules"]
+  V4["&lt;b&gt;4. Howlett Matrix &amp; Cycle Families&lt;/b&gt;&lt;br/&gt;5 modules"]
+  V5["&lt;b&gt;5. Spectral Radius&lt;/b&gt;&lt;br/&gt;3 modules"]
+  V1 --&gt;|"Basic → ComponentsAndTrees&lt;br/&gt;Basic → Conjugacy&lt;br/&gt;Bipartite → TreeConjugacy"| V2
   V1 --&gt;|"FiniteReduction → TildeAminusEvenIso&lt;br/&gt;MixedSign → CyclesAndDeletion&lt;br/&gt;RankTwoRoots → RootPositivity"| V3
-  V1 --&gt;|"Basic → Howlett&lt;br/&gt;Basic → OddCycleSingleDefect&lt;br/&gt;MixedSign → SpectralRadius"| V4
+  V1 --&gt;|"Basic → Howlett&lt;br/&gt;Basic → OddCycleSingleDefect"| V4
+  V1 --&gt;|"MixedSign → SpectralRadius"| V5
   V2 --&gt;|"Conjugacy → CyclesAndDeletion"| V3
-  V3 --&gt;|"ParabolicTransfer → Chapter2Foundations"| V2
-  V4 --&gt;|"SpectralClassification → Chapter2Foundations"| V2
-  V4 --&gt;|"SpectralRadius → RemarksAndClassical"| V3
+  V3 --&gt;|"ParabolicTransfer → Chapter2Foundations"| V1
+  V5 --&gt;|"SpectralClassification → Chapter2Foundations"| V1
+  V5 --&gt;|"SpectralRadius → RemarksAndClassical"| V3
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -667,17 +671,26 @@ window.Quarto = {
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
+  classDef ext stroke-dasharray: 5 5
+  ext_ParabolicTransfer(["ParabolicTransfer.lean&lt;br/&gt;(View 3)"])
+  ext_SpectralClassification(["SpectralClassification.lean&lt;br/&gt;(View 5)"])
   Basic["Basic.lean&lt;br/&gt;ReflectionSystem, B, reflections"]
   Bipartite["Bipartite.lean&lt;br/&gt;Thm 1.4, Prop 3.32"]
   MixedSign["MixedSign.lean&lt;br/&gt;Cor 1.5, Prop 3.5"]
   RankTwo["RankTwo.lean&lt;br/&gt;Lem 3.14, 3.17, Cor 3.18"]
   RankTwoRoots["RankTwoRoots.lean&lt;br/&gt;Prop 3.11"]
   FiniteReduction["FiniteReduction.lean&lt;br/&gt;Rem A.3, Cor 3.18, GL(V)"]
+  Chapter2Foundations["Chapter2Foundations.lean&lt;br/&gt;Defs 2.12, 2.47, 2.51, 2.56, 2.61, Cor 2.46"]
   Basic --&gt; Bipartite
   Bipartite --&gt; MixedSign
   MixedSign --&gt; RankTwo
   Basic --&gt; RankTwoRoots
   Basic --&gt; FiniteReduction
+  Basic --&gt; Chapter2Foundations
+  FiniteReduction --&gt; Chapter2Foundations
+  ext_ParabolicTransfer -.-&gt; Chapter2Foundations
+  ext_SpectralClassification -.-&gt; Chapter2Foundations
+  class ext_ParabolicTransfer,ext_SpectralClassification ext
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -693,12 +706,18 @@ window.Quarto = {
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
+  classDef ext stroke-dasharray: 5 5
+  ext_Basic(["Basic.lean&lt;br/&gt;(View 1)"])
+  ext_Bipartite(["Bipartite.lean&lt;br/&gt;(View 1)"])
   Conjugacy["Conjugacy.lean&lt;br/&gt;Cor 2.38, Cor 2.46"]
   ComponentsAndTrees["ComponentsAndTrees.lean&lt;br/&gt;Prop 2.45"]
   TreeConjugacy["TreeConjugacy.lean&lt;br/&gt;Thm 2.58"]
   OddCycles["OddCycles.lean&lt;br/&gt;Prop 2.41"]
-  Chapter2Foundations["Chapter2Foundations.lean&lt;br/&gt;Defs 2.12, 2.47, 2.51, 2.56, 2.61, Cor 2.46"]
+  ext_Basic -.-&gt; Conjugacy
+  ext_Basic -.-&gt; ComponentsAndTrees
+  ext_Bipartite -.-&gt; TreeConjugacy
   TreeConjugacy --&gt; OddCycles
+  class ext_Basic,ext_Bipartite ext
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -706,14 +725,20 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="cycles-deletion-coxeter-presentation" class="level3">
-<h3 class="anchored" data-anchor-id="cycles-deletion-coxeter-presentation">3. Cycles, Deletion &amp; Coxeter Presentation</h3>
+<section id="coxeter-presentation-deletion-cycles" class="level3">
+<h3 class="anchored" data-anchor-id="coxeter-presentation-deletion-cycles">3. Coxeter Presentation, Deletion, &amp; Cycles</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
+  classDef ext stroke-dasharray: 5 5
+  ext_Conjugacy(["Conjugacy.lean&lt;br/&gt;(View 2)"])
+  ext_FiniteReduction(["FiniteReduction.lean&lt;br/&gt;(View 1)"])
+  ext_MixedSign(["MixedSign.lean&lt;br/&gt;(View 1)"])
+  ext_RankTwoRoots(["RankTwoRoots.lean&lt;br/&gt;(View 1)"])
+  ext_SpectralRadius(["SpectralRadius.lean&lt;br/&gt;(View 5)"])
   CyclesAndDeletion["CyclesAndDeletion.lean&lt;br/&gt;Lem 3.21, Thm 1.6"]
   ParabolicTransfer["ParabolicTransfer.lean&lt;br/&gt;Thm 1.2"]
   ClassicalDeletion["ClassicalDeletion.lean&lt;br/&gt;Prop 3.8, Cor 1.3"]
@@ -722,13 +747,19 @@ window.Quarto = {
   RootPositivity["RootPositivity.lean&lt;br/&gt;Prop 3.10: Φ⁺ ⇔ ℓ(w sᵢ) &amp;gt; ℓ(w)"]
   RemarksAndClassical["RemarksAndClassical.lean&lt;br/&gt;Rem 3.23, 3.26, 3.30"]
   TildeAminusEvenIso["TildeAminusEvenIso.lean&lt;br/&gt;W(Ã₋ₙ) ≅ W(Dₙ₊₁) &amp;amp; App. D"]
+  ext_Conjugacy -.-&gt; CyclesAndDeletion
+  ext_MixedSign -.-&gt; CyclesAndDeletion
   ClassicalDeletion --&gt; ParabolicTransfer
   CyclesAndDeletion --&gt; ClassicalDeletion
   ClassicalDeletion --&gt; CoxeterPresentation
   CoxeterPresentation --&gt; ClassicalCoxeterDeletion
   ClassicalCoxeterDeletion --&gt; RootPositivity
+  ext_RankTwoRoots -.-&gt; RootPositivity
   CyclesAndDeletion --&gt; RemarksAndClassical
+  ext_SpectralRadius -.-&gt; RemarksAndClassical
   RemarksAndClassical --&gt; TildeAminusEvenIso
+  ext_FiniteReduction -.-&gt; TildeAminusEvenIso
+  class ext_Conjugacy,ext_FiniteReduction,ext_MixedSign,ext_RankTwoRoots,ext_SpectralRadius ext
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -736,27 +767,51 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="howlett-matrix-spectral-radius-cycle-families" class="level3">
-<h3 class="anchored" data-anchor-id="howlett-matrix-spectral-radius-cycle-families">4. Howlett Matrix, Spectral Radius &amp; Cycle Families</h3>
+<section id="howlett-matrix-cycle-families" class="level3">
+<h3 class="anchored" data-anchor-id="howlett-matrix-cycle-families">4. Howlett Matrix &amp; Cycle Families</h3>
 <div class="cell" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class="figure"><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TB
+  classDef ext stroke-dasharray: 5 5
+  ext_Basic(["Basic.lean&lt;br/&gt;(View 1)"])
   Howlett["Howlett.lean&lt;br/&gt;Thm 1.1: w = −U⁻¹Uᵀ"]
-  SpectralRadius["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
-  SpectralClassification["SpectralClassification.lean&lt;br/&gt;Thm 3.27, 3.28"]
-  AlternatingSquare["AlternatingSquare.lean&lt;br/&gt;Q 2.59 &amp;amp; Q 3.35: C₄(+,−,+,−)"]
   OddCycleSingleDefect["OddCycleSingleDefect.lean&lt;br/&gt;C₂ₘ₊₁(+,−,…,−)"]
   EvenCycleSingleDefect["EvenCycleSingleDefect.lean&lt;br/&gt;C₂ₘ(+,−,…,−): ∃λ ∈ (−5, −1)"]
   BipartiteDuality["BipartiteDuality.lean&lt;br/&gt;bipartite sign-flip duality"]
   TwoDefectCycle["TwoDefectCycle.lean&lt;br/&gt;Cₙ(+,+,−,…,−): ρ(w) &amp;gt; 1"]
-  SpectralRadius --&gt; SpectralClassification
-  SpectralRadius --&gt; AlternatingSquare
+  ext_Basic -.-&gt; Howlett
+  ext_Basic -.-&gt; OddCycleSingleDefect
   Howlett --&gt; EvenCycleSingleDefect
   EvenCycleSingleDefect --&gt; BipartiteDuality
   Howlett --&gt; TwoDefectCycle
+  class ext_Basic ext
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="spectral-radius" class="level3">
+<h3 class="anchored" data-anchor-id="spectral-radius">5. Spectral Radius</h3>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TB
+  classDef ext stroke-dasharray: 5 5
+  ext_MixedSign(["MixedSign.lean&lt;br/&gt;(View 1)"])
+  SpectralRadius["SpectralRadius.lean&lt;br/&gt;Ex 3.29, Thm 1.7 / Ex 3.33"]
+  SpectralClassification["SpectralClassification.lean&lt;br/&gt;Thm 3.27, 3.28"]
+  AlternatingSquare["AlternatingSquare.lean&lt;br/&gt;Q 2.59 &amp;amp; Q 3.35: C₄(+,−,+,−)"]
+  ext_MixedSign -.-&gt; SpectralRadius
+  SpectralRadius --&gt; SpectralClassification
+  SpectralRadius --&gt; AlternatingSquare
+  class ext_MixedSign ext
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -914,95 +969,34 @@ window.Quarto = {
 </tr>
 </tbody>
 </table>
-</section>
-<section id="mathlib4-upstreaming" class="level2">
-<h2 class="anchored" data-anchor-id="mathlib4-upstreaming">Mathlib4 Upstreaming</h2>
-<p>The general Coxeter, graph-theory, and reflection-system results from this formalization are being upstreamed to <a href="https://github.com/leanprover-community/mathlib4"><code>leanprover-community/mathlib4</code></a> in 11 focused PRs (5 standalone PRs ready for review, plus 6 stacked draft PRs):</p>
-<section id="ready-for-review-standalone" class="level3">
-<h3 class="anchored" data-anchor-id="ready-for-review-standalone">Ready for Review (Standalone)</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">PR</th>
-<th style="text-align: left;">Branch</th>
-<th style="text-align: left;">Scope</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46496">mathlib4#46496</a></td>
-<td style="text-align: left;"><code>coxeter-deletion</code></td>
-<td style="text-align: left;">Exchange and Deletion properties for <code>CoxeterSystem</code></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46497">mathlib4#46497</a></td>
-<td style="text-align: left;"><code>reflection-system</code></td>
-<td style="text-align: left;"><code>ReflectionSystem</code> over symmetric matrices and faithful <code>toGL</code> embedding</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46507">mathlib4#46507</a></td>
-<td style="text-align: left;"><code>bipartite-no-odd-cycle</code></td>
-<td style="text-align: left;">Characterize bipartite <code>SimpleGraph</code>s by absence of odd cycles</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46508">mathlib4#46508</a></td>
-<td style="text-align: left;"><code>coxeter-tree-conjugacy</code></td>
-<td style="text-align: left;">Conjugacy of Coxeter elements for acyclic Coxeter graphs</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46513">mathlib4#46513</a></td>
-<td style="text-align: left;"><code>coxeter-spectral-classification</code></td>
-<td style="text-align: left;">Spectral classification and interlacing for bipartite Coxeter elements</td>
-</tr>
-</tbody>
-</table>
-</section>
-<section id="stacked-draft-prs" class="level3">
-<h3 class="anchored" data-anchor-id="stacked-draft-prs">Stacked Draft PRs</h3>
-<table class="caption-top table">
-<thead>
-<tr class="header">
-<th style="text-align: left;">PR</th>
-<th style="text-align: left;">Branch</th>
-<th style="text-align: left;">Scope</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46498">mathlib4#46498</a></td>
-<td style="text-align: left;"><code>finite-reduction</code></td>
-<td style="text-align: left;">Finiteness reduction for connected reflection systems</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46505">mathlib4#46505</a></td>
-<td style="text-align: left;"><code>howlett</code></td>
-<td style="text-align: left;">Howlett’s formula (<span class="math inline">\(w = -U^{-1}U^T\)</span>) for <code>ReflectionSystem</code></td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46506">mathlib4#46506</a></td>
-<td style="text-align: left;"><code>coxeter-presentation</code></td>
-<td style="text-align: left;">Construct <code>CoxeterSystem</code> from Deletion and Exchange properties</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46509">mathlib4#46509</a></td>
-<td style="text-align: left;"><code>coxeter-geometric-rep</code></td>
-<td style="text-align: left;">Faithfulness of the geometric representation</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46510">mathlib4#46510</a></td>
-<td style="text-align: left;"><code>coxeter-bipartite</code></td>
-<td style="text-align: left;">Sign-flip conjugation for bipartite reflection systems</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;"><a href="https://github.com/leanprover-community/mathlib4/pull/46512">mathlib4#46512</a></td>
-<td style="text-align: left;"><code>coxeter-parabolic-transfer</code></td>
-<td style="text-align: left;">Subdiagram relation transfer for reflection systems</td>
-</tr>
-</tbody>
-</table>
+<!-- 
+## Mathlib4 Upstreaming {#mathlib4-upstreaming}
+
+The general Coxeter, graph-theory, and reflection-system results from this formalization are being upstreamed to [`leanprover-community/mathlib4`](https://github.com/leanprover-community/mathlib4) in 11 focused PRs (5 standalone PRs ready for review, plus 6 stacked draft PRs):
+
+### Ready for Review (Standalone)
+
+| PR | Branch | Scope |
+| :--- | :--- | :--- |
+| [mathlib4#46496](https://github.com/leanprover-community/mathlib4/pull/46496) | `coxeter-deletion` | Exchange and Deletion properties for `CoxeterSystem` |
+| [mathlib4#46497](https://github.com/leanprover-community/mathlib4/pull/46497) | `reflection-system` | `ReflectionSystem` over symmetric matrices and faithful `toGL` embedding |
+| [mathlib4#46507](https://github.com/leanprover-community/mathlib4/pull/46507) | `bipartite-no-odd-cycle` | Characterize bipartite `SimpleGraph`s by absence of odd cycles |
+| [mathlib4#46508](https://github.com/leanprover-community/mathlib4/pull/46508) | `coxeter-tree-conjugacy` | Conjugacy of Coxeter elements for acyclic Coxeter graphs |
+| [mathlib4#46513](https://github.com/leanprover-community/mathlib4/pull/46513) | `coxeter-spectral-classification` | Spectral classification and interlacing for bipartite Coxeter elements |
+
+### Stacked Draft PRs
+
+| PR | Branch | Scope |
+| :--- | :--- | :--- |
+| [mathlib4#46498](https://github.com/leanprover-community/mathlib4/pull/46498) | `finite-reduction` | Finiteness reduction for connected reflection systems |
+| [mathlib4#46505](https://github.com/leanprover-community/mathlib4/pull/46505) | `howlett` | Howlett's formula ($w = -U^{-1}U^T$) for `ReflectionSystem` |
+| [mathlib4#46506](https://github.com/leanprover-community/mathlib4/pull/46506) | `coxeter-presentation` | Construct `CoxeterSystem` from Deletion and Exchange properties |
+| [mathlib4#46509](https://github.com/leanprover-community/mathlib4/pull/46509) | `coxeter-geometric-rep` | Faithfulness of the geometric representation |
+| [mathlib4#46510](https://github.com/leanprover-community/mathlib4/pull/46510) | `coxeter-bipartite` | Sign-flip conjugation for bipartite reflection systems |
+| [mathlib4#46512](https://github.com/leanprover-community/mathlib4/pull/46512) | `coxeter-parabolic-transfer` | Subdiagram relation transfer for reflection systems |
+ -->
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
