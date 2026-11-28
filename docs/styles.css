@@ -98,3 +98,46 @@ th, td {
   padding: 0.55em 0.75em;
   vertical-align: top;
 }
+
+/* Dark mode (Darkly) overrides */
+body.quarto-dark div.sourceCode.lean {
+  background-color: #1c222b;
+  border-color: #3b4450;
+  border-left-color: #58a6ff;
+}
+
+body.quarto-dark div.sourceCode.lean::before {
+  color: #58a6ff;
+}
+
+body.quarto-dark div.sourceCode.python {
+  background-color: #1b241f;
+  border-color: #3b4450;
+  border-left-color: #3fb950;
+}
+
+body.quarto-dark div.sourceCode.python::before {
+  color: #3fb950;
+}
+
+body.quarto-dark div.cell-output-stdout {
+  background-color: #2b3035;
+  border-color: #444c56;
+  border-left-color: #8b949e;
+  color: #e6edf3;
+}
+
+body.quarto-dark div.cell-output-stdout::before {
+  color: #adb5bd;
+}
+
+body.quarto-dark div.cell-output-stdout pre,
+body.quarto-dark div.cell-output-stdout code {
+  color: #e6edf3;
+  background-color: transparent;
+}
+
+body.quarto-dark h4 {
+  color: #e6edf3;
+  border-bottom-color: #444c56;
+}
