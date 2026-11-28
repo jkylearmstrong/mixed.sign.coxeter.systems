@@ -372,13 +372,22 @@ In [`ClassicalDeletion.lean`](https://github.com/jkylearmstrong/mixed.sign.coxet
 
 For any mixed-sign rank-2 system $A_2(+, -)[m]$ with $B = \begin{pmatrix} 2 & c \\ c & -2 \end{pmatrix}$, we have $\det B = -(4 + c^2) < 0$ ([`det_rank2_pm`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L79), Lemma 3.17), so every such system is hyperbolic of signature $(1, 1, 0)$. While the classical systems $A_2[3]$ (order $6$, `(s0 * s1)^3 = 1`, [`example_3_13_A2_3_order_three`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L408)) and $A_2[\infty]$ (`(s0 * s1)^k = !![2k+1, -2k; 2k, 1-2k]`, [`example_3_13_A2_inf_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L434), Example 3.13 / Prop. 3.10) keep $(s_0 s_1)^k e_0$ in the positive cone—and more generally, for any infinite dihedral pair $(s_i, s_j)$ in arbitrary rank with $B_{ii} = B_{jj}$ and $-2 B_{ij}/B_{ii} \ge 2$, Chebyshev polynomial bounds show $(s_i s_j)^k e_i \in \Phi^+$ and $s_i s_j$ has infinite order ([`prop_3_11_general`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwoRoots.lean#L177), [`prop_3_11_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwoRoots.lean#L207), Proposition 3.11)—the mixed-sign system $A_2(+,-)[m]$ has infinite-order principal element whenever $c \neq 0$ ([`rank2_pm_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L143), Lemma 3.14; [`adjacent_pm_infinite_order`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L229), Corollary 3.18).
 
-For $m = 3$ ($c = -1$), powers of the principal element $s_0 s_1$ are governed by the Fibonacci sequence:
-$$(s_0 s_1)^k = (-1)^k \begin{pmatrix} F_{2k+1} & F_{2k} \\ F_{2k} & F_{2k-1} \end{pmatrix}.$$
-Consequently, the first coordinate of $(s_0 s_1)^k e_0$ is $(-1)^k F_{2k+1}$, strictly alternating in sign ([`prop_3_12_root_oscillation`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L374), Proposition 3.12).
+For general edge weight $m \in \{3, 4, 5, \dots, \infty\}$, set $a = -c = 2\cos(\pi/m) > 0$ and define the generalized Fibonacci (metallic-mean) sequence
+$$G_0(a) = 0, \qquad G_1(a) = 1, \qquad G_{n+2}(a) = a\,G_{n+1}(a) + G_n(a).$$
+Because $-(s_0 s_1) = \begin{pmatrix} 1 + a^2 & a \\ a & 1 \end{pmatrix} = \begin{pmatrix} a & 1 \\ 1 & 0 \end{pmatrix}^2$, induction on $k \ge 1$ yields the closed form for every hyperbolic $A_2(+,-)[m]$:
+$$(s_0 s_1)^k = (-1)^k \begin{pmatrix} G_{2k+1}(a) & G_{2k}(a) \\ G_{2k}(a) & G_{2k-1}(a) \end{pmatrix},$$
+with spectral radius $\lambda(s_0 s_1) = \bigl(\tfrac{a + \sqrt{a^2 + 4}}{2}\bigr)^2 = \tfrac{2 + a^2 + a\sqrt{a^2 + 4}}{2}$ (and swapping signs to $A_2(-,+)[m]$ swaps the two diagonal entries $G_{2k+1}(a) \leftrightarrow G_{2k-1}(a)$ with the same spectral radius). Notable special cases include:
+
+- **$m = 3$ ($a = 1$, Example 3.16)**: the standard Fibonacci numbers $G_n(1) = F_n$, giving $(s_0 s_1)^k = (-1)^k \begin{pmatrix} F_{2k+1} & F_{2k} \\ F_{2k} & F_{2k-1} \end{pmatrix}$ and $\lambda(s_0 s_1) = \varphi^2 = \frac{3+\sqrt{5}}{2} \approx 2.618$.
+- **$m = 4$ ($a = \sqrt{2}$)**: $\operatorname{tr}(-s_0 s_1) = 4$, diagonal entries $G_{2k+1}(\sqrt{2}) = 1, 3, 11, 41, \dots$, and $\lambda(s_0 s_1) = 2 + \sqrt{3} \approx 3.732$.
+- **$m = 6$ ($a = \sqrt{3}$)**: $\operatorname{tr}(-s_0 s_1) = 5$, diagonal entries $G_{2k+1}(\sqrt{3}) = 1, 4, 19, 91, \dots$, and $\lambda(s_0 s_1) = \frac{5+\sqrt{21}}{2} \approx 4.791$.
+- **$m = \infty$ ($a = 2$)**: the Pell numbers $G_n(2) = P_n$ ($0, 1, 2, 5, 12, 29, 70, \dots$), with $\lambda(s_0 s_1) = (1+\sqrt{2})^2 = 3 + 2\sqrt{2} \approx 5.828$.
+
+In every case, the first coordinate of $(s_0 s_1)^k e_0$ is $(-1)^k G_{2k+1}(a)$, strictly alternating in sign ([`prop_3_12_root_oscillation`](https://github.com/jkylearmstrong/mixed.sign.coxeter.systems/blob/main/lean/MixedSignCoxeter/RankTwo.lean#L374), Proposition 3.12).
 
 #### Python Verification {.unnumbered}
 
-Below we construct $A_2(+,-)[3]$ in Python, plot its 2-node signed diagram, and verify the Fibonacci matrix identity $(s_0 s_1)^k = (-1)^k \begin{pmatrix} F_{2k+1} & F_{2k} \\ F_{2k} & F_{2k-1} \end{pmatrix}$ symbolically for $k = 1, 2, 3, 4$:
+Below we construct $A_2(+,-)[3]$ in Python, plot its 2-node signed diagram, and verify the generalized Fibonacci matrix identity $(s_0 s_1)^k = (-1)^k \begin{pmatrix} G_{2k+1}(a) & G_{2k}(a) \\ G_{2k}(a) & G_{2k-1}(a) \end{pmatrix}$ symbolically for $m \in \{3, 4, 6, \infty\}$ (and $k = 1, \dots, 4$):
 
 ```{python}
 #| label: rank2-fibonacci
@@ -392,6 +401,12 @@ draw_signed_graph(g_fib, [(0, 0), (1.4, 0)], labels=["1(+)", "2(-)"],
 plt.tight_layout()
 plt.show()
 
+def gen_fib(a, n):
+    g0, g1 = sp.Integer(0), sp.Integer(1)
+    for _ in range(n):
+        g0, g1 = g1, sp.expand(a * g1 + g0)
+    return g0
+
 for k in range(1, 5):
     mat = sp.simplify((s0 * s1) ** k)
     expected = ((-1) ** k) * sp.Matrix([
@@ -399,7 +414,26 @@ for k in range(1, 5):
         [sp.fibonacci(2 * k), sp.fibonacci(2 * k - 1)],
     ])
     assert mat == expected
-    print(f"k={k}: (s0*s1)^{k} = {mat.tolist()}")
+    print(f"m=3, k={k}: (s0*s1)^{k} = {mat.tolist()}")
+
+for m_val, label, a_expr in [
+    (3, "3 (Fibonacci)", sp.Integer(1)),
+    (4, "4 (a=sqrt(2))", sp.sqrt(2)),
+    (6, "6 (a=sqrt(3))", sp.sqrt(3)),
+    ("oo", "oo (Pell)", sp.Integer(2)),
+]:
+    gm = MixedSignCoxeterGraph.I_2(m_val, signs=("+", "-"))
+    r0, r1 = gm.generators()
+    for k in range(1, 5):
+        mat = sp.simplify((r0 * r1) ** k)
+        exp = ((-1) ** k) * sp.Matrix([
+            [gen_fib(a_expr, 2 * k + 1), gen_fib(a_expr, 2 * k)],
+            [gen_fib(a_expr, 2 * k), gen_fib(a_expr, 2 * k - 1)],
+        ])
+        assert sp.simplify(mat - exp) == sp.zeros(2)
+    lam = float(((a_expr + sp.sqrt(a_expr**2 + 4)) / 2) ** 2)
+    diag = [sp.simplify(gen_fib(a_expr, 2 * k + 1)) for k in range(1, 5)]
+    print(f"A2(+,-)[{label}]: G_{{2k+1}} = {diag}, lambda = {lam:.4f} (verified k=1..4)")
 ```
 
 #### Lean 4 Proof {.unnumbered}
